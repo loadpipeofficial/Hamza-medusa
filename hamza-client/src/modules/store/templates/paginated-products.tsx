@@ -4,7 +4,7 @@ import { Pagination } from "@modules/store/components/pagination"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import { getRegion } from "app/actions"
 
-const PRODUCT_LIMIT = 8
+const PRODUCT_LIMIT = 12
 
 type PaginatedProductsParams = {
   limit: number
@@ -14,14 +14,14 @@ type PaginatedProductsParams = {
 }
 
 export default async function PaginatedProducts({
-  // sortBy,
+  sortBy,
   page,
   collectionId,
   categoryId,
   productsIds,
   countryCode,
 }: {
-  // sortBy?: SortOptions
+  sortBy?: SortOptions
   page: number
   collectionId?: string
   categoryId?: string
@@ -55,7 +55,7 @@ export default async function PaginatedProducts({
   } = await getProductsListWithSort({
     page,
     queryParams,
-    // sortBy,
+    sortBy,
     countryCode,
   })
 
@@ -72,7 +72,7 @@ export default async function PaginatedProducts({
           )
         })}
       </ul>
-      {/*{totalPages > 1 && <Pagination page={page} totalPages={totalPages} />}*/}
+      {totalPages > 1 && <Pagination page={page} totalPages={totalPages} />}
     </>
   )
 }
