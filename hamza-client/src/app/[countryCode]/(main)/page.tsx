@@ -3,7 +3,9 @@ import { Metadata } from 'next'
 import { getCollectionsList, getProductsList } from '@lib/data'
 import FeaturedProducts from '@modules/home/components/featured-products'
 import Hero from '@modules/home/components/hero'
-import RecommendedItems from '@modules/home/components/products'
+// import RecommendedItems from '@modules/home/components/products'
+import StoreTemplate from '@modules/store/templates'
+
 import ToggleSection from '@modules/home/components/toggle-section'
 import Testimonials from '@modules/home/components/testimonials'
 import FAQSection from '@modules/home/components/FAQSection'
@@ -75,6 +77,8 @@ export default async function Home({
         <>
             <Hero />
             {/*<RecommendedItems />*/}
+
+            <StoreTemplate countryCode={'us'} />
             <ToggleSection />
             <Testimonials />
             <Reputation />
