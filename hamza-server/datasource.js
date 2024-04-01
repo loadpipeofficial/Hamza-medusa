@@ -8,7 +8,7 @@ const AppDataSource = new DataSource({
   port: 5432,
   username: "postgres",
   password: "postgres",
-  database: "hamza_dev_db",
+  database: "hamzadb",
   entities: ["dist/models/*.js"],
   migrations: ["dist/migrations/*.js"],
 });

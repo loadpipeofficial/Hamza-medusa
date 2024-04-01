@@ -100,6 +100,7 @@ export default async function ProductPage({ params }: Props) {
 
   return (
     <ProductTemplate
+        className="bg-black"
       product={pricedProduct}
       region={region}
       countryCode={params.countryCode}
