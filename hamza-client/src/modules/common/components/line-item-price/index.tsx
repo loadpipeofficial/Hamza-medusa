@@ -39,7 +39,7 @@ const LineItemPrice = ({
                             <span className="line-through text-ui-fg-muted">
                                 {formatCryptoPrice(
                                     originalPrice,
-                                    item.currency_code ?? 'usdt'
+                                    item.currency_code ?? ''
                                 )}{' '}
                                 {item.currency_code?.toUpperCase() ?? ''}
                             </span>
