@@ -63,7 +63,7 @@ const CartTotals: React.FC<CartTotalsProps> = ({ data }) => {
                             </Tooltip>
                         </span>
                         <span>
-                            {formatCryptoPrice(subtotals['eth'], 'eth')}
+                            {formatCryptoPrice(subtotals['eth'], 'eth')} ETH
                         </span>
                     </div>
                 )}
@@ -76,7 +76,7 @@ const CartTotals: React.FC<CartTotalsProps> = ({ data }) => {
                             </Tooltip>
                         </span>
                         <span>
-                            {formatCryptoPrice(subtotals['usdt'], 'usdt')}
+                            {formatCryptoPrice(subtotals['usdt'], 'usdt')} USDT
                         </span>
                     </div>
                 )}
@@ -89,7 +89,7 @@ const CartTotals: React.FC<CartTotalsProps> = ({ data }) => {
                             </Tooltip>
                         </span>
                         <span>
-                            {formatCryptoPrice(subtotals['usdc'], 'usdc')}
+                            {formatCryptoPrice(subtotals['usdc'], 'usdc')} USDC
                         </span>
                     </div>
                 )}

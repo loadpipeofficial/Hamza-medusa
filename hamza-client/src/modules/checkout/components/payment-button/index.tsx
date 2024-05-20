@@ -42,45 +42,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({ cart }) => {
             : false;
     const paymentSession = cart.payment_session as PaymentSession;
 
-    switch (paymentSession.provider_id) {
-        case 'manual':
-            return <ManualTestPaymentButton notReady={notReady} />;
-        case 'crypto':
-            return <CryptoPaymentButton notReady={notReady} cart={cart} />;
-        default:
-            return <ManualTestPaymentButton notReady={notReady} />;
-    }
-};
-
-const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
-    const [submitting, setSubmitting] = useState(false);
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-    const onPaymentCompleted = async () => {
-        await placeOrder().catch((err) => {
-            setErrorMessage(err.toString());
-            setSubmitting(false);
-        });
-    };
-
-    const handlePayment = () => {
-        setSubmitting(true);
-        onPaymentCompleted();
-    };
-
-    return (
-        <>
-            <Button
-                disabled={notReady}
-                isLoading={submitting}
-                onClick={handlePayment}
-                size="large"
-            >
-                Place order: Manual
-            </Button>
-            <ErrorMessage error={errorMessage} />
-        </>
-    );
+    return <CryptoPaymentButton notReady={notReady} cart={cart} />;
 };
 
 // TODO: (For G) Typescriptify this function with verbose error handling
@@ -110,58 +72,6 @@ const CryptoPaymentButton = ({
             if (openConnectModal) openConnectModal();
         }
     }, [openConnectModal, isConnected]);
-
-    //return transaction id
-    const doWalletPayment = async (data: any) => {
-        try {
-            //get provider and such
-            const rawchainId = await window.ethereum.request({
-                method: 'eth_chainId',
-            });
-            const chainId = parseInt(rawchainId, 16);
-            const provider = new ethers.BrowserProvider(
-                window.ethereum,
-                chainId
-            );
-            const signer: ethers.Signer = await provider.getSigner();
-
-            //create the contract client
-            const switchClient: MasterSwitchClient = new MasterSwitchClient(
-                provider,
-                signer,
-                '0x0Ac64d6d09bB3B7ab6999f9BE3b9f017220fb1e9' //TODO: get contract address dynamically
-            );
-
-            //create the inputs
-            const switchInput: IMultiPaymentInput[] = await createSwitchInput(
-                data,
-                await signer.getAddress(),
-                chainId
-            );
-
-            console.log(switchInput);
-            const output: ITransactionOutput =
-                await switchClient.placeMultiplePayments(switchInput);
-
-            console.log(output);
-            return {
-                transaction_id: output.transaction_id,
-                payer_address: output.receipt.from,
-                escrow_contract_address: output.receipt.to,
-            };
-        } catch (e) {
-            console.error('error has occured during transaction', e);
-        }
-
-        return {};
-    };
-
-    const retrieveCheckoutData = async (cart_id: string) => {
-        const response = await axios.get(
-            `${MEDUSA_SERVER_URL}/custom/checkout?cart_id=${cart_id}`
-        );
-        return response.status == 200 && response.data ? response.data : {};
-    };
 
     const translateToNativeAmount = (order: any, chainId: number) => {
         const { amount, currency_code } = order;
@@ -204,29 +114,6 @@ const CryptoPaymentButton = ({
         return [];
     };
 
-    const useFinalizeCheckout = useMutation(
-        (data: {
-            cart_id: string;
-            transaction_id: string;
-            payer_address: string;
-            escrow_contract_address: string;
-        }) =>
-            axios.post(`${MEDUSA_SERVER_URL}/custom/checkout`, {
-                cart_id: data.cart_id,
-                transaction_id: data.transaction_id,
-                payer_address: data.payer_address,
-                escrow_contract_address: data.escrow_contract_address,
-            }),
-        {
-            onSuccess: (data) => {
-                return true;
-            },
-            onError: (error) => {
-                return false;
-            },
-        }
-    );
-
     const cartRef = useRef<
         Array<{ variant_id: string; reduction_quantity: number }>
     >(
@@ -235,6 +122,7 @@ const CryptoPaymentButton = ({
             reduction_quantity: item.quantity, // or any logic to determine the reduction quantity
         }))
     );
+
     const reduceInventory = async () => {
         const inventoryUpdatePromises = cartRef.current.map((item) => {
             return axios
@@ -265,8 +153,84 @@ const CryptoPaymentButton = ({
         return Promise.all(inventoryUpdatePromises);
     };
 
-    const handlePurchase = async () => {
-        setSubmitting(true);
+    /**
+     * Sends the given payment data to the Switch by way of the user's connnected
+     * wallet.
+     * @param data
+     * @returns {transaction_id, payer_address, escrow_contract_address, success }
+     */
+    const doWalletPayment = async (data: any) => {
+        try {
+            //get provider and such
+            const rawchainId = await window.ethereum.request({
+                method: 'eth_chainId',
+            });
+
+            //get chain id
+            const chainId = parseInt(rawchainId, 16);
+            const provider = new ethers.BrowserProvider(
+                window.ethereum,
+                chainId
+            );
+            const signer: ethers.Signer = await provider.getSigner();
+
+            //create the contract client
+            const escrow_contract_address =
+                '0x0Ac64d6d09bB3B7ab6999f9BE3b9f017220fb1e9';
+            const switchClient: MasterSwitchClient = new MasterSwitchClient(
+                provider,
+                signer,
+                '0x0Ac64d6d09bB3B7ab6999f9BE3b9f017220fb1e9' //TODO: get contract address dynamically
+            );
+
+            //create the inputs
+            const switchInput: IMultiPaymentInput[] = await createSwitchInput(
+                data,
+                await signer.getAddress(),
+                chainId
+            );
+
+            //send payment to switch
+            console.log(switchInput);
+            const output: ITransactionOutput =
+                await switchClient.placeMultiplePayments(switchInput);
+
+            console.log(output);
+            const transaction_id = output.transaction_id;
+            const payer_address = output.receipt.from;
+
+            return {
+                transaction_id,
+                payer_address,
+                escrow_contract_address,
+                success: transaction_id && transaction_id.length ? true : false,
+            };
+        } catch (e) {
+            console.error('error has occured during transaction', e);
+            setErrorMessage('Checkout was not completed.');
+            setSubmitting(false);
+        }
+
+        return {};
+    };
+
+    /**
+     * Retrieves data from server that will be needed for checkout, including currencies,
+     * amounts, wallet addresses, etc.
+     * @param cartId
+     * @returns
+     */
+    const retrieveCheckoutData = async (cartId: string) => {
+        const response = await axios.get(
+            `${MEDUSA_SERVER_URL}/custom/checkout?cart_id=${cartId}`
+        );
+        return response.status == 200 && response.data ? response.data : {};
+    };
+
+    /**
+     * After checkout, updates inventory for purchased items.
+     */
+    const updateInventory = async () => {
         try {
             const results = await reduceInventory();
             if (results.every((item) => item.success)) {
@@ -279,62 +243,113 @@ const CryptoPaymentButton = ({
         } catch (error) {
             setErrorMessage('An error occurred during inventory update.');
         }
-        setSubmitting(false);
     };
 
-    const completeCheckout = async (cart_id: string) => {
-        const data = await retrieveCheckoutData(cart_id);
-        const { transaction_id, payer_address, escrow_contract_address } =
-            await doWalletPayment(data);
-
-        if (transaction_id?.length) {
-            //final step in process
-            const { mutate: finalizeCheckout } = useFinalizeCheckout;
-            finalizeCheckout({
-                cart_id,
-                transaction_id,
-                payer_address,
-                escrow_contract_address,
-            });
+    /**
+     * Redirects to order confirmation on successful checkout
+     * @param orderId
+     * @param countryCode
+     */
+    const redirectToOrderConfirmation = (
+        orderId: string,
+        countryCode: string
+    ) => {
+        //finally, if all good, redirect to order confirmation page
+        if (orderId?.length) {
+            router.push(`/${countryCode}/order/confirmed/${orderId}`);
         }
-
-        return data?.orders?.length ? data.orders[0].order_id : '';
     };
 
+    /**
+     * Does most of checkout:
+     * - sends payment to wallet
+     * - updates orders & payments after successful wallet payment
+     * - update inventory post-checkout
+     * - clears the cart
+     * - redirects to the order confirmation
+     * @param cartId
+     */
+    const completeCheckout = async (cartId: string) => {
+        //retrieve data (cart id, currencies, amounts etc.) that will be needed for wallet checkout
+        const data = await retrieveCheckoutData(cartId);
+
+        if (data) {
+            //this sends the payment to the wallet for on-chain processing
+            const output = await doWalletPayment(data);
+
+            //finalize the checkout, if wallet payment was successful
+            if (output.success) {
+                const response = await axios.post(
+                    `${MEDUSA_SERVER_URL}/custom/checkout`,
+                    {
+                        cart_id: data.cart_id,
+                        transaction_id: data.transaction_id,
+                        payer_address: data.payer_address,
+                        escrow_contract_address: data.escrow_contract_address,
+                    }
+                );
+
+                console.log(response.status);
+                //TODO: examine response
+
+                //TODO: move this to server side (in FinalizeCheckout if possible)
+                //update inventory
+                await updateInventory();
+
+                //country code needed for redirect (get before killing cart)
+                const countryCode =
+                    cart.shipping_address?.country_code?.toLowerCase();
+
+                //clear cart
+                clearCart();
+
+                //redirect to confirmation page
+                redirectToOrderConfirmation(
+                    data?.orders?.length ? data.orders[0].order_id : null,
+                    countryCode
+                );
+            } else {
+                setSubmitting(false);
+                setErrorMessage('Checkout was not completed.');
+            }
+        } else {
+            throw new Error('Checkout failed to complete.');
+        }
+    };
+
+    /**
+     * Handles the click of the checkout button
+     * @returns
+     */
     const handlePayment = async () => {
         try {
+            setSubmitting(true);
+
             //here connect wallet and sign in, if not connected
             connect();
 
-            setSubmitting(true);
-            await handlePurchase();
             updateCart.mutate(
                 { context: {} },
                 {
                     onSuccess: ({}) => {
+                        //this calls the CartCompletion routine
                         completeCart.mutate(void 0, {
                             onSuccess: ({ data, type }) => {
                                 //TODO: data is undefined
                                 try {
-                                    reduceInventory();
-
-                                    completeCheckout(cart.id).then(
-                                        (order_id) => {
-                                            //clear cart
-                                            clearCart();
-
-                                            //redirect to confirmation page
-                                            const countryCode =
-                                                cart.shipping_address?.country_code?.toLowerCase();
-
-                                            router.push(
-                                                `/${countryCode}/order/confirmed/${order_id}`
-                                            );
-                                        }
-                                    );
+                                    //this does wallet payment, and everything after
+                                    completeCheckout(cart.id);
                                 } catch (e) {
                                     console.error(e);
+                                    setSubmitting(false);
+                                    setErrorMessage(
+                                        'Checkout was not completed.'
+                                    );
                                 }
+                            },
+                            onError: ({}) => {
+                                setSubmitting(false);
+                                setErrorMessage('Checkout was not completed.');
                             },
                         });
                     },
@@ -344,6 +359,8 @@ const CryptoPaymentButton = ({
             return;
         } catch (e) {
             console.error(e);
+            setSubmitting(false);
+            setErrorMessage('Checkout was not completed.');
         }
     };
 
