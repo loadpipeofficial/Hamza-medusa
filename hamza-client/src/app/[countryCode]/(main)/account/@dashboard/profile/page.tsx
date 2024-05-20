@@ -8,6 +8,7 @@ import ProfilePassword from '@modules/account/components/profile-password';
 
 import { getCustomer, listRegions } from '@lib/data';
 import { notFound } from 'next/navigation';
+import ProfileCurrency from '@modules/account/components/profile-currency';
 
 export const metadata: Metadata = {
     title: 'Profile',
@@ -38,7 +39,8 @@ export default async function Profile() {
                 {/*<ProfileEmail customer={customer} />*/}
                 {/*<Divider />*/}
                 {/*<ProfilePhone customer={customer} />*/}
-                {/*<Divider />*/}
+                <ProfileCurrency customer={customer} />
+                <Divider />
                 {/*<ProfilePassword customer={customer} />*/}
                 {/*<Divider />*/}
                 <ProfileBillingAddress customer={customer} regions={regions} />

@@ -107,3 +107,12 @@ Content-Type: application/json
 {
   "cart_id": "cart_01HY0FVSWJ8J28AVHY5819AZ04"
 }
+
+### Update Currency
+POST http://localhost:9000/custom/update-currency
+Content-Type: application/json
+
+{
+"customer_id": "cus_01HYAAZB62RNRTXXY9TC20DK8E",
+  "preferred_currency": "eth"
+}
