@@ -24,6 +24,7 @@ import medusaError from '@lib/util/medusa-error';
 //TODO: is the following commented out code needed? (JK)
 // We need this or it changes the whole architecture
 import { cookies } from 'next/headers';
+import { signOut } from '@modules/account/actions';
 
 declare class StorePostAuthReqCustom {
     email: string;
@@ -299,7 +300,12 @@ export async function getCustomer() {
     return medusaClient.customers
         .retrieve(headers)
         .then(({ customer }) => customer)
-        .catch((err) => null);
+        .catch((err) => {
+            cookies().set('_medusa_jwt', '', {
+                maxAge: -1,
+            });
+            return null;
+        });
 }
 
 declare class StorePostCustomersReqCustom {
@@ -511,7 +517,6 @@ export async function getProductsList({
         .catch((err) => {
             throw err;
         });
-
 
     const transformedProducts = products.map((product) => {
         return transformProductPreview(product, region!);

@@ -62,7 +62,15 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
         //     });
 
         getCustomer().then((customer) => {
-            console.log('customer is ', customer);
+            if (!customer) {
+                setStatus('unauthenticated');
+                setCustomerAuthData({
+                    wallet_address: null,
+                    customer_id: '',
+                    preferred_currency_code: null,
+                    token: null,
+                });
+            }
         });
 
         !wallet_address && setStatus('unauthenticated');
@@ -150,7 +158,6 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
         },
 
         signOut: async () => {
-            // Cookies.remove('_medusa_jwt');
             setStatus('unauthenticated');
             setCustomerAuthData({
                 token: null,
