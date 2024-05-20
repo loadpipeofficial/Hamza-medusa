@@ -17,9 +17,9 @@ type OrderCompletedTemplateProps = {
 //TODO: replace the following back in the template, when working
 /*
 
-          <Items items={order.items} region={order.region} />
-          <CartTotals data={order} />
-          <ShippingDetails order={order} />
+          <Items items={line-item.items} region={line-item.region} />
+          <CartTotals data={line-item} />
+          <ShippingDetails line-item={line-item} />
 */
 
 export default function OrderCompletedTemplate({
