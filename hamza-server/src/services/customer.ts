@@ -74,4 +74,30 @@ export default class CustomerService extends MedusaCustomerService {
         }
         // lets add a try catch for actually creating a customer?
     }
+
+    async updateCurrency(customerId: string, currency: string): Promise<any> {
+        console.log('CustomerService UpdateCurrency method running');
+        let customer = await this.customerRepository_.findOne({
+            where: { id: customerId },
+            select: { id: true },
+        });
+        if (!customer) {
+            console.log(`Customer with id ${customerId} not found`);
+            return null;
+        }
+        console.log(`Customer Selected ${JSON.stringify(customer)}`);
+        try {
+            let updatedCustomer = await this.customerRepository_.save({
+                ...customer,
+                preferred_currency_id: currency,
+            });
+            console.log(
+                `Customer with id ${currency} updated with currency ID ${currency}`
+            );
+            return updatedCustomer;
+        } catch (e) {
+            console.log(`Error updating customer currency: ${e}`);
+            throw e; // It might be helpful to rethrow the error for further handling by the caller.
+        }
+    }
 }
