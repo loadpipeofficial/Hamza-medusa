@@ -59,15 +59,15 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                             className="border-b border-gray-200 pb-6 last:pb-0 last:border-none"
                         >
                             <div className="p-4 bg-gray-700">
-                                Order {orders[index].id} - Total Items:{' '}
-                                {items.length}
+                                Order {orders[index] ? orders[index].id : 'N/A'}{' '}
+                                - Total Items: {items.length}
                             </div>
                             {items.map((item) => (
                                 <OrderCard key={item.id} order={item} />
                             ))}
                             <div className="flex justify-end">
                                 <LocalizedClientLink
-                                    href={`/account/orders/details/${orders[index].id}`}
+                                    href={`/account/orders/details/${orders[index] ? orders[index].id : '#'}`}
                                     passHref
                                 >
                                     <Button variant="secondary">

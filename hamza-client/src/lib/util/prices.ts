@@ -254,7 +254,7 @@ const convertToLocale = ({
 }): ConvertToLocaleParams => {
     // Ensure currency_code is a valid string before proceeding
     if (typeof currency_code !== 'string' || !currency_code) {
-        console.error('Invalid or missing currency code');
+        console.error('Invalid or missing currency code', currency_code);
         return amount.toString(); // or handle the error as needed
     }
 
