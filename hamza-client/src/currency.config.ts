@@ -10,7 +10,7 @@ const chainConfig: any = {
             contract_address: '0x822585D682B973e4b1B47C0311f162b29586DD02', //'0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238',
             precision: {
                 db: 2,
-                native: 6,
+                native: 12,
             },
         },
         usdt: {
