@@ -1,5 +1,4 @@
 import { Order } from '@medusajs/medusa';
-import { formatAmount } from '@lib/util/prices';
 import { formatCryptoPrice } from '@lib/util/get-product-price';
 
 type OrderSummaryProps = {
@@ -12,7 +11,7 @@ const OrderSummary = ({ order }: OrderSummaryProps) => {
             return;
         }
 
-        return formatCryptoPrice(amount, 'usdc');
+        return formatCryptoPrice(amount, '');
     };
 
     return (

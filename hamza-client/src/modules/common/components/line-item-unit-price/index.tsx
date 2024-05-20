@@ -5,9 +5,14 @@ import { clx } from '@medusajs/ui';
 import { getPercentageDiff } from '@lib/util/get-precentage-diff';
 import { CalculatedVariant } from 'types/medusa';
 import { formatCryptoPrice } from '@lib/util/get-product-price';
+import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
+
+type ExtendedLineItem = LineItem & {
+    currency_code?: string;
+};
 
 type LineItemUnitPriceProps = {
-    item: Omit<LineItem, 'beforeInsert'>;
+    item: Omit<ExtendedLineItem, 'beforeInsert'>;
     region: Region;
     style?: 'default' | 'tight';
 };
@@ -30,7 +35,11 @@ const LineItemUnitPrice = ({
                             <span className="text-ui-fg-muted">Original: </span>
                         )}
                         <span className="line-through">
-                            {formatCryptoPrice(originalPrice, 'usdc')} USDC
+                            {formatCryptoPrice(
+                                originalPrice,
+                                item.currency_code ?? ''
+                            )}{' '}
+                            {item.currency_code?.toUpperCase() ?? ''}
                         </span>
                     </p>
                     {style === 'default' && (
@@ -52,9 +61,9 @@ const LineItemUnitPrice = ({
             >
                 {formatCryptoPrice(
                     reducedPrice || item.unit_price || 0,
-                    'usdc'
+                    item.currency_code ?? ''
                 )}{' '}
-                USDC
+                {item.currency_code?.toUpperCase() ?? ''}
             </span>
         </div>
     );

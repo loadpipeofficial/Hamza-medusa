@@ -46,13 +46,6 @@ const CartTemplate = ({
                                 region={cart?.region}
                                 items={cart?.items}
                             />
-                            {/* Button to trigger `updateInventory` */}
-                            <button
-                                onClick={handleUpdateInventory}
-                                className="bg-blue-600 text-white px-4 py-2 mt-4"
-                            >
-                                Update Inventory
-                            </button>
                         </div>
                         <div className="relative">
                             <div className="flex flex-col gap-y-8 sticky top-12 bg-black text-white">

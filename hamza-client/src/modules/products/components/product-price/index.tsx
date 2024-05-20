@@ -26,12 +26,10 @@ export default function ProductPrice({
         ? variant.prices
         : product.variants[0].prices;
     let preferredPrice =
-        (status == 'authenticated' &&
-            preferred_currency_code &&
-            selectedPrices.find(
-                (a) => a.currency_code == preferred_currency_code
-            )) ||
-        null;
+        status == 'authenticated' &&
+        preferred_currency_code &&
+        selectedPrices.find((a) => a.currency_code == preferred_currency_code);
+
     if (!selectedPrices) {
         return <div className="block w-32 h-9 bg-gray-100 animate-pulse" />;
     }

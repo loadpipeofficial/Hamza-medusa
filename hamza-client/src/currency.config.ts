@@ -7,7 +7,7 @@ const chainConfig: any = {
     11155111: {
         chain_name: 'sepolia',
         usdc: {
-            contract_address: '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238',
+            contract_address: '0xbe9fe9b717c888a2b2ca0a6caa639afe369249c5', //'0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238',
             precision: {
                 db: 2,
                 native: 6,

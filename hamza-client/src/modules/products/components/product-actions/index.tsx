@@ -146,6 +146,7 @@ export default function ProductActions({
             variantId: variant.id,
             quantity: 1,
             countryCode: countryCode,
+            currencyCode: 'eth', //variant.prices[0].currency_code,
         });
         setIsAdding(false);
     };

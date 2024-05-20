@@ -11,6 +11,7 @@ import OrderService from '../services/order';
 import { PaymentService } from '@medusajs/medusa/dist/services';
 import { Payment } from '../models/payment';
 import { Order } from '../models/order';
+import { LineItem } from '../models/line-item';
 import { PaymentDataInput } from '@medusajs/medusa/dist/services/payment';
 import { RequestContext } from '@medusajs/medusa/dist/types/request';
 import PaymentRepository from '@medusajs/medusa/dist/repositories/payment';
@@ -90,7 +91,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             const cart = await this.cartService.retrieve(cartId, {
                 relations: [
                     'items.variant.product.store',
-                    'items.variant.prices',
+                    'items.variant.prices', //TODO: we need prices?
                 ],
             });
 
@@ -112,10 +113,6 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
 
             //update payments with order ids
             await this.updatePaymentFromOrder(payments, orders);
-
-            // Adding CartId in the payments table is impossible, currently,
-            // it's a foreign key of cart which is unique,
-            // this uniqueness constraint is enforced on the payment table
 
             //create & return the response
             const response: CartCompletionResponse = {
@@ -154,24 +151,12 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
     ): PaymentDataInput {
         //divide the cart items
         const itemsFromStore = cart.items.filter(
-            (i) =>
-                i.variant?.product?.store?.id === store_id &&
-                i.variant?.prices[
-                    Math.floor(i.unit_price / 10) % 2 == 0
-                        ? 0
-                        : i.variant?.prices.length - 1
-                ].currency_code === currency_code //TODO: how to get price?
+            (i: LineItem) => i.currency_code === currency_code
         );
 
         //get total amount for the items
         const amount = itemsFromStore.reduce(
-            (a, i) =>
-                a +
-                i.variant?.prices[
-                    Math.floor(i.unit_price / 10) % 2 == 0
-                        ? 0
-                        : i.variant?.prices.length - 1
-                ].amount, //TODO: how to get price?
+            (a, i) => a + i.unit_price * i.quantity,
             0
         );
 
@@ -191,14 +176,10 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         const groups: { [key: string]: IPaymentGroupData } = {};
 
         if (cart && cart.items) {
-            cart.items.forEach((i) => {
+            cart.items.forEach((i: LineItem) => {
                 //create key from unique store/currency pair
-                const currency: string =
-                    i.variant?.prices[
-                        Math.floor(i.unit_price / 10) % 2 == 0
-                            ? 0
-                            : i.variant?.prices.length - 1
-                    ].currency_code; //TODO: how to get price?
+                const currency: string = i.currency_code;
+
                 const store: string = i.variant?.product?.store?.id;
                 const key = `${store}_${currency}`;
 
@@ -212,13 +193,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
                     };
                 }
                 groups[key].items.push(i.id);
-                groups[key].total += BigInt(
-                    i.variant.prices[
-                        Math.floor(i.unit_price / 10) % 2 == 0
-                            ? 0
-                            : i.variant?.prices.length - 1
-                    ].amount
-                ); //TODO: how to get price?
+                groups[key].total += BigInt(i.unit_price * i.quantity);
             });
         }
 

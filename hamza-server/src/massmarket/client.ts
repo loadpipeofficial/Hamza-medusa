@@ -5,39 +5,12 @@ import { http, createWalletClient, PrivateKeyAccount } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { sepolia } from 'viem/chains';
 
-enum ItemField {
-    ITEM_FIELD_UNSPECIFIED = 0,
-    ITEM_FIELD_PRICE = 1,
-    ITEM_FIELD_METADATA = 2,
-}
-
-function privateKeyStringToBytes(privateKey: string): Uint8Array {
-    privateKey = privateKey.startsWith('0x')
-        ? privateKey.substring(2)
-        : privateKey;
-    const match = privateKey.match(/[\da-f]{2}/gi);
-    if (match) {
-        return new Uint8Array(match.map((h) => parseInt(h, 16)));
-    }
-
-    return new Uint8Array(0);
-}
-
-function bufferToString(buffer: Uint8Array): string {
-    return '0x' + buffer
-        ? Array.from(buffer)
-              .map((byte) => byte.toString(16).padStart(2, '0'))
-              .join('')
-        : '0x'.padEnd(16, '0');
-}
-
-export type ProductConfig = {
-    name: string;
-    price: string;
-    description: string;
-    image: string;
-};
-
+/**
+ * Wrapper for the massmarket relay client, exposing those functions and properties
+ * that we need for our specific use cases.
+ *
+ * @author John R. Kosinski
+ */
 export class RelayClientWrapper {
     private _client: RelayClient;
     private _chain = sepolia;
@@ -45,6 +18,9 @@ export class RelayClientWrapper {
     private _cartId: `0x${string}` = '0x0';
     readonly storeId: `0x${string}`;
 
+    /**
+     * Gets the cart id, if any; default is 0x0.
+     */
     get cartId(): `0x${string}` {
         return this._cartId;
     }
@@ -70,8 +46,6 @@ export class RelayClientWrapper {
             transport: http(),
         });
 
-        const STORE_ID = storeId;
-
         const args = {
             relayEndpoint: `wss://${endpoint}`,
             privateKey: this._keyCard,
@@ -85,7 +59,15 @@ export class RelayClientWrapper {
         this._client.on('event', (e) => this.onEvent(e));
     }
 
-    static async create(
+    /**
+     * Creates a new store, authenticates, and returns a RelayClientWrapper instance.
+     *
+     * @param endpoint Relay endpoint e.g. 'wss://relay.endpoint.com'
+     * @param walletPrivKey Store owner's wallet private key, as 0x{string}
+     * @param storeId Unique store ID; this will error if not unique.
+     * @returns a RelayClientWrapper instance.
+     */
+    static async createStore(
         endpoint: string,
         walletPrivKey: `0x${string}`,
         storeId: `0x${string}` = '0x0'
@@ -105,6 +87,15 @@ export class RelayClientWrapper {
         return client;
     }
 
+    /**
+     * Authenticates to an already existing store.
+     *
+     * @param endpoint Relay endpoint e.g. 'wss://relay.endpoint.com'
+     * @param walletPrivKey Store owner's wallet private key, as 0x{string}
+     * @param storeId Unique store ID.
+     * @param keyCard Private key in the form 0x{hex}
+     * @returns a RelayClientWrapper instance.
+     */
     static async login(
         endpoint: string,
         walletPrivKey: `0x${string}` = '0x0',
@@ -212,4 +203,54 @@ export class RelayClientWrapper {
             });
         }
     }
+}
+
+/**
+ * Massmarket's item field enum, for manifest fields.
+ */
+enum ItemField {
+    ITEM_FIELD_UNSPECIFIED = 0,
+    ITEM_FIELD_PRICE = 1,
+    ITEM_FIELD_METADATA = 2,
+}
+
+/**
+ * Type for defining item listings/products.
+ */
+export type ProductConfig = {
+    name: string;
+    price: string;
+    description: string;
+    image: string;
+};
+
+/**
+ * Utility function; convert private key in the form 0x{string} to a Uint8Array (the
+ * '0x' is optional)
+ * @param privateKey Private key in the form 0x{hex}, 0x is optional
+ * @returns Uint8Array
+ */
+function privateKeyStringToBytes(privateKey: string): Uint8Array {
+    privateKey = privateKey.startsWith('0x')
+        ? privateKey.substring(2)
+        : privateKey;
+    const match = privateKey.match(/[\da-f]{2}/gi);
+    if (match) {
+        return new Uint8Array(match.map((h) => parseInt(h, 16)));
+    }
+
+    return new Uint8Array(0);
+}
+
+/**
+ * Utility function to convert Uint8Array to string in the form 0x{hex}
+ * @param buffer any Uint8Array
+ * @returns 0x{hex} string representation
+ */
+function bufferToString(buffer: Uint8Array): string {
+    return '0x' + buffer
+        ? Array.from(buffer)
+              .map((byte) => byte.toString(16).padStart(2, '0'))
+              .join('')
+        : '0x'.padEnd(16, '0');
 }

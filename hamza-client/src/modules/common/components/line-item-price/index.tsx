@@ -6,8 +6,12 @@ import { getPercentageDiff } from '@lib/util/get-precentage-diff';
 import { CalculatedVariant } from 'types/medusa';
 import { formatCryptoPrice } from '@lib/util/get-product-price';
 
+type ExtendedLineItem = LineItem & {
+    currency_code?: string;
+};
+
 type LineItemPriceProps = {
-    item: Omit<LineItem, 'beforeInsert'>;
+    item: Omit<ExtendedLineItem, 'beforeInsert'>;
     region: Region;
     style?: 'default' | 'tight';
 };
@@ -33,7 +37,11 @@ const LineItemPrice = ({
                                 </span>
                             )}
                             <span className="line-through text-ui-fg-muted">
-                                {formatCryptoPrice(originalPrice, 'usdc')} USDC
+                                {formatCryptoPrice(
+                                    originalPrice,
+                                    item.currency_code ?? 'usdt'
+                                )}{' '}
+                                {item.currency_code?.toUpperCase() ?? ''}
                             </span>
                         </p>
                         {style === 'default' && (
@@ -53,7 +61,13 @@ const LineItemPrice = ({
                         'text-ui-fg-interactive': hasReducedPrice,
                     })}
                 >
-                    {formatCryptoPrice(originalPrice, 'usdc')} USDC
+                    {!isNaN(originalPrice) &&
+                        formatCryptoPrice(
+                            originalPrice,
+                            item.currency_code ?? ''
+                        ) +
+                            ' ' +
+                            (item.currency_code?.toUpperCase() ?? '')}
                 </span>
             </div>
         </div>
