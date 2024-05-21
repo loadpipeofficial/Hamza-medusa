@@ -293,9 +293,13 @@ export async function updateCustomerBillingAddress(
 }
 
 export async function signOut() {
-    cookies().set('_medusa_jwt', '', {
-        maxAge: -1,
-    });
+    try {
+        cookies().set('_medusa_jwt', '', {
+            maxAge: -1,
+        });
+    } catch (e) {
+        console.error(e);
+    }
     const countryCode = headers().get('next-url')?.split('/')[1] || '';
     revalidateTag('auth');
     revalidateTag('customer');

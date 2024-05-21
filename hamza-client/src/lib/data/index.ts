@@ -307,9 +307,13 @@ export async function getCustomer() {
         .retrieve(headers)
         .then(({ customer }) => customer)
         .catch((err) => {
-            cookies().set('_medusa_jwt', '', {
-                maxAge: -1,
-            });
+            try {
+                cookies().set('_medusa_jwt', '', {
+                    maxAge: -1,
+                });
+            } catch (e) {
+                console.error(e);
+            }
             return null;
         });
 }
