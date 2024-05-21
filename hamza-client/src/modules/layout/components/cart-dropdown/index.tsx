@@ -196,6 +196,14 @@ const CartDropdown = ({
                                             Go to cart
                                         </Button>
                                     </LocalizedClientLink>
+                                    <LocalizedClientLink
+                                        href="/checkout?step=address"
+                                        passHref
+                                    >
+                                        <Button className="w-full" size="large">
+                                            Go to checkout
+                                        </Button>
+                                    </LocalizedClientLink>
                                 </div>
                             </>
                         ) : (
