@@ -11,6 +11,7 @@ import User from '@modules/common/icons/user';
 import MapPin from '@modules/common/icons/map-pin';
 import Package from '@modules/common/icons/package';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
+import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 
 const AccountNav = ({
     customer,
@@ -19,8 +20,15 @@ const AccountNav = ({
 }) => {
     const route = usePathname();
     const { countryCode } = useParams();
-
+    const { setCustomerAuthData } = useCustomerAuthStore();
     const handleLogout = async () => {
+        setCustomerAuthData({
+            customer_id: '',
+            is_verified: false,
+            preferred_currency_code: null,
+            token: null,
+            wallet_address: null,
+        });
         await signOut();
     };
 
