@@ -14,7 +14,7 @@ const AccountLayout: React.FC<AccountLayoutProps> = ({
     customer,
     children,
 }) => {
-    return (
+    return !customer?.email.includes('@evm.blockchain') ? (
         <div className="font-sora flex-1 small:py-12 bg-black text-white">
             <div className="flex-1 content-container h-full max-w-5xl mx-auto flex flex-col">
                 <div className="grid grid-cols-1  small:grid-cols-[240px_1fr] py-12">
@@ -37,6 +37,8 @@ const AccountLayout: React.FC<AccountLayoutProps> = ({
                 </div>
             </div>
         </div>
+    ) : (
+        <div>Use connect wallet for sign in and verify your account.</div>
     );
 };
 

@@ -12,11 +12,13 @@ export default async function AccountPageLayout({
 
     return (
         <AccountLayout customer={customer}>
-            {customer ? (
+            {customer && !customer.email.includes('@evm.blockchain') ? (
                 dashboard
             ) : (
                 <>
-                    <div>Use connect wallet for sign in.</div>
+                    <div>
+                        Use connect wallet for sign in and verify your account.
+                    </div>
                 </>
             )}
         </AccountLayout>

@@ -25,6 +25,9 @@ const SideMenu = ({ regions }: { regions: Region[] | null }) => {
         status == 'authenticated' &&
             !is_verified &&
             (SideMenuItems['Verify Account'] = '/verify-email');
+        status == 'authenticated' &&
+            is_verified &&
+            (SideMenuItems['Account'] = '/account');
     }, [status]);
 
     return (
