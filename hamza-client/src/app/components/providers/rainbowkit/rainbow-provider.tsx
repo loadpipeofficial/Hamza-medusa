@@ -69,6 +69,7 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
                     customer_id: '',
                     preferred_currency_code: null,
                     token: null,
+                    is_verified: false,
                 });
             }
         });
@@ -144,6 +145,7 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
                         preferred_currency_code:
                             data.data.preferred_currency.code,
                         token: tokenResponse,
+                        is_verified: data.data.is_verified,
                     });
                 } else {
                     setStatus('unauthenticated');
@@ -164,6 +166,7 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
                 wallet_address: null,
                 customer_id: '',
                 preferred_currency_code: null,
+                is_verified: false,
             });
             await signOut();
             router.replace('/');

@@ -20,9 +20,10 @@ const SideMenuItems: any = {
 
 const SideMenu = ({ regions }: { regions: Region[] | null }) => {
     const toggleState = useToggleState();
-    const { status } = useCustomerAuthStore();
+    const { status, is_verified } = useCustomerAuthStore();
     useEffect(() => {
         status == 'authenticated' &&
+            !is_verified &&
             (SideMenuItems['Verify Account'] = '/verify-email');
     }, [status]);
 
