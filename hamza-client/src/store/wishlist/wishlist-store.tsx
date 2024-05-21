@@ -94,26 +94,35 @@ const useWishlistStore = create<WishlistType>()(
             storage: createJSONStorage(() => localStorage),
             // Optional: You can trigger loadWishlist after the store has been rehydrated from localStorage
             onRehydrateStorage: () => (state, error) => {
-                console.log('Rehydration working');
+                console.log('Rehydration process triggered');
                 if (error) {
-                    console.error('Failed to rehydrate:', error);
+                    console.error('Rehydration error:', error);
                     return;
                 }
+                console.log(
+                    'Rehydration successful, checking for customer data...'
+                );
                 const customerData = localStorage.getItem('__hamza_customer');
-                console.log('Customer__DATA', customerData);
-                try {
-                    if (customerData) {
+                if (customerData) {
+                    try {
                         const parsedData = JSON.parse(customerData);
                         const customer_id = parsedData.state.customer_id;
-
-                        // console.log('Customer ID:', customer_id);
                         if (customer_id) {
-                            // console.log('Run loadwishlist?');
+                            console.log(
+                                'Customer ID found:',
+                                customer_id,
+                                'Loading wishlist...'
+                            );
                             state?.loadWishlist(customer_id);
                         }
+                    } catch (parseError) {
+                        console.error(
+                            'Error parsing customer data:',
+                            parseError
+                        );
                     }
-                } catch (parseError) {
-                    console.error('Error parsing customer data:', parseError);
+                } else {
+                    console.log('No customer data found, possibly new session');
                 }
             },
         }
