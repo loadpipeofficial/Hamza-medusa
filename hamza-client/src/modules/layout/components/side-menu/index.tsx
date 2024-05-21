@@ -4,12 +4,13 @@ import { Popover, Transition } from '@headlessui/react';
 import { ArrowRightMini, XMark } from '@medusajs/icons';
 import { Region } from '@medusajs/medusa';
 import { Text, clx, useToggleState } from '@medusajs/ui';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import CountrySelect from '../country-select';
+import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 
-const SideMenuItems = {
+const SideMenuItems: any = {
     Home: '/',
     Store: '/store',
     Search: '/search',
@@ -19,6 +20,11 @@ const SideMenuItems = {
 
 const SideMenu = ({ regions }: { regions: Region[] | null }) => {
     const toggleState = useToggleState();
+    const { status } = useCustomerAuthStore();
+    useEffect(() => {
+        status == 'authenticated' &&
+            (SideMenuItems['Verify Account'] = '/verify-email');
+    }, [status]);
 
     return (
         <div className="h-full">
