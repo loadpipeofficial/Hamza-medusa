@@ -9,6 +9,9 @@ import { CheckCircleSolid, CreditCard } from '@medusajs/icons';
 import { Button, Container, Heading, Text, Tooltip, clx } from '@medusajs/ui';
 import { CardElement } from '@stripe/react-stripe-js';
 import { StripeCardElementOptions } from '@stripe/stripe-js';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { useAccount, useConnect } from 'wagmi';
+import { InjectedConnector } from 'wagmi/connectors/injected';
 
 import Divider from '@modules/common/components/divider';
 import Spinner from '@modules/common/icons/spinner';
@@ -25,6 +28,24 @@ const Payment = ({
     const [error, setError] = useState<string | null>(null);
     const [cardBrand, setCardBrand] = useState<string | null>(null);
     const [cardComplete, setCardComplete] = useState(false);
+    const { openConnectModal } = useConnectModal();
+    const { connector: activeConnector, isConnected } = useAccount();
+    const { connect } = useConnect({
+        connector: new InjectedConnector(),
+    });
+
+    // useEffect hook to check if connection status changes
+    // if !isConnected, connect to wallet
+    useEffect(() => {
+        if (!isConnected) {
+            if (openConnectModal) openConnectModal();
+        }
+    }, [openConnectModal, isConnected]);
+
+    //connects wallet if necessary
+    const connectWallet = () => {
+        connect();
+    };
 
     const searchParams = useSearchParams();
     const router = useRouter();
@@ -180,18 +201,30 @@ const Payment = ({
 
                         <ErrorMessage error={error} />
 
-                        <Button
-                            size="large"
-                            className="mt-6 text-white"
-                            onClick={handleSubmit}
-                            isLoading={isLoading}
-                            disabled={
-                                (isStripe && !cardComplete) ||
-                                !cart.payment_session
-                            }
-                        >
-                            Continue to review
-                        </Button>
+                        {isConnected && (
+                            <Button
+                                size="large"
+                                className="mt-6 text-white"
+                                onClick={handleSubmit}
+                                isLoading={isLoading}
+                                disabled={
+                                    (isStripe && !cardComplete) ||
+                                    !cart.payment_session
+                                }
+                            >
+                                Continue to review
+                            </Button>
+                        )}
+                        {!isConnected && (
+                            <Button
+                                size="large"
+                                className="mt-6 text-white"
+                                onClick={connectWallet}
+                                isLoading={isLoading}
+                            >
+                                Connect Wallet
+                            </Button>
+                        )}
                     </div>
                 ) : (
                     <div className="flex flex-col items-center justify-center px-4 py-16 text-ui-fg-base">

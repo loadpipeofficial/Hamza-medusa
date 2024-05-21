@@ -1,7 +1,6 @@
 'use client';
 import { Cart, PaymentSession } from '@medusajs/medusa';
 import { Button } from '@medusajs/ui';
-import { placeOrder } from '@modules/checkout/actions';
 import React, { useState, useEffect, useRef } from 'react';
 import ErrorMessage from '../error-message';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
@@ -12,7 +11,6 @@ import { MasterSwitchClient } from 'web3/master-switch-client';
 import { ethers, BigNumberish } from 'ethers';
 import { useCompleteCart, useUpdateCart } from 'medusa-react';
 import { useRouter } from 'next/navigation';
-import { useQuery, useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { clearCart } from '@lib/data';
 import { getCurrencyPrecision } from 'currency.config';
@@ -40,6 +38,8 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({ cart }) => {
         cart.shipping_methods.length < 1
             ? true
             : false;
+
+    //TODO: what we need this fo?
     const paymentSession = cart.payment_session as PaymentSession;
 
     return <CryptoPaymentButton notReady={notReady} cart={cart} />;
