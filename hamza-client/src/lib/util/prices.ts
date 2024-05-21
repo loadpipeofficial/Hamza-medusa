@@ -252,6 +252,8 @@ const convertToLocale = ({
     maximumFractionDigits = 2,
     locale = 'en-US',
 }): ConvertToLocaleParams => {
+    return amount.toString();
+    /*
     // Ensure currency_code is a valid string before proceeding
     if (typeof currency_code !== 'string' || !currency_code) {
         console.error('Invalid or missing currency code', currency_code);
@@ -269,6 +271,7 @@ const convertToLocale = ({
         // Custom handling for non-standard currency codes
         return `${amount.toFixed(minimumFractionDigits)} ${currency_code.toUpperCase()}`;
     }
+    */
 };
 
 type ConvertToLocaleParams = {
