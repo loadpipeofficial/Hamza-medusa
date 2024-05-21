@@ -24,6 +24,7 @@ import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
+import useWishlistStore from '@store/wishlist/wishlist-store';
 
 const MEDUSA_SERVER_URL =
     process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
@@ -49,6 +50,14 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
     const { setCustomerAuthData, token, wallet_address, status, setStatus } =
         useCustomerAuthStore();
     const router = useRouter();
+    const [customer_id, setCustomerId] = useState('');
+    const { loadWishlist } = useWishlistStore((state) => state);
+
+    useEffect(() => {
+        if (status === 'authenticated' && customer_id) {
+            loadWishlist(customer_id);
+        }
+    }, [status, customer_id]); // Dependency array includes any state variables that trigger a reload
 
     useEffect(() => {
         // getCustomer()
@@ -135,6 +144,7 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
                         email: data.data.email,
                         password: '',
                     });
+                    setCustomerId(data.data.customer_id);
                     console.log('token response is ', tokenResponse);
                     Cookies.set('_medusa_jwt', tokenResponse);
                     setStatus('authenticated');
