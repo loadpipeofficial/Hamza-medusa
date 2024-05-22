@@ -194,7 +194,7 @@ export default function ProductActions({
                 >
                     {loading
                         ? 'Loading...'
-                        : `Inventory Count: ${inventoryCount !== null ? inventoryCount : 'Loading...'}`}
+                        : `Inventory Count: ${inventoryCount !== null ? inventoryCount : '0'}`}
                 </Button>
                 <Button
                     onClick={handleAddToCart}

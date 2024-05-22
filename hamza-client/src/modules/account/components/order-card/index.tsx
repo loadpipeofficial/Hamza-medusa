@@ -4,6 +4,7 @@ import { Button } from '@medusajs/ui';
 import Thumbnail from '@modules/products/components/thumbnail';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import { formatAmount } from '@lib/util/prices';
+import { formatCryptoPrice } from '@lib/util/get-product-price';
 
 // Update the type definitions to reflect the structure of the received order
 type OrderDetails = {
@@ -30,6 +31,15 @@ type OrderCardProps = {
 };
 
 const OrderCard = ({ order }: OrderCardProps) => {
+    if (!order) {
+        return <div>Loading...</div>; // Display loading message if order is undefined
+    }
+    console.log(`Order Card information is: ${JSON.stringify(order)}`);
+    const orderString = typeof order.currency_code;
+    console.log(
+        `Order Unit Price ${order.unit_price} and Currency Code ${order.currency_code} ${orderString}`
+    );
+
     return (
         <div className="flex flex-col">
             <div className="flex items-center divide-x divide-gray-200 text-small-regular text-white">
@@ -37,12 +47,8 @@ const OrderCard = ({ order }: OrderCardProps) => {
                     {new Date(order.created_at).toDateString()}
                 </span>
                 <span className="px-2">
-                    {formatAmount({
-                        amount: order.unit_price,
-                        currency_code: order.currency_code,
-                        region: order.region,
-                        includeTaxes: false,
-                    })}
+                    {formatCryptoPrice(order.unit_price, order.currency_code)}{' '}
+                    {order.currency_code}
                 </span>
                 <span className="pl-2">1 item</span>{' '}
                 {/* Static '1 item' since there are no items array */}
