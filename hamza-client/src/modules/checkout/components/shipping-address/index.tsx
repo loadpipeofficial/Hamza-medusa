@@ -159,12 +159,12 @@ const ShippingAddress = ({
                 />
             </div>
             <div className="my-8">
-                <Checkbox
+                {/* <Checkbox
                     label="Same as billing address"
                     name="same_as_billing"
                     checked={checked}
                     onChange={onChange}
-                />
+                /> */}
             </div>
             <div className="grid grid-cols-2 gap-4 mb-4">
                 <Input
