@@ -23,10 +23,10 @@ const SideMenu = ({ regions }: { regions: Region[] | null }) => {
     const { status, is_verified } = useCustomerAuthStore();
     useEffect(() => {
         status == 'authenticated' &&
-            !is_verified &&
+            is_verified == false &&
             (SideMenuItems['Verify Account'] = '/verify-email');
         status == 'authenticated' &&
-            is_verified &&
+            is_verified == true &&
             (SideMenuItems['Account'] = '/account');
     }, [status]);
 

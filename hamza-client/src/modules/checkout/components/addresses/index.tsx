@@ -60,7 +60,7 @@ const Addresses = ({
                     level="h2"
                     className="flex flex-row text-3xl-regular gap-x-2 items-baseline text-white"
                 >
-                    Address
+                    Shipping Address
                     {!isOpen && <CheckCircleSolid />}
                 </Heading>
                 {!isOpen && cart?.shipping_address && (
@@ -85,7 +85,7 @@ const Addresses = ({
                             cart={cart}
                         />
 
-                        {!sameAsSBilling && (
+                        {/* {!sameAsSBilling && (
                             <div>
                                 <Heading
                                     level="h2"
@@ -99,7 +99,7 @@ const Addresses = ({
                                     countryCode={countryCode}
                                 />
                             </div>
-                        )}
+                        )} */}
                         <SubmitButton className="mt-6">
                             Continue to delivery
                         </SubmitButton>
@@ -145,7 +145,7 @@ const Addresses = ({
                                         </Text>
                                     </div>
 
-                                    <div className="flex flex-col w-1/3">
+                                    {/* <div className="flex flex-col w-1/3">
                                         <Text className="txt-medium-plus text-ui-fg-base mb-1">
                                             Billing Address
                                         </Text>
@@ -190,7 +190,7 @@ const Addresses = ({
                                                 </Text>
                                             </>
                                         )}
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         ) : (
