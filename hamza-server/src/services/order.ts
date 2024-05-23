@@ -138,11 +138,7 @@ export default class OrderService extends MedusaOrderService {
         });
 
         let cart_products = JSON.parse(cart);
-        console.log(`Cart Products ${cart_products}`);
-        const output = cart_products.map((item) => ({
-            variantId: item.variant_id,
-            reductionQty: item.reduction_quantity,
-        }));
+        // console.log(`Cart Products ${cart_products}`);
 
         const inventoryPromises = cart_products.map((item) => {
             return this.updateInventory(
@@ -153,7 +149,7 @@ export default class OrderService extends MedusaOrderService {
 
         await Promise.all(inventoryPromises);
 
-        console.log(`Output products ${output}`);
+        // console.log(`Output products ${output}`);
 
         //get payments
         const orderIds = orders.map((order) => order.id);
