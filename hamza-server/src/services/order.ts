@@ -7,6 +7,8 @@ import {
 } from '@medusajs/medusa';
 import OrderRepository from '@medusajs/medusa/dist/repositories/order';
 import PaymentRepository from '@medusajs/medusa/dist/repositories/payment';
+import { ProductVariantRepository } from '../repositories/product-variant';
+
 import { Order } from '../models/order';
 import { Payment } from '../models/payment';
 import { Lifetime } from 'awilix';
@@ -17,11 +19,13 @@ export default class OrderService extends MedusaOrderService {
 
     protected orderRepository_: typeof OrderRepository;
     protected paymentRepository_: typeof PaymentRepository;
+    protected readonly productVariantRepository_: typeof ProductVariantRepository;
 
     constructor(container) {
         super(container);
         this.orderRepository_ = container.orderRepository;
         this.paymentRepository_ = container.paymentRepository;
+        this.productVariantRepository_ = container.productVariantRepository;
     }
 
     async createFromPayment(
@@ -87,7 +91,42 @@ export default class OrderService extends MedusaOrderService {
         return result;
     }
 
+    async updateInventory(
+        variantOrVariantId: string,
+        quantityToDeduct: number
+    ) {
+        try {
+            const productVariant = await this.productVariantRepository_.findOne(
+                {
+                    where: { id: variantOrVariantId },
+                }
+            );
+
+            if (productVariant.inventory_quantity >= quantityToDeduct) {
+                productVariant.inventory_quantity -= quantityToDeduct;
+                await this.productVariantRepository_.save(productVariant);
+                console.log(
+                    `Inventory updated for variant ${productVariant.id}, new inventory count: ${productVariant.inventory_quantity}`
+                );
+                return productVariant;
+            } else if (productVariant.allow_backorder) {
+                console.log(
+                    'Inventory below requested deduction but backorders are allowed.'
+                );
+            } else {
+                console.log(
+                    'Not enough inventory to deduct the requested quantity.'
+                );
+            }
+        } catch (e) {
+            console.log(
+                `Error updating inventory for variant ${variantOrVariantId}: ${e}`
+            );
+        }
+    }
+
     async finalizeCheckout(
+        cart: string,
         cart_id: string,
         transaction_id: string,
         payer_address,
@@ -97,6 +136,24 @@ export default class OrderService extends MedusaOrderService {
         const orders: Order[] = await this.orderRepository_.find({
             where: { cart_id },
         });
+
+        let cart_products = JSON.parse(cart);
+        console.log(`Cart Products ${cart_products}`);
+        const output = cart_products.map((item) => ({
+            variantId: item.variant_id,
+            reductionQty: item.reduction_quantity,
+        }));
+
+        const inventoryPromises = cart_products.map((item) => {
+            return this.updateInventory(
+                item.variant_id,
+                item.reduction_quantity
+            );
+        });
+
+        await Promise.all(inventoryPromises);
+
+        console.log(`Output products ${output}`);
 
         //get payments
         const orderIds = orders.map((order) => order.id);
@@ -119,8 +176,10 @@ export default class OrderService extends MedusaOrderService {
             );
         });
 
+        const allPromises = [...inventoryPromises, ...promises];
+
         try {
-            await Promise.all(promises);
+            await Promise.all(allPromises);
         } catch (e) {
             console.log(`Error updating orders/payments: ${e}`);
         }

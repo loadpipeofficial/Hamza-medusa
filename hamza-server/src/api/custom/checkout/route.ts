@@ -36,11 +36,13 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     //const { cart_id, transaction_id, payer_address, escrow_contract_address } =
     //    req.body;
     const {
+        cart,
         cart_id,
         transaction_id,
         payer_address,
         escrow_contract_address = [],
     } = readRequestBody(req.body, [
+        'cart',
         'cart_id',
         'transaction_id',
         'payer_address',
@@ -48,8 +50,10 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     ]);
 
     try {
+        console.log(`Cart in the route: ${cart} ${typeof cart}`);
         await orderService.finalizeCheckout(
-            cart_id.toString(),
+            cart,
+            cart_id,
             transaction_id,
             payer_address,
             escrow_contract_address
