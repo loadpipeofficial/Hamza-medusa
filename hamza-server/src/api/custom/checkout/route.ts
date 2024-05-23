@@ -1,7 +1,6 @@
 import { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
 import OrderService from '../../../services/order';
 import { readRequestBody } from '../../../utils/request-body';
-
 interface ICheckoutData {
     order_id: string;
     wallet_address: string;
@@ -33,14 +32,17 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
 
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     const orderService: OrderService = req.scope.resolve('orderService');
+
     //const { cart_id, transaction_id, payer_address, escrow_contract_address } =
     //    req.body;
     const {
+        cart,
         cart_id,
         transaction_id,
         payer_address,
         escrow_contract_address = [],
     } = readRequestBody(req.body, [
+        'cart',
         'cart_id',
         'transaction_id',
         'payer_address',
@@ -48,7 +50,11 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     ]);
 
     try {
+        console.log('what is this shit why wont it work');
+        console.log('Cart ID is', cart_id);
+
         await orderService.finalizeCheckout(
+            cart,
             cart_id.toString(),
             transaction_id,
             payer_address,
@@ -56,7 +62,7 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
         );
         res.send(true);
     } catch (e) {
-        console.error(e);
+        console.error('is this the error', e);
         res.send({ message: e.message });
     }
 };

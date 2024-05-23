@@ -7,6 +7,9 @@ import {
 } from '@medusajs/medusa';
 import OrderRepository from '@medusajs/medusa/dist/repositories/order';
 import PaymentRepository from '@medusajs/medusa/dist/repositories/payment';
+import { ProductVariantRepository } from '../repositories/product-variant';
+import { CartService } from '@medusajs/medusa';
+
 import { Order } from '../models/order';
 import { Payment } from '../models/payment';
 import { Lifetime } from 'awilix';
@@ -17,11 +20,13 @@ export default class OrderService extends MedusaOrderService {
 
     protected orderRepository_: typeof OrderRepository;
     protected paymentRepository_: typeof PaymentRepository;
+    protected readonly productVariantRepository_: typeof ProductVariantRepository;
 
     constructor(container) {
         super(container);
         this.orderRepository_ = container.orderRepository;
         this.paymentRepository_ = container.paymentRepository;
+        this.productVariantRepository_ = container.productVariantRepository;
     }
 
     async createFromPayment(
@@ -62,6 +67,40 @@ export default class OrderService extends MedusaOrderService {
         }
     }
 
+    async updateInventory(
+        variantOrVariantId: string,
+        quantityToDeduct: number
+    ) {
+        try {
+            const productVariant = await this.productVariantRepository_.findOne(
+                {
+                    where: { id: variantOrVariantId },
+                }
+            );
+
+            if (productVariant.inventory_quantity >= quantityToDeduct) {
+                productVariant.inventory_quantity -= quantityToDeduct;
+                await this.productVariantRepository_.save(productVariant);
+                console.log(
+                    `Inventory updated for variant ${productVariant.id}, new inventory count: ${productVariant.inventory_quantity}`
+                );
+                return productVariant;
+            } else if (productVariant.allow_backorder) {
+                console.log(
+                    'Inventory below requested deduction but backorders are allowed.'
+                );
+            } else {
+                console.log(
+                    'Not enough inventory to deduct the requested quantity.'
+                );
+            }
+        } catch (e) {
+            console.log(
+                `Error updating inventory for variant ${variantOrVariantId}: ${e}`
+            );
+        }
+    }
+
     async getOrdersForCart(cartId: string): Promise<Order[]> {
         return await this.orderRepository_.find({
             where: { cart_id: cartId, status: OrderStatus.PENDING },
@@ -88,30 +127,42 @@ export default class OrderService extends MedusaOrderService {
     }
 
     async finalizeCheckout(
+        cart,
         cart_id: string,
         transaction_id: string,
         payer_address,
         escrow_contract_address
-    ): Promise<Order[]> {
-        //get orders
+    ) {
+        // Get orders
         const orders: Order[] = await this.orderRepository_.find({
             where: { cart_id },
         });
 
-        //get payments
-        const orderIds = orders.map((order) => order.id);
+        // Get cart
 
-        //get payments associated with orders
+        console.log('FINALIZE CHECKOUT');
+        console.log(`Cart ID: ${cart_id}`);
+
+        console.log(`Cart is ${JSON.stringify(cart)}`);
+        // Log item.variant_id and item.quantity from cart
+        cart.items.forEach((item) => {
+            console.log(
+                `Item Variant ID: ${item.variant_id}, Quantity: ${item.quantity}`
+            );
+        });
+
+        // Get payments
+        const orderIds = orders.map((order) => order.id);
         const payments: Payment[] = await this.paymentRepository_.find({
             where: { order_id: In(orderIds) },
         });
 
         const promises: Promise<Order | Payment>[] = [];
 
-        //update payments with transaction info
-        payments.forEach((p, i) => {
+        // Update payments with transaction info
+        payments.forEach((payment) => {
             promises.push(
-                this.updatePaymentAfterTransaction(p.id, {
+                this.updatePaymentAfterTransaction(payment.id, {
                     transaction_id,
                     payer_address,
                     escrow_contract_address,
@@ -119,6 +170,7 @@ export default class OrderService extends MedusaOrderService {
             );
         });
 
+        // Execute payment updates
         try {
             await Promise.all(promises);
         } catch (e) {

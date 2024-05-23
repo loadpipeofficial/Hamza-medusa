@@ -75,9 +75,13 @@ const CryptoPaymentButton = ({
 
     const translateToNativeAmount = (order: any, chainId: number) => {
         const { amount, currency_code } = order;
+        console.log(`amount: ${amount} currency_code: ${currency_code}`);
         const precision = getCurrencyPrecision(currency_code, chainId);
+        console.log(`precision: ${precision.db} ${precision.native}`);
         const adjustmentFactor = Math.pow(10, precision.native - precision.db);
+        console.log(`adjustmentFactor ${adjustmentFactor}`);
         const nativeAmount = BigInt(amount) * BigInt(adjustmentFactor);
+        console.log(`nativeAmount ${nativeAmount}`);
         return ethers.toBigInt(nativeAmount);
     };
 
@@ -122,36 +126,6 @@ const CryptoPaymentButton = ({
             reduction_quantity: item.quantity, // or any logic to determine the reduction quantity
         }))
     );
-
-    const reduceInventory = async () => {
-        const inventoryUpdatePromises = cartRef.current.map((item) => {
-            return axios
-                .post(
-                    'http://localhost:9000/custom/variant',
-                    {
-                        variant_id: item.variant_id,
-                        reduction_quantity: item.reduction_quantity,
-                    },
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                )
-                .then((response) => ({
-                    variantId: item.variant_id,
-                    success: true,
-                    response: response.data,
-                }))
-                .catch((error) => ({
-                    variantId: item.variant_id,
-                    success: false,
-                    error: error.response?.data || 'Unknown error',
-                }));
-        });
-
-        return Promise.all(inventoryUpdatePromises);
-    };
 
     /**
      * Sends the given payment data to the Switch by way of the user's connnected
@@ -228,24 +202,6 @@ const CryptoPaymentButton = ({
     };
 
     /**
-     * After checkout, updates inventory for purchased items.
-     */
-    const updateInventory = async () => {
-        try {
-            const results = await reduceInventory();
-            if (results.every((item) => item.success)) {
-                // Handle successful inventory update
-                console.log('Inventory successfully updated.');
-            } else {
-                // Handle error in inventory update
-                setErrorMessage('Failed to update inventory for some items.');
-            }
-        } catch (error) {
-            setErrorMessage('An error occurred during inventory update.');
-        }
-    };
-
-    /**
      * Redirects to order confirmation on successful checkout
      * @param orderId
      * @param countryCode
@@ -273,16 +229,20 @@ const CryptoPaymentButton = ({
         //retrieve data (cart id, currencies, amounts etc.) that will be needed for wallet checkout
         const data = await retrieveCheckoutData(cartId);
 
+        console.log(`passing cartRef for variant ids ${cartRef.current}`);
+
         if (data) {
             //this sends the payment to the wallet for on-chain processing
             const output = await doWalletPayment(data);
 
+            console.log(`cart_id is ${data.cartId}`);
             //finalize the checkout, if wallet payment was successful
             if (output.success) {
                 const response = await axios.post(
                     `${MEDUSA_SERVER_URL}/custom/checkout`,
                     {
-                        cart_id: data.cart_id,
+                        cart: cartRef.current,
+                        cart_id: cartId,
                         transaction_id: data.transaction_id,
                         payer_address: data.payer_address,
                         escrow_contract_address: data.escrow_contract_address,
@@ -291,10 +251,6 @@ const CryptoPaymentButton = ({
 
                 console.log(response.status);
                 //TODO: examine response
-
-                //TODO: move this to server side (in FinalizeCheckout if possible)
-                //update inventory
-                await updateInventory();
 
                 //country code needed for redirect (get before killing cart)
                 const countryCode =
@@ -337,6 +293,7 @@ const CryptoPaymentButton = ({
                             onSuccess: ({ data, type }) => {
                                 //TODO: data is undefined
                                 try {
+                                    console.log(`cart_id is ${cart.id}`);
                                     //this does wallet payment, and everything after
                                     completeCheckout(cart.id);
                                 } catch (e) {
