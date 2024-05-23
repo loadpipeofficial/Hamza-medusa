@@ -38,7 +38,7 @@ const AccountLayout: React.FC<AccountLayoutProps> = ({
             </div>
         </div>
     ) : (
-        <div>Use connect wallet for sign in and verify your account.</div>
+        <div>Use connect wallet to sign in and verify your account.</div>
     );
 };
 
