@@ -10,9 +10,25 @@ import rainbow from '../../../../../public/images/wallet_connect/rainbow.jpeg';
 import wallet from '../../../../../public/images/wallet_connect/wallet.png';
 import Image from 'next/image';
 import ProductCollections from '@modules/collections/product_collection_filter';
+import { useAccount, useConnect, useDisconnect } from 'wagmi';
+import { InjectedConnector } from 'wagmi/connectors/injected';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
 
 const RecommendedItems = () => {
     const [vendorName, setVendorName] = useState('Goblin Store');
+    const { openConnectModal } = useConnectModal();
+    const { connector: activeConnector, isConnected } = useAccount();
+    const { connect } = useConnect({
+        connector: new InjectedConnector(),
+    });
+
+    //connects wallet if necessary
+    const connectWallet = () => {
+        console.log('isConnected:', isConnected);
+        if (!isConnected) {
+            if (openConnectModal) openConnectModal();
+        }
+    };
 
     // Dynamic button color change
     const VENDOR_NAMES = {
@@ -66,6 +82,7 @@ const RecommendedItems = () => {
                                     borderRadius="full"
                                     border="1px" // Sets the border width
                                     borderColor="whiteAlpha.600"
+                                    onClick={connectWallet}
                                 >
                                     <Image
                                         className="mr-2"
@@ -87,6 +104,7 @@ const RecommendedItems = () => {
                                     borderRadius="full"
                                     border="1px" // Sets the border width
                                     borderColor="whiteAlpha.600"
+                                    onClick={connectWallet}
                                 >
                                     <Image
                                         className="mr-2"
@@ -108,6 +126,7 @@ const RecommendedItems = () => {
                                     borderRadius="full"
                                     border="1px" // Sets the border width
                                     borderColor="whiteAlpha.600"
+                                    onClick={connectWallet}
                                 >
                                     <Image
                                         className="mr-2"
@@ -128,6 +147,7 @@ const RecommendedItems = () => {
                                     borderRadius="full"
                                     border="1px" // Sets the border width
                                     borderColor="whiteAlpha.600"
+                                    onClick={connectWallet}
                                 >
                                     <Image
                                         className="mr-2"

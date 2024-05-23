@@ -37,7 +37,6 @@ const Hero = () => {
         if (!isConnected) {
             if (openConnectModal) openConnectModal();
         }
-        //connect();
     };
 
     useEffect(() => {
