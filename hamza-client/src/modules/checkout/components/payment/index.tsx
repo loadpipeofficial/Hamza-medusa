@@ -174,30 +174,30 @@ const Payment = ({
                                 })}
                         </RadioGroup>
 
-                        {isStripe && (
-                            <div className="mt-5 transition-all duration-150 ease-in-out">
-                                <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                                    Enter your card details:
-                                </Text>
+                        {/*{isStripe && (*/}
+                        {/*    <div className="mt-5 transition-all duration-150 ease-in-out">*/}
+                        {/*        <Text className="txt-medium-plus text-ui-fg-base mb-1">*/}
+                        {/*            Enter your card details:*/}
+                        {/*        </Text>*/}
 
-                                <CardElement
-                                    options={
-                                        useOptions as StripeCardElementOptions
-                                    }
-                                    onChange={(e) => {
-                                        setCardBrand(
-                                            e.brand &&
-                                                e.brand
-                                                    .charAt(0)
-                                                    .toUpperCase() +
-                                                    e.brand.slice(1)
-                                        );
-                                        setError(e.error?.message || null);
-                                        setCardComplete(e.complete);
-                                    }}
-                                />
-                            </div>
-                        )}
+                        {/*        <CardElement*/}
+                        {/*            options={*/}
+                        {/*                useOptions as StripeCardElementOptions*/}
+                        {/*            }*/}
+                        {/*            onChange={(e) => {*/}
+                        {/*                setCardBrand(*/}
+                        {/*                    e.brand &&*/}
+                        {/*                        e.brand*/}
+                        {/*                            .charAt(0)*/}
+                        {/*                            .toUpperCase() +*/}
+                        {/*                            e.brand.slice(1)*/}
+                        {/*                );*/}
+                        {/*                setError(e.error?.message || null);*/}
+                        {/*                setCardComplete(e.complete);*/}
+                        {/*            }}*/}
+                        {/*        />*/}
+                        {/*    </div>*/}
+                        {/*)}*/}
 
                         <ErrorMessage error={error} />
 
