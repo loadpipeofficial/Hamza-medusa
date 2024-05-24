@@ -50,7 +50,9 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     ]);
 
     try {
-        console.log(`Cart in the route: ${cart} ${typeof cart}`);
+        console.log(
+            `Cart in the route: ${cartProducts} ${typeof cartProducts}`
+        );
         await orderService.finalizeCheckout(
             cartProducts,
             cart_id,
