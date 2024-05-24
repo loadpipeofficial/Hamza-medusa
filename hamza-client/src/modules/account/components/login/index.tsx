@@ -17,10 +17,8 @@ const Login = ({ setCurrentView }: Props) => {
         <div className="max-w-sm w-full flex flex-col items-center">
             <h1 className="text-large-semi uppercase mb-6">Welcome back</h1>
             <p className="text-center text-base-regular text-ui-fg-base mb-8">
-                Use connect wallet for sign in.
+                Use connect wallet to sign in.
             </p>
-
-
         </div>
     );
 };
