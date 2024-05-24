@@ -228,13 +228,15 @@ const CryptoPaymentButton = ({
         if (data) {
             //this sends the payment to the wallet for on-chain processing
             const output = await doWalletPayment(data);
-            // console.log(`cartref ${cartRef.current} ${typeof cartRef.current}`);
+            console.log(
+                `${JSON.stringify(cartRef)} cartref ${cartRef.current} ${typeof cartRef.current}`
+            );
             //finalize the checkout, if wallet payment was successful
             if (output.success) {
                 const response = await axios.post(
                     `${MEDUSA_SERVER_URL}/custom/checkout`,
                     {
-                        cart: cartRef,
+                        cartProducts: JSON.stringify(cartRef.current),
                         cart_id: data.cart_id,
                         transaction_id: data.transaction_id,
                         payer_address: data.payer_address,
