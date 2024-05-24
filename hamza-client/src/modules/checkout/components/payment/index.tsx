@@ -97,6 +97,8 @@ const Payment = ({
         setError(null);
     }, [isOpen]);
 
+    console.log(`Is it connected ${isConnected}`);
+
     return (
         <div className="bg-black">
             <div className="flex flex-row items-center justify-between mb-6">
@@ -155,26 +157,15 @@ const Payment = ({
 
                         <ErrorMessage error={error} />
 
-                        {isConnected ? (
-                            <Button
-                                size="large"
-                                className="mt-6 text-white"
-                                onClick={handleSubmit}
-                                isLoading={isLoading}
-                                disabled={!cart.payment_session}
-                            >
-                                Continue to review
-                            </Button>
-                        ) : (
-                            <Button
-                                size="large"
-                                className="mt-6 text-white"
-                                onClick={connectWallet}
-                                isLoading={isLoading}
-                            >
-                                Connect Wallet
-                            </Button>
-                        )}
+                        <Button
+                            size="large"
+                            className="mt-6 text-white"
+                            onClick={handleSubmit}
+                            isLoading={isLoading}
+                            disabled={!cart.payment_session}
+                        >
+                            Continue to review
+                        </Button>
                     </div>
                 ) : (
                     <div className="flex flex-col items-center justify-center px-4 py-16 text-ui-fg-base">

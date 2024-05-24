@@ -137,7 +137,19 @@ export default class OrderService extends MedusaOrderService {
             where: { cart_id },
         });
 
-        let cart_products = JSON.parse(cartProducts);
+        let cart_products;
+
+        if (typeof cartProducts === 'string') {
+            try {
+                cart_products = JSON.parse(cartProducts);
+            } catch (error) {
+                console.error('Error parsing JSON:', error);
+                return; // Exit the function or handle the error appropriately
+            }
+        } else {
+            cart_products = cartProducts; // If it's already an object, use it directly
+        }
+
         console.log(`Cart Products ${cart_products}`);
 
         const inventoryPromises = cart_products.map((item) => {

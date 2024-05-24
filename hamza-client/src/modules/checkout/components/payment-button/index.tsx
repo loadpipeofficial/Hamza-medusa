@@ -228,7 +228,9 @@ const CryptoPaymentButton = ({
         if (data) {
             //this sends the payment to the wallet for on-chain processing
             const output = await doWalletPayment(data);
-            // console.log(`cartref ${cartRef.current} ${typeof cartRef.current}`);
+            console.log(
+                `${cartRef} cartref ${cartRef.current} ${typeof cartRef.current}`
+            );
             //finalize the checkout, if wallet payment was successful
             if (output.success) {
                 const response = await axios.post(
