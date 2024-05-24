@@ -234,7 +234,7 @@ const CryptoPaymentButton = ({
                 const response = await axios.post(
                     `${MEDUSA_SERVER_URL}/custom/checkout`,
                     {
-                        cart: cartRef,
+                        cartProducts: cartRef,
                         cart_id: data.cart_id,
                         transaction_id: data.transaction_id,
                         payer_address: data.payer_address,

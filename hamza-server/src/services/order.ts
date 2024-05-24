@@ -126,7 +126,7 @@ export default class OrderService extends MedusaOrderService {
     }
 
     async finalizeCheckout(
-        cart: string,
+        cartProducts: string,
         cart_id: string,
         transaction_id: string,
         payer_address,
@@ -137,7 +137,7 @@ export default class OrderService extends MedusaOrderService {
             where: { cart_id },
         });
 
-        let cart_products = JSON.parse(cart);
+        let cart_products = JSON.parse(cartProducts);
         // console.log(`Cart Products ${cart_products}`);
 
         const inventoryPromises = cart_products.map((item) => {
