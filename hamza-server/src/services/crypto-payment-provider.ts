@@ -96,9 +96,7 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
     getPaymentIntentOptions(): PaymentIntentOptions {
         const options: PaymentIntentOptions = {};
 
-        options.capture_method = 'manual';
-
-        options.payment_method_types = ['crypto', 'payment', 'manual'];
+        options.payment_method_types = ['crypto'];
         return options;
     }
 

@@ -138,21 +138,11 @@ export default class OrderService extends MedusaOrderService {
         });
 
         let cart_products;
+        console.log(`Cart Products ${cartProducts}`);
 
-        if (typeof cartProducts === 'string') {
-            try {
-                cart_products = JSON.parse(cartProducts);
-            } catch (error) {
-                console.error('Error parsing JSON:', error);
-                return; // Exit the function or handle the error appropriately
-            }
-        } else {
-            cart_products = cartProducts; // If it's already an object, use it directly
-        }
+        const cartObject = JSON.parse(cartProducts);
 
-        console.log(`Cart Products ${cart_products}`);
-
-        const inventoryPromises = cart_products.map((item) => {
+        const inventoryPromises = cartObject.map((item) => {
             return this.updateInventory(
                 item.variant_id,
                 item.reduction_quantity
