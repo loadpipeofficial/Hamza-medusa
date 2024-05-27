@@ -35,7 +35,7 @@ const ProfileCurrency: React.FC<MyInformationProps> = ({ customer }) => {
     };
 
     // Handler for currency change from dropdown
-    const handleCurrencyChange = (event) => {
+    const handleCurrencyChange = (event: any) => {
         const newCurrency = event.target.value;
         setCurrency(newCurrency);
         updateCurrency(newCurrency);
