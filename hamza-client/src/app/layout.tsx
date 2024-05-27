@@ -3,8 +3,8 @@ import { Metadata } from 'next';
 import 'styles/globals.css';
 const BASE_URL =
     process.env.NEXT_PUBLIC_MEDUSA_CLIENT_URL || 'https://localhost:8000';
-import MedusaProvider from './medusa-provider'; // Import MedusaProvider
-import { RainbowWrapper } from './rainbow-provider';
+import MedusaProvider from '@/components/providers/medusa/medusa-provider'; // Import MedusaProvider
+import { RainbowWrapper } from '@/components/providers/rainbowkit/rainbow-provider';
 import { ChakraProvider } from '@chakra-ui/react';
 // TODO: Refactor using scaffold-eth-2 for proper layout.
 export const metadata: Metadata = {

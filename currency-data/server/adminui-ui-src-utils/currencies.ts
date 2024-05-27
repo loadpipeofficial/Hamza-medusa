@@ -26,7 +26,7 @@ export const currencies: CurrenciesType = {
     symbol: "ETH",
     name: "Ethereum",
     symbol_native: "ETH",
-    decimal_digits: 4,
+    decimal_digits: 8,
     rounding: 0,
     code: "ETH",
     name_plural: "ETH",

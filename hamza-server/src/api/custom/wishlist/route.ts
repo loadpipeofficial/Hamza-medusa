@@ -1,5 +1,6 @@
 import type { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
-import WishlistService from '../../../services/wishlist';
+import WishlistService from 'src/services/wishlist';
+import { readRequestBody } from '../../../utils/request-body';
 
 export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     const wishlistService: WishlistService =
@@ -17,35 +18,37 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     } catch (err) {
         if (err.message.includes('not found')) {
             console.log(
-                'Wishlist does not exist, creating a new wishlist for:',
+                'Wishlist does not exist, creating a new wishlist-dropdown for:',
                 customer_id
             );
             try {
                 const newWishlist = await wishlistService.create(customer_id);
                 res.status(201).json(newWishlist); // Respond with HTTP 201 for created resources
             } catch (createErr) {
-                console.error('Error creating new wishlist:', createErr);
+                console.error(
+                    'Error creating new wishlist-dropdown:',
+                    createErr
+                );
                 res.status(500).json({
-                    error: 'Failed to create new wishlist',
+                    error: 'Failed to create new wishlist-dropdown',
                 });
             }
         } else {
-            console.error('Error retrieving wishlist:', err);
-            res.status(500).json({ error: 'Failed to retrieve wishlist' });
+            console.error('Error retrieving wishlist-dropdown:', err);
+            res.status(500).json({
+                error: 'Failed to retrieve wishlist-dropdown',
+            });
         }
     }
 };
 
 // Create a Wishlist
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
-    // lets create a payload for wishlist
+    // lets create a payload for wishlist-dropdown
     const wishlistService: WishlistService =
         req.scope.resolve('wishlistService');
-    // const payload = {
-    //     region_id: req.body.region_id,
-    //     customer_id: req.body.customer_id,
-    // };
-    const customer_id = req.body.customer_id;
+
+    const { customer_id } = readRequestBody(req.body, ['customer_id']);
 
     console.log('customer_id: ', customer_id);
 

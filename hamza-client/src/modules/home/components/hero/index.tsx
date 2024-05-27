@@ -3,11 +3,12 @@
 import { Box, Flex, Button, Text, useBreakpointValue } from '@chakra-ui/react';
 import { FaArrowRight } from 'react-icons/fa6';
 import Image from 'next/image';
-import vr from '../../../../../public/hero/vr.png';
+import vr from '../../../../../public/images/hero/vr.png';
 import { useState, useEffect } from 'react';
 import { getCustomer } from '@lib/data';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { InjectedConnector } from 'wagmi/connectors/injected';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
 
 const Hero = () => {
     // styling breakpoints
@@ -24,10 +25,19 @@ const Hero = () => {
      * **/
 
     const [loggedIn, setLoggedIn] = useState<boolean>(true);
-
+    const { openConnectModal } = useConnectModal();
+    const { connector: activeConnector, isConnected } = useAccount();
     const { connect } = useConnect({
         connector: new InjectedConnector(),
     });
+
+    //connects wallet if necessary
+    const connectWallet = () => {
+        console.log('isConnected:', isConnected);
+        if (!isConnected) {
+            if (openConnectModal) openConnectModal();
+        }
+    };
 
     useEffect(() => {
         getCustomer()
@@ -108,10 +118,7 @@ const Hero = () => {
                                 bg="transparent"
                                 color="white"
                                 borderRadius="xl"
-                                onClick={(event) => {
-                                    // event.preventDefault();
-                                    connect();
-                                }}
+                                onClick={connectWallet}
                                 border="2px" // Sets the border width
                                 borderColor="whiteAlpha.600"
                             >

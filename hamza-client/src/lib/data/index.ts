@@ -24,6 +24,7 @@ import medusaError from '@lib/util/medusa-error';
 //TODO: is the following commented out code needed? (JK)
 // We need this or it changes the whole architecture
 import { cookies } from 'next/headers';
+import { signOut } from '@modules/account/actions';
 
 declare class StorePostAuthReqCustom {
     email: string;
@@ -98,15 +99,21 @@ export async function addItem({
     cartId,
     variantId,
     quantity,
+    currencyCode,
 }: {
     cartId: string;
     variantId: string;
     quantity: number;
+    currencyCode: string;
 }) {
     const headers = getMedusaHeaders(['cart']);
 
     return medusaClient.carts.lineItems
-        .create(cartId, { variant_id: variantId, quantity }, headers)
+        .create(
+            cartId,
+            { variant_id: variantId, quantity /*currency_code: currencyCode*/ },
+            headers
+        )
         .then(({ cart }) => cart)
         .catch((err) => {
             console.log(err);
@@ -299,7 +306,16 @@ export async function getCustomer() {
     return medusaClient.customers
         .retrieve(headers)
         .then(({ customer }) => customer)
-        .catch((err) => null);
+        .catch((err) => {
+            try {
+                cookies().set('_medusa_jwt', '', {
+                    maxAge: -1,
+                });
+            } catch (e) {
+                console.error(e);
+            }
+            return null;
+        });
 }
 
 declare class StorePostCustomersReqCustom {
@@ -453,7 +469,7 @@ export async function retrievePricedProductById({
     const headers = getMedusaHeaders(['products']);
 
     return medusaClient.products
-        .retrieve(`${id}?region_id=${regionId}`, headers)
+        .retrieve(`${id}`, headers)
         .then(({ product }) => product)
         .catch((err) => {
             console.log(err);
@@ -502,7 +518,7 @@ export async function getProductsList({
             {
                 limit,
                 offset: pageParam,
-                region_id: region.id,
+                // region_id: region.id,
                 ...queryParams,
             },
             { next: { tags: ['products'] } }

@@ -6,9 +6,6 @@ export class MultiVendorOrder1907365738273 implements MigrationInterface {
             `ALTER TABLE "order" ADD COLUMN "store_id" VARCHAR NULL`
         );
         await queryRunner.query(
-            `ALTER TABLE "order" ADD COLUMN "transaction_id" VARCHAR NULL`
-        );
-        await queryRunner.query(
             `ALTER TABLE "order" ADD CONSTRAINT "FK_Order_Store" FOREIGN KEY ("store_id") REFERENCES "store"("id") ON DELETE SET NULL ON UPDATE CASCADE`
         );
         await queryRunner.query(
@@ -19,9 +16,6 @@ export class MultiVendorOrder1907365738273 implements MigrationInterface {
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(
             `ALTER TABLE "order" DROP CONSTRAINT "FK_Order_Store"`
-        );
-        await queryRunner.query(
-            `ALTER TABLE "order" DROP COLUMN "transaction_id"`
         );
         await queryRunner.query(`ALTER TABLE "order" DROP COLUMN "store_id"`);
         await queryRunner.query(

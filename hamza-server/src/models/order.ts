@@ -11,7 +11,4 @@ export class Order extends MedusaOrder {
 
     @Column('store_id')
     store_id?: string;
-
-    @Column()
-    transaction_id?: string;
 }

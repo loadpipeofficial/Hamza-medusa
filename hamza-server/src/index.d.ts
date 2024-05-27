@@ -1,6 +1,6 @@
 // We're extending CORE Medusa models here
 
-import { Store } from '@medusajs/medusa';
+import { Currency, Store } from '@medusajs/medusa';
 import { Role } from './models/role';
 import { User } from './models/user';
 
@@ -22,6 +22,8 @@ export declare module '@medusajs/medusa/dist/models/customer' {
         wallet_address: string;
         email?: string;
         password_hash?: string;
+        preferred_currency_id?: string;
+        preferred_currency?: Currency;
     }
 }
 

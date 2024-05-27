@@ -43,7 +43,6 @@ class ProductService extends MedusaProductService {
     ): Promise<Product> {
         console.log('Received update for product:', productId, update);
         const result = await super.update(productId, update);
-        console.log('Update result:', result);
         return result;
     }
 

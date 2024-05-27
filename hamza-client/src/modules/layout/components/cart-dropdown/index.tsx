@@ -76,7 +76,7 @@ const CartDropdown = ({
             onMouseEnter={openAndCancel}
             onMouseLeave={close}
         >
-            <Popover className="relative h-full">
+            <Popover className="relative h-full text-white">
                 <Popover.Button className="h-full">
                     <LocalizedClientLink
                         className="hover:text-ui-fg-base"
@@ -101,7 +101,7 @@ const CartDropdown = ({
                         static
                         className="hidden small:block absolute top-[calc(100%+1px)] right-0 bg-black border-x border-b border-gray-200 w-[420px] text-ui-fg-base"
                     >
-                        <div className="p-4 flex items-center justify-center">
+                        <div className="p-4 flex items-center justify-center text-white">
                             <h3 className="text-large-semi">Cart</h3>
                         </div>
                         {cartState && cartState.items?.length ? (
@@ -194,6 +194,14 @@ const CartDropdown = ({
                                     <LocalizedClientLink href="/cart" passHref>
                                         <Button className="w-full" size="large">
                                             Go to cart
+                                        </Button>
+                                    </LocalizedClientLink>
+                                    <LocalizedClientLink
+                                        href="/checkout?step=address"
+                                        passHref
+                                    >
+                                        <Button className="w-full" size="large">
+                                            Go to checkout
                                         </Button>
                                     </LocalizedClientLink>
                                 </div>

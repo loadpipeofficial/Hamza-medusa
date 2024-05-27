@@ -1,11 +1,16 @@
+'use client';
 import {
     PricedProduct,
     PricedVariant,
 } from '@medusajs/medusa/dist/types/pricing';
 import { clx } from '@medusajs/ui';
 
-import { getProductPrice } from '@lib/util/get-product-price';
+import {
+    formatCryptoPrice,
+    getProductPrice,
+} from '@lib/util/get-product-price';
 import { RegionInfo } from 'types/global';
+import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 
 export default function ProductPrice({
     product,
@@ -16,40 +21,45 @@ export default function ProductPrice({
     variant?: PricedVariant;
     region: RegionInfo;
 }) {
-    const { cheapestPrice, variantPrice } = getProductPrice({
-        product,
-        variantId: variant?.id,
-        region,
-    });
+    const { preferred_currency_code, status } = useCustomerAuthStore();
+    const selectedPrices = variant
+        ? variant.prices
+        : product.variants[0].prices;
+    let preferredPrice =
+        status == 'authenticated' &&
+        preferred_currency_code &&
+        selectedPrices.find((a) => a.currency_code == preferred_currency_code);
 
-    const selectedPrice = variant ? variantPrice : cheapestPrice;
-
-    if (!selectedPrice) {
+    if (!selectedPrices) {
         return <div className="block w-32 h-9 bg-gray-100 animate-pulse" />;
     }
 
     return (
-        <div className="flex flex-col text-ui-fg-base text-white">
-            <span
-                className={clx('text-xl-semi', {
-                    'text-ui-fg-interactive':
-                        selectedPrice.price_type === 'sale',
-                })}
-            >
-                {!variant && 'From '}
-                {selectedPrice.calculated_price}
-            </span>
-            {selectedPrice.price_type === 'sale' && (
+        <div className="flex flex-col space-y-1 text-ui-fg-base text-white">
+            {preferredPrice ? (
+                <span className={clx('text-xl-semi')}>
+                    {formatCryptoPrice(
+                        preferredPrice.amount,
+                        preferredPrice.currency_code
+                    )}{' '}
+                    {preferredPrice.currency_code.toUpperCase()}
+                </span>
+            ) : (
                 <>
-                    <p>
-                        <span className="text-ui-fg-subtle">Original: </span>
-                        <span className="line-through">
-                            {selectedPrice.original_price}
-                        </span>
-                    </p>
-                    <span className="text-ui-fg-interactive">
-                        -{selectedPrice.percentage_diff}%
-                    </span>
+                    {selectedPrices.map((price) => {
+                        return (
+                            <span
+                                key={price.currency_code}
+                                className={clx('text-xl-semi')}
+                            >
+                                {formatCryptoPrice(
+                                    price.amount,
+                                    price.currency_code
+                                )}{' '}
+                                {price.currency_code.toUpperCase()}
+                            </span>
+                        );
+                    })}
                 </>
             )}
         </div>

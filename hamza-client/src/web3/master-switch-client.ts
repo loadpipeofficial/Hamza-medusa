@@ -1,7 +1,7 @@
 import { BigNumberish, ethers } from 'ethers';
 import { masterAbi, erc20abi } from './switch-abi';
 import { IMultiPaymentInput, ITransactionOutput } from './';
-import getCurrencyAddress from '../currency.config';
+import { getCurrencyAddress } from '../currency.config';
 
 /**
  * Client-side Switch contract client; allows for payments to be made.
@@ -25,6 +25,8 @@ export class MasterSwitchClient {
         this.provider = provider;
         this.signer = signer;
         this.contractAddress = address;
+
+        console.log('MasterSwitch contract addr is', this.contractAddress);
         this.masterSwitch = new ethers.Contract(
             this.contractAddress,
             masterAbi,
@@ -47,12 +49,12 @@ export class MasterSwitchClient {
             } else {
                 if (!ethers.isAddress(input.currency)) {
                     input.currency = getCurrencyAddress(
+                        input.currency,
                         parseInt(
                             (
                                 await this.provider.getNetwork()
                             ).chainId.toString()
-                        ),
-                        input.currency
+                        )
                     );
                 }
             }

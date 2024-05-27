@@ -10,9 +10,9 @@ type OrderDetailsProps = {
 /*
 
       <Text>
-        We have sent the order confirmation details to{" "}
+        We have sent the line-item confirmation details to{" "}
         <span className="text-ui-fg-medium-plus font-semibold">
-          {order.email}
+          {line-item.email}
         </span>
         .
       </Text>
@@ -24,26 +24,28 @@ const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
 
         return formatted.slice(0, 1).toUpperCase() + formatted.slice(1);
     };
+    console.log(`Order Summary is ${JSON.stringify(order)}`);
 
+    console.log('Order Summary');
     return (
         <div>
-            <Text className="mt-2">
+            <Text className="mt-2 text-black">
                 Order date: {new Date(order.created_at).toDateString()}
             </Text>
-            <Text className="mt-2 text-ui-fg-interactive">
+            <Text className="mt-2 text-black ">
                 Order number: {order.display_id}
             </Text>
 
             <div className="flex items-center text-compact-small gap-x-4 mt-4">
                 {showStatus && (
                     <>
-                        <Text>
+                        <Text className="text-black">
                             Order status:{' '}
                             <span className="text-ui-fg-subtle ">
                                 {formatStatus(order.fulfillment_status)}
                             </span>
                         </Text>
-                        <Text>
+                        <Text className="text-black">
                             Payment status:{' '}
                             <span className="text-ui-fg-subtle ">
                                 {formatStatus(order.payment_status)}

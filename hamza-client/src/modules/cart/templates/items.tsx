@@ -4,8 +4,12 @@ import { Heading, Table } from '@medusajs/ui';
 import Item from '@modules/cart/components/item';
 import SkeletonLineItem from '@modules/skeletons/components/skeleton-line-item';
 
+type ExtendedLineItem = LineItem & {
+    currency_code?: string;
+};
+
 type ItemsTemplateProps = {
-    items?: Omit<LineItem, 'beforeInsert'>[];
+    items?: Omit<ExtendedLineItem, 'beforeInsert'>[];
     region?: Region;
 };
 

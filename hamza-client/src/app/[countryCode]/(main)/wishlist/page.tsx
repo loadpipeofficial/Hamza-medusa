@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect } from 'react';
 import useWishlistStore from '@store/wishlist/wishlist-store';
-import WishlistItem from '@/components/wishlist/WishlistItem';
+import WishlistItem from '@/components/wishlist-dropdown/WishlistItem';
 import { SimpleGrid } from '@chakra-ui/react';
 
 const Wishlist = () => {
@@ -9,7 +9,7 @@ const Wishlist = () => {
         wishlist: state.wishlist,
     }));
 
-    console.log('wishlist items??', wishlist?.items);
+    console.log('wishlist-dropdown items??', wishlist?.products);
 
     return (
         <div className="layout-base bg-black flex justify-center min-h-screen">
@@ -21,19 +21,16 @@ const Wishlist = () => {
                 </div>
                 <div className="w-full px-16">
                     {wishlist &&
-                    wishlist.items &&
-                    wishlist.items?.length > 0 ? (
+                    wishlist.products &&
+                    wishlist.products?.length > 0 ? (
                         <SimpleGrid
                             columns={{ base: 1, md: 2, lg: 4 }}
                             justifyContent="center" // Ensure that grid items are centered if they don't fill the entire row
                             spacing={5}
                             className="text-white"
                         >
-                            {wishlist.items?.map((item) => (
-                                <WishlistItem
-                                    key={item.id}
-                                    item={item.product}
-                                />
+                            {wishlist.products?.map((product) => (
+                                <WishlistItem key={product.id} item={product} />
                             ))}
                         </SimpleGrid>
                     ) : (

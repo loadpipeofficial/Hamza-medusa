@@ -6,7 +6,7 @@ import { Button } from '@medusajs/ui';
 import { isEqual } from 'lodash';
 import { useParams } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
-
+import axios from 'axios';
 import { useIntersection } from '@lib/hooks/use-in-view';
 import { addToCart } from '@modules/cart/actions';
 import Divider from '@modules/common/components/divider';
@@ -14,8 +14,9 @@ import OptionSelect from '@modules/products/components/option-select';
 
 import MobileActions from '../mobile-actions';
 import ProductPrice from '../product-price';
-import WishlistIcon from '@/components/wishlist/wishlist';
+import WishlistIcon from '@/components/wishlist-dropdown/icon/wishlist-icon';
 import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
+import Medusa from '@medusajs/medusa-js';
 
 type ProductActionsProps = {
     product: PricedProduct;
@@ -37,11 +38,36 @@ export default function ProductActions({
     const [isAdding, setIsAdding] = useState(false);
     const { addWishlistItemMutation, removeWishlistItemMutation } =
         useWishlistMutations();
-
+    const [inventoryCount, setInventoryCount] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
     const countryCode = useParams().countryCode as string;
 
     const variants = product.variants;
+    const variant_id = variants[0].id;
+    console.log('Variant id is', variant_id);
 
+    useEffect(() => {
+        if (!variant_id) return;
+
+        const fetchInventoryCount = async () => {
+            setLoading(true);
+            try {
+                const response = await axios.post(
+                    'http://localhost:9000/custom/variant/count',
+                    { variant_id }
+                );
+                console.log('Response is', JSON.stringify(response));
+                setInventoryCount(response.data.variant);
+            } catch (error) {
+                console.error('Error fetching inventory count:', error);
+                setError('Failed to fetch inventory count');
+            }
+            setLoading(false);
+        };
+
+        fetchInventoryCount();
+    }, [variant_id]);
     // initialize the option state
     useEffect(() => {
         const optionObj: Record<string, string> = {};
@@ -120,12 +146,14 @@ export default function ProductActions({
             variantId: variant.id,
             quantity: 1,
             countryCode: countryCode,
+            currencyCode: 'eth', //variant.prices[0].currency_code,
         });
         setIsAdding(false);
     };
 
-    // add product to wishlist
+    // add product to wishlist-dropdown
     const toggleWishlist = async () => {
+        console.log('toggle wishlist-dropdown item', product);
         addWishlistItemMutation.mutate(product);
     };
 
@@ -160,6 +188,15 @@ export default function ProductActions({
                     region={region}
                 />
                 <Button
+                    variant="secondary"
+                    className="w-full h-10 "
+                    disabled={!inStock || !variant}
+                >
+                    {loading
+                        ? 'Loading...'
+                        : `Inventory Count: ${inventoryCount !== null ? inventoryCount : '0'}`}
+                </Button>
+                <Button
                     onClick={handleAddToCart}
                     disabled={!inStock || !variant}
                     variant="primary"
@@ -172,7 +209,7 @@ export default function ProductActions({
                           ? 'Out of stock'
                           : 'Add to cart'}
                 </Button>
-                {/* TODO: wishlist add ternary for fill IF item already in wishlist maybe we can have a variant ternary for 'Remove from Wishlist' || 'Add to Wishlist'    */}
+                {/* TODO: wishlist-dropdown add ternary for fill IF item already in wishlist-dropdown maybe we can have a variant ternary for 'Remove from Wishlist' || 'Add to Wishlist'    */}
                 <Button
                     className="w-full h-10 text-white"
                     variant="primary"
@@ -181,7 +218,7 @@ export default function ProductActions({
                     <WishlistIcon
                         fill={false}
                         props={{
-                            className: 'wishlist-icon',
+                            className: 'wishlist-dropdown-icon',
                             'aria-label': 'wishlist',
                         }}
                     />

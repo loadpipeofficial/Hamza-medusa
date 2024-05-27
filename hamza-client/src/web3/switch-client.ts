@@ -1,7 +1,7 @@
 import { BigNumberish, ethers } from 'ethers';
 import { switchAbi } from './switch-abi';
 import { IPaymentInput, IMultiPaymentInput, ITransactionOutput } from './';
-import getCurrencyAddress from '../currency.config';
+import { getCurrencyAddress } from '../currency.config';
 
 /**
  * Client-side Switch contract client; allows for payments to be made.
@@ -45,10 +45,10 @@ export class SwitchClient {
             //currency name to currency address
             if (!ethers.isAddress(input.currency)) {
                 input.currency = getCurrencyAddress(
+                    input.currency,
                     parseInt(
                         (await this.provider.getNetwork()).chainId.toString()
-                    ),
-                    input.currency
+                    )
                 );
                 console.log('input currency type is ', input.currency);
             }

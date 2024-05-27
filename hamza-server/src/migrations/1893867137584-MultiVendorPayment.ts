@@ -14,6 +14,7 @@ export class MultiVendorPayment1893867137584 implements MigrationInterface {
         await queryRunner.query(
             `ALTER TABLE "payment" ADD COLUMN "receiver_address" VARCHAR NULL`
         );
+        await queryRunner.query(`DROP INDEX "UniquePaymentActive"`);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

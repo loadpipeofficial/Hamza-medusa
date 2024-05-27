@@ -1,6 +1,6 @@
-import {Customer} from "../models/customer";
-import {dataSource} from "@medusajs/medusa/dist/loaders/database";
-import {CustomerRepository as MedusaCustomerRepository} from "@medusajs/medusa/dist/repositories/customer";
+import { Customer } from "../models/customer";
+import { dataSource } from "@medusajs/medusa/dist/loaders/database";
+import { CustomerRepository as MedusaCustomerRepository } from "@medusajs/medusa/dist/repositories/customer";
 
 export const CustomerRepository = dataSource
   .getRepository(Customer)
@@ -13,9 +13,13 @@ export const CustomerRepository = dataSource
 
     async findByWalletAddress(wallet_address: string) {
       return this.findOne({
-        where: {wallet_address},
+        where: { wallet_address },
+        relations: {
+          preferred_currency: true
+        }
       })
     },
   })
+
 
 export default CustomerRepository

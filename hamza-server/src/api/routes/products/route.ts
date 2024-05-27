@@ -1,10 +1,14 @@
 import type { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
+import { readRequestBody } from '../../../utils/request-body';
 
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     try {
         const productService = req.scope.resolve('productService');
+        const { product_id, store_id } = readRequestBody(req.body, [
+            'product_id',
+            'store_id',
+        ]);
 
-        const { product_id, store_id } = req.body;
         if (!product_id || !store_id) {
             return res
                 .status(400)

@@ -58,3 +58,61 @@ Content-Type: application/json
   "customer_id": "cus_01HW298CJPT60818GCHWD8GAT7",
   "product_id": "prod_01HW241PKFDCDGP55DKH0A5A85"
 }
+
+### MeiliSearch Search
+GET http://localhost:7700/indexes?limit=3
+Authorization: Bearer Pybr4pq4eFjrKVQ79sSUJfp7O8tXNWJj
+
+
+### MeilieSearch Delete All by uid
+DELETE http://localhost:7700/indexes/products/documents
+Authorization: Bearer Pybr4pq4eFjrKVQ79sSUJfp7O8tXNWJj
+
+### Create PaymentCollection
+POST localhost:9000/custom/payment-collection
+Content-Type: application/json
+
+{
+  "region_id": "reg_01HX63VQX1VHQJWAHJ55QY5TE7",
+  "store_id": "store_01HX63VQS0YX2QRT7TV9TKH8VA",
+  "payment_id": "pm_1IY1Z1CJPT60818GCHWD8GAT7",
+  "amount": 100,
+  "currency_code": "ETH",
+  "payment_method": "card",
+  "status": "succeeded"
+}
+
+
+### Product Variant Response??
+POST http://localhost:9000/custom/variant
+Content-Type: application/json
+
+{
+  "variant_id": "variant_01HXRHH78797JBX60CAY22G170",
+  "reduction_quantity": "39"
+}
+
+### Check Product Inventory
+POST http://localhost:9000/custom/variant/count
+Content-Type: application/json
+
+{
+  "variant_id": "variant_01HXRHH760R2FKV0YN5XVTPR97"
+}
+
+### Get Cart Product information
+POST http://localhost:9000/custom/order
+Content-Type: application/json
+
+{
+  "cart_id": "cart_01HY0FVSWJ8J28AVHY5819AZ04"
+}
+
+### Update Currency
+POST http://localhost:9000/custom/update-currency
+Content-Type: application/json
+
+{
+"customer_id": "cus_01HYAAZB62RNRTXXY9TC20DK8E",
+  "preferred_currency": "eth"
+}

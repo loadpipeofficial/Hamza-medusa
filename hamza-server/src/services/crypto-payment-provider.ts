@@ -39,7 +39,7 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
 
     constructor(container, config) {
         console.log('CryptoPaymentService::config');
-        console.log(config);
+        //console.log(config);
         super(container, config);
         this.cartService = container.cartService;
     }

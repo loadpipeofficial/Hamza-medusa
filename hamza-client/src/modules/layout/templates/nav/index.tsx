@@ -4,13 +4,13 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { listRegions } from '@lib/data';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import CartButton from '@modules/layout/components/cart-button';
-import WishListPopover from '@/components/wishlist/wishlist-popover';
+import WishListPopover from '@/components/wishlist-dropdown';
 import SideMenu from '@modules/layout/components/side-menu';
 import Image from 'next/image';
 import logo from '../../../../../public/nav/hamza_logo.png';
+import { WalletConnectButton } from '@/components/providers/rainbowkit/connect-button/connect-button';
 import SearchModal from '@modules/search/templates/search-modal';
 import SearchModalWrapper from '@modules/search/templates/search-wrapper';
-import { WalletConnectButton } from '@/components/connect-button/connect-button';
 export default async function Nav() {
     const regions = await listRegions().then((regions) => regions);
 

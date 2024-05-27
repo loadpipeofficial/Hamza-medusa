@@ -1,10 +1,11 @@
-import type {
-    MiddlewaresConfig,
-    User,
-    UserService,
-    MedusaNextFunction,
-    MedusaRequest,
-    MedusaResponse,
+import {
+    type MiddlewaresConfig,
+    type User,
+    type UserService,
+    type MedusaNextFunction,
+    type MedusaRequest,
+    type MedusaResponse,
+    authenticateCustomer,
 } from '@medusajs/medusa';
 import cors from 'cors';
 
@@ -16,6 +17,7 @@ const registerLoggedInUser = async (
     res: MedusaResponse,
     next: MedusaNextFunction
 ) => {
+    console.log('running logged in user function')
     let loggedInUser: User | null = null;
 
     if (req.user && req.user.userId) {
@@ -31,6 +33,12 @@ const registerLoggedInUser = async (
 
     next();
 };
+
+const registerLoggedInCustomer = async (req: MedusaRequest, res: MedusaResponse, next: MedusaNextFunction) => {
+
+    console.log(req);
+    next()
+}
 
 export const permissions = async (
     req: MedusaRequest,
@@ -135,5 +143,13 @@ export const config: MiddlewaresConfig = {
                 }),
             ],
         },
+
+        // {
+        //     matcher: '/custom/confirmation-token/generate',
+        //     // middlewares: [authenticateCustomer(), registerLoggedInCustomer],
+        // },
+
+
+
     ],
 };

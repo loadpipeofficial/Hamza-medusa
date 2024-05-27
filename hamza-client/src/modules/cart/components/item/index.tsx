@@ -15,8 +15,12 @@ import { useState } from 'react';
 import ErrorMessage from '@modules/checkout/components/error-message';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 
+type ExtendedLineItem = LineItem & {
+    currency_code?: string;
+};
+
 type ItemProps = {
-    item: Omit<LineItem, 'beforeInsert'>;
+    item: Omit<ExtendedLineItem, 'beforeInsert'>;
     region: Region;
     type?: 'full' | 'preview';
 };

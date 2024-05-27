@@ -1,11 +1,16 @@
 import type { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
 import WishlistService from '../../../../services/wishlist';
+import { readRequestBody } from '../../../../utils/request-body';
 
 // ADD Wishlist `item` by customer_id
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     const wishlistService: WishlistService =
         req.scope.resolve('wishlistService');
-    const { customer_id, product_id } = req.body; // Extract customer_id and product_id from request body
+
+    const { customer_id, product_id } = readRequestBody(req.body, [
+        'customer_id',
+        'product_id',
+    ]);
 
     try {
         const wishlist = await wishlistService.addWishItem(
@@ -22,7 +27,10 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
 export const DELETE = async (req: MedusaRequest, res: MedusaResponse) => {
     const wishlistService: WishlistService =
         req.scope.resolve('wishlistService');
-    const { customer_id, product_id } = req.body; // Extract customer_id and product_id from request body
+    const { customer_id, product_id } = readRequestBody(req.body, [
+        'customer_id',
+        'product_id',
+    ]);
 
     try {
         // Call removeWishItem instead of addWishItem

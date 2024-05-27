@@ -30,6 +30,14 @@ async function main() {
                 Authorization: 'Bearer Pybr4pq4eFjrKVQ79sSUJfp7O8tXNWJj',
             },
         });
+
+        const deleteProductIndex = await fetch('http://localhost:7700/indexes/products/documents', {
+            method: 'DELETE',
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                Authorization: 'Bearer Pybr4pq4eFjrKVQ79sSUJfp7O8tXNWJj',
+            },
+        })
         console.log(await keyResponse);
 
         //get the key

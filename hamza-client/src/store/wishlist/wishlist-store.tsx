@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import axios from 'axios';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
-import wishlist from '@/components/wishlist/wishlist';
+import wishlist from '@/components/wishlist-dropdown/icon/wishlist-icon';
 
 type WishlistProduct = {
     id: string;
@@ -11,7 +11,7 @@ type WishlistProduct = {
 
 type Wishlist = {
     id?: string;
-    items: WishlistProduct[];
+    products: WishlistProduct[];
 };
 
 // TODO: clean up this any cast after mutations work
@@ -22,21 +22,21 @@ type WishlistType = {
     removeWishlistProduct: (product: WishlistProduct) => Promise<void>;
 };
 
+const BACKEND_URL =
+    process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
+
 const useWishlistStore = create<WishlistType>()(
     persist(
         (set, get) => ({
             wishlist: {
-                items: [],
+                products: [],
             },
             addWishlistProduct: async (product) => {
                 const { wishlist } = get();
-                if (
-                    wishlist.items.some(
-                        (p) => p.product_id === product.product_id
-                    )
-                ) {
+                console.log('Wishlist product', wishlist);
+                if (wishlist.products.some((p) => p.id === product.id)) {
                     console.log(
-                        'Product already in wishlist:',
+                        'Product already in wishlist-dropdown:',
                         product.product_id
                     );
                     return;
@@ -44,7 +44,7 @@ const useWishlistStore = create<WishlistType>()(
                 set((state) => ({
                     wishlist: {
                         ...state.wishlist,
-                        items: [...state.wishlist.items, product],
+                        products: [...state.wishlist.products, product],
                     },
                 }));
             },
@@ -56,35 +56,36 @@ const useWishlistStore = create<WishlistType>()(
                 const { wishlist } = get();
                 console.log('Current items:', wishlist);
                 set((state) => {
-                    const filteredItems = wishlist.items.filter(
-                        (p) => p.product_id !== product_id // Corrected to filter by product_id
+                    const filteredItems = wishlist.products.filter(
+                        (p) => p.id !== product_id // Corrected to filter by product_id
                     );
                     console.log('Filtered items:', filteredItems);
                     return {
                         wishlist: {
                             ...state.wishlist,
-                            items: filteredItems,
+                            products: filteredItems,
                         },
                     };
                 });
             },
             loadWishlist: async (customer_id) => {
-                console.log('Loading wishlist');
+                console.log('Loading wishlist-dropdown');
                 try {
                     const response = await axios.get(
-                        `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000'}/custom/wishlist?customer_id=${customer_id}`
+                        `${BACKEND_URL}/custom/wishlist?customer_id=${customer_id}`
                     );
-                    console.log('Rehydration getting data', response.data);
                     const items = response.data.items;
+                    const products = items.map((item) => item.product);
+                    console.log('Wishlist products:', products);
                     if (Array.isArray(items)) {
-                        set({ wishlist: { items } });
+                        set({ wishlist: { products } });
                     } else {
                         console.error(
-                            'Failed to load wishlist: Invalid data format'
+                            'Failed to load wishlist-dropdown: Invalid data format'
                         );
                     }
                 } catch (error) {
-                    console.error('Failed to load wishlist:', error);
+                    console.error('Failed to load wishlist-dropdown:', error);
                 }
             },
         }),
@@ -93,26 +94,35 @@ const useWishlistStore = create<WishlistType>()(
             storage: createJSONStorage(() => localStorage),
             // Optional: You can trigger loadWishlist after the store has been rehydrated from localStorage
             onRehydrateStorage: () => (state, error) => {
-                console.log('Rehydration working');
+                console.log('Rehydration process triggered');
                 if (error) {
-                    console.error('Failed to rehydrate:', error);
+                    console.error('Rehydration error:', error);
                     return;
                 }
+                console.log(
+                    'Rehydration successful, checking for customer data...'
+                );
                 const customerData = localStorage.getItem('__hamza_customer');
-                console.log('Customer__DATA', customerData);
-                try {
-                    if (customerData) {
+                if (customerData) {
+                    try {
                         const parsedData = JSON.parse(customerData);
                         const customer_id = parsedData.state.customer_id;
-
-                        // console.log('Customer ID:', customer_id);
                         if (customer_id) {
-                            // console.log('Run loadwishlist?');
+                            console.log(
+                                'Customer ID found:',
+                                customer_id,
+                                'Loading wishlist...'
+                            );
                             state?.loadWishlist(customer_id);
                         }
+                    } catch (parseError) {
+                        console.error(
+                            'Error parsing customer data:',
+                            parseError
+                        );
                     }
-                } catch (parseError) {
-                    console.error('Error parsing customer data:', parseError);
+                } else {
+                    console.log('No customer data found, possibly new session');
                 }
             },
         }

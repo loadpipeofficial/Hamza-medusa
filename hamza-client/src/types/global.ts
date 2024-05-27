@@ -15,12 +15,7 @@ export type ProductPreviewType = {
   handle: string | null
   thumbnail: string | null
   created_at?: Date
-  price?: {
-    calculated_price: string
-    original_price: string
-    difference: string
-    price_type: "default" | "sale"
-  }
+  prices?: { currency_code: string, amount: number }[]
   isFeatured?: boolean
 }
 

@@ -35,4 +35,20 @@ export default class AuthService extends MedusaAuthService {
 
         return authResult;
     }
+
+    async authenticateCustomer(email: string, password: string, wallet_address?: string): Promise<ExtendedAuthenticateResult> {
+        console.log("calling medusa authenticate....");
+        const authResult: AuthenticateResult = await super.authenticateCustomer(email, password);
+
+        // Handle the wallet address logic separately, depending on your application's needs
+        // This could be adding the wallet address to the user's profile, logging it, etc.
+        // For demonstration, just adding it to the result if provided
+        if (wallet_address) {
+            const extendedResult: ExtendedAuthenticateResult = { ...authResult, wallet_address };
+            console.log(`Authentication succeeded, wallet address: ${wallet_address}`);
+            return extendedResult;
+        }
+
+        return authResult;
+    }
 }

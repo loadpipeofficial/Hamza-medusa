@@ -3,6 +3,9 @@ import { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
 export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     const userService = req.scope.resolve('userService');
     const storeService = req.scope.resolve('storeService');
+    const productCollectionService = req.scope.resolve(
+        'productCollectionService'
+    );
 
     try {
         const user0 = await userService.create(
@@ -49,6 +52,21 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
             user2,
             'Headphones Store',
             'pcol_01HSGAMXDJD725MR3VSW631SN2'
+        );
+
+        await productCollectionService.update(
+            'pcol_01HRVF8HCVY8B00RF5S54THTPC',
+            { store_id: store0.id }
+        );
+
+        await productCollectionService.update(
+            'pcol_01HSGAM4918EX0DETKY6E662WT',
+            { store_id: store1.id }
+        );
+
+        await productCollectionService.update(
+            'pcol_01HSGAMXDJD725MR3VSW631SN2',
+            { store_id: store2.id }
         );
 
         return res.json({ user0, user1, user2, store0, store1, store2 });

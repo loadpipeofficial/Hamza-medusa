@@ -19,14 +19,6 @@ export class Wishlist extends BaseEntity {
     readonly object = 'wishlist';
 
     @Index()
-    @Column()
-    region_id: string;
-
-    @ManyToOne(() => Region)
-    @JoinColumn({ name: 'region_id' })
-    region: Region;
-
-    @Index()
     @Column({ nullable: true })
     customer_id: string;
 
