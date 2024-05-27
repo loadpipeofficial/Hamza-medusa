@@ -40,7 +40,7 @@ const Items = ({ items }: ItemsProps) => {
                                     <Thumbnail
                                         thumbnail={item.thumbnail}
                                         images={[]}
-                                        height="60px"
+                                        size={65}
                                     />
                                     {item.title}
                                 </Table.Cell>
