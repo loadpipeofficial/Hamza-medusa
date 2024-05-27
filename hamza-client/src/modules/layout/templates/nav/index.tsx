@@ -11,6 +11,12 @@ import logo from '../../../../../public/nav/hamza_logo.png';
 import { WalletConnectButton } from '@/components/providers/rainbowkit/connect-button/connect-button';
 import SearchModal from '@modules/search/templates/search-modal';
 import SearchModalWrapper from '@modules/search/templates/search-wrapper';
+import dynamic from 'next/dynamic';
+
+const Wish = dynamic(() => import('../../../../store/wishlist/wish'), {
+    ssr: false, // This will prevent the component from rendering on the server side
+});
+
 export default async function Nav() {
     const regions = await listRegions().then((regions) => regions);
 
@@ -45,18 +51,7 @@ export default async function Nav() {
                                 <SearchModalWrapper />
                             )}
                         </div>
-                        <Suspense
-                            fallback={
-                                <LocalizedClientLink
-                                    className="hover:text-ui-fg-base font-sora"
-                                    href="/wishlist"
-                                >
-                                    Wishlist
-                                </LocalizedClientLink>
-                            }
-                        >
-                            <WishListPopover />
-                        </Suspense>
+                        <Wish />
                         <Suspense
                             fallback={
                                 <LocalizedClientLink

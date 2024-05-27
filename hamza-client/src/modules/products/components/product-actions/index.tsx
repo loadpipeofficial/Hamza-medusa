@@ -17,6 +17,7 @@ import ProductPrice from '../product-price';
 import WishlistIcon from '@/components/wishlist-dropdown/icon/wishlist-icon';
 import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
 import Medusa from '@medusajs/medusa-js';
+import useWishlistStore from '@store/wishlist/wishlist-store';
 
 type ProductActionsProps = {
     product: PricedProduct;
@@ -46,6 +47,8 @@ export default function ProductActions({
     const variants = product.variants;
     const variant_id = variants[0].id;
     console.log('Variant id is', variant_id);
+
+    const { isCustomerAuthenticated } = useWishlistStore();
 
     useEffect(() => {
         if (!variant_id) return;
@@ -210,20 +213,22 @@ export default function ProductActions({
                           : 'Add to cart'}
                 </Button>
                 {/* TODO: wishlist-dropdown add ternary for fill IF item already in wishlist-dropdown maybe we can have a variant ternary for 'Remove from Wishlist' || 'Add to Wishlist'    */}
-                <Button
-                    className="w-full h-10 text-white"
-                    variant="primary"
-                    onClick={toggleWishlist}
-                >
-                    <WishlistIcon
-                        fill={false}
-                        props={{
-                            className: 'wishlist-dropdown-icon',
-                            'aria-label': 'wishlist',
-                        }}
-                    />
-                    Add to Wishlist
-                </Button>
+                {isCustomerAuthenticated && (
+                    <Button
+                        className="w-full h-10 text-white"
+                        variant="primary"
+                        onClick={toggleWishlist}
+                    >
+                        <WishlistIcon
+                            fill={false}
+                            props={{
+                                className: 'wishlist-dropdown-icon',
+                                'aria-label': 'wishlist',
+                            }}
+                        />
+                        Add to Wishlist
+                    </Button>
+                )}
                 <MobileActions
                     product={product}
                     variant={variant}

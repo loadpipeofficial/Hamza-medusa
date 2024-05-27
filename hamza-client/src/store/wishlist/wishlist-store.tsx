@@ -20,6 +20,8 @@ type WishlistType = {
     loadWishlist: (customer_id: string) => Promise<void>;
     addWishlistProduct: (product: WishlistProduct) => Promise<void>;
     removeWishlistProduct: (product: WishlistProduct) => Promise<void>;
+    updateAuthentication: (status: boolean) => void;
+    isCustomerAuthenticated: boolean;
 };
 
 const BACKEND_URL =
@@ -30,6 +32,10 @@ const useWishlistStore = create<WishlistType>()(
         (set, get) => ({
             wishlist: {
                 products: [],
+            },
+            isCustomerAuthenticated: false,
+            updateAuthentication: (status) => {
+                set({ isCustomerAuthenticated: status });
             },
             addWishlistProduct: async (product) => {
                 const { wishlist } = get();
@@ -103,8 +109,10 @@ const useWishlistStore = create<WishlistType>()(
                     'Rehydration successful, checking for customer data...'
                 );
                 const customerData = localStorage.getItem('__hamza_customer');
-                if (customerData) {
+                if (JSON.parse(customerData).state.status === 'authenticated') {
+                    console.log('Customer now authenticated');
                     try {
+                        state?.updateAuthentication(true);
                         const parsedData = JSON.parse(customerData);
                         const customer_id = parsedData.state.customer_id;
                         if (customer_id) {
