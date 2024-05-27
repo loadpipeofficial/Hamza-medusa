@@ -60,7 +60,7 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
         const fetchOrders = async () => {
             try {
                 const { data } = await axios.post(
-                    'http://localhost:9000/custom/order',
+                    `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000'}/custom/order`,
                     {
                         cart_id: order.cart_id,
                     }

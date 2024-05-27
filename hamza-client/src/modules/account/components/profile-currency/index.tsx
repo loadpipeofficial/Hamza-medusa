@@ -20,10 +20,13 @@ const ProfileCurrency: React.FC<MyInformationProps> = ({ customer }) => {
         console.log(`Currency updated to ${newCurrency}`);
         console.log(`Customer is ${customer.id}`);
         try {
-            await axios.post('http://localhost:9000/custom/update-currency', {
-                customer_id: customer.id,
-                preferred_currency: newCurrency,
-            });
+            await axios.post(
+                `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000'}/custom/update-currency`,
+                {
+                    customer_id: customer.id,
+                    preferred_currency: newCurrency,
+                }
+            );
         } catch (error) {
             console.error('Error updating currency', error);
         }
