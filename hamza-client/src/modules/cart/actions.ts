@@ -8,6 +8,7 @@ import { cookies } from 'next/headers';
 import {
     addItem,
     createCart,
+    createPaymentSessions,
     getCart,
     getProductsById,
     removeItem,
@@ -43,6 +44,7 @@ export async function getOrSetCart(countryCode: string) {
         cart = await createCart({ region_id }).then((res) => res);
         cart && cookies().set('_medusa_cart_id', cart.id);
         revalidateTag('cart');
+        if (cart) await createPaymentSessions(cart?.id);
     }
 
     if (cart && cart?.region_id !== region_id) {
