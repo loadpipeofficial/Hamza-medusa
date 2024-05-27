@@ -20,6 +20,10 @@ type Order = {
     details: OrderDetails;
     paid_total: number;
     currency_code: string;
+    unit_price: number;
+    thumbnail: string;
+    title: string;
+    description: string;
     region: {
         id: string;
         name: string;
@@ -54,11 +58,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
                 {/* Static '1 item' since there are no items array */}
             </div>
             <div className="my-4">
-                <Thumbnail
-                    thumbnail={order.thumbnail}
-                    images={[]}
-                    height="60px"
-                />
+                <Thumbnail thumbnail={order.thumbnail} images={[]} />
                 <div className="text-small-regular text-white mt-2">
                     <span className="font-semibold">{order.title}</span>
                     <p>{order.description}</p>

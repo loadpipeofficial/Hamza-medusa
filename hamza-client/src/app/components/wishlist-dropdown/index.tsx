@@ -15,6 +15,10 @@ interface WishlistPopoverItemProps {
     item: WishlistType;
 }
 
+interface PopoverButtonProps {
+    active: boolean;
+}
+
 // TODO: Should we move this component to modules/wishlist/ similar to where cart-dropdown is???
 const WishlistDropdown: React.FC<WishlistPopoverItemProps> = ({ item }) => {
     const { wishlist } = useWishlistStore((state) => ({
@@ -102,13 +106,13 @@ const WishlistDropdown: React.FC<WishlistPopoverItemProps> = ({ item }) => {
                         {wishlist && wishlist.products?.length ? (
                             <>
                                 <>
-                                    {wishlist.products?.map((product) => (
+                                    {wishlist.products?.map((product: any) => (
                                         <div
                                             className="py-2 first:pt-0 text-white"
                                             key={product.id}
                                         >
                                             <Popover.Button>
-                                                {({ active }) =>
+                                                {({}) =>
                                                     product ? ( // Check if the product exists
                                                         <LocalizedClientLink
                                                             href={`/products/${product.handle}`}

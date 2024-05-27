@@ -115,7 +115,12 @@ export const formatVariantPrice = ({
     includeTaxes = true,
     ...rest
 }: FormatVariantPriceParams) => {
-    const amount = computeVariantPrice({ variant, region, includeTaxes });
+    const amount = computeVariantPrice({
+        variant,
+        region,
+        includeTaxes,
+        currency_code,
+    });
 
     return convertToLocale({
         amount,
@@ -246,13 +251,16 @@ const getTaxRate = (region?: RegionInfo) => {
 const traditionalCurrencies = ['usdc', 'eth', 'usdt']; // Add more as needed
 
 const convertToLocale = ({
-    amount,
-    currency_code,
+    amount = 0,
+    currency_code = '',
     minimumFractionDigits = 2, // Default value if not provided
     maximumFractionDigits = 2,
     locale = 'en-US',
 }): ConvertToLocaleParams => {
-    return amount.toString();
+    return {
+        amount: 0,
+        currency_code: '',
+    };
     /*
     // Ensure currency_code is a valid string before proceeding
     if (typeof currency_code !== 'string' || !currency_code) {
