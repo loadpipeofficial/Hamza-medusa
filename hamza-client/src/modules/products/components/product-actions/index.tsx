@@ -54,7 +54,7 @@ export default function ProductActions({
             setLoading(true);
             try {
                 const response = await axios.post(
-                    'http://localhost:9000/custom/variant/count',
+                    `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000'}/custom/variant/count`,
                     { variant_id }
                 );
                 console.log('Response is', JSON.stringify(response));

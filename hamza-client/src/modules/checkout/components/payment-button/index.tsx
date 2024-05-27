@@ -15,6 +15,7 @@ import axios from 'axios';
 import { clearCart } from '@lib/data';
 import { getCurrencyPrecision } from 'currency.config';
 
+//TODO: we need a global common function to replace this
 const MEDUSA_SERVER_URL =
     process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
 
@@ -123,36 +124,6 @@ const CryptoPaymentButton = ({
         }))
     );
 
-    const reduceInventory = async () => {
-        const inventoryUpdatePromises = cartRef.current.map((item) => {
-            return axios
-                .post(
-                    'http://localhost:9000/custom/variant',
-                    {
-                        variant_id: item.variant_id,
-                        reduction_quantity: item.reduction_quantity,
-                    },
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                )
-                .then((response) => ({
-                    variantId: item.variant_id,
-                    success: true,
-                    response: response.data,
-                }))
-                .catch((error) => ({
-                    variantId: item.variant_id,
-                    success: false,
-                    error: error.response?.data || 'Unknown error',
-                }));
-        });
-
-        return Promise.all(inventoryUpdatePromises);
-    };
-
     /**
      * Sends the given payment data to the Switch by way of the user's connnected
      * wallet.
@@ -228,24 +199,6 @@ const CryptoPaymentButton = ({
     };
 
     /**
-     * After checkout, updates inventory for purchased items.
-     */
-    const updateInventory = async () => {
-        try {
-            const results = await reduceInventory();
-            if (results.every((item) => item.success)) {
-                // Handle successful inventory update
-                console.log('Inventory successfully updated.');
-            } else {
-                // Handle error in inventory update
-                setErrorMessage('Failed to update inventory for some items.');
-            }
-        } catch (error) {
-            setErrorMessage('An error occurred during inventory update.');
-        }
-    };
-
-    /**
      * Redirects to order confirmation on successful checkout
      * @param orderId
      * @param countryCode
@@ -276,12 +229,15 @@ const CryptoPaymentButton = ({
         if (data) {
             //this sends the payment to the wallet for on-chain processing
             const output = await doWalletPayment(data);
-
+            console.log(
+                `${JSON.stringify(cartRef)} cartref ${cartRef.current} ${typeof cartRef.current}`
+            );
             //finalize the checkout, if wallet payment was successful
             if (output.success) {
                 const response = await axios.post(
                     `${MEDUSA_SERVER_URL}/custom/checkout`,
                     {
+                        cartProducts: JSON.stringify(cartRef.current),
                         cart_id: data.cart_id,
                         transaction_id: data.transaction_id,
                         payer_address: data.payer_address,
@@ -291,10 +247,6 @@ const CryptoPaymentButton = ({
 
                 console.log(response.status);
                 //TODO: examine response
-
-                //TODO: move this to server side (in FinalizeCheckout if possible)
-                //update inventory
-                await updateInventory();
 
                 //country code needed for redirect (get before killing cart)
                 const countryCode =

@@ -43,7 +43,9 @@ const OrderSummary = ({ order }: OrderSummaryProps) => {
                 <div className="h-px w-full border-b border-gray-200 border-dashed my-4" />
                 <div className="flex items-center justify-between text-base-regular text-ui-fg-base mb-2">
                     <span>Total</span>
-                    <span>{getAmount(order.paid_total)}</span>
+                    <span>
+                        {getAmount(order.paid_total)} {order.currency_code}
+                    </span>
                 </div>
             </div>
         </div>

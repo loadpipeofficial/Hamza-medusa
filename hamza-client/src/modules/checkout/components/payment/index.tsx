@@ -7,8 +7,6 @@ import ErrorMessage from '@modules/checkout/components/error-message';
 import { Cart } from '@medusajs/medusa';
 import { CheckCircleSolid, CreditCard } from '@medusajs/icons';
 import { Button, Container, Heading, Text, Tooltip, clx } from '@medusajs/ui';
-import { CardElement } from '@stripe/react-stripe-js';
-import { StripeCardElementOptions } from '@stripe/stripe-js';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { useAccount, useConnect } from 'wagmi';
 import { InjectedConnector } from 'wagmi/connectors/injected';
@@ -53,27 +51,8 @@ const Payment = ({
 
     const isOpen = searchParams.get('step') === 'payment';
 
-    const isStripe = cart?.payment_session?.provider_id === 'stripe';
-
     const paymentReady =
         cart?.payment_session && cart?.shipping_methods.length !== 0;
-
-    const useOptions: StripeCardElementOptions = useMemo(() => {
-        return {
-            style: {
-                base: {
-                    fontFamily: 'Inter, sans-serif',
-                    color: '#424270',
-                    '::placeholder': {
-                        color: 'rgb(107 114 128)',
-                    },
-                },
-            },
-            classes: {
-                base: 'pt-3 pb-1 block w-full h-11 px-4 mt-0 bg-ui-bg-field border rounded-md appearance-none focus:outline-none focus:ring-0 focus:shadow-borders-interactive-with-active border-ui-border-base hover:bg-ui-bg-field-hover transition-all duration-300 ease-in-out',
-            },
-        };
-    }, []);
 
     const createQueryString = useCallback(
         (name: string, value: string) => {
@@ -117,6 +96,8 @@ const Payment = ({
         setIsLoading(false);
         setError(null);
     }, [isOpen]);
+
+    console.log(`Is it connected ${isConnected}`);
 
     return (
         <div className="bg-black">
@@ -174,57 +155,17 @@ const Payment = ({
                                 })}
                         </RadioGroup>
 
-                        {isStripe && (
-                            <div className="mt-5 transition-all duration-150 ease-in-out">
-                                <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                                    Enter your card details:
-                                </Text>
-
-                                <CardElement
-                                    options={
-                                        useOptions as StripeCardElementOptions
-                                    }
-                                    onChange={(e) => {
-                                        setCardBrand(
-                                            e.brand &&
-                                                e.brand
-                                                    .charAt(0)
-                                                    .toUpperCase() +
-                                                    e.brand.slice(1)
-                                        );
-                                        setError(e.error?.message || null);
-                                        setCardComplete(e.complete);
-                                    }}
-                                />
-                            </div>
-                        )}
-
                         <ErrorMessage error={error} />
 
-                        {isConnected && (
-                            <Button
-                                size="large"
-                                className="mt-6 text-white"
-                                onClick={handleSubmit}
-                                isLoading={isLoading}
-                                disabled={
-                                    (isStripe && !cardComplete) ||
-                                    !cart.payment_session
-                                }
-                            >
-                                Continue to review
-                            </Button>
-                        )}
-                        {!isConnected && (
-                            <Button
-                                size="large"
-                                className="mt-6 text-white"
-                                onClick={connectWallet}
-                                isLoading={isLoading}
-                            >
-                                Connect Wallet
-                            </Button>
-                        )}
+                        <Button
+                            size="large"
+                            className="mt-6 text-white"
+                            onClick={handleSubmit}
+                            isLoading={isLoading}
+                            disabled={!cart.payment_session}
+                        >
+                            Continue to review
+                        </Button>
                     </div>
                 ) : (
                     <div className="flex flex-col items-center justify-center px-4 py-16 text-ui-fg-base">
@@ -265,7 +206,7 @@ const Payment = ({
                                     </Container>
                                     <Text>
                                         {cart.payment_session.provider_id ===
-                                            'stripe' && cardBrand
+                                        cardBrand
                                             ? cardBrand
                                             : 'Another step will appear'}
                                     </Text>
