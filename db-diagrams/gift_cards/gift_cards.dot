@@ -1,0 +1,20 @@
+digraph "hamza_dev_db" {
+
+splines  = ortho;
+fontname = "Inconsolata";
+
+node [colorscheme = ylgnbu4];
+edge [colorscheme = dark28, dir = both];
+
+gift_card             [shape = record, label = "{ gift_card |  code : varchar\l  value : integer\l  balance : integer\l  region_id : varchar\l  order_id : varchar\l  is_disabled : boolean\l  ends_at : timestamp with time zone\l  created_at : timestamp with time zone\l  updated_at : timestamp with time zone\l  deleted_at : timestamp with time zone\l  metadata : jsonb\l  tax_rate : real\l| id : varchar\l }"];
+gift_card_transaction [shape = record, label = "{ gift_card_transaction |  gift_card_id : varchar\l  order_id : varchar\l  amount : integer\l  created_at : timestamp with time zone\l  is_taxable : boolean\l  tax_rate : real\l| id : varchar\l }"];
+order                 [shape = record, label = "{ order |  status : order_status_enum\l  fulfillment_status : order_fulfillment_status_enum\l  payment_status : order_payment_status_enum\l  display_id : integer\l  cart_id : varchar\l  customer_id : varchar\l  email : varchar\l  billing_address_id : varchar\l  shipping_address_id : varchar\l  region_id : varchar\l  currency_code : varchar\l  tax_rate : real\l  canceled_at : timestamp with time zone\l  created_at : timestamp with time zone\l  updated_at : timestamp with time zone\l  metadata : jsonb\l  idempotency_key : varchar\l  draft_order_id : varchar\l  no_notification : boolean\l  external_id : varchar\l  sales_channel_id : varchar\l  store_id : varchar\l| id : varchar\l }"];
+region                [shape = record, label = "{ region |  name : varchar\l  currency_code : varchar\l  tax_rate : real\l  tax_code : varchar\l  created_at : timestamp with time zone\l  updated_at : timestamp with time zone\l  deleted_at : timestamp with time zone\l  metadata : jsonb\l  gift_cards_taxable : boolean\l  automatic_taxes : boolean\l  tax_provider_id : varchar\l| id : varchar\l }"];
+
+gift_card             -> order                 [color = "#595959", style = solid , arrowtail = none    , arrowhead = normal  , taillabel = "", label = "order_id:id", headlabel = ""];
+gift_card             -> region                [color = "#595959", style = solid , arrowtail = none    , arrowhead = normal  , taillabel = "", label = "region_id:id", headlabel = ""];
+gift_card_transaction -> gift_card             [color = "#595959", style = solid , arrowtail = none    , arrowhead = normal  , taillabel = "", label = "gift_card_id:id", headlabel = ""];
+gift_card_transaction -> order                 [color = "#595959", style = solid , arrowtail = none    , arrowhead = normal  , taillabel = "", label = "order_id:id", headlabel = ""];
+order                 -> region                [color = "#595959", style = solid , arrowtail = none    , arrowhead = normal  , taillabel = "", label = "region_id:id", headlabel = ""];
+
+}
