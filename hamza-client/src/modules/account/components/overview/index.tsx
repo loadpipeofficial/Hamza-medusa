@@ -12,6 +12,9 @@ type OverviewProps = {
 
 //TODO: (HIGH) need wallet_address property on customer
 const Overview = ({ customer, orders }: OverviewProps) => {
+    console.log(`Customer orders are`);
+    console.log(`Orders are ${JSON.stringify(orders?.length)}`);
+
     return (
         <div>
             <div className="hidden small:block bg-black text-white p-8">
