@@ -2,6 +2,7 @@ import { TransactionBaseService } from '@medusajs/medusa';
 import { Lifetime } from 'awilix';
 import { ProductReviewRepository } from '../repositories/product-review';
 import { ProductReview } from '../models/product-review';
+import { Customer } from '../models/customer';
 
 class ProductReviewService extends TransactionBaseService {
     static LIFE_TIME = Lifetime.SCOPED;
@@ -10,16 +11,23 @@ class ProductReviewService extends TransactionBaseService {
         super(container);
     }
 
-    // async getRatings(product_id) {
-    //     const productReviewRepository =
-    //         this.activeManager_.getRepository(ProductReview);
-    //     return await this.atomicPhase_(async (transactionManager) => {
-    //         const ratings = await productReviewRepository.find({
-    //             where: { product_id },
-    //         });
-    //         return ratings;
-    //     });
-    // }
+    async customerIsVerified(customer_id) {
+        const customerRepository = this.activeManager_.getRepository(Customer);
+        console.log(`Customer ID is: ${customer_id}`);
+        const customer = await customerRepository.findOne({
+            where: { id: customer_id },
+        });
+        if (!customer) {
+            throw new Error('Customer not found');
+        }
+        console.log(`Customer Email is: ${customer.email}`);
+
+        // Returns true if the email does NOT include '@evm.blockchain'
+        if (customer.email.includes('@evm.blockchain')) {
+            console.log('It includes it....');
+        }
+        return customer.email.includes('@evm.blockchain');
+    }
 
     async getReviews(product_id) {
         const productReviewRepository =
