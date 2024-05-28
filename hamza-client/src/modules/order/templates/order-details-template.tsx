@@ -8,6 +8,7 @@ import Help from '@modules/order/components/help';
 import Items from '@modules/order/components/items';
 import OrderDetails from '@modules/order/components/order-details';
 import OrderSummary from '@modules/order/components/order-summary';
+import OrderReview from '@modules/order/components/order-review';
 import ShippingDetails from '@modules/order/components/shipping-details';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import axios from 'axios';
