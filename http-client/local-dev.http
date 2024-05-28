@@ -126,7 +126,8 @@ Content-Type: application/json
   "product_id": "prod_01HYYR4MWE0TB0B8T79KH5BEFZ",
   "rating": 3,
   "content": "This is a great product!",
-  "title": "Great Product 2222!"
+  "title": "Great Product 2222!",
+  "order_id": "order_01HYZ7ZCEFFAVQ6BYY9QHJQ821"
 }
 
 ### Get Specific Product Review
@@ -173,4 +174,13 @@ Content-Type: application/json
 {
   "customer_id": "cus_01HYYRFGXRQ44NQXMJK9DDVNB3",
   "product_id": "prod_01HYYR4MV4TRXMWH1TQ9KTGWSF"
+}
+
+### Check if customer already left a review
+POST http://localhost:9000/custom/review/exists
+Content-Type: application/json
+
+{
+  "customer_id": "cus_01HYYRFGXRQ44NQXMJK9DDVNB3",
+  "order_id": "order_01HYZ7ZCEFFAVQ6BYY9QHJQ821"
 }

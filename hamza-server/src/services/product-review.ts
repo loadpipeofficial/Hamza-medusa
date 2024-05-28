@@ -46,6 +46,24 @@ class ProductReviewService extends TransactionBaseService {
         return !!productReview;
     }
 
+    async customerHasLeftReview(product_id, order_id) {
+        const productReviewRepository =
+            this.activeManager_.getRepository(ProductReview);
+        const productReview = await productReviewRepository.find({
+            where: { product_id },
+            relations: ['order'],
+        });
+
+        if (!productReview) {
+            console.log(
+                `No product review found for product_id: ${product_id} and order_id: ${order_id}`
+            );
+            return null;
+        }
+
+        return !!productReview;
+    }
+
     async getReviews(product_id) {
         const productReviewRepository =
             this.activeManager_.getRepository(ProductReview);
@@ -99,7 +117,13 @@ class ProductReviewService extends TransactionBaseService {
     }
 
     async addProductReview(product_id, data) {
-        if (!data.title || !data.customer_id || !data.content || !data.rating) {
+        if (
+            !data.title ||
+            !data.customer_id ||
+            !data.content ||
+            !data.rating ||
+            !data.order_id
+        ) {
             throw new Error(
                 'Product review requires title, customer_id, content, and rating'
             );
@@ -113,6 +137,7 @@ class ProductReviewService extends TransactionBaseService {
             customer_id: data.customer_id, // Assuming there is a customer_id field
             content: data.content,
             rating: data.rating,
+            order_id: data.order_id,
         });
         const productReview = await productReviewRepository.save(createdReview);
 

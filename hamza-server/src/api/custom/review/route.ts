@@ -7,10 +7,15 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
         'productReviewService'
     );
 
-    const { product_id, title, customer_id, content, rating } = readRequestBody(
-        req.body,
-        ['product_id', 'title', 'customer_id', 'content', 'rating']
-    );
+    const { product_id, title, customer_id, content, rating, order_id } =
+        readRequestBody(req.body, [
+            'product_id',
+            'title',
+            'customer_id',
+            'content',
+            'rating',
+            'order_id',
+        ]);
 
     console.log(
         'product_id: ',
@@ -22,7 +27,9 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
         'content: ',
         content,
         'rating: ',
-        rating
+        rating,
+        'order_id: ',
+        order_id
     );
 
     try {
@@ -31,6 +38,7 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
             customer_id,
             content,
             rating,
+            order_id,
         });
         res.json(review);
     } catch (err) {
