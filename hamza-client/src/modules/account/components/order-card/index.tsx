@@ -57,7 +57,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
                 <Thumbnail
                     thumbnail={order.thumbnail}
                     images={[]}
-                    height="60px"
+                    size={'small'}
                 />
                 <div className="text-small-regular text-white mt-2">
                     <span className="font-semibold">{order.title}</span>

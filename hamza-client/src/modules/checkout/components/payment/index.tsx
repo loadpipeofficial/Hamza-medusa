@@ -199,11 +199,9 @@ const Payment = ({
                                     Payment details
                                 </Text>
                                 <div className="flex gap-2 txt-medium text-ui-fg-subtle items-center">
-                                    <Container className="flex items-center h-7 w-fit p-2 bg-ui-button-neutral-hover">
-                                        {paymentInfoMap[
-                                            cart.payment_session.provider_id
-                                        ]?.icon || <CreditCard />}
-                                    </Container>
+                                    {/* <Container className="flex items-center h-7 w-fit p-2 bg-ui-button-neutral-hover"> */}
+                                    {/* //todo add custom icon afterwards */}
+                                    {/* </Container> */}
                                     <Text>
                                         {cart.payment_session.provider_id ===
                                         cardBrand
