@@ -1,9 +1,9 @@
-import { RelayClient } from '@massmarket/client';
-
+import { ClientArgs, RelayClient } from './client/lib';
 import { randomBytes } from 'crypto';
 import { http, createWalletClient, PrivateKeyAccount } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { sepolia } from 'viem/chains';
+import { privateKeyStringToBytes, bufferToString } from './utils';
 
 /**
  * Wrapper for the massmarket relay client, exposing those functions and properties
@@ -17,6 +17,7 @@ export class RelayClientWrapper {
     private _keyCard: Uint8Array;
     private _cartId: `0x${string}` = '0x0';
     readonly storeId: `0x${string}`;
+    eventStream: ReadableStream<any> | null = null;
 
     /**
      * Gets the cart id, if any; default is 0x0.
@@ -25,64 +26,77 @@ export class RelayClientWrapper {
         return this._cartId;
     }
 
-    private constructor(
+    constructor(
         endpoint: string,
-        walletPrivKey: `0x${string}` = '0x0',
         storeId: `0x${string}` = '0x0',
-        keyCardPrivKey: string = ''
+        keyCardPrivKey: `0x${string}` = '0x0'
     ) {
         this.storeId = storeId;
-        this._keyCard = new Uint8Array(randomBytes(32));
+        let keyCardEnrolled: boolean = false;
 
-        if (keyCardPrivKey?.length) {
+        if (keyCardPrivKey?.length === 0 || keyCardPrivKey === '0x0') {
+            this._keyCard = new Uint8Array(randomBytes(32));
+            keyCardPrivKey = bufferToString(this._keyCard);
+            console.log('NEW KEYCARD: ' + keyCardPrivKey);
+        } else {
+            keyCardEnrolled = true;
             this._keyCard = privateKeyStringToBytes(keyCardPrivKey);
+            console.log('EXISTING KEYCARD: ' + keyCardPrivKey);
         }
 
-        const account: PrivateKeyAccount = privateKeyToAccount(walletPrivKey);
+        const keyCardWallet: PrivateKeyAccount =
+            privateKeyToAccount(keyCardPrivKey);
 
-        const wallet = createWalletClient({
-            account,
-            chain: this._chain,
-            transport: http(),
-        });
-
-        const args = {
+        const args: ClientArgs = {
             relayEndpoint: `wss://${endpoint}`,
-            privateKey: this._keyCard,
             chain: this._chain,
-            wallet: wallet,
             storeId: this.storeId,
-            useTLS: true,
+            keyCardWallet,
+            keyCardEnrolled,
         };
 
+        console.log(args);
+
         this._client = new RelayClient(args);
-        this._client.on('event', (e) => this.onEvent(e));
+        console.log('created');
     }
 
     /**
      * Creates a new store, authenticates, and returns a RelayClientWrapper instance.
      *
      * @param endpoint Relay endpoint e.g. 'wss://relay.endpoint.com'
-     * @param walletPrivKey Store owner's wallet private key, as 0x{string}
      * @param storeId Unique store ID; this will error if not unique.
+     * @param walletPrivKey Store owner's wallet private key, as 0x{string}
      * @returns a RelayClientWrapper instance.
      */
-    static async createStore(
+    static async create(
         endpoint: string,
-        walletPrivKey: `0x${string}`,
-        storeId: `0x${string}` = '0x0'
+        storeId: `0x${string}` = '0x0',
+        walletPrivKey: `0x${string}`
     ): Promise<RelayClientWrapper> {
         const client: RelayClientWrapper = new RelayClientWrapper(
             endpoint,
-            walletPrivKey,
             storeId
         );
 
+        const account: PrivateKeyAccount = privateKeyToAccount(walletPrivKey);
+
+        const wallet = createWalletClient({
+            account,
+            chain: sepolia,
+            transport: http(),
+        });
+
         await client.connect();
-        const result = await client._client.createStore(client.storeId);
-        await client.enrollKeyCard();
-        await client._client.login();
-        await client._client.writeStoreManifest(client.storeId);
+        const result = await client._client.createStore(client.storeId, wallet);
+        console.log(result);
+        console.log('keycard: ', client.keyCardToString());
+        console.log('enroll...');
+        await client.enrollKeyCard(walletPrivKey);
+        console.log('login...');
+        await client._client.connect();
+        //console.log('manifest...');
+        //await client._client.writeStoreManifest(client.storeId);
 
         return client;
     }
@@ -91,31 +105,32 @@ export class RelayClientWrapper {
      * Authenticates to an already existing store.
      *
      * @param endpoint Relay endpoint e.g. 'wss://relay.endpoint.com'
-     * @param walletPrivKey Store owner's wallet private key, as 0x{string}
      * @param storeId Unique store ID.
      * @param keyCard Private key in the form 0x{hex}
      * @returns a RelayClientWrapper instance.
      */
     static async login(
         endpoint: string,
-        walletPrivKey: `0x${string}` = '0x0',
         storeId: `0x${string}` = '0x0',
         keyCard: `0x${string}`
     ): Promise<RelayClientWrapper> {
         const client: RelayClientWrapper = new RelayClientWrapper(
             endpoint,
-            walletPrivKey,
             storeId,
             keyCard
         );
 
-        await client._client.login();
+        console.log('connecting', keyCard);
+        await client.connect();
+        console.log('connected');
+        client.eventStream = await client._client.createEventStream();
+        console.log('event stream');
 
         return client;
     }
 
     keyCardToString(): string {
-        return `0x${bufferToString(this._keyCard)}`;
+        return `${bufferToString(this._keyCard)}`;
     }
 
     async connect(): Promise<void> {
@@ -126,13 +141,24 @@ export class RelayClientWrapper {
         await this._client.disconnect();
     }
 
-    async login(): Promise<any> {
-        return await this._client.login();
+    async login(): Promise<any> {}
+
+    async enrollKeyCard(walletPrivKey: `0x${string}` = '0x0'): Promise<any> {
+        const account: PrivateKeyAccount = privateKeyToAccount(walletPrivKey);
+
+        const wallet = createWalletClient({
+            account,
+            chain: this._chain,
+            transport: http(),
+        });
+
+        //wallet.publicKey = account.publicKey;
+
+        return await this._client.enrollKeycard(wallet);
     }
 
-    async enrollKeyCard(): Promise<any> {
-        const result = await this._client.enrollKeycard();
-        return result;
+    async writeManifest() {
+        this._client.writeStoreManifest(this.storeId);
     }
 
     async createProduct(product: ProductConfig): Promise<string> {
@@ -143,34 +169,61 @@ export class RelayClientWrapper {
         });
     }
 
+    async createCart() {
+        return await this._client.createCart();
+    }
+
     async deleteProduct(productId: `0x${string}`): Promise<void> {}
 
     async updateProductPrice(
         productId: `0x${string}`,
         price: string
     ): Promise<any> {
+        console.log('updating item');
         const response = await this._client.updateItem(
             productId,
             ItemField.ITEM_FIELD_PRICE,
             price
         );
 
+        console.log(bufferToString(response.requestId));
+        //console.log(bufferToString(response.newStoreHash));
+
         return response;
     }
 
     async addToCart(productId: `0x${string}`, quantity: number) {
+        await this._client.changeStock([productId], [10]);
         this._cartId = await this._client.createCart();
-        await this._client.changeCart(this.cartId, productId, quantity);
+        console.log('cart:', this.cartId);
+        console.log(
+            await this._client.changeCart(this.cartId, productId, quantity)
+        );
+    }
+
+    async commitCartEth(cartId: `0x${string}`, customerPk: `0x${string}`) {
+        console.log(await this._client.commitCart(cartId));
+
+        //TODO: transfer the money
+    }
+
+    async setErc20(address: `0x${string}`) {
+        //3 == MANIFEST_FIELD_ADD_ERC20
+        console.log('setErc2', address);
+        const pb = await this._client.updateManifest(3, address);
+        console.log('REQUID:', pb.requestId);
     }
 
     async checkoutEth(
         productId: `0x${string}`,
         quantity: number
     ): Promise<void> {
-        await this._client.changeStock([productId], [10]);
+        console.log(productId);
+        //await this._client.changeStock([productId], [10]);
         const cartId: `0x${string}` = await this._client.createCart();
-        await this._client.changeCart(cartId, productId, quantity);
-        await this._client.commitCart(cartId);
+        console.log('cart:', cartId);
+        console.log(await this._client.changeCart(cartId, productId, quantity));
+        console.log(await this._client.commitCart(cartId));
     }
 
     async checkoutErc20(
@@ -178,14 +231,25 @@ export class RelayClientWrapper {
         erc20: `0x${string}`,
         quantity: number
     ): Promise<void> {
+        console.log('productId', productId);
+        const pb = await this._client.changeStock([productId], [10]);
+        console.log('REQUID', pb.requestId);
+
         const cartId: `0x${string}` = await this._client.createCart();
+        console.log('cart:', cartId);
         await this._client.changeCart(cartId, productId, quantity);
-        await this._client.commitCart(cartId, erc20);
+        const response = await this._client.commitCart(cartId, erc20);
+
+        console.log('checkout response: ');
+        console.log(bufferToString(response.cartFinalizedId));
+        console.log(response);
     }
 
     private onEvent(event: any) {
+        console.log('EVENT:', event);
         if (event.request.events) {
             event.request.events.forEach((e: any) => {
+                console.log('event -> ', e);
                 if (e.cartFinalized) {
                     if (e.cartFinalized.eventId) {
                         console.log(
@@ -223,34 +287,3 @@ export type ProductConfig = {
     description: string;
     image: string;
 };
-
-/**
- * Utility function; convert private key in the form 0x{string} to a Uint8Array (the
- * '0x' is optional)
- * @param privateKey Private key in the form 0x{hex}, 0x is optional
- * @returns Uint8Array
- */
-function privateKeyStringToBytes(privateKey: string): Uint8Array {
-    privateKey = privateKey.startsWith('0x')
-        ? privateKey.substring(2)
-        : privateKey;
-    const match = privateKey.match(/[\da-f]{2}/gi);
-    if (match) {
-        return new Uint8Array(match.map((h) => parseInt(h, 16)));
-    }
-
-    return new Uint8Array(0);
-}
-
-/**
- * Utility function to convert Uint8Array to string in the form 0x{hex}
- * @param buffer any Uint8Array
- * @returns 0x{hex} string representation
- */
-function bufferToString(buffer: Uint8Array): string {
-    return '0x' + buffer
-        ? Array.from(buffer)
-              .map((byte) => byte.toString(16).padStart(2, '0'))
-              .join('')
-        : '0x'.padEnd(16, '0');
-}
