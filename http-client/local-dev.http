@@ -116,3 +116,16 @@ Content-Type: application/json
 "customer_id": "cus_01HYAAZB62RNRTXXY9TC20DK8E",
   "preferred_currency": "eth"
 }
+
+#### Create Mock Review
+POST http://localhost:9000/custom/review
+Content-Type: application/json
+
+{
+  "customer_id": "cus_01HYYRFGXRQ44NQXMJK9DDVNB3",
+  "product_id": "prod_01HYYR4MV4TRXMWH1TQ9KTGWSF",
+  "rating": 5,
+  "content": "This is a great product!",
+  "title": "Great Product!"
+
+}
