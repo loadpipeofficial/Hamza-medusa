@@ -162,3 +162,11 @@ Content-Type: application/json
   "customer_id":  "cus_01HYYRFGXRQ44NQXMJK9DDVNB3"
 }
 
+### Check if Customer has bought product
+POST http://localhost:9000/custom/review/bought
+Content-Type: application/json
+
+{
+  "customer_id": "cus_01HYYRFGXRQ44NQXMJK9DDVNB3",
+  "product_id": "prod_01HYYR4MV4TRXMWH1TQ9KTGWSF"
+}

@@ -29,6 +29,23 @@ class ProductReviewService extends TransactionBaseService {
         return customer.email.includes('@evm.blockchain');
     }
 
+    async customerHasBoughtProduct(customer_id, product_id) {
+        const productReviewRepository =
+            this.activeManager_.getRepository(ProductReview);
+        const productReview = await productReviewRepository.find({
+            where: { product_id, customer_id },
+        });
+
+        if (!productReview) {
+            console.log(
+                `No product review found for product_id: ${product_id} and customer_id: ${customer_id}`
+            );
+            return null;
+        }
+
+        return !!productReview;
+    }
+
     async getReviews(product_id) {
         const productReviewRepository =
             this.activeManager_.getRepository(ProductReview);
