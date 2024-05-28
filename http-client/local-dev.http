@@ -142,3 +142,13 @@ Content-Type: application/json
   "product_id": "prod_01HYYR4MWE0TB0B8T79KH5BEFZ",
   "reviewUpdates": "This is an update to review of the product"
 }
+
+### Update Product Rating
+PATCH http://localhost:9000/custom/review/rating
+Content-Type: application/json
+
+{
+  "customer_id": "cus_01HYW342BBBEK3GXETA26VJQSW",
+  "product_id": "prod_01HYYR4MWE0TB0B8T79KH5BEFZ",
+  "rating": 5
+}

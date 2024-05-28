@@ -52,6 +52,25 @@ class ProductReviewService extends TransactionBaseService {
         return await productReviewRepository.save(existingReview);
     }
 
+    async updateProductRating(product_id, rating, customer_id) {
+        const productReviewRepository =
+            this.activeManager_.getRepository(ProductReview);
+
+        const existingReview = await productReviewRepository.findOne({
+            where: { product_id, customer_id },
+        });
+
+        console.log(`existingReview: ${existingReview.rating}`);
+
+        if (!existingReview) {
+            throw new Error('Review not found'); // Proper error handling if the review doesn't exist
+        }
+
+        existingReview.rating = rating;
+
+        return await productReviewRepository.save(existingReview);
+    }
+
     async addProductReview(product_id, data) {
         if (!data.title || !data.customer_id || !data.content || !data.rating) {
             throw new Error(
