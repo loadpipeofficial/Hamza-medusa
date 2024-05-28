@@ -130,8 +130,12 @@ Content-Type: application/json
 }
 
 ### Get Specific Product Review
-GET http://localhost:9000/custom/review?product_id=prod_01HYYR4MV4TRXMWH1TQ9KTGWSF
+POST http://localhost:9000/custom/review/all-reviews
 Content-Type: application/json
+
+{
+  "product_id": "prod_01HYYR4MV4TRXMWH1TQ9KTGWSF"
+}
 
 ### Update Product Review
 PATCH http://localhost:9000/custom/review/content

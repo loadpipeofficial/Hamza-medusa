@@ -49,13 +49,15 @@ class ProductReviewService extends TransactionBaseService {
     async getReviews(product_id) {
         const productReviewRepository =
             this.activeManager_.getRepository(ProductReview);
-        return await this.atomicPhase_(async (transactionManager) => {
-            const reviews = await productReviewRepository.find({
-                where: { product_id },
-                relations: ['rating', 'content'],
-            });
-            return reviews;
+        const reviews = await productReviewRepository.find({
+            where: { product_id },
         });
+
+        if (!reviews) {
+            throw new Error('No reviews found');
+        }
+
+        return reviews;
     }
 
     async updateProductReview(product_id, reviewUpdates, customer_id) {

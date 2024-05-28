@@ -2,24 +2,6 @@ import type { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
 import ProductReviewService from 'src/services/product-review';
 import { readRequestBody } from '../../../utils/request-body';
 
-export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
-    const productReviewService: ProductReviewService = req.scope.resolve(
-        'productReviewService'
-    );
-
-    const { product_id } = req.params;
-
-    try {
-        const reviews = await productReviewService.getReviews(product_id);
-        res.json(reviews);
-    } catch (err) {
-        console.error('Error fetching product reviews:', err);
-        res.status(500).json({
-            error: 'Failed to fetch product reviews',
-        });
-    }
-};
-
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     const productReviewService: ProductReviewService = req.scope.resolve(
         'productReviewService'
