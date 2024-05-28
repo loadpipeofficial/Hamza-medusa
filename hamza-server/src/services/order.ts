@@ -60,6 +60,11 @@ export default class OrderService extends MedusaOrderService {
             cart.completed_at = new Date();
             await this.cartService_.update(cart.id, cart);
 
+            //emitting event in event bus
+            await this.eventBus_.emit('order.placed', {
+                orderId: order.id,
+                ...order,
+            });
             return order;
         } catch (e) {
             console.log(`Error creating order: ${e}`);
