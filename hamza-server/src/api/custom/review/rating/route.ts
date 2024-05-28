@@ -23,7 +23,7 @@ export const PATCH = async (req: MedusaRequest, res: MedusaResponse) => {
     );
 
     try {
-        const updatedReview = await productReviewService.updateProductReview(
+        const updatedReview = await productReviewService.updateProductRating(
             product_id,
             rating,
             customer_id
