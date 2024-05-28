@@ -20,8 +20,6 @@ class SmtpNotificationService extends AbstractNotificationService {
         status: string;
         data: Record<string, unknown>;
     }> {
-        console.log();
-
         switch (event) {
             case 'order.placed':
                 await this.smtpMailService.mailSender({
