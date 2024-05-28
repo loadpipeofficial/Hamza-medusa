@@ -122,10 +122,23 @@ POST http://localhost:9000/custom/review
 Content-Type: application/json
 
 {
-  "customer_id": "cus_01HYYRFGXRQ44NQXMJK9DDVNB3",
-  "product_id": "prod_01HYYR4MV4TRXMWH1TQ9KTGWSF",
-  "rating": 5,
+  "customer_id": "cus_01HYW342BBBEK3GXETA26VJQSW",
+  "product_id": "prod_01HYYR4MWE0TB0B8T79KH5BEFZ",
+  "rating": 3,
   "content": "This is a great product!",
-  "title": "Great Product!"
+  "title": "Great Product 2222!"
+}
 
+### Get Specific Product Review
+GET http://localhost:9000/custom/review?product_id=prod_01HYYR4MV4TRXMWH1TQ9KTGWSF
+Content-Type: application/json
+
+### Update Product Review
+PATCH http://localhost:9000/custom/review/content
+Content-Type: application/json
+
+{
+  "customer_id": "cus_01HYW342BBBEK3GXETA26VJQSW",
+  "product_id": "prod_01HYYR4MWE0TB0B8T79KH5BEFZ",
+  "reviewUpdates": "This is an update to review of the product"
 }

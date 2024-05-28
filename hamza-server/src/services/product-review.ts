@@ -10,16 +10,16 @@ class ProductReviewService extends TransactionBaseService {
         super(container);
     }
 
-    async getRatings(product_id) {
-        const productReviewRepository =
-            this.activeManager_.getRepository(ProductReview);
-        return await this.atomicPhase_(async (transactionManager) => {
-            const ratings = await productReviewRepository.find({
-                where: { product_id },
-            });
-            return ratings;
-        });
-    }
+    // async getRatings(product_id) {
+    //     const productReviewRepository =
+    //         this.activeManager_.getRepository(ProductReview);
+    //     return await this.atomicPhase_(async (transactionManager) => {
+    //         const ratings = await productReviewRepository.find({
+    //             where: { product_id },
+    //         });
+    //         return ratings;
+    //     });
+    // }
 
     async getReviews(product_id) {
         const productReviewRepository =
@@ -27,9 +27,29 @@ class ProductReviewService extends TransactionBaseService {
         return await this.atomicPhase_(async (transactionManager) => {
             const reviews = await productReviewRepository.find({
                 where: { product_id },
+                relations: ['rating', 'content'],
             });
             return reviews;
         });
+    }
+
+    async updateProductReview(product_id, reviewUpdates, customer_id) {
+        const productReviewRepository =
+            this.activeManager_.getRepository(ProductReview);
+
+        const existingReview = await productReviewRepository.findOne({
+            where: { product_id, customer_id },
+        });
+
+        console.log(`existingReview: ${existingReview.content}`);
+
+        if (!existingReview) {
+            throw new Error('Review not found'); // Proper error handling if the review doesn't exist
+        }
+
+        existingReview.content = reviewUpdates;
+
+        return await productReviewRepository.save(existingReview);
     }
 
     async addProductReview(product_id, data) {
