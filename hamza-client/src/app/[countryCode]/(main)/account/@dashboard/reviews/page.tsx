@@ -1,51 +1,38 @@
-// Import necessary modules and types
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { fetchItemDetails } from '@lib/data'; // Assumed function to fetch item details
+
+import { retrieveOrder } from "@lib/data"
 import ReviewTemplate from '@modules/review/[id]/review-template';
 
 type Props = {
-    item: any; // Define the type more specifically based on your data structure
-};
-
-// This function should ideally be inside getServerSideProps or similar
-export async function getServerSideProps({
-    params,
-}): Promise<{ props: Props } | { notFound: boolean }> {
-    const item = await fetchItemDetails(params.id).catch(() => null);
-
-    if (!item) {
-        return { notFound: true };
-    }
-
-    return { props: { item } };
+    params: { id: string }
 }
 
-// Generate metadata for the page
-export function generateMetadata(item): Metadata {
-    if (!item) {
-        throw new Error('Item not available'); // Or handle differently as needed
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const order = await retrieveOrder(params.id).catch(() => null)
+
+    if (!order) {
+        notFound()
     }
 
     return {
-        title: `Item #${item.display_id}`, // Assuming item has a property 'display_id'
-        description: `Review your item ${item.title}`, // Assuming item has a property 'title'
-    };
+        title: `Order #${order.display_id}`,
+        description: `View your Review`,
+    }
 }
 
-// Main component for the review page
-export default function ReviewPage({ item }: Props) {
-    if (!item) {
-        notFound();
-        return null; // Ensure no further execution after notFound if necessary
-    }
-
-    const metadata = generateMetadata(item);
-
-    return (
-        <>
-            {/* Metadata component here if you use one, e.g., <Head> for setting page metadata */}
-            <ReviewTemplate item={item} />
-        </>
-    );
+return (
+    <div className="w-full bg-black text-white p-8">
+        <div className="mb-8 flex flex-col gap-y-4">
+            <h1 className="text-2xl-semi">Orders</h1>
+            <p className="text-base-regular">
+                View your previous orders and their status. You can also
+                create returns or exchanges for your orders if needed.
+            </p>
+        </div>
+        <div>
+            <ReviewTemplate item={order} />
+        </div>
+    </div>
+);
 }
