@@ -77,11 +77,47 @@ export default function ProductPrice({
         fetchAverageRating();
     }, [product.id]);
 
+    const renderStars = (rating) => {
+        const fullStars = Math.floor(rating);
+        const halfStar = rating % 1 >= 0.5;
+        const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+
+        return (
+            <>
+                {Array(fullStars)
+                    .fill('★')
+                    .map((s, index) => (
+                        <span
+                            key={`full-${index}`}
+                            className="text-yellow-500 text-2xl"
+                        >
+                            {s}
+                        </span>
+                    ))}
+                {halfStar && (
+                    <span className="text-yellow-500 text-2xl">½</span>
+                )}
+                {Array(emptyStars)
+                    .fill('☆')
+                    .map((s, index) => (
+                        <span
+                            key={`empty-${index}`}
+                            className="text-gray-400 text-2xl"
+                        >
+                            {s}
+                        </span>
+                    ))}
+            </>
+        );
+    };
+
     return (
         <div className="flex flex-col space-y-1 text-ui-fg-base text-white">
             <div>
                 <h3>Product Reviews {reviewCount}</h3>
-                <p className="text-white">Average Rating: {averageRating}</p>
+                <p className="text-white self-center">
+                    Average Rating: {renderStars(averageRating)}
+                </p>
             </div>
             {preferredPrice ? (
                 <span className={clx('text-xl-semi')}>
