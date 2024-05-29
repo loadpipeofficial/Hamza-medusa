@@ -31,6 +31,10 @@ class StoreService extends MedusaStoreService {
         return newStore; // Return the newly created and saved store
     }
 
+    async getStores() {
+        return await this.storeRepository_.find();
+    }
+
     // TODO: Should I pull this out of the store service? -G
     async populateProductsWithStoreId(
         store: Store,
