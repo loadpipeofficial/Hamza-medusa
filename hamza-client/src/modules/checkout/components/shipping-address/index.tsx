@@ -34,8 +34,20 @@ const ShippingAddress = ({
         'shipping_address.phone': cart?.shipping_address?.phone || '',
     });
 
-    //keep track of user email
+    //Email states
     const [checkoutEmail, setCheckoutEmail] = useState('');
+    const [validEmail, setValidEmail] = useState(true);
+
+    //validate email address
+    const validateEmail = (email) => {
+        if (email === '') {
+            setValidEmail(true);
+            return;
+        } else {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            setValidEmail(emailRegex.test(email));
+        }
+    };
 
     // TODO (For G), take a look at what obj / type we are sending instead of passing any
     const countriesInRegion = useMemo(
@@ -180,15 +192,23 @@ const ShippingAddress = ({
                 /> */}
             </div>
             <div className="grid grid-cols-2 gap-4 mb-4">
-                <Input
-                    label="Email"
-                    name="email"
-                    type="email"
-                    title="Enter a valid email address."
-                    autoComplete="email"
-                    value={checkoutEmail}
-                    onChange={handleChange}
-                />
+                <div>
+                    <Input
+                        label="Email"
+                        name="email"
+                        type="email"
+                        title="Enter a valid email address."
+                        autoComplete="email"
+                        value={checkoutEmail}
+                        onChange={handleChange}
+                        onBlur={() => validateEmail(checkoutEmail)}
+                    />
+                    {validEmail === false && (
+                        <div style={{ color: 'red' }}>
+                            Please enter a valid email address
+                        </div>
+                    )}
+                </div>
                 <Input
                     label="Phone"
                     name="shipping_address.phone"
