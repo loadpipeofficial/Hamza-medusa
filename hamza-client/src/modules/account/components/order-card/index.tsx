@@ -58,7 +58,11 @@ const OrderCard = ({ order }: OrderCardProps) => {
                 {/* Static '1 item' since there are no items array */}
             </div>
             <div className="my-4">
-                <Thumbnail thumbnail={order.thumbnail} images={[]} />
+                <Thumbnail
+                    thumbnail={order.thumbnail}
+                    images={[]}
+                    size={'small'}
+                />
                 <div className="text-small-regular text-white mt-2">
                     <span className="font-semibold">{order.title}</span>
                     <p>{order.description}</p>

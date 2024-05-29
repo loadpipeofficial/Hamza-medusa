@@ -116,3 +116,71 @@ Content-Type: application/json
 "customer_id": "cus_01HYAAZB62RNRTXXY9TC20DK8E",
   "preferred_currency": "eth"
 }
+
+#### Create Mock Review
+POST http://localhost:9000/custom/review
+Content-Type: application/json
+
+{
+  "customer_id": "cus_01HYW342BBBEK3GXETA26VJQSW",
+  "product_id": "prod_01HYYR4MWE0TB0B8T79KH5BEFZ",
+  "rating": 3,
+  "content": "This is a great product!",
+  "title": "Great Product 2222!",
+  "order_id": "order_01HYZ7ZCEFFAVQ6BYY9QHJQ821"
+}
+
+### Get Specific Product Review
+POST http://localhost:9000/custom/review/all-reviews
+Content-Type: application/json
+
+{
+  "product_id": "prod_01HYYR4MV4TRXMWH1TQ9KTGWSF"
+}
+
+### Update Product Review
+PATCH http://localhost:9000/custom/review/content
+Content-Type: application/json
+
+{
+  "customer_id": "cus_01HYW342BBBEK3GXETA26VJQSW",
+  "product_id": "prod_01HYYR4MWE0TB0B8T79KH5BEFZ",
+  "reviewUpdates": "CONTENT CONTENRT"
+}
+
+### Update Product Rating
+PATCH http://localhost:9000/custom/review/rating
+Content-Type: application/json
+
+{
+  "customer_id": "cus_01HYW342BBBEK3GXETA26VJQSW",
+  "product_id": "prod_01HYYR4MWE0TB0B8T79KH5BEFZ",
+  "rating": 10
+}
+
+
+### Verify Email
+POST http://localhost:9000/custom/review/verify
+Content-Type: application/json
+
+{
+  "customer_id":  "cus_01HYYRFGXRQ44NQXMJK9DDVNB3"
+}
+
+### Check if Customer has bought product
+POST http://localhost:9000/custom/review/bought
+Content-Type: application/json
+
+{
+  "customer_id": "cus_01HYYRFGXRQ44NQXMJK9DDVNB3",
+  "product_id": "prod_01HYYR4MV4TRXMWH1TQ9KTGWSF"
+}
+
+### Check if customer already left a review
+POST http://localhost:9000/custom/review/exists
+Content-Type: application/json
+
+{
+  "customer_id": "cus_01HYYRFGXRQ44NQXMJK9DDVNB3",
+  "order_id": "order_01HYZ7ZCEFFAVQ6BYY9QHJQ821"
+}
