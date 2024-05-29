@@ -11,6 +11,7 @@ import { useIntersection } from '@lib/hooks/use-in-view';
 import { addToCart } from '@modules/cart/actions';
 import Divider from '@modules/common/components/divider';
 import OptionSelect from '@modules/products/components/option-select';
+import { BuyButton } from '@/components/buttons/buy-button/buy-button';
 
 import MobileActions from '../mobile-actions';
 import ProductPrice from '../product-price';
@@ -224,6 +225,7 @@ export default function ProductActions({
                     />
                     Add to Wishlist
                 </Button>
+                <BuyButton styles={'w-full h-10 text-white'} />
                 <MobileActions
                     product={product}
                     variant={variant}
