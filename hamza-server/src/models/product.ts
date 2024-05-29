@@ -13,4 +13,7 @@ export class Product extends MedusaProduct {
     @ManyToOne(() => Store)
     @JoinColumn({ name: 'store_id', referencedColumnName: 'id' })
     store?: Store;
+
+    @Column('massmarket_prod_id')
+    massmarket_prod_id?: string;
 }
