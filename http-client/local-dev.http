@@ -151,7 +151,7 @@ POST http://localhost:9000/custom/review/average
 Content-Type: application/json
 
 {
-  "product_id": "prod_01HYYR4MV4TRXMWH1TQ9KTGWSF"
+  "product_id": "prod_01HYYR4MHSPM9Q2P5HNV55BJA1"
 }
 
 ### Update Product Review

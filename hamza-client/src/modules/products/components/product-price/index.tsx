@@ -28,6 +28,8 @@ export default function ProductPrice({
     const selectedPrices = variant
         ? variant.prices
         : product.variants[0].prices;
+    const [averageRating, setAverageRating] = useState(0);
+    const [reviewCount, setReviewCount] = useState(0);
     let preferredPrice =
         status == 'authenticated' &&
         preferred_currency_code &&
@@ -37,7 +39,7 @@ export default function ProductPrice({
         return <div className="block w-32 h-9 bg-gray-100 animate-pulse" />;
     }
 
-    console.log(`Product is ${JSON.stringify(product)}`);
+    console.log(`Product is ${product.id}`);
     useEffect(() => {
         const fetchReviewCount = async () => {
             try {
@@ -45,9 +47,11 @@ export default function ProductPrice({
                     `${BACKEND_URL}/custom/review/count`,
                     {
                         product_id: product.id,
-                    }
+                    },
+                    { headers: { 'Content-Type': 'application/json' } }
                 );
-                setReviewCount(response.data.count); // Assuming the response contains the count directly
+                console.log(`response.data.count is ${response.data}`);
+                setReviewCount(response.data); // Assuming the response contains the count directly
             } catch (error) {
                 console.error('Failed to fetch review count:', error);
             }
@@ -59,9 +63,11 @@ export default function ProductPrice({
                     `${BACKEND_URL}/custom/review/average`,
                     {
                         product_id: product.id,
-                    }
+                    },
+                    { headers: { 'Content-Type': 'application/json' } }
                 );
-                setAverageRating(response.data.average); // Assuming the response contains the average directly
+                console.log(`response.data.average is ${response.data}`);
+                setAverageRating(response.data); // Assuming the response contains the average directly
             } catch (error) {
                 console.error('Failed to fetch average rating:', error);
             }
@@ -71,16 +77,11 @@ export default function ProductPrice({
         fetchAverageRating();
     }, [product.id]);
 
-    const [averageRating, setAverageRating] = useState(0);
-    const [reviewCount, setReviewCount] = useState(0);
-
     return (
         <div className="flex flex-col space-y-1 text-ui-fg-base text-white">
             <div>
-                <h3>Product Reviews</h3>
-                <p className="text-white">
-                    Average Rating: {averageRating} ({reviewCount} reviews)
-                </p>
+                <h3>Product Reviews {reviewCount}</h3>
+                <p className="text-white">Average Rating: {averageRating}</p>
             </div>
             {preferredPrice ? (
                 <span className={clx('text-xl-semi')}>
