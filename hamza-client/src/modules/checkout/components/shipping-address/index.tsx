@@ -175,7 +175,6 @@ const ShippingAddress = ({
                     autoComplete="email"
                     value={formData.email}
                     onChange={handleChange}
-                    required
                 />
                 <Input
                     label="Phone"
