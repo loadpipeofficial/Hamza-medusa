@@ -8,10 +8,11 @@ import Help from '@modules/order/components/help';
 import Items from '@modules/order/components/items';
 import OrderDetails from '@modules/order/components/order-details';
 import OrderSummary from '@modules/order/components/order-summary';
-import OrderReview from '@modules/order/components/order-review';
+// import OrderReview from '@modules/order/components/order-review';
 import ShippingDetails from '@modules/order/components/shipping-details';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import axios from 'axios';
+import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 
 type OrderDetailsTemplateProps = {
     order: Order;
@@ -53,9 +54,10 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
     order,
 }) => {
     //
-    const [detailedOrders, setDetailedOrders] = useState<DetailedOrder[]>([]);
+    const [detailedOrders, setDetailedOrders] = useState<Item[]>([]);
 
-    console.log('Orders: ', order.cart_id);
+    const customer_id = useCustomerAuthStore((state) => state.customer_id);
+    // console.log('Orders: ', order.cart_id);
     console.log(`Orders: ${JSON.stringify(order)}`);
 
     useEffect(() => {
@@ -67,8 +69,13 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
                         cart_id: order.cart_id,
                     }
                 );
-                console.log('Data: ', data);
-                setDetailedOrders(data.order);
+                const updatedItems = data.order.map((item: Item) => ({
+                    ...item,
+                    order_id: order.id, // Append order_id to each item if cart_id matches
+                    customer_id: customer_id,
+                }));
+                console.log('Data: ', updatedItems);
+                setDetailedOrders(updatedItems);
             } catch (error) {
                 console.error('Error fetching orders: ', error);
             }
@@ -76,6 +83,8 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
 
         fetchOrders();
     }, [order]);
+
+    console.log('Detailed Orders: ', detailedOrders);
 
     const specificCart = detailedOrders.reduce((acc, item) => {
         // Check if the item's cart_id matches the order.cart_id
@@ -87,6 +96,7 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
         }
         return acc;
     }, {});
+    console.log(`Specific Cart: ${JSON.stringify(specificCart)}`);
 
     return (
         <div className="flex flex-col justify-center gap-y-4 ">

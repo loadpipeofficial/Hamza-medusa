@@ -22,7 +22,6 @@ const Items = ({ items }: ItemsProps) => {
     };
 
     console.log(`Order Items are ${JSON.stringify(items)}`);
-    console.log(`Order Items are ${items}`);
     return (
         <div className="flex flex-col">
             <Divider className="!mb-0" />

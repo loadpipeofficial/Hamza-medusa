@@ -3,7 +3,8 @@
 import { XMark } from '@medusajs/icons'; // If you use this, ensure it's installed or replace with a similar icon
 import React, { useState } from 'react';
 import axios from 'axios';
-import useItemStore from '@store/review/review-store'; // Adjust the import path to where your store is defined
+import useItemStore from '@store/review/review-store';
+import { Button } from '@medusajs/ui'; // Adjust the import path to where your store is defined
 
 const ReviewTemplate = () => {
     const [review, setReview] = useState('');
@@ -35,7 +36,7 @@ const ReviewTemplate = () => {
     ];
 
     return (
-        <div className="p-4 bg-white shadow-md rounded-lg">
+        <div className="p-4 bg-white shadow-md rounded-lg text-black">
             <div className="flex items-center mb-4">
                 <img
                     src={item?.thumbnail}
@@ -78,12 +79,7 @@ const ReviewTemplate = () => {
                     onChange={(e) => setReview(e.target.value)}
                 />
             </div>
-            <button
-                className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                // onClick={submitReview}
-            >
-                Submit Review
-            </button>
+            <Button className="m-4">Submit Review</Button>
         </div>
     );
 };
