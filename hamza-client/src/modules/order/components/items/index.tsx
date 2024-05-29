@@ -8,13 +8,15 @@ import Thumbnail from '@modules/products/components/thumbnail';
 import React from 'react';
 import { Button } from '@medusajs/ui';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
-import { XMark } from '@medusajs/icons';
+import itemStore from '@store/review/review-store';
 
 type ItemsProps = {
     items: any;
 };
 
 const Items = ({ items }: ItemsProps) => {
+    const setItem = itemStore((state) => state.setItem);
+
     console.log(`Order Items are ${JSON.stringify(items)}`);
     console.log(`Order Items are ${items}`);
     return (
