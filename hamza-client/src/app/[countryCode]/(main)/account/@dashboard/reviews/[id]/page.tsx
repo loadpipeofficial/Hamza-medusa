@@ -14,10 +14,9 @@ export default async function ReviewPage({ params }: Props) {
     return (
         <div className="w-full bg-black text-white p-8">
             <div className="mb-8 flex flex-col gap-y-4">
-                <h1 className="text-2xl-semi">Orders</h1>
+                <h1 className="text-2xl-semi">Write Review</h1>
                 <p className="text-base-regular">
-                    View your previous orders and their status. You can also
-                    create returns or exchanges for your orders if needed.
+                    Rate and review purchased product:
                 </p>
             </div>
             <div>

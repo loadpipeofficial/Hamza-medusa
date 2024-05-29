@@ -7,9 +7,9 @@ import axios from 'axios';
 const ReviewTemplate = ({ item }) => {
     const [review, setReview] = useState('');
     const [rating, setRating] = useState(0);
+    const [hovered, setHovered] = useState(0);
 
     // For simplicity, array of stars for rating
-    const [hovered, setHovered] = useState(0);
 
     const submitReview = async () => {
         try {
@@ -23,6 +23,14 @@ const ReviewTemplate = ({ item }) => {
             alert('Failed to submit review');
         }
     };
+
+    const ratingDescriptions = [
+        'Extremely Bad', // Index 0 for 1 star
+        'Dissatisfied', // Index 1 for 2 stars
+        'Fair', // Index 2 for 3 stars
+        'Satisfied', // Index 3 for 4 stars
+        'Delighted', // Index 4 for 5 stars
+    ];
 
     return (
         <div className="p-4 bg-white shadow-md rounded-lg">
@@ -38,21 +46,30 @@ const ReviewTemplate = ({ item }) => {
                 </div>
             </div>
             <div>
-                <div className="flex mb-2">
+                <div className="flex items-center mb-2">
                     {[1, 2, 3, 4, 5].map((star) => (
                         <button
                             key={star}
                             className={`text-2xl ${star <= (hovered || rating) ? 'text-yellow-500' : 'text-gray-400'}`}
                             onMouseEnter={() => setHovered(star)}
                             onMouseLeave={() => setHovered(0)}
-                            onClick={() => setRating(star)}
+                            onClick={() => {
+                                setRating(star);
+                                setHovered(star); // Ensure hovered updates to reflect the selected star
+                            }}
                         >
                             ★
                         </button>
                     ))}
+                    <span className="ml-2 text-sm font-medium text-black self-center">
+                        {hovered
+                            ? ratingDescriptions[hovered - 1]
+                            : ratingDescriptions[rating - 1] || ''}
+                    </span>
                 </div>
+                <p className="text-black">Review Detail</p>
                 <textarea
-                    className="w-full p-2 border rounded"
+                    className="w-full p-2 border rounded text-black"
                     rows="4"
                     placeholder="What do you think of this product?"
                     value={review}
