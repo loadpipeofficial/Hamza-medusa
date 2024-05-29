@@ -18,7 +18,7 @@ const ReviewTemplate = () => {
             await axios.post(`${BACKEND_URL}/custom/review`, {
                 customer_id: item?.customer_id,
                 product_id: item?.variant_id,
-                rating,
+                rating: rating,
                 content: review,
                 title: 'Review for ' + item?.title, // Assuming a title is needed
                 order_id: item?.order_id,

@@ -120,6 +120,7 @@ class ProductReviewService extends TransactionBaseService {
 
     async addProductReview(product_id, data) {
         if (
+            !product_id ||
             !data.title ||
             !data.customer_id ||
             !data.content ||
@@ -134,11 +135,29 @@ class ProductReviewService extends TransactionBaseService {
         const productReviewRepository =
             this.activeManager_.getRepository(ProductReview);
 
-        console.log(`hello there`);
-        const variant_product = await this.productVariantRepository_.findOne({
-            where: { product_id },
-        });
-        const productId = variant_product.product_id;
+        let productId;
+
+        try {
+            const variantProduct = await this.productVariantRepository_.findOne(
+                {
+                    where: { id: product_id }, // Assuming product_id is the ID of the variant
+                }
+            );
+
+            if (!variantProduct) {
+                throw new Error('Product variant not found');
+            }
+
+            productId = variantProduct.product_id; // This assumes that variantProduct actually contains a product_id
+        } catch (e) {
+            console.error(`Error fetching product variant: ${e}`);
+            throw e; // Rethrow or handle the error appropriately
+        }
+
+        // Ensure productId was successfully retrieved before proceeding
+        if (!productId) {
+            throw new Error('Unable to retrieve product ID for the review');
+        }
 
         const createdReview = productReviewRepository.create({
             product_id: productId,
