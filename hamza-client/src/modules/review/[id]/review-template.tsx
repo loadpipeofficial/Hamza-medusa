@@ -1,45 +1,42 @@
 'use client';
 
-import { XMark } from '@medusajs/icons'; // If you use this, ensure it's installed or replace with a similar icon
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import useItemStore from '@store/review/review-store';
-import { Button } from '@medusajs/ui'; // Adjust the import path to where your store is defined
-import Medusa from '@medusajs/medusa-js';
+import { Button } from '@medusajs/ui';
+const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 
 const ReviewTemplate = () => {
     const [review, setReview] = useState('');
     const [rating, setRating] = useState(0);
     const [hovered, setHovered] = useState(0);
 
-    const medusa = new Medusa({
-        baseUrl: 'http://localhost:9000',
-        maxRetries: 3,
-    });
-
     const item = useItemStore((state) => state.item);
-    console.log(`item is ${JSON.stringify(item)}`);
-    console.log(`Item Variant id is ${item?.variant_id}`);
 
-    // const submitReview = async () => {
-    //     try {
-    //         await axios.post('/api/reviews', {
-    //             item_id: item.id,
-    //             review,
-    //             rating,
-    //         });
-    //         alert('Review submitted successfully!');
-    //     } catch (error) {
-    //         alert('Failed to submit review');
-    //     }
-    // };
+    const submitReview = async () => {
+        try {
+            await axios.post(`${BACKEND_URL}/custom/review`, {
+                customer_id: item?.customer_id,
+                product_id: item?.variant_id,
+                rating,
+                content: review,
+                title: 'Review for ' + item?.title, // Assuming a title is needed
+                order_id: item?.order_id,
+            });
+            alert('Review submitted successfully!');
+            setReview('');
+            setRating(0);
+        } catch (error) {
+            alert('Failed to submit review: ' + error.message);
+        }
+    };
 
     const ratingDescriptions = [
-        'Extremely Bad', // Index 0 for 1 star
-        'Dissatisfied', // Index 1 for 2 stars
-        'Fair', // Index 2 for 3 stars
-        'Satisfied', // Index 3 for 4 stars
-        'Delighted', // Index 4 for 5 stars
+        'Extremely Bad',
+        'Dissatisfied',
+        'Fair',
+        'Satisfied',
+        'Delighted',
     ];
 
     return (
@@ -65,16 +62,14 @@ const ReviewTemplate = () => {
                             onMouseLeave={() => setHovered(0)}
                             onClick={() => {
                                 setRating(star);
-                                setHovered(star); // Ensure hovered updates to reflect the selected star
+                                setHovered(star);
                             }}
                         >
                             ★
                         </button>
                     ))}
                     <span className="ml-2 text-sm font-medium text-black self-center">
-                        {hovered
-                            ? ratingDescriptions[hovered - 1]
-                            : ratingDescriptions[rating - 1] || ''}
+                        {ratingDescriptions[rating - 1] || ''}
                     </span>
                 </div>
                 <p className="text-black">Review Detail</p>
@@ -85,8 +80,14 @@ const ReviewTemplate = () => {
                     value={review}
                     onChange={(e) => setReview(e.target.value)}
                 />
+                <Button
+                    className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={submitReview}
+                    disabled={rating === 0 || review.trim() === ''}
+                >
+                    Submit Review
+                </Button>
             </div>
-            <Button className="m-4">Submit Review</Button>
         </div>
     );
 };
