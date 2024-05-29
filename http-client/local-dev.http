@@ -130,8 +130,16 @@ Content-Type: application/json
   "order_id": "order_01HYZ7ZCEFFAVQ6BYY9QHJQ821"
 }
 
-### Get Specific Product Review
+### Get All Product Reviews
 POST http://localhost:9000/custom/review/all-reviews
+Content-Type: application/json
+
+{
+  "product_id": "prod_01HYYR4MV4TRXMWH1TQ9KTGWSF"
+}
+
+### Get Review Count
+POST http://localhost:9000/custom/review/count
 Content-Type: application/json
 
 {
