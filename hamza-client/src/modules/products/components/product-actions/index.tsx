@@ -12,7 +12,7 @@ import { addToCart } from '@modules/cart/actions';
 import Divider from '@modules/common/components/divider';
 import OptionSelect from '@modules/products/components/option-select';
 import BuyButton from '../buy-button';
-
+import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import MobileActions from '../mobile-actions';
 import ProductPrice from '../product-price';
 import WishlistIcon from '@/components/wishlist-dropdown/icon/wishlist-icon';
@@ -239,12 +239,14 @@ export default function ProductActions({
                     />
                     Add to Wishlist
                 </Button>
-                <BuyButton
-                    styles={'w-full h-10 text-white'}
-                    handleBuyNow={handleBuyNow}
-                    loader={buyNowLoader}
-                    outOfStock={!inStock || !variant}
-                />
+                <LocalizedClientLink href="/checkout">
+                    <BuyButton
+                        styles={'w-full h-10 text-white'}
+                        handleBuyNow={handleBuyNow}
+                        loader={buyNowLoader}
+                        outOfStock={!inStock || !variant}
+                    />
+                </LocalizedClientLink>
                 <MobileActions
                     product={product}
                     variant={variant}
