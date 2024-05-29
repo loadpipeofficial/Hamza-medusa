@@ -201,11 +201,12 @@ const ShippingAddress = ({
                         autoComplete="email"
                         value={checkoutEmail}
                         onChange={handleChange}
+                        onFocus={() => setValidEmail(true)}
                         onBlur={() => validateEmail(checkoutEmail)}
                     />
                     {validEmail === false && (
                         <div style={{ color: 'red' }}>
-                            Please enter a valid email address
+                            The email you have entered is not valid
                         </div>
                     )}
                 </div>
