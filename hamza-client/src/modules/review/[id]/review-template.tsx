@@ -1,15 +1,10 @@
 'use client';
 
-import { Item } from '@medusajs/medusa';
 import { XMark } from '@medusajs/icons';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-type ReviewTemplateProps = {
-    item: Item;
-};
-
-const ReviewTemplate: React.FC<ReviewTemplateProps> = ({ item: Item }) => {
+const ReviewTemplate = ({ item }) => {
     const [review, setReview] = useState('');
     const [rating, setRating] = useState(0);
 
