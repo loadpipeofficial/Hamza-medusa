@@ -35,7 +35,9 @@ const Addresses = ({
 
     const countryCode = params.countryCode as string;
 
-    const isOpen = searchParams.get('step') === 'address';
+    const isOpen =
+        (searchParams.get('step') && searchParams.get('step') === 'address') ||
+        !searchParams.get('step');
 
     const { state: sameAsSBilling, toggle: toggleSameAsBilling } =
         useToggleState(

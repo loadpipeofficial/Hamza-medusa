@@ -6,6 +6,8 @@ import { Order } from '@medusajs/medusa';
 import { Button } from '@medusajs/ui';
 import OrderCard from '../order-card';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
+import { addToCart } from '@modules/cart/actions';
+import { useParams, useRouter } from 'next/navigation';
 
 // Define a type that extends the Order type with any additional data
 interface DetailedOrder extends Order {
@@ -16,6 +18,10 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
     // Initialize state with the correct type
     const [detailedOrders, setDetailedOrders] = useState<DetailedOrder[]>([]);
     console.log('Orders: ', orders);
+
+    const countryCode = useParams().countryCode as string;
+
+    const router = useRouter();
 
     // lets make an axios call to http://localhost:9000/custom/order
     useEffect(() => {
@@ -37,6 +43,26 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
         fetchOrders();
     }, [orders]);
 
+    const handleReorder = async (items: any) => {
+        console.log('Reorder button clicked');
+        items.map(async (item: any) => {
+            try {
+                await addToCart({
+                    variantId: item.variant_id,
+                    countryCode: countryCode,
+                    currencyCode: item.currency_code,
+                    quantity: item.quantity,
+                });
+            } catch (e) {
+                alert(`Product with name ${item.title} could not be added`);
+            }
+        });
+
+        router.push('/checkout');
+
+        return;
+    };
+
     const groupedByCartId = detailedOrders.reduce((acc, item) => {
         if (!acc[item.cart_id]) {
             acc[item.cart_id] = [];
@@ -45,11 +71,9 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
         return acc;
     }, {});
 
-    console.log('Grouped Orders: ', groupedByCartId);
+    console.log('groupedByCartId: ', groupedByCartId);
 
     if (Object.keys(groupedByCartId).length > 0) {
-        console.log('Detailed Orders:', groupedByCartId);
-
         return (
             <div className="flex flex-col gap-y-8 w-full bg-black text-white p-8">
                 {Object.entries(groupedByCartId).map(
@@ -61,7 +85,16 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                             <div className="p-4 bg-gray-700">
                                 Order {orders[index] ? orders[index].id : 'N/A'}{' '}
                                 - Total Items: {items.length}
+                                <span
+                                    className="pl-2 text-blue-400 underline underline-offset-1 cursor-pointer"
+                                    onClick={() => {
+                                        handleReorder(items);
+                                    }}
+                                >
+                                    Re-order
+                                </span>
                             </div>
+
                             {items.map((item) => (
                                 <OrderCard key={item.id} order={item} />
                             ))}
