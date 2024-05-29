@@ -122,7 +122,7 @@ POST http://localhost:9000/custom/review
 Content-Type: application/json
 
 {
-  "customer_id": "cus_01HYW342BBBEK3GXETA26VJQSW",
+  "customer_id": "cus_01HYYRFGXRQ44NQXMJK9DDVNB3",
   "product_id": "prod_01HYYR4MWE0TB0B8T79KH5BEFZ",
   "rating": 3,
   "content": "This is a great product!",

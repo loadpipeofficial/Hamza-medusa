@@ -3,12 +3,15 @@ import { Lifetime } from 'awilix';
 import { ProductReviewRepository } from '../repositories/product-review';
 import { ProductReview } from '../models/product-review';
 import { Customer } from '../models/customer';
+import { ProductVariantRepository } from '../repositories/product-variant';
 
 class ProductReviewService extends TransactionBaseService {
     static LIFE_TIME = Lifetime.SCOPED;
+    protected readonly productVariantRepository_: typeof ProductVariantRepository;
 
     constructor(container) {
         super(container);
+        this.productVariantRepository_ = container.productVariantRepository;
     }
 
     async customerIsVerified(customer_id) {
@@ -130,8 +133,15 @@ class ProductReviewService extends TransactionBaseService {
 
         const productReviewRepository =
             this.activeManager_.getRepository(ProductReview);
+
+        console.log(`hello there`);
+        const variant_product = await this.productVariantRepository_.findOne({
+            where: { product_id },
+        });
+        const productId = variant_product.product_id;
+
         const createdReview = productReviewRepository.create({
-            product_id: product_id,
+            product_id: productId,
             title: data.title,
             customer_id: data.customer_id, // Assuming there is a customer_id field
             content: data.content,

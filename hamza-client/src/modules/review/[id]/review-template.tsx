@@ -1,18 +1,25 @@
 'use client';
 
 import { XMark } from '@medusajs/icons'; // If you use this, ensure it's installed or replace with a similar icon
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import useItemStore from '@store/review/review-store';
 import { Button } from '@medusajs/ui'; // Adjust the import path to where your store is defined
+import Medusa from '@medusajs/medusa-js';
 
 const ReviewTemplate = () => {
     const [review, setReview] = useState('');
     const [rating, setRating] = useState(0);
     const [hovered, setHovered] = useState(0);
 
+    const medusa = new Medusa({
+        baseUrl: 'http://localhost:9000',
+        maxRetries: 3,
+    });
+
     const item = useItemStore((state) => state.item);
     console.log(`item is ${JSON.stringify(item)}`);
+    console.log(`Item Variant id is ${item?.variant_id}`);
 
     // const submitReview = async () => {
     //     try {

@@ -58,7 +58,7 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
 
     const customer_id = useCustomerAuthStore((state) => state.customer_id);
     // console.log('Orders: ', order.cart_id);
-    console.log(`Orders: ${JSON.stringify(order)}`);
+    // console.log(`Orders: ${JSON.stringify(order)}`);
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -84,7 +84,7 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
         fetchOrders();
     }, [order]);
 
-    console.log('Detailed Orders: ', detailedOrders);
+    // console.log('Detailed Orders: ', detailedOrders);
 
     const specificCart = detailedOrders.reduce((acc, item) => {
         // Check if the item's cart_id matches the order.cart_id
