@@ -63,13 +63,16 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
         return;
     };
 
-    const groupedByCartId = detailedOrders.reduce((acc, item) => {
-        if (!acc[item.cart_id]) {
-            acc[item.cart_id] = [];
-        }
-        acc[item.cart_id].push(item);
-        return acc;
-    }, {});
+    const groupedByCartId = detailedOrders.reduce(
+        (acc: { [key: string]: any }, item) => {
+            if (!acc[item.cart_id]) {
+                acc[item.cart_id] = [];
+            }
+            acc[item.cart_id].push(item);
+            return acc;
+        },
+        {}
+    );
 
     console.log('groupedByCartId: ', groupedByCartId);
 
@@ -95,7 +98,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                                 </span>
                             </div>
 
-                            {items.map((item) => (
+                            {items.map((item: any) => (
                                 <OrderCard key={item.id} order={item} />
                             ))}
                             <div className="flex justify-end">

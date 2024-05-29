@@ -188,7 +188,8 @@ const CartDropdown = ({
                                                 amount: cartState.subtotal || 0,
                                                 region: cartState.region,
                                                 includeTaxes: false,
-                                            })}
+                                                currency_code: '',
+                                            }).toString()}
                                         </span>
                                     </div>
                                     <LocalizedClientLink href="/cart" passHref>

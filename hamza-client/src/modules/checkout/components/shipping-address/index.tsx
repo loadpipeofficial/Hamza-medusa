@@ -39,7 +39,7 @@ const ShippingAddress = ({
     const [validEmail, setValidEmail] = useState(true);
 
     //validate email address
-    const validateEmail = (email) => {
+    const validateEmail = (email: any) => {
         if (email === '') {
             setValidEmail(true);
             return;

@@ -19,7 +19,7 @@ const Items = ({ items }: ItemsProps) => {
             <Table>
                 <Table.Body>
                     {Object.entries(items).map(([id, cartItems]) =>
-                        cartItems.map((item) => (
+                        cartItems.map((item: any) => (
                             <Table.Row key={item.id}>
                                 <Table.Cell>
                                     <div className="flex items-center">
