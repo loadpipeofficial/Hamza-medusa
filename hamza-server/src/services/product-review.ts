@@ -94,6 +94,25 @@ class ProductReviewService extends TransactionBaseService {
         return reviews.length;
     }
 
+    async getAverageRating(product_id) {
+        const productReviewRepository =
+            this.activeManager_.getRepository(ProductReview);
+        const reviews = await productReviewRepository.find({
+            where: { product_id },
+        });
+
+        if (!reviews) {
+            throw new Error('No reviews found');
+        }
+
+        const averageRating =
+            reviews.reduce((acc, review) => acc + review.rating, 0) /
+            reviews.length;
+
+        console.log(`The average rating is: ${averageRating.toFixed(2)}`);
+        return averageRating;
+    }
+
     async updateProductReview(product_id, reviewUpdates, customer_id) {
         const productReviewRepository =
             this.activeManager_.getRepository(ProductReview);

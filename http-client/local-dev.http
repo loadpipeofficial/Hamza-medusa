@@ -146,6 +146,14 @@ Content-Type: application/json
   "product_id": "prod_01HYYR4MV4TRXMWH1TQ9KTGWSF"
 }
 
+### Get Average Rating
+POST http://localhost:9000/custom/review/average
+Content-Type: application/json
+
+{
+  "product_id": "prod_01HYYR4MV4TRXMWH1TQ9KTGWSF"
+}
+
 ### Update Product Review
 PATCH http://localhost:9000/custom/review/content
 Content-Type: application/json
