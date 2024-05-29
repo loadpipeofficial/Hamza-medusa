@@ -14,6 +14,6 @@ export class Product extends MedusaProduct {
     @JoinColumn({ name: 'store_id', referencedColumnName: 'id' })
     store?: Store;
 
-    @Column('massmarket_prod_id')
+    @Column()
     massmarket_prod_id?: string;
 }

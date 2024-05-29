@@ -15,9 +15,9 @@ export class Store extends MedusaStore {
     @Column('owner_id')
     owner_id?: string;
 
-    @Column('massmarket_store_id')
+    @Column()
     massmarket_store_id?: string;
 
-    @Column('massmarket_keycard')
+    @Column()
     massmarket_keycard?: string;
 }
