@@ -11,7 +11,7 @@ import { useIntersection } from '@lib/hooks/use-in-view';
 import { addToCart } from '@modules/cart/actions';
 import Divider from '@modules/common/components/divider';
 import OptionSelect from '@modules/products/components/option-select';
-import { BuyButton } from '@/components/buttons/buy-button/buy-button';
+import BuyButton from '../buy-button';
 
 import MobileActions from '../mobile-actions';
 import ProductPrice from '../product-price';
@@ -37,6 +37,7 @@ export default function ProductActions({
 }: ProductActionsProps): JSX.Element {
     const [options, setOptions] = useState<Record<string, string>>({});
     const [isAdding, setIsAdding] = useState(false);
+    const [buyNowLoader, setBuyNowLoader] = useState(false);
     const { addWishlistItemMutation, removeWishlistItemMutation } =
         useWishlistMutations();
     const [inventoryCount, setInventoryCount] = useState(null);
@@ -152,6 +153,19 @@ export default function ProductActions({
         setIsAdding(false);
     };
 
+    //Add to card and buy now
+    const handleBuyNow = async () => {
+        if (!variant?.id) return;
+        setBuyNowLoader(true);
+        await addToCart({
+            variantId: variant.id,
+            quantity: 1,
+            countryCode: countryCode,
+            currencyCode: 'eth', //variant.prices[0].currency_code,
+        });
+        setBuyNowLoader(false);
+    };
+
     // add product to wishlist-dropdown
     const toggleWishlist = async () => {
         console.log('toggle wishlist-dropdown item', product);
@@ -225,7 +239,12 @@ export default function ProductActions({
                     />
                     Add to Wishlist
                 </Button>
-                <BuyButton styles={'w-full h-10 text-white'} />
+                <BuyButton
+                    styles={'w-full h-10 text-white'}
+                    handleBuyNow={handleBuyNow}
+                    loader={buyNowLoader}
+                    outOfStock={!inStock || !variant}
+                />
                 <MobileActions
                     product={product}
                     variant={variant}
