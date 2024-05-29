@@ -17,6 +17,10 @@ type ItemsProps = {
 const Items = ({ items }: ItemsProps) => {
     const setItem = itemStore((state) => state.setItem);
 
+    const handleItemClick = (item) => {
+        setItem(item);
+    };
+
     console.log(`Order Items are ${JSON.stringify(items)}`);
     console.log(`Order Items are ${items}`);
     return (
@@ -30,6 +34,7 @@ const Items = ({ items }: ItemsProps) => {
                                 <LocalizedClientLink
                                     href={`/account/reviews/${item.id}`}
                                     className="flex gap-2 items-center text-white hover:text-ui-fg-base"
+                                    onClick={() => handleItemClick(item)}
                                 >
                                     <Button className="m-2">Review</Button>
                                 </LocalizedClientLink>

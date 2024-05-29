@@ -3,26 +3,28 @@
 import { XMark } from '@medusajs/icons'; // If you use this, ensure it's installed or replace with a similar icon
 import React, { useState } from 'react';
 import axios from 'axios';
+import useItemStore from '@store/review/review-store'; // Adjust the import path to where your store is defined
 
-const ReviewTemplate = ({ item }) => {
+const ReviewTemplate = () => {
     const [review, setReview] = useState('');
     const [rating, setRating] = useState(0);
     const [hovered, setHovered] = useState(0);
 
-    // For simplicity, array of stars for rating
+    const item = useItemStore((state) => state.item);
+    console.log(`item is ${JSON.stringify(item)}`);
 
-    const submitReview = async () => {
-        try {
-            await axios.post('/api/reviews', {
-                item_id: item.id,
-                review,
-                rating,
-            });
-            alert('Review submitted successfully!');
-        } catch (error) {
-            alert('Failed to submit review');
-        }
-    };
+    // const submitReview = async () => {
+    //     try {
+    //         await axios.post('/api/reviews', {
+    //             item_id: item.id,
+    //             review,
+    //             rating,
+    //         });
+    //         alert('Review submitted successfully!');
+    //     } catch (error) {
+    //         alert('Failed to submit review');
+    //     }
+    // };
 
     const ratingDescriptions = [
         'Extremely Bad', // Index 0 for 1 star
@@ -78,7 +80,7 @@ const ReviewTemplate = ({ item }) => {
             </div>
             <button
                 className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onClick={submitReview}
+                // onClick={submitReview}
             >
                 Submit Review
             </button>
