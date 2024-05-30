@@ -3,6 +3,12 @@ import { StoreService as MedusaStoreService, Store } from '@medusajs/medusa';
 import { User } from '../models/user';
 import StoreRepository from '../repositories/store';
 import axios from 'axios';
+import { UpdateStoreInput as MedusaUpdateStoreInput } from '@medusajs/medusa/dist/types/store';
+
+type UpdateStoreInput = MedusaUpdateStoreInput & {
+    massmarket_keycard?: string;
+    massmarket_store_id?: string;
+};
 
 class StoreService extends MedusaStoreService {
     static LIFE_TIME = Lifetime.SCOPED;
@@ -29,6 +35,14 @@ class StoreService extends MedusaStoreService {
         console.log('New Store Saved:', newStore);
         await this.populateProductsWithStoreId(newStore, collection);
         return newStore; // Return the newly created and saved store
+    }
+
+    async getStores() {
+        return await this.storeRepository_.find();
+    }
+
+    async update(data: UpdateStoreInput) {
+        return await super.update(data);
     }
 
     // TODO: Should I pull this out of the store service? -G

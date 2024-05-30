@@ -37,11 +37,9 @@ export class RelayClientWrapper {
         if (keyCardPrivKey?.length === 0 || keyCardPrivKey === '0x0') {
             this._keyCard = new Uint8Array(randomBytes(32));
             keyCardPrivKey = bufferToString(this._keyCard);
-            console.log('NEW KEYCARD: ' + keyCardPrivKey);
         } else {
             keyCardEnrolled = true;
             this._keyCard = privateKeyStringToBytes(keyCardPrivKey);
-            console.log('EXISTING KEYCARD: ' + keyCardPrivKey);
         }
 
         const keyCardWallet: PrivateKeyAccount =
@@ -55,10 +53,11 @@ export class RelayClientWrapper {
             keyCardEnrolled,
         };
 
-        console.log(args);
-
         this._client = new RelayClient(args);
-        console.log('created');
+    }
+
+    static randomStoreId(): `0x${string}` {
+        return bufferToString(new Uint8Array(randomBytes(32)));
     }
 
     /**
@@ -89,11 +88,7 @@ export class RelayClientWrapper {
 
         await client.connect();
         const result = await client._client.createStore(client.storeId, wallet);
-        console.log(result);
-        console.log('keycard: ', client.keyCardToString());
-        console.log('enroll...');
-        await client.enrollKeyCard(walletPrivKey);
-        console.log('login...');
+        console.log(await client.enrollKeyCard(walletPrivKey));
         await client._client.connect();
         //console.log('manifest...');
         //await client._client.writeStoreManifest(client.storeId);
@@ -120,17 +115,14 @@ export class RelayClientWrapper {
             keyCard
         );
 
-        console.log('connecting', keyCard);
         await client.connect();
-        console.log('connected');
         client.eventStream = await client._client.createEventStream();
-        console.log('event stream');
 
         return client;
     }
 
     keyCardToString(): string {
-        return `${bufferToString(this._keyCard)}`;
+        return bufferToString(this._keyCard);
     }
 
     async connect(): Promise<void> {
@@ -179,15 +171,11 @@ export class RelayClientWrapper {
         productId: `0x${string}`,
         price: string
     ): Promise<any> {
-        console.log('updating item');
         const response = await this._client.updateItem(
             productId,
             ItemField.ITEM_FIELD_PRICE,
             price
         );
-
-        console.log(bufferToString(response.requestId));
-        //console.log(bufferToString(response.newStoreHash));
 
         return response;
     }
@@ -195,7 +183,6 @@ export class RelayClientWrapper {
     async addToCart(productId: `0x${string}`, quantity: number) {
         await this._client.changeStock([productId], [10]);
         this._cartId = await this._client.createCart();
-        console.log('cart:', this.cartId);
         console.log(
             await this._client.changeCart(this.cartId, productId, quantity)
         );
