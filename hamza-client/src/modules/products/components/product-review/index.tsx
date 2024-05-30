@@ -1,11 +1,12 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import { format } from 'date-fns';
 import axios from 'axios';
 import {
     Card,
     CardHeader,
     CardBody,
-    CardFooter,
+    Flex,
     Heading,
     Stack,
     Text,
@@ -44,6 +45,7 @@ const ProductReview: React.FC<ProductReviewProps> = ({
 
     useEffect(() => {
         const fetchReviewData = async () => {
+            // API calls remain the same
             const averageRatingResponse = await axios.post(
                 'http://localhost:9000/custom/review/average',
                 { product_id: product.id }
@@ -61,46 +63,62 @@ const ProductReview: React.FC<ProductReviewProps> = ({
             setReviewCount(reviewCountResponse.data.count);
             setReviews(reviewsResponse.data);
 
-            // Calculate rating distribution
-            const distribution = {};
-            reviewsResponse.data.forEach((review: Review) => {
-                distribution[review.rating] =
-                    (distribution[review.rating] || 0) + 1;
-            });
+            // Initialize the rating distribution to ensure all ratings from 1 to 5 are accounted for
+            const initialRatingDistribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+            const distribution = reviewsResponse.data.reduce((acc, review) => {
+                acc[review.rating] = (acc[review.rating] || 0) + 1;
+                return acc;
+            }, initialRatingDistribution);
+
             setRatingDistribution(distribution);
         };
 
         fetchReviewData();
     }, [product.id]);
+
     const ratings = Object.keys(ratingDistribution).sort((a, b) => b - a); // Sort ratings descending
+    const initialRatingDistribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
 
     return (
         <Box className="bg-black text-white p-4">
-            <Heading size="lg" mb={4}>
-                Average Rating: {averageRating?.toFixed(1)} / 5
-            </Heading>
-            <Stack spacing={5} mb={8}>
-                {ratings.map((rating) => (
-                    <Box key={rating}>
-                        <Text>{rating} Stars</Text>
-                        <Progress
-                            colorScheme="yellow"
-                            size="sm"
-                            value={ratingDistribution[rating]}
-                            max={reviewCount}
-                            hasStripe
-                            isAnimated
-                        />
-                        <Text>
-                            {(
-                                (ratingDistribution[rating] / reviewCount) *
-                                100
-                            )?.toFixed(1)}
-                            % ({ratingDistribution[rating]})
+            <Stack
+                spacing={5}
+                mb={8}
+                justifyContent="center"
+                alignItems="center"
+            >
+                <Heading size="lg" mb={4}>
+                    Average Rating: {averageRating} / 5
+                </Heading>
+                {[5, 4, 3, 2, 1].map((rating) => (
+                    <Flex key={rating} align="center">
+                        {/* Static display of stars */}
+                        <Box mr={4}>
+                            <span className="text-yellow-500 text-2xl">
+                                {'★'.repeat(rating) + '☆'.repeat(5 - rating)}
+                            </span>
+                        </Box>
+                        <Text flexShrink={0} mr={4}>
+                            {rating} Stars
                         </Text>
-                    </Box>
+                        <Box>
+                            {' '}
+                            {/* Adjust the width as necessary */}
+                            <Progress
+                                width={'400px'}
+                                colorScheme="yellow"
+                                size="md"
+                                value={ratingDistribution[rating]}
+                                max={reviewCount}
+                                hasStripe
+                                isAnimated
+                            />
+                        </Box>
+                        <Text m={2}>{ratingDistribution[rating]}</Text>
+                    </Flex>
                 ))}
             </Stack>
+
             <Card>
                 <CardHeader>
                     <Heading size="md">Product Reviews</Heading>
@@ -119,6 +137,10 @@ const ProductReview: React.FC<ProductReviewProps> = ({
                                     Rating: {review.rating} / 5
                                 </Text>
                                 <Text fontSize="sm">{review.content}</Text>
+                                <Text fontSize="sm">
+                                    Date:{' '}
+                                    {format(new Date(review.created_at), 'PPP')}
+                                </Text>
                             </Box>
                         ))}
                     </Stack>
