@@ -6,6 +6,11 @@ import {
 import { clx } from '@medusajs/ui';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import {
+    TiStarOutline,
+    TiStarFullOutline,
+    TiStarHalfOutline,
+} from 'react-icons/ti';
 
 import {
     formatCryptoPrice,
@@ -84,31 +89,27 @@ export default function ProductPrice({
         const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
 
         return (
-            <>
+            <div className="flex">
                 {Array(fullStars)
-                    .fill('★')
-                    .map((s, index) => (
-                        <span
+                    .fill(null)
+                    .map((_, index) => (
+                        <TiStarFullOutline
                             key={`full-${index}`}
                             className="text-yellow-500 text-2xl"
-                        >
-                            {s}
-                        </span>
+                        />
                     ))}
                 {halfStar && (
-                    <span className="text-yellow-500 text-2xl">½</span>
+                    <TiStarHalfOutline className="text-yellow-500 text-2xl" />
                 )}
                 {Array(emptyStars)
-                    .fill('☆')
-                    .map((s, index) => (
-                        <span
+                    .fill(null)
+                    .map((_, index) => (
+                        <TiStarOutline
                             key={`empty-${index}`}
-                            className="text-gray-400 text-2xl"
-                        >
-                            {s}
-                        </span>
+                            className="text-yellow-500 text-2xl"
+                        />
                     ))}
-            </>
+            </div>
         );
     };
 
