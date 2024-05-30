@@ -13,6 +13,7 @@ import {
 } from '@lib/util/get-product-price';
 import { RegionInfo } from 'types/global';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
+
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 
 export default function ProductPrice({
@@ -114,7 +115,7 @@ export default function ProductPrice({
     return (
         <div className="flex flex-col space-y-1 text-ui-fg-base text-white">
             <div>
-                <h3>Product Reviews {reviewCount}</h3>
+                <h3>Product Reviews: {reviewCount} Ratings</h3>
                 <p className="text-white self-center">
                     Average Rating: {renderStars(averageRating)}
                 </p>
