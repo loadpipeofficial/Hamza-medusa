@@ -6,6 +6,7 @@ import useItemStore from '@store/review/review-store';
 import { Button } from '@medusajs/ui';
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 
+// TODO: Should use memo instead to optimize, its loading every time, on hover of ratings system
 const ReviewTemplate = () => {
     const [review, setReview] = useState('');
     const [rating, setRating] = useState(0);

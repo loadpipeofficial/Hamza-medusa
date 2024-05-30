@@ -6,6 +6,7 @@ import {
     Card,
     CardHeader,
     CardBody,
+    CardFooter,
     Flex,
     Heading,
     Stack,
@@ -145,6 +146,7 @@ const ProductReview: React.FC<ProductReviewProps> = ({
                         ))}
                     </Stack>
                 </CardBody>
+                <CardFooter></CardFooter>
             </Card>
         </Box>
     );
