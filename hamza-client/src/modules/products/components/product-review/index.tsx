@@ -61,8 +61,8 @@ const ProductReview: React.FC<ProductReviewProps> = ({
                 { product_id: product.id }
             );
 
-            setAverageRating(averageRatingResponse.data.average);
-            setReviewCount(reviewCountResponse.data.count);
+            setAverageRating(averageRatingResponse.data);
+            setReviewCount(reviewCountResponse.data);
             setReviews(reviewsResponse.data);
 
             // Initialize the rating distribution to ensure all ratings from 1 to 5 are accounted for
@@ -80,7 +80,7 @@ const ProductReview: React.FC<ProductReviewProps> = ({
 
     const ratings = Object.keys(ratingDistribution).sort((a, b) => b - a); // Sort ratings descending
     const initialRatingDistribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
-
+    console.log(`****** Average rating {averageRating} ******`);
     return (
         <Box className="bg-black text-white p-4">
             <Stack
