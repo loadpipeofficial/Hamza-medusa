@@ -1,7 +1,17 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react';
+import {
+    Card,
+    CardHeader,
+    CardBody,
+    CardFooter,
+    Heading,
+    Stack,
+    Text,
+    StackDivider,
+    Box,
+} from '@chakra-ui/react';
 
 type Review = {
     id: string;
@@ -83,13 +93,34 @@ const ProductReview: React.FC<ProductReviewProps> = ({
                 </div>
                 <div>
                     <h3>Ratings & Reviews</h3>
-                    {reviews.map((review) => (
-                        <div key={review.id} className="mb-2">
-                            <strong>{review.title}</strong>
-                            <p>{review.content}</p>
-                            <small>Rating: {review.rating}</small>
-                        </div>
-                    ))}
+                    <Card>
+                        <CardHeader>
+                            <Heading size="md">Product Reviews</Heading>
+                        </CardHeader>
+                        <CardBody>
+                            <Stack divider={<StackDivider />} spacing="4">
+                                {reviews.map((review) => (
+                                    <Box key={review.id}>
+                                        <Heading
+                                            size="xs"
+                                            textTransform="uppercase"
+                                        >
+                                            {review.title}
+                                        </Heading>
+                                        <Text pt="2" fontSize="sm">
+                                            Customer ID: {review.customer_id}
+                                        </Text>
+                                        <Text pt="2" fontSize="sm">
+                                            Rating: {review.rating} / 5
+                                        </Text>
+                                        <Text pt="2" fontSize="sm">
+                                            {review.content}
+                                        </Text>
+                                    </Box>
+                                ))}
+                            </Stack>
+                        </CardBody>
+                    </Card>
                 </div>
             </div>
         </div>
