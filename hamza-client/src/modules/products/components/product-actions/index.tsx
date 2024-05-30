@@ -239,7 +239,7 @@ export default function ProductActions({
                     />
                     Add to Wishlist
                 </Button>
-                <LocalizedClientLink href="/checkout" passHref>
+                <LocalizedClientLink href="/checkout?step=address">
                     <BuyButton
                         styles={'w-full h-10 text-white'}
                         handleBuyNow={handleBuyNow}
