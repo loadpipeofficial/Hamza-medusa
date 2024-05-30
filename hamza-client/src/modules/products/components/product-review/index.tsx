@@ -9,6 +9,7 @@ import {
     Heading,
     Stack,
     Text,
+    Progress,
     StackDivider,
     Box,
 } from '@chakra-ui/react';
@@ -71,59 +72,59 @@ const ProductReview: React.FC<ProductReviewProps> = ({
 
         fetchReviewData();
     }, [product.id]);
+    const ratings = Object.keys(ratingDistribution).sort((a, b) => b - a); // Sort ratings descending
 
     return (
-        <div className="bg-black text-white p-4">
-            <div className="flex items-center mb-4">
-                <div>
-                    <h2>Average Rating: {averageRating}</h2>
-                    <div>
-                        {Object.keys(ratingDistribution).map((rating) => (
-                            <div key={rating}>
-                                <label>{rating} Stars:</label>
-                                <progress
-                                    value={ratingDistribution[rating]}
-                                    max={reviewCount}
-                                ></progress>
-                                {(ratingDistribution[rating] / reviewCount) *
-                                    100}
-                            </div>
+        <Box className="bg-black text-white p-4">
+            <Heading size="lg" mb={4}>
+                Average Rating: {averageRating?.toFixed(1)} / 5
+            </Heading>
+            <Stack spacing={5} mb={8}>
+                {ratings.map((rating) => (
+                    <Box key={rating}>
+                        <Text>{rating} Stars</Text>
+                        <Progress
+                            colorScheme="yellow"
+                            size="sm"
+                            value={ratingDistribution[rating]}
+                            max={reviewCount}
+                            hasStripe
+                            isAnimated
+                        />
+                        <Text>
+                            {(
+                                (ratingDistribution[rating] / reviewCount) *
+                                100
+                            )?.toFixed(1)}
+                            % ({ratingDistribution[rating]})
+                        </Text>
+                    </Box>
+                ))}
+            </Stack>
+            <Card>
+                <CardHeader>
+                    <Heading size="md">Product Reviews</Heading>
+                </CardHeader>
+                <CardBody>
+                    <Stack divider={<StackDivider />} spacing={4}>
+                        {reviews.map((review) => (
+                            <Box key={review.id}>
+                                <Heading size="xs" textTransform="uppercase">
+                                    {review.title}
+                                </Heading>
+                                <Text fontSize="sm">
+                                    Customer ID: {review.customer_id}
+                                </Text>
+                                <Text fontSize="sm">
+                                    Rating: {review.rating} / 5
+                                </Text>
+                                <Text fontSize="sm">{review.content}</Text>
+                            </Box>
                         ))}
-                    </div>
-                </div>
-                <div>
-                    <h3>Ratings & Reviews</h3>
-                    <Card>
-                        <CardHeader>
-                            <Heading size="md">Product Reviews</Heading>
-                        </CardHeader>
-                        <CardBody>
-                            <Stack divider={<StackDivider />} spacing="4">
-                                {reviews.map((review) => (
-                                    <Box key={review.id}>
-                                        <Heading
-                                            size="xs"
-                                            textTransform="uppercase"
-                                        >
-                                            {review.title}
-                                        </Heading>
-                                        <Text pt="2" fontSize="sm">
-                                            Customer ID: {review.customer_id}
-                                        </Text>
-                                        <Text pt="2" fontSize="sm">
-                                            Rating: {review.rating} / 5
-                                        </Text>
-                                        <Text pt="2" fontSize="sm">
-                                            {review.content}
-                                        </Text>
-                                    </Box>
-                                ))}
-                            </Stack>
-                        </CardBody>
-                    </Card>
-                </div>
-            </div>
-        </div>
+                    </Stack>
+                </CardBody>
+            </Card>
+        </Box>
     );
 };
 
