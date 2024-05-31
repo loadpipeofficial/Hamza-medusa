@@ -206,6 +206,5 @@ POST http://localhost:9000/custom/review/exists
 Content-Type: application/json
 
 {
-  "customer_id": "cus_01HYYRFGXRQ44NQXMJK9DDVNB3",
-  "order_id": "order_01HZ4D2FYPVVBPWWQVTJ6X0AE5"
+  "order_id": "order_01HZ1GHNQYW07M9EAEK89Z7SYN"
 }

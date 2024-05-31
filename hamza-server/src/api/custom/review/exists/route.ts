@@ -7,16 +7,11 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
         'productReviewService'
     );
 
-    const { customer_id, order_id } = readRequestBody(req.body, [
-        'customer_id',
-        'order_id',
-    ]);
-    console.log(`Customer ID is: ${customer_id} Order ID is ${order_id}`);
+    const { customer_id, order_id } = readRequestBody(req.body, ['order_id']);
+    console.log(`Order ID is ${order_id}`);
     try {
-        const verify = await productReviewService.customerHasLeftReview(
-            customer_id,
-            order_id
-        );
+        const verify =
+            await productReviewService.customerHasLeftReview(order_id);
         res.json(verify);
     } catch (err) {
         console.error('Error fetching product verification:', err);
