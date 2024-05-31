@@ -59,10 +59,10 @@ class ProductReviewService extends TransactionBaseService {
 
         if (productReviews.length === 0) {
             console.log(`No product review found for order_id: ${order_id}`);
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     async getReviews(product_id) {

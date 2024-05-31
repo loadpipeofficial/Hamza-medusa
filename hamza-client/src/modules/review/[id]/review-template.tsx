@@ -1,5 +1,4 @@
 'use client';
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import useItemStore from '@store/review/review-store';
@@ -12,13 +11,12 @@ const ReviewTemplate = () => {
     const [rating, setRating] = useState(0);
     const [hovered, setHovered] = useState(0);
     const [canSubmit, setCanSubmit] = useState(false);
+    const [submissionStatus, setSubmissionStatus] = useState('');
 
     const item = useItemStore((state) => state.item);
 
-    console.log(`item info ${JSON.stringify(item)}`);
     useEffect(() => {
         checkReviewExistence();
-        console.log(`Checking ${item?.title} if we can submit?`);
     }, [item]);
 
     const checkReviewExistence = async () => {
@@ -29,8 +27,7 @@ const ReviewTemplate = () => {
                     order_id: item?.order_id,
                 }
             );
-            console.log(`Can submit? ${response.data}`);
-            setCanSubmit(response.data); // Assuming API returns { exists: true/false }
+            setCanSubmit(!response.data.exists); // Assuming API returns { exists: true/false }
         } catch (error) {
             alert('Failed to check review existence: ' + error.message);
         }
@@ -48,12 +45,13 @@ const ReviewTemplate = () => {
                 product_id: item?.variant_id,
                 rating: rating,
                 content: review,
-                title: 'Review for ' + item?.title, // Assuming a title is needed
+                title: 'Review for ' + item?.title,
                 order_id: item?.order_id,
             });
-            alert('Review submitted successfully!');
+            setSubmissionStatus('Review submitted successfully!');
             setReview('');
             setRating(0);
+            setTimeout(() => setSubmissionStatus(''), 5000); // Clear the message after 5 seconds
         } catch (error) {
             alert('Failed to submit review: ' + error.message);
         }
@@ -80,6 +78,9 @@ const ReviewTemplate = () => {
                     <p>{item?.description}</p>
                 </div>
             </div>
+            {submissionStatus && (
+                <p className="mb-4 text-green-500">{submissionStatus}</p>
+            )}
             <div>
                 <div className="flex items-center mb-2">
                     {[1, 2, 3, 4, 5].map((star) => (
