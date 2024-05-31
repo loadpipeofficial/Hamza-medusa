@@ -7,12 +7,13 @@ export const PATCH = async (req: MedusaRequest, res: MedusaResponse) => {
         'productReviewService'
     );
 
-    const { product_id, reviewUpdates, ratingUpdates, customer_id } =
+    const { product_id, reviewUpdates, ratingUpdates, customer_id, order_id } =
         readRequestBody(req.body, [
             'product_id',
             'reviewUpdates',
             'ratingUpdates',
             'customer_id',
+            'order_id',
         ]);
 
     console.log(
@@ -23,7 +24,9 @@ export const PATCH = async (req: MedusaRequest, res: MedusaResponse) => {
         'ratingUpdates: ',
         ratingUpdates,
         'customer_id: ',
-        customer_id
+        customer_id,
+        'order_id: ',
+        order_id
     );
 
     try {
@@ -31,7 +34,8 @@ export const PATCH = async (req: MedusaRequest, res: MedusaResponse) => {
             product_id,
             reviewUpdates,
             ratingUpdates,
-            customer_id
+            customer_id,
+            order_id
         );
         res.json(updatedReview);
     } catch (err) {

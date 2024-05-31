@@ -145,12 +145,18 @@ class ProductReviewService extends TransactionBaseService {
         return await productReviewRepository.save(existingReview);
     }
 
-    async updateProduct(product_id, reviewUpdates, ratingUpdates, customer_id) {
+    async updateProduct(
+        product_id,
+        reviewUpdates,
+        ratingUpdates,
+        customer_id,
+        order_id
+    ) {
         const productReviewRepository =
             this.activeManager_.getRepository(ProductReview);
 
         const existingReview = await productReviewRepository.findOne({
-            where: { product_id, customer_id },
+            where: { product_id, customer_id, order_id },
         });
 
         console.log(`existingReview: ${existingReview.content}`);
