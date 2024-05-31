@@ -138,6 +138,15 @@ Content-Type: application/json
   "product_id": "prod_01HYYR4MV4TRXMWH1TQ9KTGWSF"
 }
 
+### Get Specific Customers All Reviews
+POST http://localhost:9000/custom/review/customer-reviews
+Content-Type: application/json
+
+{
+  "customer_id": "cus_01HYYRFGXRQ44NQXMJK9DDVNB3",
+    "product_id": "prod_01HYYR4MV4TRXMWH1TQ9KTGWSF"
+}
+
 ### Get Review Count
 POST http://localhost:9000/custom/review/count
 Content-Type: application/json
@@ -198,5 +207,5 @@ Content-Type: application/json
 
 {
   "customer_id": "cus_01HYYRFGXRQ44NQXMJK9DDVNB3",
-  "order_id": "order_01HYZ7ZCEFFAVQ6BYY9QHJQ821"
+  "order_id": "order_01HZ4D2FYPVVBPWWQVTJ6X0AE5"
 }

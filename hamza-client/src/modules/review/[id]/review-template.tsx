@@ -1,20 +1,48 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import useItemStore from '@store/review/review-store';
 import { Button } from '@medusajs/ui';
+
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 
-// TODO: Should use memo instead to optimize, its loading every time, on hover of ratings system
 const ReviewTemplate = () => {
     const [review, setReview] = useState('');
     const [rating, setRating] = useState(0);
     const [hovered, setHovered] = useState(0);
+    const [canSubmit, setCanSubmit] = useState(false);
 
     const item = useItemStore((state) => state.item);
 
+    console.log(`item info ${JSON.stringify(item)}`);
+    useEffect(() => {
+        checkReviewExistence();
+        console.log(`Checking ${item?.title} if we can submit?`);
+    }, [item]);
+
+    const checkReviewExistence = async () => {
+        try {
+            const response = await axios.post(
+                `${BACKEND_URL}/custom/review/exists`,
+                {
+                    customer_id: item?.customer_id,
+                    order_id: item?.order_id,
+                }
+            );
+            console.log(`Can submit? ${response.data}`);
+            setCanSubmit(response.data); // Assuming API returns { exists: true/false }
+        } catch (error) {
+            alert('Failed to check review existence: ' + error.message);
+        }
+    };
+
     const submitReview = async () => {
+        if (!canSubmit) {
+            alert('Review already exists for this order.');
+            return;
+        }
+
         try {
             await axios.post(`${BACKEND_URL}/custom/review`, {
                 customer_id: item?.customer_id,
@@ -84,7 +112,9 @@ const ReviewTemplate = () => {
                 <Button
                     className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     onClick={submitReview}
-                    disabled={rating === 0 || review.trim() === ''}
+                    disabled={
+                        !canSubmit || rating === 0 || review.trim() === ''
+                    }
                 >
                     Submit Review
                 </Button>

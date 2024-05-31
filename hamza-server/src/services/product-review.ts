@@ -53,17 +53,18 @@ class ProductReviewService extends TransactionBaseService {
         const productReviewRepository =
             this.activeManager_.getRepository(ProductReview);
         const productReview = await productReviewRepository.find({
-            where: { product_id, order_id },
+            where: { product_id: product_id, order_id: order_id },
         });
+        console.log(`productReview: ${productReview}`);
 
         if (!productReview) {
             console.log(
                 `No product review found for product_id: ${product_id} and order_id: ${order_id}`
             );
-            return null;
+            return false;
         }
 
-        return !!productReview;
+        return true;
     }
 
     async getReviews(product_id) {
@@ -71,6 +72,20 @@ class ProductReviewService extends TransactionBaseService {
             this.activeManager_.getRepository(ProductReview);
         const reviews = await productReviewRepository.find({
             where: { product_id },
+        });
+
+        if (!reviews) {
+            throw new Error('No reviews found');
+        }
+
+        return reviews;
+    }
+
+    async getCustomerReviews(product_id, customer_id) {
+        const productReviewRepository =
+            this.activeManager_.getRepository(ProductReview);
+        const reviews = await productReviewRepository.find({
+            where: { product_id, customer_id },
         });
 
         if (!reviews) {
