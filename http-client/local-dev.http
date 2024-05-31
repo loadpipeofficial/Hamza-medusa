@@ -122,7 +122,7 @@ POST http://localhost:9000/custom/review
 Content-Type: application/json
 
 {
-  "customer_id": "cus_01HYW342BBBEK3GXETA26VJQSW",
+  "customer_id": "cus_01HYYRFGXRQ44NQXMJK9DDVNB3",
   "product_id": "prod_01HYYR4MWE0TB0B8T79KH5BEFZ",
   "rating": 3,
   "content": "This is a great product!",
@@ -130,12 +130,37 @@ Content-Type: application/json
   "order_id": "order_01HYZ7ZCEFFAVQ6BYY9QHJQ821"
 }
 
-### Get Specific Product Review
+### Get All Product Reviews
 POST http://localhost:9000/custom/review/all-reviews
 Content-Type: application/json
 
 {
   "product_id": "prod_01HYYR4MV4TRXMWH1TQ9KTGWSF"
+}
+
+### Get Specific Customers All Reviews
+POST http://localhost:9000/custom/review/customer-reviews
+Content-Type: application/json
+
+{
+  "customer_id": "cus_01HYYRFGXRQ44NQXMJK9DDVNB3",
+    "product_id": "prod_01HYYR4MV4TRXMWH1TQ9KTGWSF"
+}
+
+### Get Review Count
+POST http://localhost:9000/custom/review/count
+Content-Type: application/json
+
+{
+  "product_id": "prod_01HYYR4MV4TRXMWH1TQ9KTGWSF"
+}
+
+### Get Average Rating
+POST http://localhost:9000/custom/review/average
+Content-Type: application/json
+
+{
+  "product_id": "prod_01HYYR4MHSPM9Q2P5HNV55BJA1"
 }
 
 ### Update Product Review
@@ -156,6 +181,18 @@ Content-Type: application/json
   "customer_id": "cus_01HYW342BBBEK3GXETA26VJQSW",
   "product_id": "prod_01HYYR4MWE0TB0B8T79KH5BEFZ",
   "rating": 10
+}
+
+### Update Product
+PATCH http://localhost:9000/custom/review/update
+Content-Type: application/json
+
+{
+  "customer_id": "cus_01HYYRFGXRQ44NQXMJK9DDVNB3",
+  "product_id": "prod_01HYYR4MK2TG4T7393QVQSMSWW",
+  "ratingUpdates": 10,
+  "reviewUpdates": "CONTENT CONTENRT",
+  "order_id": "order_01HZ1GHNQYW07M9EAEK89Z7SYN"
 }
 
 
@@ -181,6 +218,5 @@ POST http://localhost:9000/custom/review/exists
 Content-Type: application/json
 
 {
-  "customer_id": "cus_01HYYRFGXRQ44NQXMJK9DDVNB3",
-  "order_id": "order_01HYZ7ZCEFFAVQ6BYY9QHJQ821"
+  "order_id": "order_01HZ6XRQFFTK9BV6JRB5KEX8G5"
 }

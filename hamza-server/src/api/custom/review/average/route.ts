@@ -7,16 +7,16 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
         'productReviewService'
     );
 
-    const { customer_id, order_id } = readRequestBody(req.body, ['order_id']);
-    console.log(`Order ID is ${order_id}`);
+    const { product_id } = readRequestBody(req.body, ['product_id']);
+    console.log(`Product ID is: ${product_id}`);
+
     try {
-        const verify =
-            await productReviewService.customerHasLeftReview(order_id);
-        res.json(verify);
+        const reviews = await productReviewService.getAverageRating(product_id);
+        res.json(reviews);
     } catch (err) {
-        console.error('Error fetching product verification:', err);
+        console.error('Error fetching product reviews:', err);
         res.status(500).json({
-            error: 'Failed to verify customer',
+            error: 'Failed to fetch product reviews',
         });
     }
 };

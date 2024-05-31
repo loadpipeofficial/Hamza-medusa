@@ -4,6 +4,13 @@ import {
     PricedVariant,
 } from '@medusajs/medusa/dist/types/pricing';
 import { clx } from '@medusajs/ui';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import {
+    TiStarOutline,
+    TiStarFullOutline,
+    TiStarHalfOutline,
+} from 'react-icons/ti';
 
 import {
     formatCryptoPrice,
@@ -11,6 +18,8 @@ import {
 } from '@lib/util/get-product-price';
 import { RegionInfo } from 'types/global';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
+
+const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 
 export default function ProductPrice({
     product,
@@ -25,6 +34,47 @@ export default function ProductPrice({
     const selectedPrices = variant
         ? variant.prices
         : product.variants[0].prices;
+    const [averageRating, setAverageRating] = useState(0);
+    const [reviewCount, setReviewCount] = useState(0);
+
+    console.log(`Product is ${product.id}`);
+    useEffect(() => {
+        const fetchReviewCount = async () => {
+            try {
+                const response = await axios.post(
+                    `${BACKEND_URL}/custom/review/count`,
+                    {
+                        product_id: product.id,
+                    },
+                    { headers: { 'Content-Type': 'application/json' } }
+                );
+                console.log(`response.data.count is ${response.data}`);
+                setReviewCount(response.data); // Assuming the response contains the count directly
+            } catch (error) {
+                console.error('Failed to fetch review count:', error);
+            }
+        };
+
+        const fetchAverageRating = async () => {
+            try {
+                const response = await axios.post(
+                    `${BACKEND_URL}/custom/review/average`,
+                    {
+                        product_id: product.id,
+                    },
+                    { headers: { 'Content-Type': 'application/json' } }
+                );
+                console.log(`response.data.average is ${response.data}`);
+                setAverageRating(response.data); // Assuming the response contains the average directly
+            } catch (error) {
+                console.error('Failed to fetch average rating:', error);
+            }
+        };
+
+        fetchReviewCount();
+        fetchAverageRating();
+    }, [product.id]);
+
     let preferredPrice =
         status == 'authenticated' &&
         preferred_currency_code &&
@@ -34,8 +84,44 @@ export default function ProductPrice({
         return <div className="block w-32 h-9 bg-gray-100 animate-pulse" />;
     }
 
+    const renderStars = (rating) => {
+        const fullStars = Math.floor(rating);
+        const halfStar = rating % 1 >= 0.5;
+        const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+
+        return (
+            <div className="flex">
+                {Array(fullStars)
+                    .fill(null)
+                    .map((_, index) => (
+                        <TiStarFullOutline
+                            key={`full-${index}`}
+                            className="text-yellow-500 text-2xl"
+                        />
+                    ))}
+                {halfStar && (
+                    <TiStarHalfOutline className="text-yellow-500 text-2xl" />
+                )}
+                {Array(emptyStars)
+                    .fill(null)
+                    .map((_, index) => (
+                        <TiStarOutline
+                            key={`empty-${index}`}
+                            className="text-yellow-500 text-2xl"
+                        />
+                    ))}
+            </div>
+        );
+    };
+
     return (
         <div className="flex flex-col space-y-1 text-ui-fg-base text-white">
+            <div>
+                <h3>Product Reviews: {reviewCount} Ratings</h3>
+                <p className="text-white self-center">
+                    Average Rating: {renderStars(averageRating)}
+                </p>
+            </div>
             {preferredPrice ? (
                 <span className={clx('text-xl-semi')}>
                     {formatCryptoPrice(
