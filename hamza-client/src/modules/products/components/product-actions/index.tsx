@@ -18,6 +18,7 @@ import ProductPrice from '../product-price';
 import WishlistIcon from '@/components/wishlist-dropdown/icon/wishlist-icon';
 import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
 import Medusa from '@medusajs/medusa-js';
+import useWishlistStore from '@store/wishlist/wishlist-store';
 
 type ProductActionsProps = {
     product: PricedProduct;
@@ -49,6 +50,8 @@ export default function ProductActions({
     const variant_id = variants[0].id;
     console.log('Variant id is', variant_id);
 
+    const { isCustomerAuthenticated } = useWishlistStore();
+
     useEffect(() => {
         if (!variant_id) return;
 
@@ -56,7 +59,7 @@ export default function ProductActions({
             setLoading(true);
             try {
                 const response = await axios.post(
-                    'http://localhost:9000/custom/variant/count',
+                    `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000'}/custom/variant/count`,
                     { variant_id }
                 );
                 console.log('Response is', JSON.stringify(response));
@@ -154,6 +157,7 @@ export default function ProductActions({
     };
 
     //Add to card and buy now
+    //FYI: If user clicks buy now and then navigates back to the product preview and clicks again it will increase quanitity again
     const handleBuyNow = async () => {
         if (!variant?.id) return;
         setBuyNowLoader(true);
@@ -225,20 +229,22 @@ export default function ProductActions({
                           : 'Add to cart'}
                 </Button>
                 {/* TODO: wishlist-dropdown add ternary for fill IF item already in wishlist-dropdown maybe we can have a variant ternary for 'Remove from Wishlist' || 'Add to Wishlist'    */}
-                <Button
-                    className="w-full h-10 text-white"
-                    variant="primary"
-                    onClick={toggleWishlist}
-                >
-                    <WishlistIcon
-                        fill={false}
-                        props={{
-                            className: 'wishlist-dropdown-icon',
-                            'aria-label': 'wishlist',
-                        }}
-                    />
-                    Add to Wishlist
-                </Button>
+                {isCustomerAuthenticated && (
+                    <Button
+                        className="w-full h-10 text-white"
+                        variant="primary"
+                        onClick={toggleWishlist}
+                    >
+                        <WishlistIcon
+                            fill={false}
+                            props={{
+                                className: 'wishlist-dropdown-icon',
+                                'aria-label': 'wishlist',
+                            }}
+                        />
+                        Add to Wishlist
+                    </Button>
+                )}
                 <LocalizedClientLink href="/checkout?step=address">
                     <BuyButton
                         styles={'w-full h-10 text-white'}

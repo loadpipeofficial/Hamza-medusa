@@ -6,8 +6,7 @@ import {
     PaymentProcessorError,
     PaymentProcessorSessionResponse,
     PaymentSessionStatus,
-} from '@medusajs/medusa';
-import { PaymentIntentOptions } from 'medusa-payment-stripe'; //TODO: need?
+} from '@medusajs/medusa'; //TODO: need?
 import { ethers, TransactionResponse } from 'ethers';
 
 async function verifyPaymentTransactionId(
@@ -93,15 +92,6 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
         };
     }
 
-    getPaymentIntentOptions(): PaymentIntentOptions {
-        const options: PaymentIntentOptions = {};
-
-        options.capture_method = 'manual';
-
-        options.payment_method_types = ['crypto', 'payment', 'manual'];
-        return options;
-    }
-
     async initiatePayment(
         context: PaymentProcessorContext
     ): Promise<PaymentProcessorError | PaymentProcessorSessionResponse> {
@@ -120,7 +110,6 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
             );
         }
 
-        const intentRequestData = this.getPaymentIntentOptions();
         const { email, currency_code, amount, resource_id, customer } = context;
 
         const session_data: any = {
@@ -137,7 +126,6 @@ class CryptoPaymentService extends AbstractPaymentProcessor {
                     manual_expiry_period: 10,
                 },
             },
-            ...intentRequestData,
         };
         return {
             session_data: session_data as any,

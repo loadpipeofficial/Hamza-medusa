@@ -60,6 +60,11 @@ export default class OrderService extends MedusaOrderService {
             cart.completed_at = new Date();
             await this.cartService_.update(cart.id, cart);
 
+            //emitting event in event bus
+            await this.eventBus_.emit('order.placed', {
+                orderId: order.id,
+                ...order,
+            });
             return order;
         } catch (e) {
             console.log(`Error creating order: ${e}`);
@@ -126,7 +131,7 @@ export default class OrderService extends MedusaOrderService {
     }
 
     async finalizeCheckout(
-        cart: string,
+        cartProducts: string,
         cart_id: string,
         transaction_id: string,
         payer_address,
@@ -137,10 +142,12 @@ export default class OrderService extends MedusaOrderService {
             where: { cart_id },
         });
 
-        let cart_products = JSON.parse(cart);
-        // console.log(`Cart Products ${cart_products}`);
+        let cart_products;
+        console.log(`Cart Products ${cartProducts}`);
 
-        const inventoryPromises = cart_products.map((item) => {
+        const cartObject = JSON.parse(cartProducts);
+
+        const inventoryPromises = cartObject.map((item) => {
             return this.updateInventory(
                 item.variant_id,
                 item.reduction_quantity
