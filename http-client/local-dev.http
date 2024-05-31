@@ -183,6 +183,17 @@ Content-Type: application/json
   "rating": 10
 }
 
+### Update Product
+PATCH http://localhost:9000/custom/review/update
+Content-Type: application/json
+
+{
+  "customer_id": "cus_01HYYRFGXRQ44NQXMJK9DDVNB3",
+  "product_id": "prod_01HYYR4MK2TG4T7393QVQSMSWW",
+  "ratingUpdates": 10,
+  "reviewUpdates": "CONTENT CONTENRT"
+}
+
 
 ### Verify Email
 POST http://localhost:9000/custom/review/verify

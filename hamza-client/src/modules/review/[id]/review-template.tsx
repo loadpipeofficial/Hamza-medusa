@@ -26,7 +26,6 @@ const ReviewTemplate = () => {
             const response = await axios.post(
                 `${BACKEND_URL}/custom/review/exists`,
                 {
-                    customer_id: item?.customer_id,
                     order_id: item?.order_id,
                 }
             );
