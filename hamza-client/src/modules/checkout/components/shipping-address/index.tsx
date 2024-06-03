@@ -33,22 +33,6 @@ const ShippingAddress = ({
         email: cart?.email || '',
         'shipping_address.phone': cart?.shipping_address?.phone || '',
     });
-
-    //Email states
-    const [checkoutEmail, setCheckoutEmail] = useState('');
-    const [validEmail, setValidEmail] = useState(true);
-
-    //validate email address
-    const validateEmail = (email) => {
-        if (email === '') {
-            setValidEmail(true);
-            return;
-        } else {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            setValidEmail(emailRegex.test(email));
-        }
-    };
-
     // TODO (For G), take a look at what obj / type we are sending instead of passing any
     const countriesInRegion = useMemo(
         () => cart?.region.countries.map((c: any) => c.iso_2),
@@ -67,6 +51,7 @@ const ShippingAddress = ({
     );
 
     useEffect(() => {
+        console.log(cart);
         setFormData({
             'shipping_address.first_name':
                 cart?.shipping_address?.first_name || '',
@@ -84,26 +69,17 @@ const ShippingAddress = ({
             email: cart?.email || '',
             'shipping_address.phone': cart?.shipping_address?.phone || '',
         });
-        setCheckoutEmail(
-            cart?.email && !cart?.email.endsWith('@evm.blockchain')
-                ? cart?.email
-                : ''
-        );
-    }, [cart?.shipping_address, cart?.email]);
+    }, [cart]);
 
     const handleChange = (
         e: React.ChangeEvent<
             HTMLInputElement | HTMLInputElement | HTMLSelectElement
         >
     ) => {
-        const { name, value } = e.target;
         setFormData({
             ...formData,
-            [name]: value,
+            [e.target.name]: e.target.value,
         });
-        if (name === 'email') {
-            setCheckoutEmail(value);
-        }
     };
 
     return (
@@ -192,24 +168,15 @@ const ShippingAddress = ({
                 /> */}
             </div>
             <div className="grid grid-cols-2 gap-4 mb-4">
-                <div>
-                    <Input
-                        label="Email"
-                        name="email"
-                        type="email"
-                        title="Enter a valid email address."
-                        autoComplete="email"
-                        value={checkoutEmail}
-                        onChange={handleChange}
-                        onFocus={() => setValidEmail(true)}
-                        onBlur={() => validateEmail(checkoutEmail)}
-                    />
-                    {validEmail === false && (
-                        <div style={{ color: 'red' }}>
-                            The email you have entered is not valid
-                        </div>
-                    )}
-                </div>
+                <Input
+                    label="Email"
+                    name="email"
+                    type="email"
+                    title="Enter a valid email address."
+                    autoComplete="email"
+                    value={formData.email.includes('evm') ? '' : formData.email}
+                    onChange={handleChange}
+                />
                 <Input
                     label="Phone"
                     name="shipping_address.phone"
