@@ -129,6 +129,15 @@ const useWishlistStore = create<WishlistType>()(
                             parseError
                         );
                     }
+                } else if (
+                    JSON.parse(customerData).state.status === 'unauthenticated'
+                ) {
+                    try {
+                        state?.updateAuthentication(false);
+                    } catch (e) {
+                        console.log(`Couldnt unauthenticate, ${e}`);
+                    }
+                    console.log(`Customer is now unauthenticated`);
                 } else {
                     console.log('No customer data found, possibly new session');
                 }

@@ -1,4 +1,4 @@
-import { TransactionBaseService } from '@medusajs/medusa';
+import { TransactionBaseService, Logger } from '@medusajs/medusa';
 import ConfirmationTokenRepository from '../repositories/confirmation-token';
 import CustomerRepository from '../repositories/customer';
 import moment from 'moment';
@@ -10,10 +10,13 @@ dotenv.config();
 export default class ConfirmationTokenService extends TransactionBaseService {
     protected readonly confirmationTokenRepository_: typeof ConfirmationTokenRepository;
     protected readonly customerRepository_: typeof CustomerRepository;
+    protected readonly logger: Logger;
+
     constructor(container) {
         super(container);
         this.confirmationTokenRepository_ = ConfirmationTokenRepository;
         this.customerRepository_ = CustomerRepository;
+        this.logger = container.logger;
     }
 
     async createConfirmationToken({
@@ -31,7 +34,7 @@ export default class ConfirmationTokenService extends TransactionBaseService {
         }
         let token = ethers.keccak256(new Uint8Array(32));
 
-        console.log('token is ', token);
+        this.logger.debug('token is ' + token);
         let confirmationToken = await this.confirmationTokenRepository_.save({
             id: token,
             customer: { id: customer_id },

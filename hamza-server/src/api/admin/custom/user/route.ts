@@ -1,4 +1,4 @@
-import { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
+import { MedusaRequest, MedusaResponse, Logger } from '@medusajs/medusa';
 
 export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     const userService = req.scope.resolve('userService');
@@ -6,6 +6,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     const productCollectionService = req.scope.resolve(
         'productCollectionService'
     );
+    const logger = req.scope.resolve('logger') as Logger;
 
     try {
         const user0 = await userService.create(
@@ -71,7 +72,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
 
         return res.json({ user0, user1, user2, store0, store1, store2 });
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         return res
             .status(500)
             .json({ message: 'Internal server error', error: error.message });

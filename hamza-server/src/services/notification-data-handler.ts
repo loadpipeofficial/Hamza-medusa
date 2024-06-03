@@ -1,5 +1,5 @@
 import { Lifetime } from 'awilix';
-import { TransactionBaseService } from '@medusajs/medusa';
+import { TransactionBaseService, Logger } from '@medusajs/medusa';
 import { humanizeAmount, zeroDecimalCurrencies } from 'medusa-core-utils';
 import type {
     BatchJobService,
@@ -36,6 +36,7 @@ class NotificationDataService extends TransactionBaseService {
     protected readonly swapService_: SwapService;
     protected readonly totalsService_: TotalsService;
     protected readonly userService_: UserService;
+    protected readonly logger: Logger;
 
     constructor({
         cartService,
@@ -608,8 +609,8 @@ class NotificationDataService extends TransactionBaseService {
                     return cart.context.locale;
                 }
             } catch (err) {
-                console.log(err);
-                console.warn('Failed to gather context for order');
+                this.logger.error(err);
+                this.logger.warn('Failed to gather context for order');
                 return null;
             }
         }

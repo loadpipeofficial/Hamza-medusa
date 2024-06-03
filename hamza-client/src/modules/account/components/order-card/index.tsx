@@ -38,11 +38,11 @@ const OrderCard = ({ order }: OrderCardProps) => {
     if (!order) {
         return <div>Loading...</div>; // Display loading message if order is undefined
     }
-    console.log(`Order Card information is: ${JSON.stringify(order)}`);
+    // console.log(`Order Card information is: ${JSON.stringify(order)}`);
     const orderString = typeof order.currency_code;
-    console.log(
-        `Order Unit Price ${order.unit_price} and Currency Code ${order.currency_code} ${orderString}`
-    );
+    // console.log(
+    //     `Order Unit Price ${order.unit_price} and Currency Code ${order.currency_code} ${orderString}`
+    // );
 
     return (
         <div className="flex flex-col">

@@ -24,7 +24,7 @@ const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
 
         return formatted.slice(0, 1).toUpperCase() + formatted.slice(1);
     };
-    console.log(`Order Summary is ${JSON.stringify(order)}`);
+    // console.log(`Order Summary is ${JSON.stringify(order)}`);
 
     console.log('Order Summary');
     return (

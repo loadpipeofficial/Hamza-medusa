@@ -19,8 +19,7 @@ export const WalletConnectButton = () => {
                     ready &&
                     account &&
                     chain &&
-                    (!authenticationStatus ||
-                        authenticationStatus === 'authenticated');
+                    authenticationStatus === 'authenticated';
 
                 return (
                     <div
@@ -62,7 +61,7 @@ export const WalletConnectButton = () => {
                                     </button>
                                 );
                             }
-                            if (chain.unsupported) {
+                            if (chain && chain.unsupported) {
                                 return (
                                     <button
                                         onClick={openChainModal}

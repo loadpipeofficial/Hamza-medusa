@@ -27,5 +27,5 @@ export function bufferToString(buffer: Uint8Array): `0x${string}` {
               .map((byte) => byte.toString(16).padStart(2, '0'))
               .join('')
         : ''.padEnd(16, '0');
-    return `0x${output}}`;
+    return `0x${output}`;
 }

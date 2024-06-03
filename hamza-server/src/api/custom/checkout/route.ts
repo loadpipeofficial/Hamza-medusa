@@ -1,4 +1,4 @@
-import { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
+import { MedusaRequest, MedusaResponse, Logger } from '@medusajs/medusa';
 import OrderService from '../../../services/order';
 import { readRequestBody } from '../../../utils/request-body';
 
@@ -11,6 +11,7 @@ interface ICheckoutData {
 
 export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     const orderService: OrderService = req.scope.resolve('orderService');
+    const logger: Logger = req.scope.resolve('logger');
     const { cart_id } = req.query;
 
     try {
@@ -26,13 +27,14 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
         });
         res.send({ orders: output });
     } catch (e) {
-        console.error(e);
+        logger.error(e);
         res.send({ message: e.message });
     }
 };
 
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     const orderService: OrderService = req.scope.resolve('orderService');
+    const logger: Logger = req.scope.resolve('logger');
     //const { cart_id, transaction_id, payer_address, escrow_contract_address } =
     //    req.body;
     const {
@@ -50,7 +52,7 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     ]);
 
     try {
-        console.log(
+        logger.debug(
             `Cart in the route: ${cartProducts} ${typeof cartProducts}`
         );
         await orderService.finalizeCheckout(
@@ -62,7 +64,7 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
         );
         res.send(true);
     } catch (e) {
-        console.error(e);
+        logger.error(e);
         res.send({ message: e.message });
     }
 };
