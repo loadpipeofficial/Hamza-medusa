@@ -9,6 +9,9 @@ import LocalizedClientLink from '@modules/common/components/localized-client-lin
 import { addToCart } from '@modules/cart/actions';
 import { useParams, useRouter } from 'next/navigation';
 
+const MEDUSA_SERVER_URL =
+    process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
+
 // Define a type that extends the Order type with any additional data
 interface DetailedOrder extends Order {
     details?: any; // Further specify if you have the structure of the details
@@ -28,7 +31,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
         const fetchOrders = async () => {
             try {
                 const { data } = await axios.post(
-                    'http://localhost:9000/custom/order',
+                    `${MEDUSA_SERVER_URL}/order`,
                     {
                         cart_id: orders[0].cart_id,
                     }
