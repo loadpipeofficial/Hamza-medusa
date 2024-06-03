@@ -20,14 +20,16 @@ type CreateDiscount = CreateDiscountInput & {
 
 export default class DiscountService extends MedusaDiscountService {
     protected readonly discountRepository_: typeof DiscountRepository;
+    protected readonly logger: Logger;
 
     constructor(container) {
         super(container);
         this.discountRepository_ = container.discountRepository;
+        this.logger = container.logger;
     }
 
     async update(id: string, input: UpdateDiscount): Promise<Discount> {
-        console.log('updating product collection', id, input);
+        this.logger.debug(`updating product collection ${id}, ${input}`);
         await this.discountRepository_.updateDiscountStore(id, input.store_id);
         return await super.update(id, input);
     }

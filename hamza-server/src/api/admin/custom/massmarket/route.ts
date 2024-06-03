@@ -86,7 +86,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
         //keycard: 0x56d6577a01cb81fbfdbb5e4d639b790928f9a57d5bf1a43e93aa2187c178af11
 
         /*
-        console.log(
+        this.logger.debug(
             await rc.enrollKeyCard(
                 '0x65c1196c888ae6bb110077201346dfe426b220ce1d49a366102a2d85e7ad0e35'
             )

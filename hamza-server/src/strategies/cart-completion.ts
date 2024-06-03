@@ -6,6 +6,7 @@ import {
     IdempotencyKeyService,
     ProductService,
     CartService,
+    Logger,
 } from '@medusajs/medusa';
 import OrderService from '../services/order';
 import { PaymentService } from '@medusajs/medusa/dist/services';
@@ -23,6 +24,7 @@ type InjectedDependencies = {
     cartService: CartService;
     orderService: OrderService;
     paymentRepository: typeof PaymentRepository;
+    logger: Logger;
 };
 
 interface IPaymentGroupData {
@@ -50,6 +52,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
     protected readonly paymentService: PaymentService;
     protected readonly orderService: OrderService;
     protected readonly paymentRepository: typeof PaymentRepository;
+    protected readonly logger: Logger;
 
     constructor({
         idempotencyKeyService,
@@ -58,6 +61,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         cartService,
         orderService,
         paymentRepository,
+        logger,
     }: InjectedDependencies) {
         super(arguments[0]);
         this.idempotencyKeyService = idempotencyKeyService;
@@ -66,6 +70,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         this.productService = productService;
         this.orderService = orderService;
         this.paymentRepository = paymentRepository;
+        this.logger = logger;
     }
 
     /**
@@ -139,7 +144,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             };
 
             //return an error response
-            console.log(response);
+            this.logger.debug(response);
             return response;
         }
     }

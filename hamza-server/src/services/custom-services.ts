@@ -14,9 +14,7 @@ class HelloService extends TransactionBaseService {
 
         try {
             this.loggedInUser_ = container.loggedInUser;
-        } catch (e) {
-            console.log('ERROR: should only run when backend first runs', e);
-        }
+        } catch (e) {}
     }
 }
 

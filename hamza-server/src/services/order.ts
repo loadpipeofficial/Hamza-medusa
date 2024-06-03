@@ -21,12 +21,14 @@ export default class OrderService extends MedusaOrderService {
     protected orderRepository_: typeof OrderRepository;
     protected paymentRepository_: typeof PaymentRepository;
     protected readonly productVariantRepository_: typeof ProductVariantRepository;
+    protected readonly logger: Logger;
 
     constructor(container) {
         super(container);
         this.orderRepository_ = container.orderRepository;
         this.paymentRepository_ = container.paymentRepository;
         this.productVariantRepository_ = container.productVariantRepository;
+        this.logger = container.logger;
     }
 
     async createFromPayment(
@@ -34,7 +36,9 @@ export default class OrderService extends MedusaOrderService {
         payment: Payment,
         storeId: string
     ): Promise<Order> {
-        console.log(`creating Order with input ${JSON.stringify(payment)}`);
+        this.logger.info(
+            `creating Order with input ${JSON.stringify(payment)}`
+        );
         try {
             //create the order
             let order: Order = new Order();
@@ -68,7 +72,7 @@ export default class OrderService extends MedusaOrderService {
             });
             return order;
         } catch (e) {
-            console.log(`Error creating order: ${e}`);
+            this.logger.error(`Error creating order: ${e}`);
         }
     }
 
@@ -118,21 +122,21 @@ export default class OrderService extends MedusaOrderService {
             if (productVariant.inventory_quantity >= quantityToDeduct) {
                 productVariant.inventory_quantity -= quantityToDeduct;
                 await this.productVariantRepository_.save(productVariant);
-                console.log(
+                this.logger.debug(
                     `Inventory updated for variant ${productVariant.id}, new inventory count: ${productVariant.inventory_quantity}`
                 );
                 return productVariant;
             } else if (productVariant.allow_backorder) {
-                console.log(
+                this.logger.debug(
                     'Inventory below requested deduction but backorders are allowed.'
                 );
             } else {
-                console.log(
+                this.logger.debug(
                     'Not enough inventory to deduct the requested quantity.'
                 );
             }
         } catch (e) {
-            console.log(
+            this.logger.error(
                 `Error updating inventory for variant ${variantOrVariantId}: ${e}`
             );
         }
@@ -150,8 +154,7 @@ export default class OrderService extends MedusaOrderService {
             where: { cart_id },
         });
 
-        let cart_products;
-        console.log(`Cart Products ${cartProducts}`);
+        this.logger.debug(`Cart Products ${cartProducts}`);
 
         const cartObject = JSON.parse(cartProducts);
 
@@ -164,7 +167,7 @@ export default class OrderService extends MedusaOrderService {
 
         await Promise.all(inventoryPromises);
 
-        // console.log(`Output products ${output}`);
+        // this.logger.debug(`Output products ${output}`);
 
         //get payments
         const orderIds = orders.map((order) => order.id);
@@ -192,7 +195,7 @@ export default class OrderService extends MedusaOrderService {
         try {
             await Promise.all(allPromises);
         } catch (e) {
-            console.log(`Error updating orders/payments: ${e}`);
+            this.logger.error(`Error updating orders/payments: ${e}`);
         }
 
         return orders;

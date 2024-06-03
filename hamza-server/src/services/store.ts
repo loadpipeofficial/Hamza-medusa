@@ -17,10 +17,12 @@ type UpdateStoreInput = MedusaUpdateStoreInput & {
 class StoreService extends MedusaStoreService {
     static LIFE_TIME = Lifetime.SCOPED;
     protected readonly storeRepository_: typeof StoreRepository;
+    protected readonly logger: Logger;
 
     constructor(container) {
         super(container);
         this.storeRepository_ = container.storeRepository;
+        this.logger = container.logger;
     }
 
     async createStore(
@@ -29,14 +31,14 @@ class StoreService extends MedusaStoreService {
         collection: string
     ): Promise<Store> {
         let owner_id = user.id;
-        console.log('owner_id: ', owner_id);
+        this.logger.debug('owner_id: ' + owner_id);
         const storeRepo = this.manager_.withRepository(this.storeRepository_);
         let newStore = storeRepo.create();
         // newStore.owner = user; // Set the owner
         newStore.name = store_name; // Set the store name
         newStore.owner_id = owner_id; // Set the owner_id
         newStore = await storeRepo.save(newStore);
-        console.log('New Store Saved:', newStore);
+        this.logger.debug('New Store Saved:' + newStore);
         await this.populateProductsWithStoreId(newStore, collection);
         return newStore; // Return the newly created and saved store
     }
@@ -55,7 +57,9 @@ class StoreService extends MedusaStoreService {
         collection: String
     ): Promise<any> {
         let collectionListUrl = `http://localhost:9000/store/products?collection_id[]=${collection}`;
-        console.log('Fetching products from collection: ', collectionListUrl);
+        this.logger.debug(
+            'Fetching products from collection: ' + collectionListUrl
+        );
         let updateProductUrl = `http://localhost:9000/routes/products`;
         try {
             // Get a list of products belonging to a collection
@@ -72,11 +76,11 @@ class StoreService extends MedusaStoreService {
             });
 
             await Promise.all(updatePromises);
-            console.log(
+            this.logger.debug(
                 'All products have been successfully updated with store_id'
             );
         } catch (error) {
-            console.error('Error processing products:', error);
+            this.logger.error('Error processing products:', error);
         }
     }
 

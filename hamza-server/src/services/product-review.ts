@@ -8,27 +8,26 @@ import { ProductVariantRepository } from '../repositories/product-variant';
 class ProductReviewService extends TransactionBaseService {
     static LIFE_TIME = Lifetime.SCOPED;
     protected readonly productVariantRepository_: typeof ProductVariantRepository;
+    protected readonly logger: Logger;
 
     constructor(container) {
         super(container);
         this.productVariantRepository_ = container.productVariantRepository;
+        this.logger = container.logger;
     }
 
     async customerIsVerified(customer_id) {
         const customerRepository = this.activeManager_.getRepository(Customer);
-        console.log(`Customer ID is: ${customer_id}`);
+        this.logger.debug(`Customer ID is: ${customer_id}`);
         const customer = await customerRepository.findOne({
             where: { id: customer_id },
         });
         if (!customer) {
             throw new Error('Customer not found');
         }
-        console.log(`Customer Email is: ${customer.email}`);
+        this.logger.debug(`Customer Email is: ${customer.email}`);
 
         // Returns true if the email does NOT include '@evm.blockchain'
-        if (customer.email.includes('@evm.blockchain')) {
-            console.log('It includes it....');
-        }
         return customer.email.includes('@evm.blockchain');
     }
 
@@ -40,7 +39,7 @@ class ProductReviewService extends TransactionBaseService {
         });
 
         if (!productReview) {
-            console.log(
+            this.logger.debug(
                 `No product review found for product_id: ${product_id} and customer_id: ${customer_id}`
             );
             return null;
@@ -55,10 +54,12 @@ class ProductReviewService extends TransactionBaseService {
         const productReviews = await productReviewRepository.find({
             where: { order_id: order_id },
         });
-        console.log(`productReviews: ${JSON.stringify(productReviews)}`);
+        this.logger.debug(`productReviews: ${JSON.stringify(productReviews)}`);
 
         if (productReviews.length === 0) {
-            console.log(`No product review found for order_id: ${order_id}`);
+            this.logger.debug(
+                `No product review found for order_id: ${order_id}`
+            );
             return true;
         }
 
@@ -122,7 +123,7 @@ class ProductReviewService extends TransactionBaseService {
             reviews.reduce((acc, review) => acc + review.rating, 0) /
             reviews.length;
 
-        console.log(`The average rating is: ${averageRating.toFixed(2)}`);
+        this.logger.debug(`The average rating is: ${averageRating.toFixed(2)}`);
         return averageRating;
     }
 
@@ -134,7 +135,7 @@ class ProductReviewService extends TransactionBaseService {
             where: { product_id, customer_id },
         });
 
-        console.log(`existingReview: ${existingReview.content}`);
+        this.logger.debug(`existingReview: ${existingReview.content}`);
 
         if (!existingReview) {
             throw new Error('Review not found'); // Proper error handling if the review doesn't exist
@@ -159,7 +160,7 @@ class ProductReviewService extends TransactionBaseService {
             where: { product_id, customer_id, order_id },
         });
 
-        console.log(`existingReview: ${existingReview.content}`);
+        this.logger.debug(`existingReview: ${existingReview.content}`);
 
         if (!existingReview) {
             throw new Error('Review not found'); // Proper error handling if the review doesn't exist
@@ -179,7 +180,7 @@ class ProductReviewService extends TransactionBaseService {
             where: { product_id, customer_id },
         });
 
-        console.log(`existingReview: ${existingReview.rating}`);
+        this.logger.debug(`existingReview: ${existingReview.rating}`);
 
         if (!existingReview) {
             throw new Error('Review not found'); // Proper error handling if the review doesn't exist
@@ -222,7 +223,7 @@ class ProductReviewService extends TransactionBaseService {
 
             productId = variantProduct.product_id; // This assumes that variantProduct actually contains a product_id
         } catch (e) {
-            console.error(`Error fetching product variant: ${e}`);
+            this.logger.error(`Error fetching product variant: ${e}`);
             throw e; // Rethrow or handle the error appropriately
         }
 

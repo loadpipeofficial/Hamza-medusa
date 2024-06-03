@@ -9,10 +9,12 @@ import { ProductVariantRepository } from '../repositories/product-variant';
 class ProductVariantService extends MedusaProductVariantService {
     static LIFE_TIME = Lifetime.SCOPED;
     protected readonly productVariantRepository_: typeof ProductVariantRepository;
+    protected readonly logger: Logger;
 
     constructor(container) {
         super(container);
         this.productVariantRepository_ = container.productVariantRepository;
+        this.logger = container.logger;
     }
 
     async checkInventory(variantId: string) {
@@ -22,12 +24,12 @@ class ProductVariantService extends MedusaProductVariantService {
                     where: { id: variantId },
                 }
             );
-            console.log(
+            this.logger.debug(
                 `Inventory for variant ${productVariant.id}: ${productVariant.inventory_quantity}`
             );
             return productVariant.inventory_quantity;
         } catch (e) {
-            console.log(
+            this.logger.error(
                 `Error checking inventory for variant ${variantId}: ${e}`
             );
         }
@@ -47,21 +49,21 @@ class ProductVariantService extends MedusaProductVariantService {
             if (productVariant.inventory_quantity >= quantityToDeduct) {
                 productVariant.inventory_quantity -= quantityToDeduct;
                 await this.productVariantRepository_.save(productVariant);
-                console.log(
+                this.logger.debug(
                     `Inventory updated for variant ${productVariant.id}, new inventory count: ${productVariant.inventory_quantity}`
                 );
                 return productVariant;
             } else if (productVariant.allow_backorder) {
-                console.log(
+                this.logger.info(
                     'Inventory below requested deduction but backorders are allowed.'
                 );
             } else {
-                console.log(
+                this.logger.info(
                     'Not enough inventory to deduct the requested quantity.'
                 );
             }
         } catch (e) {
-            console.log(
+            this.logger.error(
                 `Error updating inventory for variant ${variantOrVariantId}: ${e}`
             );
         }

@@ -8,6 +8,7 @@ import {
     CreateProductProductVariantPriceInput,
 } from '@medusajs/medusa/dist/types/product';
 import { Product } from '../models/product';
+
 export type UpdateProductProductVariantDTO = {
     id?: string;
     store_id?: string;
@@ -34,17 +35,27 @@ export type UpdateProductProductVariantDTO = {
         option_id: string;
     }[];
 };
+
 type UpdateProductInput = Omit<Partial<CreateProductInput>, 'variants'> & {
     variants?: UpdateProductProductVariantDTO[];
 };
+
 class ProductService extends MedusaProductService {
     static LIFE_TIME = Lifetime.SCOPED;
+    protected readonly logger: Logger;
+
+    constructor(container) {
+        super(container);
+        this.logger = container.logger;
+    }
 
     async updateProduct(
         productId: string,
         update: UpdateProductInput
     ): Promise<Product> {
-        console.log('Received update for product:', productId, update);
+        this.logger.debug(
+            `Received update for product: ${productId}, ${update}`
+        );
         const result = await super.update(productId, update);
         return result;
     }

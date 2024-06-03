@@ -8,10 +8,12 @@ type ExtendedAuthenticateResult = AuthenticateResult & {
 
 export default class AuthService extends MedusaAuthService {
     static LIFE_TIME = Lifetime.SINGLETON;
+    protected readonly logger: Logger;
 
     constructor(container) {
         super(container);
         // Assuming you have additional setup or properties to include
+        this.logger = container.logger;
     }
 
     // Overload to keep the original authenticate method signature
@@ -32,7 +34,7 @@ export default class AuthService extends MedusaAuthService {
         password: string,
         wallet_address?: string
     ): Promise<ExtendedAuthenticateResult | AuthenticateResult> {
-        console.log('calling medusa authenticate....');
+        this.logger.info('calling medusa authenticate....');
         const authResult: AuthenticateResult = await super.authenticate(
             email,
             password
@@ -46,7 +48,7 @@ export default class AuthService extends MedusaAuthService {
                 ...authResult,
                 wallet_address,
             };
-            console.log(
+            this.logger.info(
                 `Authentication succeeded, wallet address: ${wallet_address}`
             );
             return extendedResult;
@@ -60,7 +62,7 @@ export default class AuthService extends MedusaAuthService {
         password: string,
         wallet_address?: string
     ): Promise<ExtendedAuthenticateResult> {
-        console.log('calling medusa authenticate....');
+        this.logger.debug('calling medusa authenticate....');
         const authResult: AuthenticateResult = await super.authenticateCustomer(
             email,
             password
@@ -74,7 +76,7 @@ export default class AuthService extends MedusaAuthService {
                 ...authResult,
                 wallet_address,
             };
-            console.log(
+            this.logger.info(
                 `Authentication succeeded, wallet address: ${wallet_address}`
             );
             return extendedResult;
