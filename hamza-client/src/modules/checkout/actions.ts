@@ -111,6 +111,8 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
 
     if (!cartId) return { message: 'No cartId cookie found' };
 
+    const email = formData.get('email') as string;
+
     const data = {
         shipping_address: {
             first_name: formData.get('shipping_address.first_name'),
@@ -124,8 +126,13 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
             province: formData.get('shipping_address.province'),
             phone: formData.get('shipping_address.phone'),
         },
-        email: formData.get('email'),
     } as StorePostCartsCartReq;
+
+    if (email && email.trim() !== '') {
+        data.email = email;
+    }
+
+    console.log('Data sent', data);
 
     data.billing_address = data.shipping_address;
 
