@@ -1,4 +1,4 @@
-import { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
+import { MedusaRequest, MedusaResponse, Logger } from '@medusajs/medusa';
 import { RelayClientWrapper } from '../../../../massmarket/client';
 
 const productsToIds = {
@@ -40,7 +40,6 @@ async function updateStoreForMM(
     rc,
     storeId: string
 ) {
-    console.log('store update');
     storeService.update(storeId, {
         massmarket_store_id:
             '0x1300000000000000000000000000000000000000000000000000000000000006',
@@ -62,6 +61,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     const userService = req.scope.resolve('userService');
     const storeService = req.scope.resolve('storeService');
     const productService = req.scope.resolve('productService');
+    const logger = req.scope.resolve('productService') as Logger;
 
     try {
         /*
@@ -86,7 +86,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
         //keycard: 0x56d6577a01cb81fbfdbb5e4d639b790928f9a57d5bf1a43e93aa2187c178af11
 
         /*
-        console.log(
+        this.logger.debug(
             await rc.enrollKeyCard(
                 '0x65c1196c888ae6bb110077201346dfe426b220ce1d49a366102a2d85e7ad0e35'
             )
@@ -99,7 +99,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
 
         return res.json({ id: rc.storeId, keyCard: rc.keyCardToString() });
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         return res
             .status(500)
             .json({ message: 'Internal server error', error: error.message });
