@@ -33,7 +33,7 @@ type Review = {
 };
 
 type ProductReviewProps = {
-    product: any; // Adjust type based on actual product type
+    product: any;
     countryCode: string;
 };
 
