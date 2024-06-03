@@ -17,6 +17,9 @@ import {
     Box,
 } from '@chakra-ui/react';
 
+const MEDUSA_SERVER_URL =
+    process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
+
 type Review = {
     id: string;
     created_at: string;
@@ -30,7 +33,7 @@ type Review = {
 };
 
 type ProductReviewProps = {
-    product: any; // Adjust type based on actual product type
+    product: any;
     countryCode: string;
 };
 
@@ -49,15 +52,15 @@ const ProductReview: React.FC<ProductReviewProps> = ({
         const fetchReviewData = async () => {
             // API calls remain the same
             const averageRatingResponse = await axios.post(
-                'http://localhost:9000/custom/review/average',
+                `${MEDUSA_SERVER_URL}/custom/review/average`,
                 { product_id: product.id }
             );
             const reviewCountResponse = await axios.post(
-                'http://localhost:9000/custom/review/count',
+                `${MEDUSA_SERVER_URL}/custom/review/count`,
                 { product_id: product.id }
             );
             const reviewsResponse = await axios.post(
-                'http://localhost:9000/custom/review/all-reviews',
+                `${MEDUSA_SERVER_URL}/custom/review/all-reviews`,
                 { product_id: product.id }
             );
 
@@ -67,10 +70,13 @@ const ProductReview: React.FC<ProductReviewProps> = ({
 
             // Initialize the rating distribution to ensure all ratings from 1 to 5 are accounted for
             const initialRatingDistribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
-            const distribution = reviewsResponse.data.reduce((acc, review) => {
-                acc[review.rating] = (acc[review.rating] || 0) + 1;
-                return acc;
-            }, initialRatingDistribution);
+            const distribution = reviewsResponse.data.reduce(
+                (acc: { [key: string]: any }, review: any) => {
+                    acc[review.rating] = (acc[review.rating] || 0) + 1;
+                    return acc;
+                },
+                initialRatingDistribution
+            );
 
             setRatingDistribution(distribution);
         };
@@ -78,7 +84,9 @@ const ProductReview: React.FC<ProductReviewProps> = ({
         fetchReviewData();
     }, [product.id]);
 
-    const ratings = Object.keys(ratingDistribution).sort((a, b) => b - a); // Sort ratings descending
+    const ratings = Object.keys(ratingDistribution).sort(
+        (a: any, b: any) => b - a
+    ); // Sort ratings descending
     const initialRatingDistribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
     console.log(`****** Average rating {averageRating} ******`);
     return (
