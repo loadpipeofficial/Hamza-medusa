@@ -78,6 +78,12 @@ const ProductReview: React.FC<ProductReviewProps> = ({
         fetchReviewData();
     }, [product.id]);
 
+    if (reviews.length === 0) {
+        console.log('Reviews array is empty');
+    } else {
+        console.log('Reviews array is not empty', reviews);
+    }
+
     const ratings = Object.keys(ratingDistribution).sort((a, b) => b - a); // Sort ratings descending
     const initialRatingDistribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
     console.log(`****** Average rating {averageRating} ******`);
@@ -122,32 +128,44 @@ const ProductReview: React.FC<ProductReviewProps> = ({
             </Stack>
 
             <Card>
-                <CardHeader>
-                    <Heading size="md">Product Reviews</Heading>
-                </CardHeader>
-                <CardBody>
-                    <Stack divider={<StackDivider />} spacing={4}>
-                        {reviews.map((review) => (
-                            <Box key={review.id}>
-                                <Heading size="xs" textTransform="uppercase">
-                                    {review.title}
-                                </Heading>
-                                <Text fontSize="sm">
-                                    Customer ID: {review.customer_id}
-                                </Text>
-                                <Text fontSize="sm">
-                                    Rating: {review.rating} / 5
-                                </Text>
-                                <Text fontSize="sm">{review.content}</Text>
-                                <Text fontSize="sm">
-                                    Date:{' '}
-                                    {format(new Date(review.created_at), 'PPP')}
-                                </Text>
-                            </Box>
-                        ))}
-                    </Stack>
-                </CardBody>
-                <CardFooter></CardFooter>
+                {reviews.length > 0 && (
+                    <>
+                        <CardHeader>
+                            <Heading size="md">Product Reviews</Heading>
+                        </CardHeader>
+                        <CardBody>
+                            <Stack divider={<StackDivider />} spacing={4}>
+                                {reviews.map((review) => (
+                                    <Box key={review.id}>
+                                        <Heading
+                                            size="xs"
+                                            textTransform="uppercase"
+                                        >
+                                            {review.title}
+                                        </Heading>
+                                        <Text fontSize="sm">
+                                            Customer ID: {review.customer_id}
+                                        </Text>
+                                        <Text fontSize="sm">
+                                            Rating: {review.rating} / 5
+                                        </Text>
+                                        <Text fontSize="sm">
+                                            {review.content}
+                                        </Text>
+                                        <Text fontSize="sm">
+                                            Date:{' '}
+                                            {format(
+                                                new Date(review.created_at),
+                                                'PPP'
+                                            )}
+                                        </Text>
+                                    </Box>
+                                ))}
+                            </Stack>
+                        </CardBody>
+                        <CardFooter></CardFooter>
+                    </>
+                )}
             </Card>
         </Box>
     );
