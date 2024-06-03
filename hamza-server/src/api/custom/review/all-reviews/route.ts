@@ -1,14 +1,15 @@
-import type { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
+import type { MedusaRequest, MedusaResponse, Logger } from '@medusajs/medusa';
 import ProductReviewService from 'src/services/product-review';
 import { readRequestBody } from '../../../../utils/request-body';
 
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
+    const logger = req.scope.resolve('logger') as Logger;
     const productReviewService: ProductReviewService = req.scope.resolve(
         'productReviewService'
     );
 
     const { product_id } = readRequestBody(req.body, ['product_id']);
-    console.log(`Product ID is: ${product_id}`);
+    logger.debug(`Product ID is: ${product_id}`);
 
     try {
         const reviews = await productReviewService.getReviews(product_id);

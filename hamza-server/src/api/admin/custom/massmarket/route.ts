@@ -40,7 +40,6 @@ async function updateStoreForMM(
     rc,
     storeId: string
 ) {
-    console.log('store update');
     storeService.update(storeId, {
         massmarket_store_id:
             '0x1300000000000000000000000000000000000000000000000000000000000006',

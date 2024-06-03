@@ -1,4 +1,4 @@
-import { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
+import { MedusaRequest, MedusaResponse, Logger } from '@medusajs/medusa';
 import { SiweMessage } from 'siwe';
 import CustomerRepository from '../../../repositories/customer';
 import AuthService from '../../../../src/services/auth';
@@ -11,6 +11,7 @@ import { Customer } from 'src/models/customer';
 // TODO: So once the user has been verified, we can use the CustomerService.create() method to create/login the user.
 
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
+    const logger: Logger = req.scope.resolve('logger');
     try {
         //get the service instances
         const customerService: CustomerService =
@@ -47,19 +48,19 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
             wallet_address: wallet_address,
         };
 
-        console.log('customer input is ', customerInputData);
+        logger.debug('customer input is ' + customerInputData);
         //verify the signature
         const siweMessage = new SiweMessage(message);
         let siweResponse = await siweMessage.verify({ signature });
-        console.log('siwe response is ', siweResponse);
+        logger.debug('siwe response is ' + siweResponse);
         if (!siweResponse.success) {
             throw new Error('Error in validating wallet address signature');
         }
 
-        console.log('customer data is ', checkCustomerWithWalletAddress);
+        logger.debug('customer data is ' + checkCustomerWithWalletAddress);
         let newCustomerData: Customer;
         if (!checkCustomerWithWalletAddress) {
-            console.log('creating new customer ');
+            logger.debug('creating new customer ');
             await customerService.create(customerInputData);
             newCustomerData = await CustomerRepository.findOne({
                 where: { email: customerInputData.email.toLowerCase() },
@@ -73,7 +74,7 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
                 customerInputData.password,
                 customerInputData.wallet_address
             );
-            console.log('auth result is ', authResult);
+            logger.debug('auth result is ' + authResult);
             if (!authResult.success) {
                 throw new Error('Error in verifying email and password');
             }
@@ -97,7 +98,7 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
         };
         res.send({ status: true, data: body });
     } catch (e) {
-        console.log('error in verifying user login ', e);
+        logger.error('error in verifying user login ', e);
         res.send({ status: false, message: e.message });
     }
 };

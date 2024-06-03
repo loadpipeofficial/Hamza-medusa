@@ -1,4 +1,4 @@
-import { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
+import { MedusaRequest, MedusaResponse, Logger } from '@medusajs/medusa';
 import OrderService from '../../../services/order';
 import { readRequestBody } from '../../../utils/request-body';
 
@@ -33,6 +33,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
 
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     const orderService: OrderService = req.scope.resolve('orderService');
+    const logger: Logger = req.scope.resolve('logger');
     //const { cart_id, transaction_id, payer_address, escrow_contract_address } =
     //    req.body;
     const {
@@ -50,7 +51,7 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     ]);
 
     try {
-        console.log(
+        logger.debug(
             `Cart in the route: ${cartProducts} ${typeof cartProducts}`
         );
         await orderService.finalizeCheckout(

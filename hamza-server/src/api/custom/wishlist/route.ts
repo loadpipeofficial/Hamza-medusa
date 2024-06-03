@@ -1,8 +1,9 @@
-import type { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
+import type { MedusaRequest, MedusaResponse, Logger } from '@medusajs/medusa';
 import WishlistService from 'src/services/wishlist';
 import { readRequestBody } from '../../../utils/request-body';
 
 export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
+    const logger = req.scope.resolve('logger') as Logger;
     const wishlistService: WishlistService =
         req.scope.resolve('wishlistService');
     const customer_id = req.query.customer_id; // Correctly retrieving from query parameters
@@ -17,9 +18,9 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
         res.json(wishlist);
     } catch (err) {
         if (err.message.includes('not found')) {
-            console.log(
-                'Wishlist does not exist, creating a new wishlist-dropdown for:',
-                customer_id
+            logger.debug(
+                'Wishlist does not exist, creating a new wishlist-dropdown for:' +
+                    customer_id
             );
             try {
                 const newWishlist = await wishlistService.create(customer_id);
@@ -44,19 +45,20 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
 
 // Create a Wishlist
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
+    const logger = req.scope.resolve('logger') as Logger;
+
     // lets create a payload for wishlist-dropdown
     const wishlistService: WishlistService =
         req.scope.resolve('wishlistService');
 
     const { customer_id } = readRequestBody(req.body, ['customer_id']);
 
-    console.log('customer_id: ', customer_id);
+    logger.debug('customer_id: ' + customer_id);
 
     try {
-        console.log('TRYING TO CREATE WISHLIST');
         const wishlist = await wishlistService.create(customer_id);
         res.json(wishlist);
     } catch (err) {
-        console.log('ERROR: ', err);
+        logger.error('Create wishlist error: ', err);
     }
 };

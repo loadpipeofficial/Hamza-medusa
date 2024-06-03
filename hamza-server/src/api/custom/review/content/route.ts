@@ -1,8 +1,9 @@
-import type { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
+import type { MedusaRequest, MedusaResponse, Logger } from '@medusajs/medusa';
 import ProductReviewService from '../../../../services/product-review';
 import { readRequestBody } from '../../../../utils/request-body';
 
 export const PATCH = async (req: MedusaRequest, res: MedusaResponse) => {
+    const logger = req.scope.resolve('logger') as Logger;
     const productReviewService: ProductReviewService = req.scope.resolve(
         'productReviewService'
     );
@@ -12,13 +13,13 @@ export const PATCH = async (req: MedusaRequest, res: MedusaResponse) => {
         ['product_id', 'reviewUpdates', 'customer_id']
     );
 
-    console.log(
-        'product_id: ',
-        product_id,
-        'reviewUpdates: ',
-        reviewUpdates,
-        'customer_id: ',
-        customer_id
+    logger.debug(
+        'product_id: ' +
+            product_id +
+            'reviewUpdates: ' +
+            reviewUpdates +
+            'customer_id: ' +
+            customer_id
     );
 
     try {
@@ -29,7 +30,7 @@ export const PATCH = async (req: MedusaRequest, res: MedusaResponse) => {
         );
         res.json(updatedReview);
     } catch (err) {
-        console.error('Error updating product review:', err);
+        logger.error('Error updating product review:', err);
         res.status(500).json({
             error: 'Failed to update product review',
         });
