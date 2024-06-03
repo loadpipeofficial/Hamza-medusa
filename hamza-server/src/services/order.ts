@@ -4,6 +4,7 @@ import {
     OrderService as MedusaOrderService,
     OrderStatus,
     PaymentStatus,
+    Logger,
 } from '@medusajs/medusa';
 import OrderRepository from '@medusajs/medusa/dist/repositories/order';
 import PaymentRepository from '@medusajs/medusa/dist/repositories/payment';
@@ -82,6 +83,13 @@ export default class OrderService extends MedusaOrderService {
         return await this.orderRepository_.findOne({
             where: { id: orderId },
             relations: ['store.owner'],
+        });
+    }
+
+    async getOrderWithStoreAndItems(orderId: string): Promise<Order> {
+        return await this.orderRepository_.findOne({
+            where: { id: orderId },
+            relations: ['store.owner', 'items'],
         });
     }
 

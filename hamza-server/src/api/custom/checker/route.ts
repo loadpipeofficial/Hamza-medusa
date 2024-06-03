@@ -12,7 +12,7 @@ export const GET = (req: MedusaRequest, res: MedusaResponse) => {
             message: nonce,
         });
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         return res
             .status(500)
             .json({ message: 'Internal server error', error: error.message });

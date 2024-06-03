@@ -6,6 +6,7 @@ import {
     PaymentProcessorError,
     PaymentProcessorSessionResponse,
     PaymentSessionStatus,
+    Logger,
 } from '@medusajs/medusa'; //TODO: need?
 import { ethers, TransactionResponse } from 'ethers';
 

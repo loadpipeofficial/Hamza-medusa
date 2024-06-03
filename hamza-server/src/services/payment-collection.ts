@@ -1,5 +1,8 @@
 import { Lifetime } from 'awilix';
-import { PaymentCollectionService as MedusaPaymentCollectionService } from '@medusajs/medusa';
+import {
+    PaymentCollectionService as MedusaPaymentCollectionService,
+    Logger,
+} from '@medusajs/medusa';
 import { CreatePaymentCollectionInput as MedusaCreatePaymentCollectionInput } from '@medusajs/medusa/dist/types/payment-collection';
 import PaymentCollectionRepository from '../repositories/payment-collection';
 import { PaymentCollection } from '../models/payment-collection';

@@ -1,5 +1,8 @@
 import { Lifetime } from 'awilix';
-import { ProductCollectionService as MedusaProductCollectionService } from '@medusajs/medusa';
+import {
+    ProductCollectionService as MedusaProductCollectionService,
+    Logger,
+} from '@medusajs/medusa';
 import {
     CreateProductCollection as MedusaCreateProductCollection,
     UpdateProductCollection as MedusaUpdateProductCollection,

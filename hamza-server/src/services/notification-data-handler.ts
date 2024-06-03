@@ -1,5 +1,5 @@
 import { Lifetime } from 'awilix';
-import { TransactionBaseService } from '@medusajs/medusa';
+import { TransactionBaseService, Logger } from '@medusajs/medusa';
 import { humanizeAmount, zeroDecimalCurrencies } from 'medusa-core-utils';
 import type {
     BatchJobService,

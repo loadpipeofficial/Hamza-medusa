@@ -1,4 +1,7 @@
-import { CustomerService as MedusaCustomerService } from '@medusajs/medusa';
+import {
+    CustomerService as MedusaCustomerService,
+    Logger,
+} from '@medusajs/medusa';
 import { CreateCustomerInput } from '@medusajs/medusa/dist/types/customers';
 import { Lifetime } from 'awilix';
 import { CustomerRepository } from '../repositories/customer';

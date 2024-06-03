@@ -40,7 +40,7 @@ export const PATCH = async (req: MedusaRequest, res: MedusaResponse) => {
         );
         res.json(updatedReview);
     } catch (err) {
-        console.error('Error updating product review:', err);
+        logger.error('Error updating product review:', err);
         res.status(500).json({
             error: 'Failed to update product review',
         });

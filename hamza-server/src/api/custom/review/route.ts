@@ -43,7 +43,7 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
         });
         res.json(review);
     } catch (err) {
-        console.error('Error creating product review:', err);
+        logger.error('Error creating product review:', err);
         res.status(500).json({
             error: 'Failed to create product review',
         });

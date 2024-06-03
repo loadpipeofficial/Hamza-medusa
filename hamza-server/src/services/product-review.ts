@@ -1,4 +1,4 @@
-import { TransactionBaseService } from '@medusajs/medusa';
+import { TransactionBaseService, Logger } from '@medusajs/medusa';
 import { Lifetime } from 'awilix';
 import { ProductReviewRepository } from '../repositories/product-review';
 import { ProductReview } from '../models/product-review';

@@ -1,5 +1,9 @@
 import { Lifetime } from 'awilix';
-import { StoreService as MedusaStoreService, Store } from '@medusajs/medusa';
+import {
+    StoreService as MedusaStoreService,
+    Store,
+    Logger,
+} from '@medusajs/medusa';
 import { User } from '../models/user';
 import StoreRepository from '../repositories/store';
 import axios from 'axios';

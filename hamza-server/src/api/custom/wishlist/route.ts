@@ -26,7 +26,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
                 const newWishlist = await wishlistService.create(customer_id);
                 res.status(201).json(newWishlist); // Respond with HTTP 201 for created resources
             } catch (createErr) {
-                console.error(
+                logger.error(
                     'Error creating new wishlist-dropdown:',
                     createErr
                 );
@@ -35,7 +35,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
                 });
             }
         } else {
-            console.error('Error retrieving wishlist-dropdown:', err);
+            logger.error('Error retrieving wishlist-dropdown:', err);
             res.status(500).json({
                 error: 'Failed to retrieve wishlist-dropdown',
             });

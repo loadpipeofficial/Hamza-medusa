@@ -1,5 +1,8 @@
 import { Lifetime } from 'awilix';
-import { ProductService as MedusaProductService } from '@medusajs/medusa';
+import {
+    ProductService as MedusaProductService,
+    Logger,
+} from '@medusajs/medusa';
 import {
     CreateProductInput,
     CreateProductProductVariantPriceInput,

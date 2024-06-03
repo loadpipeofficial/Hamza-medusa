@@ -1,4 +1,7 @@
-import { TransactionBaseService } from '@medusajs/medusa/dist/interfaces';
+import {
+    TransactionBaseService,
+    Logger,
+} from '@medusajs/medusa/dist/interfaces';
 import { MedusaError } from 'medusa-core-utils';
 import { Lifetime } from 'awilix';
 import { WishlistItem } from '../models/wishlist-item';

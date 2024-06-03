@@ -22,7 +22,7 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
         );
         res.json(verify);
     } catch (err) {
-        console.error('Error fetching product verification:', err);
+        logger.error('Error fetching product verification:', err);
         res.status(500).json({
             error: 'Failed to verify customer',
         });

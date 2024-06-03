@@ -23,7 +23,7 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
         );
         res.json(reviews);
     } catch (err) {
-        console.error('Error fetching product reviews:', err);
+        logger.error('Error fetching product reviews:', err);
         res.status(500).json({
             error: 'Failed to fetch product reviews',
         });

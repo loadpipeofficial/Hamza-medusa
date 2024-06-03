@@ -1,4 +1,4 @@
-import { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
+import { MedusaRequest, MedusaResponse, Logger } from '@medusajs/medusa';
 import { RelayClientWrapper } from '../../../../massmarket/client';
 
 const productsToIds = {
@@ -61,6 +61,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     const userService = req.scope.resolve('userService');
     const storeService = req.scope.resolve('storeService');
     const productService = req.scope.resolve('productService');
+    const logger = req.scope.resolve('productService') as Logger;
 
     try {
         /*
@@ -98,7 +99,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
 
         return res.json({ id: rc.storeId, keyCard: rc.keyCardToString() });
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         return res
             .status(500)
             .json({ message: 'Internal server error', error: error.message });

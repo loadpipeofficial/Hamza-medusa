@@ -2,6 +2,7 @@ import { Lifetime } from 'awilix';
 import {
     PriceList,
     PriceListService as MedusaPriceListService,
+    Logger,
 } from '@medusajs/medusa';
 import {
     UpdatePriceListInput as MedusaUpdatePriceListInput,

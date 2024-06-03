@@ -1,4 +1,7 @@
-import { ProductVariantService as MedusaProductVariantService } from '@medusajs/medusa';
+import {
+    ProductVariantService as MedusaProductVariantService,
+    Logger,
+} from '@medusajs/medusa';
 import { ProductVariant } from '@medusajs/medusa';
 import { Lifetime } from 'awilix';
 import { ProductVariantRepository } from '../repositories/product-variant';
