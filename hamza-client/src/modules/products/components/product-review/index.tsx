@@ -78,12 +78,6 @@ const ProductReview: React.FC<ProductReviewProps> = ({
         fetchReviewData();
     }, [product.id]);
 
-    if (reviews.length === 0) {
-        console.log('Reviews array is empty');
-    } else {
-        console.log('Reviews array is not empty', reviews);
-    }
-
     const ratings = Object.keys(ratingDistribution).sort((a, b) => b - a); // Sort ratings descending
     const initialRatingDistribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
     console.log(`****** Average rating {averageRating} ******`);
@@ -96,7 +90,11 @@ const ProductReview: React.FC<ProductReviewProps> = ({
                 alignItems="center"
             >
                 <Heading size="lg" mb={4}>
-                    Average Rating: {averageRating} / 5
+                    {reviews.length > 0 ? (
+                        <>Average Rating: {averageRating} / 5</>
+                    ) : (
+                        'no ratings for this product yet'
+                    )}
                 </Heading>
                 {[5, 4, 3, 2, 1].map((rating) => (
                     <Flex key={rating} align="center">
