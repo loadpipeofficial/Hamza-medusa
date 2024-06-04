@@ -14,7 +14,7 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { clearCart } from '@lib/data';
 import { getCurrencyPrecision } from 'currency.config';
-import { getMasterSwitchAddress } from '../../../../contracts.config';
+import { getMasterSwitchAddress } from 'contracts.config';
 
 //TODO: we need a global common function to replace this
 const MEDUSA_SERVER_URL =
