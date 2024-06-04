@@ -11,45 +11,25 @@ const EditReviewTemplate = () => {
     const [review, setReview] = useState('');
     const [rating, setRating] = useState(0);
     const [hovered, setHovered] = useState(0);
-    const [canSubmit, setCanSubmit] = useState(false);
     const [submissionSuccess, setSubmissionSuccess] = useState(false);
 
     const item = useItemStore((state) => state.item);
 
     console.log(`item info ${JSON.stringify(item)}`);
     useEffect(() => {
-        checkReviewExistence();
         console.log(`Checking ${item?.title} if we can submit?`);
     }, [item]);
 
-    const checkReviewExistence = async () => {
-        try {
-            const response = await axios.post(
-                `${BACKEND_URL}/custom/review/exists`,
-                {
-                    order_id: item?.order_id,
-                }
-            );
-            console.log(`Can submit? ${response.data}`);
-            setCanSubmit(response.data); // Assuming API returns { exists: true/false }
-        } catch (error) {
-            alert('Failed to check review existence: ' + error.message);
-        }
-    };
-
     const submitReview = async () => {
-        if (!canSubmit) {
-            alert('Review already exists for this order.');
-            return;
-        }
-
+        console.log(
+            `customer_id: ${item?.customer_id}, product_id: ${item?.variant_id}, rating: ${rating}, content: ${review}, order_id: ${item?.order_id}`
+        );
         try {
-            await axios.post(`${BACKEND_URL}/custom/review`, {
+            await axios.post(`${BACKEND_URL}/custom/review/update`, {
                 customer_id: item?.customer_id,
                 product_id: item?.variant_id,
-                rating: rating,
-                content: review,
-                title: 'Review for ' + item?.title, // Assuming a title is needed
+                ratingUpdates: rating,
+                reviewUpdates: review,
                 order_id: item?.order_id,
             });
             alert('Review submitted successfully!');
