@@ -11,7 +11,7 @@ type Props = {
     params: { id: string };
 };
 
-export default async function ({ params }: Props) {
+export default async function EditReviewPage({ params }: Props) {
     const order = await retrieveOrder(params.id).catch(() => null);
 
     return (
