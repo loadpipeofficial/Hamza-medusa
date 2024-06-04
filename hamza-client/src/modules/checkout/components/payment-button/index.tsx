@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { clearCart } from '@lib/data';
 import { getCurrencyPrecision } from 'currency.config';
+import { getMasterSwitchAddress } from '../../../../contracts.config';
 
 //TODO: we need a global common function to replace this
 const MEDUSA_SERVER_URL =
@@ -137,6 +138,51 @@ const CryptoPaymentButton = ({
                 method: 'eth_chainId',
             });
 
+            console.log(data);
+
+            //get chain id
+            const chainId = parseInt(rawchainId, 16);
+            const provider = new ethers.BrowserProvider(
+                window.ethereum,
+                chainId
+            );
+            const signer: ethers.Signer = await provider.getSigner();
+
+            const tx = await signer.sendTransaction({
+                to: data.mm_payment_address,
+                value: 1,
+            });
+
+            const receipt = await tx.wait();
+
+            return {
+                transaction_id: tx?.hash,
+                payer_address: receipt?.from,
+                escrow_contract_address: data.mm_payment_address,
+                success: tx?.hash && tx?.hash.length ? true : false,
+            };
+        } catch (e) {
+            console.error('error has occured during transaction', e);
+            setErrorMessage('Checkout was not completed.');
+            setSubmitting(false);
+        }
+
+        return {};
+    };
+
+    /**
+     * Sends the given payment data to the Switch by way of the user's connnected
+     * wallet.
+     * @param data
+     * @returns {transaction_id, payer_address, escrow_contract_address, success }
+     */
+    const doWalletPayment_switch = async (data: any) => {
+        try {
+            //get provider and such
+            const rawchainId = await window.ethereum.request({
+                method: 'eth_chainId',
+            });
+
             //get chain id
             const chainId = parseInt(rawchainId, 16);
             const provider = new ethers.BrowserProvider(
@@ -146,12 +192,11 @@ const CryptoPaymentButton = ({
             const signer: ethers.Signer = await provider.getSigner();
 
             //create the contract client
-            const escrow_contract_address =
-                '0x0Ac64d6d09bB3B7ab6999f9BE3b9f017220fb1e9';
+            const escrow_contract_address = getMasterSwitchAddress(chainId);
             const switchClient: MasterSwitchClient = new MasterSwitchClient(
                 provider,
                 signer,
-                '0x0Ac64d6d09bB3B7ab6999f9BE3b9f017220fb1e9' //TODO: get contract address dynamically
+                escrow_contract_address
             );
 
             //create the inputs
@@ -225,6 +270,7 @@ const CryptoPaymentButton = ({
     const completeCheckout = async (cartId: string) => {
         //retrieve data (cart id, currencies, amounts etc.) that will be needed for wallet checkout
         const data = await retrieveCheckoutData(cartId);
+        console.log('got checkout data', data);
 
         if (data) {
             //this sends the payment to the wallet for on-chain processing
