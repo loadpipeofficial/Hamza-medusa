@@ -5,19 +5,41 @@ import Divider from '@modules/common/components/divider';
 import Item from '@modules/order/components/item';
 import SkeletonLineItem from '@modules/skeletons/components/skeleton-line-item';
 import Thumbnail from '@modules/products/components/thumbnail';
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@medusajs/ui';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import itemStore from '@store/review/review-store';
+import axios from 'axios';
 
 type ItemsProps = {
     items: any;
 };
 
+const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
+
 const Items = ({ items }: ItemsProps) => {
+    const [reviewExists, setReviewExists] = useState(false);
     const setItem = itemStore((state) => state.setItem);
 
-    const handleItemClick = (item) => {
+    const handleItemClick = async (item) => {
+        console.log(`Checking review existence for order: ${item?.order_id}`);
+        try {
+            const response = await axios.post(
+                `http://localhost:9000/custom/review/verify`,
+                {
+                    order_id: item.order_id,
+                }
+            );
+            setReviewExists(response.data); // Assuming response.data exists and is an object with a property 'exists'
+            console.log(`response data ${response.data}`);
+            if (response.data) {
+                console.log('User has already reviewed');
+            } else {
+                console.log('User has not reviewed yet');
+            }
+        } catch (error) {
+            alert('Failed to check review existence: ' + error.message);
+        }
         setItem(item);
     };
 
@@ -30,13 +52,12 @@ const Items = ({ items }: ItemsProps) => {
                     {Object.entries(items).map(([id, cartItems]) =>
                         cartItems.map((item) => (
                             <Table.Row key={item.id}>
-                                <LocalizedClientLink
-                                    href={`/account/reviews/${item.id}`}
-                                    className="flex gap-2 items-center text-white hover:text-ui-fg-base"
+                                <Button
+                                    className="m-2"
                                     onClick={() => handleItemClick(item)}
                                 >
-                                    <Button className="m-2">Review</Button>
-                                </LocalizedClientLink>
+                                    Review
+                                </Button>
 
                                 <Table.Cell>
                                     <div className="flex items-center">
