@@ -10,6 +10,7 @@ import { Button } from '@medusajs/ui';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import itemStore from '@store/review/review-store';
 import axios from 'axios';
+import { useParams, useRouter } from 'next/navigation';
 
 type ItemsProps = {
     items: any;
@@ -20,6 +21,7 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 const Items = ({ items }: ItemsProps) => {
     const [reviewExists, setReviewExists] = useState(false);
     const setItem = itemStore((state) => state.setItem);
+    const router = useRouter();
 
     const handleItemClick = async (item) => {
         console.log(`Checking review existence for order: ${item?.order_id}`);
@@ -34,12 +36,10 @@ const Items = ({ items }: ItemsProps) => {
             console.log(`response data ${reviewExists}`);
             if (!reviewExists) {
                 console.log('User has already reviewed');
-                // User has already reviewed, navigate to edit review page (replace with your actual navigation logic)
-                // navigate to edit review page
+                router.push(`/account/editreview/${item.id}`);
             } else {
                 console.log('User has not reviewed yet');
-                // User hasn't reviewed yet, navigate to write review page (replace with your actual navigation logic)
-                // navigate to write review page
+                router.push(`/account/reviews/${item.id}`);
             }
         } catch (error) {
             alert('Failed to check review existence: ' + error.message);
