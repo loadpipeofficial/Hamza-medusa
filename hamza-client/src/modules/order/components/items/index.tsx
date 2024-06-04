@@ -25,17 +25,21 @@ const Items = ({ items }: ItemsProps) => {
         console.log(`Checking review existence for order: ${item?.order_id}`);
         try {
             const response = await axios.post(
-                `http://localhost:9000/custom/review/verify`,
+                `http://localhost:9000/custom/review/exists`,
                 {
-                    order_id: item.order_id,
+                    order_id: item?.order_id,
                 }
             );
-            setReviewExists(response.data); // Assuming response.data exists and is an object with a property 'exists'
-            console.log(`response data ${response.data}`);
-            if (response.data) {
+            const reviewExists = response.data; // Assuming response directly returns true/false
+            console.log(`response data ${reviewExists}`);
+            if (!reviewExists) {
                 console.log('User has already reviewed');
+                // User has already reviewed, navigate to edit review page (replace with your actual navigation logic)
+                // navigate to edit review page
             } else {
                 console.log('User has not reviewed yet');
+                // User hasn't reviewed yet, navigate to write review page (replace with your actual navigation logic)
+                // navigate to write review page
             }
         } catch (error) {
             alert('Failed to check review existence: ' + error.message);
