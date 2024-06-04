@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { retrieveOrder } from '@lib/data';
-import ReviewTemplate from '@modules/review/[id]/review-template';
+import EditReviewTemplate from '@modules/editreview/[id]/edit-review-template';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import { XMark } from '@medusajs/icons';
 import React from 'react';
@@ -11,7 +11,7 @@ type Props = {
     params: { id: string };
 };
 
-export default async function ReviewPage({ params }: Props) {
+export default async function ({ params }: Props) {
     const order = await retrieveOrder(params.id).catch(() => null);
 
     return (
@@ -33,7 +33,7 @@ export default async function ReviewPage({ params }: Props) {
                 </div>
             </div>
             <div>
-                <ReviewTemplate item={order} />
+                <EditReviewTemplate item={order} />
             </div>
         </div>
     );

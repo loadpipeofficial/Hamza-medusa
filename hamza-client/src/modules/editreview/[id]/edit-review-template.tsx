@@ -7,7 +7,7 @@ import { Button } from '@medusajs/ui';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 
-const ReviewTemplate = () => {
+const EditReviewTemplate = () => {
     const [review, setReview] = useState('');
     const [rating, setRating] = useState(0);
     const [hovered, setHovered] = useState(0);
@@ -134,4 +134,4 @@ const ReviewTemplate = () => {
     );
 };
 
-export default ReviewTemplate;
+export default EditReviewTemplate;
