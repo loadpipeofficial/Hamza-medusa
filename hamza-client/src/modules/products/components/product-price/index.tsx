@@ -118,9 +118,11 @@ export default function ProductPrice({
         <div className="flex flex-col space-y-1 text-ui-fg-base text-white">
             <div>
                 <h3>Product Reviews: {reviewCount} Ratings</h3>
-                <p className="text-white self-center">
-                    Average Rating: {renderStars(averageRating)}
-                </p>
+                {averageRating > 0 && (
+                    <p className="text-white self-center">
+                        Average Rating: {renderStars(averageRating)}
+                    </p>
+                )}
             </div>
             {preferredPrice ? (
                 <span className={clx('text-xl-semi')}>

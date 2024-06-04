@@ -93,7 +93,7 @@ const ProductReview: React.FC<ProductReviewProps> = ({
                     {reviews.length > 0 ? (
                         <>Average Rating: {averageRating} / 5</>
                     ) : (
-                        'no ratings for this product yet'
+                        'no reviews for this product yet'
                     )}
                 </Heading>
                 {[5, 4, 3, 2, 1].map((rating) => (
