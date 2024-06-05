@@ -77,10 +77,19 @@ class ProductService extends MedusaProductService {
     }
 
     async getProductsFromReview(storeId: string): Promise<Product[]> {
-        return this.productRepository_.find({
-            where: { store_id: storeId },
-            relations: ['product_review'],
-        });
+        try {
+            return await this.productRepository_.find({
+                where: { store_id: storeId },
+                relations: ['product'],
+            });
+        } catch (error) {
+            // Handle the error here
+            console.error(
+                'Error occurred while fetching products from review:',
+                error
+            );
+            throw new Error('Failed to fetch products from review.');
+        }
     }
 }
 

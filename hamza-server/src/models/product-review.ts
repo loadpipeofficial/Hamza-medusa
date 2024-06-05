@@ -20,7 +20,8 @@ export class ProductReview extends BaseEntity {
     @Column({ type: 'varchar', nullable: true })
     product_id: string;
 
-    @OneToMany(() => Product, (product) => product.id)
+    @ManyToOne(() => Product)
+    @JoinColumn({ name: 'product_id' })
     product: Product;
 
     @Column({ type: 'varchar', nullable: false })

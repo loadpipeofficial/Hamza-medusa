@@ -1,10 +1,12 @@
 import type { MedusaRequest, MedusaResponse, Logger } from '@medusajs/medusa';
 import { readRequestBody } from '../../../../utils/request-body';
-import ProductService from '../../../../services/product';
+import ProductReviewService from '../../../../services/product-review';
 
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     const logger = req.scope.resolve('logger') as Logger;
-    const productService: ProductService = req.scope.resolve('productService');
+    const productService: ProductReviewService = req.scope.resolve(
+        'productReviewService'
+    );
 
     const { store_id } = readRequestBody(req.body, ['store_id']);
     // logger.log('store_id: ' + store_id); // Potential source of the error
