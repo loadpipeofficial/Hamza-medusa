@@ -88,7 +88,7 @@ const ProductReview: React.FC<ProductReviewProps> = ({
         (a: any, b: any) => b - a
     ); // Sort ratings descending
     const initialRatingDistribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
-    console.log(`****** Average rating {averageRating} ******`);
+    // console.log(`****** Average rating {averageRating} ******`);
     return (
         <Box className="bg-black text-white p-4">
             <Stack
