@@ -55,9 +55,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     top="12px"
                     right="12px"
                     backgroundColor={'white'}
-                    borderRadius="2.6125rem" // Specific border radius for the pill shape
-                    px="0.725625rem" // Specific horizontal padding
-                    py="0.725625rem" // Specific vertical padding
+                    borderRadius="2.6125rem"
+                    px="0.725625rem"
+                    py="0.725625rem"
                 >
                     <Text
                         color="black"
