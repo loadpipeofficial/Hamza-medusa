@@ -5,6 +5,8 @@ import products from './data/data';
 
 const ProductCardGroup = () => {
     //TODO: Make product card clickable to product preview
+    //TODO: Import Product from backend into Card
+    //TODO: Filter Cards when searching
     //Will we add buy button / cart here?
     //Hovering over it could reveal a buy or cart button?
     return (
