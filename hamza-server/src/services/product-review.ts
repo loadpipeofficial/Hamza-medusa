@@ -69,6 +69,47 @@ class ProductReviewService extends TransactionBaseService {
         return false;
     }
 
+    async getSpecificReview(order_id, product_id) {
+        let productId;
+
+        try {
+            const variantProduct = await this.productVariantRepository_.findOne(
+                {
+                    where: { id: product_id }, // Assuming product_id is the ID of the variant
+                }
+            );
+
+            if (!variantProduct) {
+                throw new Error('Product variant not found');
+            }
+
+            productId = variantProduct.product_id; // This assumes that variantProduct actually contains a product_id
+        } catch (e) {
+            this.logger.error(`Error fetching product variant: ${e}`);
+            throw e; // Rethrow or handle the error appropriately
+        }
+
+        // Ensure productId was successfully retrieved before proceeding
+        if (!productId) {
+            throw new Error('Unable to retrieve product ID for the review');
+        }
+
+        try {
+            const productReviewRepository =
+                this.activeManager_.getRepository(ProductReview);
+            const productReview = await productReviewRepository.findOne({
+                where: { order_id, product_id: productId },
+            });
+
+            const { content, rating } = productReview;
+
+            return { content, rating };
+        } catch (e) {
+            this.logger.error(`Error fetching specific review: ${e}`);
+            throw e;
+        }
+    }
+
     async getReviews(product_id) {
         const productReviewRepository =
             this.activeManager_.getRepository(ProductReview);
@@ -82,11 +123,6 @@ class ProductReviewService extends TransactionBaseService {
 
         return reviews;
     }
-
-    // product_review entity doesnt have store_id field, however it has product_id field
-    // maybe we can use the relation between product_review and product to grab all
-    // product_review entity products by relationship to product entity store_id
-    async getVendorReviews(store_id) {}
 
     async getCustomerReviews(product_id, customer_id) {
         const productReviewRepository =

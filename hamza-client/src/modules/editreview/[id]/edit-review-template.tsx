@@ -14,10 +14,29 @@ const EditReviewTemplate = () => {
     const [submissionSuccess, setSubmissionSuccess] = useState(false);
 
     const item = useItemStore((state) => state.item);
-
+    // TODO: Pass Variant_ID and Order_ID to useEffect, if item exists, then populate the placeholder for the review details
     // console.log(`item info ${JSON.stringify(item)}`);
     useEffect(() => {
-        // console.log(`Checking ${item?.title} if we can submit?`);
+        const fetchReviewDetails = async () => {
+            try {
+                const response = await axios.post(
+                    `${BACKEND_URL}/custom/review/existing`,
+                    {
+                        order_id: item?.order_id,
+                        product_id: item?.variant_id,
+                    }
+                );
+                const { content, rating } = response.data; // Assuming your backend returns review content and rating
+                setReview(content || ''); // If content is null or undefined, set it to an empty string
+                setRating(rating || 0); // If rating is null or undefined, set it to 0
+            } catch (error) {
+                alert('Failed to check review existence: ' + error.message);
+            }
+        };
+
+        if (item) {
+            fetchReviewDetails();
+        }
     }, [item]);
 
     const submitReview = async () => {
