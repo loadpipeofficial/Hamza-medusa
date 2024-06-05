@@ -1,4 +1,6 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import { Card, CardBody, Image, Text, Flex, Box } from '@chakra-ui/react';
 import {
     TiStarOutline,
@@ -18,6 +20,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
     productPrice,
     imageSrc,
 }) => {
+    const [discount, setDiscount] = useState(false);
+
     return (
         <Card
             w={['100%', '100%', '235px']}
@@ -83,7 +87,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             fontWeight="700"
                             fontSize="27.86px"
                             lineHeight="33.72px"
-                            mb="1"
+                            mb="2"
                         >
                             {productPrice}
                         </Text>
