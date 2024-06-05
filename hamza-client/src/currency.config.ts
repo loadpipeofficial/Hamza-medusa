@@ -1,8 +1,3 @@
-interface Currency {
-    contract_address: string;
-    precision: number;
-}
-
 const chainConfig: any = {
     11155111: {
         chain_name: 'sepolia',
@@ -31,10 +26,10 @@ const chainConfig: any = {
     11155420: {
         chain_name: 'op-sepolia',
         usdc: {
-            contract_address: '0x5fd84259d66Cd46123540766Be93DFE6D43130D7',
+            contract_address: '0x45B24160Da2cA92673B6CAf4dFD11f60aDac73E3',
             precision: {
                 db: 2,
-                native: 6,
+                native: 12,
             },
         },
         usdt: {
