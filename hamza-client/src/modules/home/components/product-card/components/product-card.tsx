@@ -5,6 +5,7 @@ import {
     TiStarFullOutline,
     TiStarHalfOutline,
 } from 'react-icons/ti';
+import { FaBitcoin, FaEthereum } from 'react-icons/fa';
 
 interface ProductCardProps {
     productName: string;
@@ -96,17 +97,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 Or pay with
                             </Text>
                             <Flex>
-                                <Image
-                                    src="/path-to-payment-methods-image.png"
-                                    alt="btc"
-                                    boxSize="24px"
-                                    mr="2"
-                                />
-                                <Image
-                                    src="/path-to-payment-methods-image.png"
-                                    alt="btc"
-                                    boxSize="24px"
-                                />
+                                <Box mr="1" alignSelf={'center'}>
+                                    <FaBitcoin />
+                                </Box>
+                                <Box alignSelf={'center'}>
+                                    <FaEthereum />
+                                </Box>
                             </Flex>
                         </Flex>
                     </Box>
