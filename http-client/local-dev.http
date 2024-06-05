@@ -221,6 +221,15 @@ Content-Type: application/json
   "order_id": "order_01HZGXXX8V51W8XQBTH7YPWTPP"
 }
 
+### Return review and rating of existing product
+POST http://localhost:9000/custom/review/existing
+Content-Type: application/json
+
+{
+  "order_id": "order_01HZHANA5PXQNBQ50Y4HX6PA61",
+  "product_id": "prod_01HZGXK5K93QD6132PNESEYBVS"
+}
+
 ### Return all vendors
 GET http://localhost:9000/custom/vendors
 Content-Type: application/json

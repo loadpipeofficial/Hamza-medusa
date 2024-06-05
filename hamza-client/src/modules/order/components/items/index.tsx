@@ -19,7 +19,6 @@ type ItemsProps = {
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 
 const Items = ({ items }: ItemsProps) => {
-    const [reviewExists, setReviewExists] = useState(false);
     const setItem = itemStore((state) => state.setItem);
     const router = useRouter();
 
