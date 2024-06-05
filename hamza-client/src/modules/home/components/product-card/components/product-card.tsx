@@ -41,51 +41,75 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     width="100%"
                 />
             </Box>
-            <CardBody w="full" display="flex" flexDirection="column" gap="16px">
-                <Flex justify="space-between" align="center">
-                    <Text
-                        fontWeight="500"
-                        fontSize="20.9px"
-                        lineHeight="25.29px"
-                    >
-                        {productName}
-                    </Text>
-                    <Text
-                        fontWeight="500"
-                        fontSize="13.93px"
-                        lineHeight="16.86px"
-                        mb="auto"
-                    >
-                        4.97
-                    </Text>
-                </Flex>
-                <Text fontWeight="700" fontSize="27.86px" lineHeight="33.72px">
-                    {productPrice}
-                </Text>
-
-                <Flex align="center" mb="4">
-                    <Text
-                        fontWeight="400"
-                        fontSize="14px"
-                        lineHeight="16.94px"
-                        mr="2"
-                    >
-                        Or pay with
-                    </Text>
+            <CardBody display={'flex'} flexDirection={'column'}>
+                <Box
+                    display={'flex'}
+                    flexDirection={'column'}
+                    h="100%"
+                    w="100%"
+                >
                     <Flex>
-                        <Image
-                            src="/path-to-payment-methods-image.png"
-                            alt="btc"
-                            boxSize="24px"
-                            mr="2"
-                        />
-                        <Image
-                            src="/path-to-payment-methods-image.png"
-                            alt="btc"
-                            boxSize="24px"
-                        />
+                        <Text
+                            fontWeight="500"
+                            fontSize="16px"
+                            lineHeight="25.29px"
+                        >
+                            {productName}
+                        </Text>
+                        <Flex pl="1.5rem" mb="auto">
+                            <TiStarFullOutline
+                                style={{
+                                    width: '1.16125rem',
+                                    height: '1.16125rem',
+                                }}
+                            />
+                            <Text
+                                alignSelf={'center'}
+                                fontWeight="500"
+                                fontSize="13.93px"
+                                lineHeight="16.86px"
+                                pl="0.1rem"
+                            >
+                                4.97
+                            </Text>
+                        </Flex>
                     </Flex>
-                </Flex>
+
+                    <Box mt="auto">
+                        <Text
+                            mr="auto"
+                            fontWeight="700"
+                            fontSize="27.86px"
+                            lineHeight="33.72px"
+                            mb="1"
+                        >
+                            {productPrice}
+                        </Text>
+                        <Flex align="center">
+                            <Text
+                                fontWeight="400"
+                                fontSize="14px"
+                                lineHeight="16.94px"
+                                mr="2"
+                            >
+                                Or pay with
+                            </Text>
+                            <Flex>
+                                <Image
+                                    src="/path-to-payment-methods-image.png"
+                                    alt="btc"
+                                    boxSize="24px"
+                                    mr="2"
+                                />
+                                <Image
+                                    src="/path-to-payment-methods-image.png"
+                                    alt="btc"
+                                    boxSize="24px"
+                                />
+                            </Flex>
+                        </Flex>
+                    </Box>
+                </Box>
             </CardBody>
         </Card>
     );
