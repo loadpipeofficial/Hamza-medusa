@@ -4,6 +4,10 @@ import { Box, SimpleGrid } from '@chakra-ui/react';
 import products from './data/data';
 
 const ProductCardGroup = () => {
+    //TODO: Make product card clickable to product preview
+    //Are we putting buy button here
+    //How can we go directly to checkout through here, does hovering over it reveal a buy or cart button?
+    //What is the flow?
     return (
         <Box my="8" p="8">
             <SimpleGrid

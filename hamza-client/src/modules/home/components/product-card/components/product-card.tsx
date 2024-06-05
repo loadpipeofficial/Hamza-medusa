@@ -24,8 +24,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
     hasDiscount,
     discountValue,
 }) => {
-    const [discountAmount, setDiscountAmount] = useState('18% off');
-
     return (
         <Card
             w={['100%', '100%', '235px']}
