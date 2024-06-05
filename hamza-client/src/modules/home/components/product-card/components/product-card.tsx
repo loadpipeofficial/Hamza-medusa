@@ -48,11 +48,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     h="100%"
                     w="100%"
                 >
-                    <Flex>
+                    <Flex mb="1">
                         <Text
                             fontWeight="500"
-                            fontSize="16px"
+                            fontSize="1.30625rem"
                             lineHeight="25.29px"
+                            noOfLines={2}
                         >
                             {productName}
                         </Text>
