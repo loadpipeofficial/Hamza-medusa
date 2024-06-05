@@ -1,16 +1,12 @@
-import { LineItem, Region } from '@medusajs/medusa';
 import { Table } from '@medusajs/ui';
-
 import Divider from '@modules/common/components/divider';
-import Item from '@modules/order/components/item';
-import SkeletonLineItem from '@modules/skeletons/components/skeleton-line-item';
 import Thumbnail from '@modules/products/components/thumbnail';
 import React, { useState } from 'react';
 import { Button } from '@medusajs/ui';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import itemStore from '@store/review/review-store';
 import axios from 'axios';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 type ItemsProps = {
     items: any;
