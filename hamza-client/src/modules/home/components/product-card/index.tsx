@@ -18,6 +18,7 @@ const ProductCardGroup = () => {
                         productName={product.productName}
                         productPrice={product.productPrice}
                         imageSrc={product.imageSrc}
+                        hasDiscount={product.hasDiscount}
                     />
                 ))}
             </SimpleGrid>

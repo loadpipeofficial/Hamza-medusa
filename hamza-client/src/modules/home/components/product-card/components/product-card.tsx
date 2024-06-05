@@ -13,14 +13,15 @@ interface ProductCardProps {
     productName: string;
     productPrice: string;
     imageSrc: string;
+    hasDiscount: boolean;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
     productName,
     productPrice,
     imageSrc,
+    hasDiscount,
 }) => {
-    const [hasDiscount, setHasDiscount] = useState(true);
     const [discountAmount, setDiscountAmount] = useState('18% off');
 
     return (
