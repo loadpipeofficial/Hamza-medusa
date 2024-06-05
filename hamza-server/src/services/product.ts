@@ -8,6 +8,7 @@ import {
     CreateProductProductVariantPriceInput,
 } from '@medusajs/medusa/dist/types/product';
 import { Product } from '../models/product';
+import logger from '@medusajs/medusa-cli/dist/reporter';
 
 export type UpdateProductProductVariantDTO = {
     id?: string;
@@ -68,6 +69,7 @@ class ProductService extends MedusaProductService {
     }
 
     async getProductsFromStore(storeId: string): Promise<Product[]> {
+        // this.logger.log('store_id: ' + storeId); // Potential source of the error
         return this.productRepository_.find({
             where: { store_id: storeId },
             relations: ['store'],
