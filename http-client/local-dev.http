@@ -184,15 +184,15 @@ Content-Type: application/json
 }
 
 ### Update Product
-PATCH http://localhost:9000/custom/review/update
+POST http://localhost:9000/custom/review/update
 Content-Type: application/json
 
 {
-  "customer_id": "cus_01HYYRFGXRQ44NQXMJK9DDVNB3",
-  "product_id": "prod_01HYYR4MK2TG4T7393QVQSMSWW",
+  "customer_id": "cus_01HZGXW2JCY41TTZFSE256EDT4",
+  "product_id": "prod_01HZGXK5K93QD6132PNESEYBVS",
   "ratingUpdates": 10,
   "reviewUpdates": "CONTENT CONTENRT",
-  "order_id": "order_01HZ1GHNQYW07M9EAEK89Z7SYN"
+  "order_id": "order_01HZGXXX8V51W8XQBTH7YPWTPP"
 }
 
 
@@ -218,5 +218,9 @@ POST http://localhost:9000/custom/review/exists
 Content-Type: application/json
 
 {
-  "order_id": "order_01HZ6XRQFFTK9BV6JRB5KEX8G5"
+  "order_id": "order_01HZGXXX8V51W8XQBTH7YPWTPP"
 }
+
+### Return all vendors
+GET http://localhost:9000/custom/vendors
+Content-Type: application/json
