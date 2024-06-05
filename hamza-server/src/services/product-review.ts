@@ -1,7 +1,6 @@
 import { TransactionBaseService, Logger } from '@medusajs/medusa';
 import { Lifetime } from 'awilix';
 import { ProductReviewRepository } from '../repositories/product-review';
-import { ProductRepository } from '../repositories/product';
 import { ProductReview } from '../models/product-review';
 import { Customer } from '../models/customer';
 import { ProductVariantRepository } from '../repositories/product-variant';
@@ -11,14 +10,12 @@ class ProductReviewService extends TransactionBaseService {
     static LIFE_TIME = Lifetime.SCOPED;
     protected readonly productVariantRepository_: typeof ProductVariantRepository;
     protected readonly productReviewRepository_: typeof ProductReviewRepository;
-    protected readonly productRepository_: typeof ProductRepository;
     protected readonly logger: Logger;
 
     constructor(container) {
         super(container);
         this.productVariantRepository_ = container.productVariantRepository;
         this.productReviewRepository_ = container.productReviewRepository;
-        this.productRepository_ = container.productRepository;
         this.logger = container.logger;
     }
 
@@ -278,38 +275,6 @@ class ProductReviewService extends TransactionBaseService {
         const productReview = await productReviewRepository.save(createdReview);
 
         return productReview;
-    }
-
-    async getProductsFromReview(storeId: string) {
-        try {
-            const products = await this.productRepository_.find({
-                where: { store_id: storeId },
-                relations: ['reviews'],
-            });
-
-            let totalReviews = 0;
-            let totalRating = 0;
-
-            products.forEach((product) => {
-                product.reviews.forEach((review) => {
-                    totalRating += review.rating;
-                });
-                totalReviews += product.reviews.length;
-            });
-
-            const avgRating = totalReviews > 0 ? totalRating / totalReviews : 0;
-
-            const reviewStats = { reviewCount: totalReviews, avgRating };
-
-            return reviewStats;
-        } catch (error) {
-            // Handle the error here
-            console.error(
-                'Error occurred while fetching products from review:',
-                error
-            );
-            throw new Error('Failed to fetch products from review.');
-        }
     }
 }
 

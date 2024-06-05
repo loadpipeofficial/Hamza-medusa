@@ -75,6 +75,38 @@ class ProductService extends MedusaProductService {
             // relations: ['store'],
         });
     }
+
+    async getProductsFromReview(storeId: string) {
+        try {
+            const products = await this.productRepository_.find({
+                where: { store_id: storeId },
+                relations: ['reviews'],
+            });
+
+            let totalReviews = 0;
+            let totalRating = 0;
+
+            products.forEach((product) => {
+                product.reviews.forEach((review) => {
+                    totalRating += review.rating;
+                });
+                totalReviews += product.reviews.length;
+            });
+
+            const avgRating = totalReviews > 0 ? totalRating / totalReviews : 0;
+
+            const reviewStats = { reviewCount: totalReviews, avgRating };
+
+            return reviewStats;
+        } catch (error) {
+            // Handle the error here
+            console.error(
+                'Error occurred while fetching products from review:',
+                error
+            );
+            throw new Error('Failed to fetch products from review.');
+        }
+    }
 }
 
 export default ProductService;
