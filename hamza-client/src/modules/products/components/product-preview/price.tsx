@@ -4,7 +4,7 @@ import { PriceType } from '../product-actions';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import { formatCryptoPrice } from '@lib/util/get-product-price';
 
-export default async function PreviewPrice({
+export default function PreviewPrice({
     prices,
 }: {
     prices: { currency_code: string; amount: number }[];
