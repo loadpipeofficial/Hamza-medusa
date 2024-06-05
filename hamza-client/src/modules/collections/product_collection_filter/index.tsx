@@ -38,7 +38,7 @@ const ProductCollections = ({ vendorName }: Props) => {
 
     const products = data?.data;
 
-    console.log(products);
+    // console.log(products);
 
     return (
         <div className="text-white">
