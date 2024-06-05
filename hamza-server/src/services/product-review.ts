@@ -280,26 +280,35 @@ class ProductReviewService extends TransactionBaseService {
         return productReview;
     }
 
-    async getProductsFromReview(storeId: string): Promise<Product[]> {
+    async getProductsFromReview(storeId: string) {
         try {
             const products = await this.productRepository_.find({
                 where: { store_id: storeId },
                 relations: ['reviews'],
             });
 
-            const reviews = [];
+            let totalReviews = 0;
+            let totalRating = 0;
+
             products.forEach((product) => {
-                reviews.push(...product.reviews);
+                product.reviews.forEach((review) => {
+                    totalRating += review.rating;
+                });
+                totalReviews += product.reviews.length;
             });
 
-            return reviews;
+            const avgRating = totalReviews > 0 ? totalRating / totalReviews : 0;
+
+            const reviewStats = { reviewCount: totalReviews, avgRating };
+
+            return reviewStats;
         } catch (error) {
             // Handle the error here
             console.error(
-                'Error occurred while fetching reviews from store:',
+                'Error occurred while fetching products from review:',
                 error
             );
-            throw new Error('Failed to fetch reviews from store.');
+            throw new Error('Failed to fetch products from review.');
         }
     }
 }
