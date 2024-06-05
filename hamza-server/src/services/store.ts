@@ -92,10 +92,6 @@ class StoreService extends MedusaStoreService {
         }
         return store;
     }
-
-    async getVendors() {
-        return await this.storeRepository_.find();
-    }
 }
 
 export default StoreService;
