@@ -80,6 +80,11 @@ class ProductReviewService extends TransactionBaseService {
         return reviews;
     }
 
+    // product_review entity doesnt have store_id field, however it has product_id field
+    // maybe we can use the relation between product_review and product to grab all
+    // product_review entity products by relationship to product entity store_id
+    async getVendorReviews(store_id) {}
+
     async getCustomerReviews(product_id, customer_id) {
         const productReviewRepository =
             this.activeManager_.getRepository(ProductReview);

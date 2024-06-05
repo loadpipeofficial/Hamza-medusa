@@ -63,9 +63,13 @@ const VendorTemplate = ({ vendors }) => {
                 <Text>Total Products: {products.length}</Text>{' '}
                 {/* Render the total number of products */}
                 <Grid
-                    templateColumns="repeat(auto-fit, minmax(180px, 1fr))"
+                    templateColumns={{
+                        base: 'repeat(1, 1fr)',
+                        md: 'repeat(auto-fit, minmax(180px, 1fr))',
+                    }}
                     gap={12}
                     mt={4}
+                    justifyContent={{ base: 'center', md: 'space-between' }}
                 >
                     {/* Map over the products and render each product in a Chakra UI card */}
                     {products.map((product) => (
@@ -73,6 +77,7 @@ const VendorTemplate = ({ vendors }) => {
                             key={product.id}
                             minHeight="200px"
                             maxW="180px"
+                            justifyContent="space-between" // Distribute grid items evenly along the main axis
                         >
                             <Box
                                 borderWidth="1px"

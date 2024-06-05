@@ -232,3 +232,12 @@ Content-Type: application/json
 {
   "store_id": "store_01HZGXTNW8CZ291Q1TACR6GQVW"
 }
+
+
+### Get Product Reviews by Store_id
+POST http://localhost:9000/custom/vendors/vendor-reviews
+Content-Type: application/json
+
+{
+  "store_id": "store_01HZGXTNW8CZ291Q1TACR6GQVW"
+}

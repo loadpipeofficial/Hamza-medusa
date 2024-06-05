@@ -75,6 +75,22 @@ class ProductService extends MedusaProductService {
             // relations: ['store'],
         });
     }
+
+    async getProductsFromReview(storeId: string): Promise<Product[]> {
+        try {
+            return await this.productRepository_.find({
+                where: { store_id: storeId },
+                relations: ['product_review'],
+            });
+        } catch (error) {
+            // Handle the error here
+            console.error(
+                'Error occurred while fetching products from review:',
+                error
+            );
+            throw error; // You may choose to handle or rethrow the error depending on your application logic
+        }
+    }
 }
 
 export default ProductService;
