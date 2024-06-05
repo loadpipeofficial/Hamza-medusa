@@ -27,6 +27,8 @@ import axios from 'axios';
 import { cookies } from 'next/headers';
 import { signOut } from '@modules/account/actions';
 
+const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
+
 declare class StorePostAuthReqCustom {
     email: string;
     password: string;
@@ -65,9 +67,7 @@ const getMedusaHeaders = (tags: string[] = []) => {
 // Get Vendors
 export async function getVendors() {
     try {
-        const response = await axios.get(
-            'http://localhost:9000/custom/vendors'
-        );
+        const response = await axios.get(`${BACKEND_URL}/custom/vendors`);
         return response.data;
     } catch (error) {
         console.log(error);
