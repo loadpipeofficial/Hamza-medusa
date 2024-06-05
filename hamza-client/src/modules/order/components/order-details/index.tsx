@@ -26,7 +26,6 @@ const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
     };
     // console.log(`Order Summary is ${JSON.stringify(order)}`);
 
-    console.log('Order Summary');
     return (
         <div>
             <Text className="mt-2 text-black">

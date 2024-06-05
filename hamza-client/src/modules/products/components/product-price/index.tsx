@@ -37,7 +37,7 @@ export default function ProductPrice({
     const [averageRating, setAverageRating] = useState(0);
     const [reviewCount, setReviewCount] = useState(0);
 
-    console.log(`Product is ${product.id}`);
+    // console.log(`Product is ${product.id}`);
     useEffect(() => {
         const fetchReviewCount = async () => {
             try {
@@ -48,7 +48,7 @@ export default function ProductPrice({
                     },
                     { headers: { 'Content-Type': 'application/json' } }
                 );
-                console.log(`response.data.count is ${response.data}`);
+                // console.log(`response.data.count is ${response.data}`);
                 setReviewCount(response.data); // Assuming the response contains the count directly
             } catch (error) {
                 console.error('Failed to fetch review count:', error);
@@ -64,7 +64,7 @@ export default function ProductPrice({
                     },
                     { headers: { 'Content-Type': 'application/json' } }
                 );
-                console.log(`response.data.average is ${response.data}`);
+                // console.log(`response.data.average is ${response.data}`);
                 setAverageRating(response.data); // Assuming the response contains the average directly
             } catch (error) {
                 console.error('Failed to fetch average rating:', error);

@@ -9,7 +9,7 @@ const Wishlist = () => {
         wishlist: state.wishlist,
     }));
 
-    console.log('wishlist-dropdown items??', wishlist?.products);
+    // console.log('wishlist-dropdown items??', wishlist?.products);
 
     return (
         <div className="layout-base bg-black flex justify-center min-h-screen">
