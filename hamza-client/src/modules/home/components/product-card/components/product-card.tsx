@@ -20,7 +20,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
     productPrice,
     imageSrc,
 }) => {
-    const [discount, setDiscount] = useState(false);
+    const [hasDiscount, setHasDiscount] = useState(true);
+    const [discountAmount, setDiscountAmount] = useState(false);
 
     return (
         <Card
@@ -35,6 +36,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <Box
                 h="224px"
                 bg="gray.200"
+                position="relative"
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
@@ -45,6 +47,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     height="100%"
                     width="100%"
                 />
+                <Box
+                    visibility={hasDiscount === true ? 'visible' : 'hidden'}
+                    position="absolute"
+                    color="white"
+                    fontWeight="bold"
+                    top="10px"
+                    right="10px"
+                >
+                    <Text>hello</Text>
+                </Box>
             </Box>
             <CardBody display={'flex'} flexDirection={'column'}>
                 <Box
