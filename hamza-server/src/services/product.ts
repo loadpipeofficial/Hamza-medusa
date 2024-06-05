@@ -66,6 +66,13 @@ class ProductService extends MedusaProductService {
             relations: ['variants.prices'],
         });
     }
+
+    async getProductsFromStore(storeId: string): Promise<Product[]> {
+        return this.productRepository_.find({
+            where: { store_id: storeId },
+            relations: ['product'],
+        });
+    }
 }
 
 export default ProductService;
