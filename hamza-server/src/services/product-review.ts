@@ -4,15 +4,18 @@ import { ProductReviewRepository } from '../repositories/product-review';
 import { ProductReview } from '../models/product-review';
 import { Customer } from '../models/customer';
 import { ProductVariantRepository } from '../repositories/product-variant';
+import { Product } from '../models/product';
 
 class ProductReviewService extends TransactionBaseService {
     static LIFE_TIME = Lifetime.SCOPED;
     protected readonly productVariantRepository_: typeof ProductVariantRepository;
+    protected readonly productReviewRepository_: typeof ProductReviewRepository;
     protected readonly logger: Logger;
 
     constructor(container) {
         super(container);
         this.productVariantRepository_ = container.productVariantRepository;
+        this.productReviewRepository_ = container.productReviewRepository;
         this.logger = container.logger;
     }
 
@@ -79,6 +82,11 @@ class ProductReviewService extends TransactionBaseService {
 
         return reviews;
     }
+
+    // product_review entity doesnt have store_id field, however it has product_id field
+    // maybe we can use the relation between product_review and product to grab all
+    // product_review entity products by relationship to product entity store_id
+    async getVendorReviews(store_id) {}
 
     async getCustomerReviews(product_id, customer_id) {
         const productReviewRepository =
@@ -271,14 +279,3 @@ class ProductReviewService extends TransactionBaseService {
 }
 
 export default ProductReviewService;
-
-/**
- * - customerIsVerified
- * - customerHasBoughtProduct(product_id)
- * - customerHasLeftReview(product_id, order_id)
- * - customerHasLeftRating(product_id, order_id)
- * - getRatings(product_id)
- * - getReviews(product_id)
- * - saveRating(customer_id, product_id, order_id)
- * - saveReview(customer_id, product_id, order_id)
- */

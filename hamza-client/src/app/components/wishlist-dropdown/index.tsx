@@ -34,7 +34,7 @@ const WishlistDropdown: React.FC<WishlistPopoverItemProps> = ({ item }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [totalItems, itemRef.current]);
 
-    console.log('Wishlist popover', wishlist);
+    // console.log('Wishlist popover', wishlist);
 
     const [activeTimer, setActiveTimer] = useState<NodeJS.Timer | undefined>(
         undefined

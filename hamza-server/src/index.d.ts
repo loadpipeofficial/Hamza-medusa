@@ -3,6 +3,7 @@
 import { Currency, Store } from '@medusajs/medusa';
 import { Role } from './models/role';
 import { User } from './models/user';
+import { ProductReview } from './models/product-review';
 
 // modifying the User model such that email is now optional
 export declare module '@medusajs/medusa/dist/models/user' {
@@ -39,5 +40,6 @@ export declare module '@medusajs/medusa/dist/models/product' {
     declare interface Product {
         store?: Store;
         store_id: string;
+        reviews: ProductReview[];
     }
 }

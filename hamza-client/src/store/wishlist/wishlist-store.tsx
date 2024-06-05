@@ -60,7 +60,7 @@ const useWishlistStore = create<WishlistType>()(
                     product_id
                 );
                 const { wishlist } = get();
-                console.log('Current items:', wishlist);
+                // console.log('Current items:', wishlist);
                 set((state) => {
                     const filteredItems = wishlist.products.filter(
                         (p) => p.id !== product_id // Corrected to filter by product_id
@@ -75,14 +75,14 @@ const useWishlistStore = create<WishlistType>()(
                 });
             },
             loadWishlist: async (customer_id) => {
-                console.log('Loading wishlist-dropdown');
+                // console.log('Loading wishlist-dropdown');
                 try {
                     const response = await axios.get(
                         `${BACKEND_URL}/custom/wishlist?customer_id=${customer_id}`
                     );
                     const items = response.data.items;
                     const products = items.map((item) => item.product);
-                    console.log('Wishlist products:', products);
+                    // console.log('Wishlist products:', products);
                     if (Array.isArray(items)) {
                         set({ wishlist: { products } });
                     } else {
@@ -100,14 +100,14 @@ const useWishlistStore = create<WishlistType>()(
             storage: createJSONStorage(() => localStorage),
             // Optional: You can trigger loadWishlist after the store has been rehydrated from localStorage
             onRehydrateStorage: () => (state, error) => {
-                console.log('Rehydration process triggered');
+                // console.log('Rehydration process triggered');
                 if (error) {
                     console.error('Rehydration error:', error);
                     return;
                 }
-                console.log(
-                    'Rehydration successful, checking for customer data...'
-                );
+                // console.log(
+                //     'Rehydration successful, checking for customer data...'
+                // );
                 const customerData = localStorage.getItem('__hamza_customer');
                 if (JSON.parse(customerData).state.status === 'authenticated') {
                     console.log('Customer now authenticated');
