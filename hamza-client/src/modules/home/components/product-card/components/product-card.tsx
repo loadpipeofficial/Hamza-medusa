@@ -6,7 +6,17 @@ import {
     TiStarHalfOutline,
 } from 'react-icons/ti';
 
-const ProductCard = (props: any) => {
+interface ProductCardProps {
+    productName: string;
+    productPrice: string;
+    imageSrc: string;
+}
+
+const ProductCard: React.FC<ProductCardProps> = ({
+    productName,
+    productPrice,
+    imageSrc,
+}) => {
     return (
         <Card
             w={['100%', '100%', '235px']}
@@ -25,8 +35,8 @@ const ProductCard = (props: any) => {
                 alignItems="center"
             >
                 <Image
-                    src={props.imageSrc}
-                    alt={props.productName}
+                    src={imageSrc}
+                    alt={productName}
                     height="100%"
                     width="100%"
                 />
@@ -38,7 +48,7 @@ const ProductCard = (props: any) => {
                         fontSize="20.9px"
                         lineHeight="25.29px"
                     >
-                        {props.productName}
+                        {productName}
                     </Text>
                     <Text
                         fontWeight="500"
@@ -50,7 +60,7 @@ const ProductCard = (props: any) => {
                     </Text>
                 </Flex>
                 <Text fontWeight="700" fontSize="27.86px" lineHeight="33.72px">
-                    {props.productPrice}
+                    {productPrice}
                 </Text>
 
                 <Flex align="center" mb="4">
