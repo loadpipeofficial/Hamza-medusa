@@ -74,6 +74,7 @@ export async function getVendors() {
         return null;
     }
 }
+
 // Cart actions
 export async function createCart(data = {}) {
     const headers = getMedusaHeaders(['cart']);

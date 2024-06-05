@@ -72,7 +72,7 @@ class ProductService extends MedusaProductService {
         // this.logger.log('store_id: ' + storeId); // Potential source of the error
         return this.productRepository_.find({
             where: { store_id: storeId },
-            relations: ['store'],
+            // relations: ['store'],
         });
     }
 }
