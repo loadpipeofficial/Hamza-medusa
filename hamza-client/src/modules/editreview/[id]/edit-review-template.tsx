@@ -15,15 +15,15 @@ const EditReviewTemplate = () => {
 
     const item = useItemStore((state) => state.item);
 
-    console.log(`item info ${JSON.stringify(item)}`);
+    // console.log(`item info ${JSON.stringify(item)}`);
     useEffect(() => {
-        console.log(`Checking ${item?.title} if we can submit?`);
+        // console.log(`Checking ${item?.title} if we can submit?`);
     }, [item]);
 
     const submitReview = async () => {
-        console.log(
-            `customer_id: ${item?.customer_id}, product_id: ${item?.variant_id}, rating: ${rating}, content: ${review}, order_id: ${item?.order_id}`
-        );
+        // console.log(
+        //     `customer_id: ${item?.customer_id}, product_id: ${item?.variant_id}, rating: ${rating}, content: ${review}, order_id: ${item?.order_id}`
+        // );
         try {
             await axios.post(`${BACKEND_URL}/custom/review/update`, {
                 customer_id: item?.customer_id,
