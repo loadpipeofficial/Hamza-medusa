@@ -56,7 +56,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                         >
                             {productName}
                         </Text>
-                        <Flex pl="1.5rem" mb="auto">
+                        <Flex pl="1.5rem" mb="auto" ml="auto">
                             <TiStarFullOutline
                                 style={{
                                     width: '1.16125rem',
