@@ -16,7 +16,7 @@ const VendorTemplate = ({ vendors }) => {
 
     const handleSelectVendor = (vendor) => {
         setSelectedVendor(vendor);
-        console.log(`Selected Vendor ${vendor.id}`);
+        // console.log(`Selected Vendor ${vendor.id}`);
     };
 
     useEffect(() => {
@@ -30,7 +30,7 @@ const VendorTemplate = ({ vendors }) => {
                 );
                 const data = response.data;
                 setProducts(response.data); // Set the fetched products to state
-                console.log(`Response ${JSON.stringify(data)}`);
+                // console.log(`Response ${JSON.stringify(data)}`);
             } catch (error) {
                 console.log(`Error ${error}`);
             }
@@ -44,9 +44,9 @@ const VendorTemplate = ({ vendors }) => {
                         store_id: selectedVendor.id,
                     }
                 );
-                console.log(
-                    `Review stats are ${JSON.stringify(response.data)}`
-                );
+                // console.log(
+                //     `Review stats are ${JSON.stringify(response.data)}`
+                // );
                 setReviewStats(response.data);
             } catch (error) {
                 console.log(`Error fetching review stats: ${error}`);
