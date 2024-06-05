@@ -31,7 +31,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
         const fetchOrders = async () => {
             try {
                 const { data } = await axios.post(
-                    `${MEDUSA_SERVER_URL}/order`,
+                    `${MEDUSA_SERVER_URL}/custom/order`,
                     {
                         cart_id: orders[0].cart_id,
                     }
@@ -99,18 +99,20 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                             </div>
 
                             {items.map((item) => (
-                                <OrderCard key={item.id} order={item} />
+                                <>
+                                    <OrderCard key={item.id} order={item} />
+                                    <div className="flex justify-end">
+                                        <LocalizedClientLink
+                                            href={`/account/orders/details/${orders[index].id}`}
+                                            passHref
+                                        >
+                                            <Button variant="secondary">
+                                                See details
+                                            </Button>
+                                        </LocalizedClientLink>
+                                    </div>
+                                </>
                             ))}
-                            <div className="flex justify-end">
-                                <LocalizedClientLink
-                                    href={`/account/orders/details/${orders[index] ? orders[index].id : '#'}`}
-                                    passHref
-                                >
-                                    <Button variant="secondary">
-                                        See details
-                                    </Button>
-                                </LocalizedClientLink>
-                            </div>
                         </div>
                     )
                 )}
