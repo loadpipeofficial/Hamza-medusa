@@ -20,6 +20,7 @@ import { SortOptions } from '@modules/store/components/refinement-list/sort-prod
 import { ProductCategoryWithChildren, ProductPreviewType } from 'types/global';
 import { medusaClient } from '../config';
 import medusaError from '@lib/util/medusa-error';
+import axios from 'axios';
 
 //TODO: is the following commented out code needed? (JK)
 // We need this or it changes the whole architecture
@@ -61,6 +62,18 @@ const getMedusaHeaders = (tags: string[] = []) => {
     return headers;
 };
 
+// Get Vendors
+export async function getVendors() {
+    try {
+        const response = await axios.get(
+            'http://localhost:9000/custom/vendors'
+        );
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
 // Cart actions
 export async function createCart(data = {}) {
     const headers = getMedusaHeaders(['cart']);
