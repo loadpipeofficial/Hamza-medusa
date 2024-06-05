@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Card, CardBody, Image, Text, Flex, Box } from '@chakra-ui/react';
 import {
     TiStarOutline,
