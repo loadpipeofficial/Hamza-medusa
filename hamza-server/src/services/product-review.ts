@@ -282,17 +282,24 @@ class ProductReviewService extends TransactionBaseService {
 
     async getProductsFromReview(storeId: string): Promise<Product[]> {
         try {
-            return await this.productRepository_.find({
+            const products = await this.productRepository_.find({
                 where: { store_id: storeId },
                 relations: ['reviews'],
             });
+
+            const reviews = [];
+            products.forEach((product) => {
+                reviews.push(...product.reviews);
+            });
+
+            return reviews;
         } catch (error) {
             // Handle the error here
             console.error(
-                'Error occurred while fetching products from review:',
+                'Error occurred while fetching reviews from store:',
                 error
             );
-            throw new Error('Failed to fetch products from review.');
+            throw new Error('Failed to fetch reviews from store.');
         }
     }
 }
