@@ -14,6 +14,7 @@ interface ProductCardProps {
     productPrice: string;
     imageSrc: string;
     hasDiscount: boolean;
+    discountValue: string;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -21,6 +22,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     productPrice,
     imageSrc,
     hasDiscount,
+    discountValue,
 }) => {
     const [discountAmount, setDiscountAmount] = useState('18% off');
 
@@ -64,7 +66,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                         fontSize="0.870625rem"
                         lineHeight="1.05375rem"
                     >
-                        {discountAmount}
+                        {discountValue}% off
                     </Text>
                 </Box>
             </Box>

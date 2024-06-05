@@ -5,6 +5,7 @@ const products = [
         productPrice: '0.004 ETH',
         imageSrc: 'https://via.placeholder.com/150',
         hasDiscount: true,
+        discountValue: '18',
     },
     {
         id: 2,
@@ -12,6 +13,7 @@ const products = [
         productPrice: '0.004 ETH',
         imageSrc: 'https://via.placeholder.com/150',
         hasDiscount: false,
+        discountValue: '0',
     },
     {
         id: 3,
@@ -19,6 +21,7 @@ const products = [
         productPrice: '0.004 ETH',
         imageSrc: 'https://via.placeholder.com/150',
         hasDiscount: true,
+        discountValue: '25',
     },
     {
         id: 4,
@@ -26,6 +29,7 @@ const products = [
         productPrice: '0.004 ETH',
         imageSrc: 'https://via.placeholder.com/150',
         hasDiscount: false,
+        discountValue: '0',
     },
     {
         id: 5,
@@ -33,6 +37,7 @@ const products = [
         productPrice: '0.004 ETH',
         imageSrc: 'https://via.placeholder.com/150',
         hasDiscount: true,
+        discountValue: '15',
     },
     {
         id: 6,
@@ -40,6 +45,7 @@ const products = [
         productPrice: '0.004 ETH',
         imageSrc: 'https://via.placeholder.com/150',
         hasDiscount: false,
+        discountValue: '0',
     },
     {
         id: 7,
@@ -47,6 +53,7 @@ const products = [
         productPrice: '0.004 ETH',
         imageSrc: 'https://via.placeholder.com/150',
         hasDiscount: true,
+        discountValue: '12',
     },
     {
         id: 8,
@@ -54,6 +61,7 @@ const products = [
         productPrice: '0.004 ETH',
         imageSrc: 'https://via.placeholder.com/150',
         hasDiscount: false,
+        discountValue: '0',
     },
     {
         id: 9,
@@ -61,6 +69,7 @@ const products = [
         productPrice: '0.004 ETH',
         imageSrc: 'https://via.placeholder.com/150',
         hasDiscount: true,
+        discountValue: '20',
     },
     {
         id: 10,
@@ -68,6 +77,7 @@ const products = [
         productPrice: '0.004 ETH',
         imageSrc: 'https://via.placeholder.com/150',
         hasDiscount: false,
+        discountValue: '0',
     },
     {
         id: 11,
@@ -75,6 +85,7 @@ const products = [
         productPrice: '0.004 ETH',
         imageSrc: 'https://via.placeholder.com/150',
         hasDiscount: true,
+        discountValue: '10',
     },
     {
         id: 12,
@@ -82,6 +93,7 @@ const products = [
         productPrice: '0.004 ETH',
         imageSrc: 'https://via.placeholder.com/150',
         hasDiscount: false,
+        discountValue: '0',
     },
     {
         id: 13,
@@ -89,6 +101,7 @@ const products = [
         productPrice: '0.004 ETH',
         imageSrc: 'https://via.placeholder.com/150',
         hasDiscount: true,
+        discountValue: '22',
     },
     {
         id: 14,
@@ -96,6 +109,7 @@ const products = [
         productPrice: '0.004 ETH',
         imageSrc: 'https://via.placeholder.com/150',
         hasDiscount: false,
+        discountValue: '0',
     },
     {
         id: 15,
@@ -103,6 +117,7 @@ const products = [
         productPrice: '0.004 ETH',
         imageSrc: 'https://via.placeholder.com/150',
         hasDiscount: true,
+        discountValue: '13',
     },
     {
         id: 16,
@@ -110,6 +125,7 @@ const products = [
         productPrice: '0.004 ETH',
         imageSrc: 'https://via.placeholder.com/150',
         hasDiscount: false,
+        discountValue: '0',
     },
     {
         id: 17,
@@ -117,6 +133,7 @@ const products = [
         productPrice: '0.004 ETH',
         imageSrc: 'https://via.placeholder.com/150',
         hasDiscount: true,
+        discountValue: '19',
     },
     {
         id: 18,
@@ -124,6 +141,7 @@ const products = [
         productPrice: '0.004 ETH',
         imageSrc: 'https://via.placeholder.com/150',
         hasDiscount: false,
+        discountValue: '0',
     },
     {
         id: 19,
@@ -131,6 +149,7 @@ const products = [
         productPrice: '0.004 ETH',
         imageSrc: 'https://via.placeholder.com/150',
         hasDiscount: true,
+        discountValue: '14',
     },
     {
         id: 20,
@@ -138,6 +157,7 @@ const products = [
         productPrice: '0.004 ETH',
         imageSrc: 'https://via.placeholder.com/150',
         hasDiscount: false,
+        discountValue: '0',
     },
 ];
 
