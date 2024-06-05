@@ -239,5 +239,5 @@ POST http://localhost:9000/custom/vendors/vendor-reviews
 Content-Type: application/json
 
 {
-  "store_id": "store_01HZGXTNZV9WPY3P0DJYMZ28AQ"
+  "store_id": "store_01HZGXK5DHZCHW6ECP5DN3DDHF"
 }

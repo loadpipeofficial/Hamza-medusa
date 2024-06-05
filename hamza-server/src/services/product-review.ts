@@ -314,14 +314,3 @@ class ProductReviewService extends TransactionBaseService {
 }
 
 export default ProductReviewService;
-
-/**
- * - customerIsVerified
- * - customerHasBoughtProduct(product_id)
- * - customerHasLeftReview(product_id, order_id)
- * - customerHasLeftRating(product_id, order_id)
- * - getRatings(product_id)
- * - getReviews(product_id)
- * - saveRating(customer_id, product_id, order_id)
- * - saveReview(customer_id, product_id, order_id)
- */

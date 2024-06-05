@@ -9,6 +9,10 @@ import Thumbnail from '@modules/products/components/thumbnail';
 const VendorTemplate = ({ vendors }) => {
     const [selectedVendor, setSelectedVendor] = useState(vendors[1]); // Set the second vendor as default selected
     const [products, setProducts] = useState([]); // State to hold the products
+    const [reviewStats, setReviewStats] = useState({
+        reviewCount: 0,
+        avgRating: 0,
+    });
 
     const handleSelectVendor = (vendor) => {
         setSelectedVendor(vendor);
@@ -32,7 +36,25 @@ const VendorTemplate = ({ vendors }) => {
             }
         };
 
+        const fetchReviewStats = async () => {
+            try {
+                const response = await axios.post(
+                    `${BACKEND_URL}/custom/vendors/vendor-reviews`,
+                    {
+                        store_id: selectedVendor.id,
+                    }
+                );
+                console.log(
+                    `Review stats are ${JSON.stringify(response.data)}`
+                );
+                setReviewStats(response.data);
+            } catch (error) {
+                console.log(`Error fetching review stats: ${error}`);
+            }
+        };
+
         fetchData();
+        fetchReviewStats();
     }, [selectedVendor]);
 
     console.log(`Vendors ${JSON.stringify(vendors)}`);
@@ -61,6 +83,21 @@ const VendorTemplate = ({ vendors }) => {
             <Box mt={4}>
                 <Heading>Selected Vendor: {selectedVendor.name}</Heading>
                 <Text>Total Products: {products.length}</Text>{' '}
+                <Box>
+                    <Heading as="h2" size="md" mt={4}>
+                        Review Stats
+                    </Heading>
+                    <Text>
+                        {reviewStats.reviewCount === 0
+                            ? 'No reviews yet'
+                            : `Average Rating: ${reviewStats.avgRating.toFixed(1)}`}
+                    </Text>
+                    <Text>
+                        {reviewStats.reviewCount === 0
+                            ? 'No ratings yet'
+                            : `Review Count: ${reviewStats.reviewCount}`}
+                    </Text>
+                </Box>
                 {/* Render the total number of products */}
                 <Grid
                     templateColumns={{
