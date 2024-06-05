@@ -1,14 +1,36 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button } from '@medusajs/ui';
+
+const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 
 const VendorTemplate = ({ vendors }) => {
     const [selectedVendor, setSelectedVendor] = useState(vendors[1]); // Set the second vendor as default selected
 
     const handleSelectVendor = (vendor) => {
         setSelectedVendor(vendor);
+        console.log(`Selected Vendor ${vendor.id}`);
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.post(
+                    `${BACKEND_URL}/custom/vendors/vendor-products`,
+                    {
+                        store_id: selectedVendor.id,
+                    }
+                );
+                const data = response.data;
+                console.log(`Response ${JSON.stringify(data)}`);
+            } catch (error) {
+                console.log(`Error ${error}`);
+            }
+        };
+
+        fetchData();
+    }, [selectedVendor]);
 
     console.log(`Vendors ${JSON.stringify(vendors)}`);
 

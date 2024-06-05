@@ -230,5 +230,5 @@ POST http://localhost:9000/custom/vendors/vendor-products
 Content-Type: application/json
 
 {
-  "store_id": "store_01HZGXTNZV9WPY3P0DJYMZ28AQ"
+  "store_id": "store_01HZGXTNW8CZ291Q1TACR6GQVW"
 }

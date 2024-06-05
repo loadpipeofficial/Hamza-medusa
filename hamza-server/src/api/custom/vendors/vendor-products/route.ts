@@ -1,7 +1,7 @@
 import type { MedusaRequest, MedusaResponse, Logger } from '@medusajs/medusa';
 import { readRequestBody } from '../../../../utils/request-body';
 import ProductService from '../../../../services/product';
-import jwt from 'jsonwebtoken';
+
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     const logger = req.scope.resolve('logger') as Logger;
     const productService: ProductService = req.scope.resolve('productService');
