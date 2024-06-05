@@ -75,7 +75,7 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
                     order_id: order.id, // Append order_id to each item if cart_id matches
                     customer_id: customer_id,
                 }));
-                console.log('Data: ', updatedItems);
+                // console.log('Data: ', updatedItems);
                 setDetailedOrders(updatedItems);
             } catch (error) {
                 console.error('Error fetching orders: ', error);
@@ -85,7 +85,7 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
         fetchOrders();
     }, [order]);
 
-    console.log('Detailed Orders: ', detailedOrders);
+    // console.log('Detailed Orders: ', detailedOrders);
 
     const specificCart = detailedOrders.reduce((acc, item) => {
         // Check if the item's cart_id matches the order.cart_id

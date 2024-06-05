@@ -24,7 +24,7 @@ const Items = ({ items }: ItemsProps) => {
     const router = useRouter();
 
     const handleItemClick = async (item) => {
-        console.log(`Checking review existence for order: ${item?.order_id}`);
+        // console.log(`Checking review existence for order: ${item?.order_id}`);
         try {
             const response = await axios.post(
                 `http://localhost:9000/custom/review/exists`,
@@ -33,12 +33,12 @@ const Items = ({ items }: ItemsProps) => {
                 }
             );
             const reviewExists = response.data; // Assuming response directly returns true/false
-            console.log(`response data ${reviewExists}`);
+            // console.log(`response data ${reviewExists}`);
             if (!reviewExists) {
-                console.log('User has already reviewed');
+                // console.log('User has already reviewed');
                 router.push(`/account/editreview/${item.id}`);
             } else {
-                console.log('User has not reviewed yet');
+                // console.log('User has not reviewed yet');
                 router.push(`/account/reviews/${item.id}`);
             }
         } catch (error) {
@@ -47,7 +47,7 @@ const Items = ({ items }: ItemsProps) => {
         setItem(item);
     };
 
-    console.log(`Order Items are ${JSON.stringify(items)}`);
+    // console.log(`Order Items are ${JSON.stringify(items)}`);
     return (
         <div className="flex flex-col">
             <Divider className="!mb-0" />

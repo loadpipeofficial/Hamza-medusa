@@ -21,7 +21,7 @@ interface DetailedOrder extends Order {
 const OrderOverview = ({ orders }: { orders: Order[] }) => {
     // Initialize state with the correct type
     const [detailedOrders, setDetailedOrders] = useState<DetailedOrder[]>([]);
-    console.log('Orders: ', orders);
+    // console.log('Orders: ', orders);
 
     const countryCode = useParams().countryCode as string;
 
@@ -49,7 +49,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                         cart_id: orders[0].cart_id,
                     }
                 );
-                console.log('Data: ', data);
+                // console.log('Data: ', data);
                 setDetailedOrders(data.order);
             } catch (error) {
                 console.error('Error fetching orders: ', error);
@@ -60,7 +60,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
     }, [orders]);
 
     const handleReorder = async (items: any) => {
-        console.log('Reorder button clicked');
+        // console.log('Reorder button clicked');
         items.map(async (item: any) => {
             try {
                 await addToCart({
@@ -87,7 +87,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
         return acc;
     }, {});
 
-    console.log('groupedByCartId: ', groupedByCartId);
+    // console.log('groupedByCartId: ', groupedByCartId);
 
     if (Object.keys(groupedByCartId).length > 0) {
         return (

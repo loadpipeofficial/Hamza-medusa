@@ -57,7 +57,7 @@ const VendorTemplate = ({ vendors }) => {
         fetchReviewStats();
     }, [selectedVendor]);
 
-    console.log(`Vendors ${JSON.stringify(vendors)}`);
+    // console.log(`Vendors ${JSON.stringify(vendors)}`);
 
     return (
         <div className="bg-black text-white text-center p-4">
