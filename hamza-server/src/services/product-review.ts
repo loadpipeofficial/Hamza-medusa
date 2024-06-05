@@ -4,7 +4,7 @@ import { ProductReviewRepository } from '../repositories/product-review';
 import { ProductReview } from '../models/product-review';
 import { Customer } from '../models/customer';
 import { ProductVariantRepository } from '../repositories/product-variant';
-import { Product } from '../models/product';
+
 class ProductReviewService extends TransactionBaseService {
     static LIFE_TIME = Lifetime.SCOPED;
     protected readonly productVariantRepository_: typeof ProductVariantRepository;
@@ -234,7 +234,6 @@ class ProductReviewService extends TransactionBaseService {
             );
         }
 
-        let productRepository; // Add this line to get the product repository
         const productReviewRepository =
             this.activeManager_.getRepository(ProductReview);
 
@@ -256,16 +255,6 @@ class ProductReviewService extends TransactionBaseService {
             this.logger.error(`Error fetching product variant: ${e}`);
             throw e; // Rethrow or handle the error appropriately
         }
-        const product = await productRepository.findOne(productId);
-        if (!product) {
-            throw new Error(`Product with ID ${productId} not found`);
-        }
-
-        if (!product.review) {
-            product.review = []; // Initialize the reviews array if it doesn't exist
-        }
-
-        productRepository = this.activeManager_.getRepository(productId);
 
         // Ensure productId was successfully retrieved before proceeding
         if (!productId) {
@@ -281,12 +270,20 @@ class ProductReviewService extends TransactionBaseService {
             order_id: data.order_id,
         });
         const productReview = await productReviewRepository.save(createdReview);
-        await productRepository.save(productReview.id);
-
-        product.review.push(productReview.id);
 
         return productReview;
     }
 }
 
 export default ProductReviewService;
+
+/**
+ * - customerIsVerified
+ * - customerHasBoughtProduct(product_id)
+ * - customerHasLeftReview(product_id, order_id)
+ * - customerHasLeftRating(product_id, order_id)
+ * - getRatings(product_id)
+ * - getReviews(product_id)
+ * - saveRating(customer_id, product_id, order_id)
+ * - saveReview(customer_id, product_id, order_id)
+ */

@@ -1,8 +1,9 @@
-import { BaseEntity, Product } from '@medusajs/medusa';
+import { BaseEntity } from '@medusajs/medusa';
 import {
     BeforeInsert,
     Column,
     Entity,
+    OneToMany,
     Index,
     JoinColumn,
     ManyToOne,
@@ -11,6 +12,7 @@ import { Max, Min } from 'class-validator';
 import { generateEntityId } from '@medusajs/medusa/dist/utils';
 import { Order } from './order';
 import { Customer } from '@medusajs/medusa/dist/models/customer';
+import { Product } from './product';
 
 @Entity()
 export class ProductReview extends BaseEntity {
@@ -18,8 +20,7 @@ export class ProductReview extends BaseEntity {
     @Column({ type: 'varchar', nullable: true })
     product_id: string;
 
-    @ManyToOne(() => Product)
-    @JoinColumn({ name: 'product_id' })
+    @OneToMany(() => Product, (product) => product.id)
     product: Product;
 
     @Column({ type: 'varchar', nullable: false })
