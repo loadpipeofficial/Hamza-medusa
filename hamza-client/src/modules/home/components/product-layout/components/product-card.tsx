@@ -2,12 +2,9 @@
 
 import React from 'react';
 import { Card, CardBody, Image, Text, Flex, Box } from '@chakra-ui/react';
-import {
-    TiStarOutline,
-    TiStarFullOutline,
-    TiStarHalfOutline,
-} from 'react-icons/ti';
+import { TiStarFullOutline } from 'react-icons/ti';
 import { FaBitcoin, FaEthereum } from 'react-icons/fa';
+import { AiOutlineDollar } from 'react-icons/ai';
 
 interface ProductCardProps {
     productName: string;
@@ -113,21 +110,26 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     </Flex>
 
                     <Box mt="auto">
-                        <Text
-                            color={'white'}
-                            mr="auto"
-                            fontWeight="700"
-                            fontSize="1.25rem"
-                            lineHeight="33.72px"
-                            mb="2"
-                        >
-                            {productPrice}
-                        </Text>
+                        <Flex mb="2">
+                            <Box alignSelf={'center'}>
+                                <AiOutlineDollar size={24} color="#2775CA" />
+                            </Box>
+                            <Text
+                                color={'white'}
+                                mr="auto"
+                                pl="1"
+                                fontWeight="700"
+                                fontSize="1.25rem"
+                                lineHeight="33.72px"
+                            >
+                                {productPrice}
+                            </Text>
+                        </Flex>
                         <Flex align="center">
                             <Text
                                 color={'#555555'}
                                 fontWeight="400"
-                                fontSize="14px"
+                                fontSize="1.25rem"
                                 lineHeight="16.94px"
                                 mr="2"
                             >
@@ -135,10 +137,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             </Text>
                             <Flex>
                                 <Box mr="1" alignSelf={'center'}>
-                                    <FaBitcoin />
+                                    <FaBitcoin color={'#555555'} />
                                 </Box>
                                 <Box alignSelf={'center'}>
-                                    <FaEthereum />
+                                    <FaEthereum color={'#555555'} />
                                 </Box>
                             </Flex>
                         </Flex>
