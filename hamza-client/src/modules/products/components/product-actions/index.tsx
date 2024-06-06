@@ -48,7 +48,7 @@ export default function ProductActions({
 
     const variants = product.variants;
     const variant_id = variants[0].id;
-    console.log('Variant id is', variant_id);
+    // console.log('Variant id is', variant_id);
 
     const { isCustomerAuthenticated } = useWishlistStore();
 
@@ -172,7 +172,7 @@ export default function ProductActions({
 
     // add product to wishlist-dropdown
     const toggleWishlist = async () => {
-        console.log('toggle wishlist-dropdown item', product);
+        // console.log('toggle wishlist-dropdown item', product);
         addWishlistItemMutation.mutate(product);
     };
 

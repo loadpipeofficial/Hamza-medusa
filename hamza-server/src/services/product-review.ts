@@ -4,15 +4,18 @@ import { ProductReviewRepository } from '../repositories/product-review';
 import { ProductReview } from '../models/product-review';
 import { Customer } from '../models/customer';
 import { ProductVariantRepository } from '../repositories/product-variant';
+import { Product } from '../models/product';
 
 class ProductReviewService extends TransactionBaseService {
     static LIFE_TIME = Lifetime.SCOPED;
     protected readonly productVariantRepository_: typeof ProductVariantRepository;
+    protected readonly productReviewRepository_: typeof ProductReviewRepository;
     protected readonly logger: Logger;
 
     constructor(container) {
         super(container);
         this.productVariantRepository_ = container.productVariantRepository;
+        this.productReviewRepository_ = container.productReviewRepository;
         this.logger = container.logger;
     }
 
@@ -64,6 +67,47 @@ class ProductReviewService extends TransactionBaseService {
         }
 
         return false;
+    }
+
+    async getSpecificReview(order_id, product_id) {
+        let productId;
+
+        try {
+            const variantProduct = await this.productVariantRepository_.findOne(
+                {
+                    where: { id: product_id }, // Assuming product_id is the ID of the variant
+                }
+            );
+
+            if (!variantProduct) {
+                throw new Error('Product variant not found');
+            }
+
+            productId = variantProduct.product_id; // This assumes that variantProduct actually contains a product_id
+        } catch (e) {
+            this.logger.error(`Error fetching product variant: ${e}`);
+            throw e; // Rethrow or handle the error appropriately
+        }
+
+        // Ensure productId was successfully retrieved before proceeding
+        if (!productId) {
+            throw new Error('Unable to retrieve product ID for the review');
+        }
+
+        try {
+            const productReviewRepository =
+                this.activeManager_.getRepository(ProductReview);
+            const productReview = await productReviewRepository.findOne({
+                where: { order_id, product_id: productId },
+            });
+
+            const { content, rating } = productReview;
+
+            return { content, rating };
+        } catch (e) {
+            this.logger.error(`Error fetching specific review: ${e}`);
+            throw e;
+        }
     }
 
     async getReviews(product_id) {
@@ -156,8 +200,32 @@ class ProductReviewService extends TransactionBaseService {
         const productReviewRepository =
             this.activeManager_.getRepository(ProductReview);
 
+        let productId;
+
+        try {
+            const variantProduct = await this.productVariantRepository_.findOne(
+                {
+                    where: { id: product_id }, // Assuming product_id is the ID of the variant
+                }
+            );
+
+            if (!variantProduct) {
+                throw new Error('Product variant not found');
+            }
+
+            productId = variantProduct.product_id; // This assumes that variantProduct actually contains a product_id
+        } catch (e) {
+            this.logger.error(`Error fetching product variant: ${e}`);
+            throw e; // Rethrow or handle the error appropriately
+        }
+
+        // Ensure productId was successfully retrieved before proceeding
+        if (!productId) {
+            throw new Error('Unable to retrieve product ID for the review');
+        }
+
         const existingReview = await productReviewRepository.findOne({
-            where: { product_id, customer_id, order_id },
+            where: { product_id: productId, customer_id, order_id },
         });
 
         this.logger.debug(`existingReview: ${existingReview.content}`);
@@ -247,14 +315,3 @@ class ProductReviewService extends TransactionBaseService {
 }
 
 export default ProductReviewService;
-
-/**
- * - customerIsVerified
- * - customerHasBoughtProduct(product_id)
- * - customerHasLeftReview(product_id, order_id)
- * - customerHasLeftRating(product_id, order_id)
- * - getRatings(product_id)
- * - getReviews(product_id)
- * - saveRating(customer_id, product_id, order_id)
- * - saveReview(customer_id, product_id, order_id)
- */

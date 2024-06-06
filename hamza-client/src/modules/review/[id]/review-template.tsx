@@ -16,10 +16,10 @@ const ReviewTemplate = () => {
 
     const item = useItemStore((state) => state.item);
 
-    console.log(`item info ${JSON.stringify(item)}`);
+    // console.log(`item info ${JSON.stringify(item)}`);
     useEffect(() => {
         checkReviewExistence();
-        console.log(`Checking ${item?.title} if we can submit?`);
+        // console.log(`Checking ${item?.title} if we can submit?`);
     }, [item]);
 
     const checkReviewExistence = async () => {
@@ -30,7 +30,7 @@ const ReviewTemplate = () => {
                     order_id: item?.order_id,
                 }
             );
-            console.log(`Can submit? ${response.data}`);
+            // console.log(`Can submit? ${response.data}`);
             setCanSubmit(response.data); // Assuming API returns { exists: true/false }
         } catch (error) {
             alert('Failed to check review existence: ' + error.message);

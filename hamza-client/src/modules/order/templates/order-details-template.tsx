@@ -50,12 +50,13 @@ interface Item {
     currency_code: string;
 }
 
+const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
+
 const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
     order,
 }) => {
     //
     const [detailedOrders, setDetailedOrders] = useState<Item[]>([]);
-
     const customer_id = useCustomerAuthStore((state) => state.customer_id);
     // console.log('Orders: ', order.cart_id);
     // console.log(`Orders: ${JSON.stringify(order)}`);
@@ -74,7 +75,7 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
                     order_id: order.id, // Append order_id to each item if cart_id matches
                     customer_id: customer_id,
                 }));
-                console.log('Data: ', updatedItems);
+                // console.log('Data: ', updatedItems);
                 setDetailedOrders(updatedItems);
             } catch (error) {
                 console.error('Error fetching orders: ', error);
@@ -95,11 +96,10 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
                 }
                 acc[item.cart_id].push(item);
             }
-            return acc;
-        },
-        {}
-    );
-    console.log(`Specific Cart: ${JSON.stringify(specificCart)}`);
+            acc[item.cart_id].push(item);
+        }
+        return acc;
+    }, {});
 
     return (
         <div className="flex flex-col justify-center gap-y-4 ">
