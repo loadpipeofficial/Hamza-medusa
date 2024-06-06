@@ -90,199 +90,14 @@ export class RelayClientWrapper {
             transport: http(),
         });
 
-        await client.connect();
-        const result = await client._client.createStore(client.storeId, wallet);
-        console.log(await client.enrollKeyCard(walletPrivKey));
-        await client._client.connect();
+        //await client.connect();
+        //const result = await client._client.createStore(client.storeId, wallet);
+        //console.log(await client.enrollKeyCard(walletPrivKey));
+        //await client._client.connect();
         //console.log('manifest...');
         //await client._client.writeStoreManifest(client.storeId);
 
         return client;
-    }
-
-    /**
-     * Authenticates to an already existing store.
-     *
-     * @param endpoint Relay endpoint e.g. 'wss://relay.endpoint.com'
-     * @param storeId Unique store ID.
-     * @param keyCard Private key in the form 0x{hex}
-     * @returns a RelayClientWrapper instance.
-     */
-    static async login(
-        endpoint: string,
-        storeId: `0x${string}` = '0x0',
-        keyCard: `0x${string}`
-    ): Promise<RelayClientWrapper> {
-        const client: RelayClientWrapper = new RelayClientWrapper(
-            endpoint,
-            storeId,
-            keyCard
-        );
-
-        //client.eventStream = await client._client.createEventStream();
-
-        return client;
-    }
-
-    async pullEvents() {
-        if (!this.eventStream)
-            this.eventStream = await this._client.createEventStream();
-        console.log('reading');
-        console.log('read: ', await this.eventStream.getReader().read());
-        console.log('read: ', await this.eventStream.getReader().read());
-        console.log('read: ', await this.eventStream.getReader().read());
-    }
-    async readStream(
-        reader: ReadableStreamDefaultReader<Uint8Array>
-    ): Promise<void> {
-        while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
-            console.log('Received data:', new TextDecoder().decode(value));
-        }
-        console.log('Stream has been fully read.');
-    }
-
-    keyCardToString(): string {
-        return bufferToString(this._keyCard);
-    }
-
-    async connect(): Promise<void> {
-        await this._client.connect();
-    }
-
-    async disconnect(): Promise<void> {
-        await this._client.disconnect();
-    }
-
-    async enrollKeyCard(walletPrivKey: `0x${string}` = '0x0'): Promise<any> {
-        const account: PrivateKeyAccount = privateKeyToAccount(walletPrivKey);
-
-        const wallet = createWalletClient({
-            account,
-            chain: this._chain,
-            transport: http(),
-        });
-
-        //wallet.publicKey = account.publicKey;
-
-        return await this._client.enrollKeycard(wallet);
-    }
-
-    async writeManifest() {
-        this._client.writeStoreManifest(this.storeId);
-    }
-
-    async createProduct(product: ProductConfig): Promise<string> {
-        console.log('doing the create prod');
-        let id = '';
-        try {
-            id = await this._client.createItem(product.price, {
-                name: product.name,
-                description: product.description,
-                image: product.image,
-            });
-            console.log('did the create prod', id);
-        } catch (e) {
-            console.error(e);
-        }
-        return id;
-    }
-
-    async createCart() {
-        this._cartId = await this._client.createCart();
-        return this._cartId;
-    }
-
-    async abandonCart() {
-        await this._client.abandonCart(this.cartId);
-    }
-
-    async deleteProduct(productId: `0x${string}`): Promise<void> {}
-
-    async updateProductPrice(
-        productId: `0x${string}`,
-        price: string
-    ): Promise<any> {
-        const response = await this._client.updateItem(
-            productId,
-            ItemField.ITEM_FIELD_PRICE,
-            price
-        );
-
-        return response;
-    }
-
-    async addToCart(productId: `0x${string}`, quantity: number) {
-        await this._client.changeStock([productId], [10]);
-        //this._cartId = await this._client.createCart();
-        console.log(
-            await this._client.changeCart(this.cartId, productId, quantity)
-        );
-    }
-
-    async commitCartEth(): Promise<`0x${string}`> {
-        console.log('committing cart ' + this.cartId);
-        return bufferToString(
-            (await this._client.commitCart(this.cartId)).cartFinalizedId
-        );
-    }
-
-    async setErc20(address: `0x${string}`) {
-        //3 == MANIFEST_FIELD_ADD_ERC20
-        console.log('setErc2', address);
-        const pb = await this._client.updateManifest(3, address);
-    }
-
-    async checkoutEth(): Promise<any> {
-        const promise = this._client.commitCart(this.cartId);
-        try {
-            return await promise;
-        } catch (e) {
-            console.error(e);
-        }
-        return null;
-    }
-
-    async checkoutErc20(
-        productId: `0x${string}`,
-        erc20: `0x${string}`,
-        quantity: number
-    ): Promise<void> {
-        console.log('productId', productId);
-        const pb = await this._client.changeStock([productId], [10]);
-
-        const cartId: `0x${string}` = await this._client.createCart();
-        console.log('cart:', cartId);
-        await this._client.changeCart(cartId, productId, quantity);
-        const response = await this._client.commitCart(cartId, erc20);
-
-        console.log('checkout response: ');
-        console.log(bufferToString(response.cartFinalizedId));
-        console.log(response);
-    }
-
-    private onEvent(event: any) {
-        console.log('EVENT:', event);
-        if (event.request.events) {
-            event.request.events.forEach((e: any) => {
-                console.log('event -> ', e);
-                if (e.cartFinalized) {
-                    if (e.cartFinalized.eventId) {
-                        console.log(
-                            'eventid:',
-                            `0x${bufferToString(e.cartFinalized.eventId)}`
-                        );
-                    }
-                    if (e.cartFinalized.purchaseAddr) {
-                        console.log(
-                            'purchaseAddr:',
-                            `0x${bufferToString(e.cartFinalized.purchaseAddr)}`
-                        );
-                    }
-                }
-            });
-        }
     }
 
     static async createAndInitializeStore(endpoint: string) {
@@ -349,6 +164,86 @@ export class RelayClientWrapper {
         await client2.writeStoreManifest(storeId);
 
         //now from here on, I can do anything I want, but using the wallet as the keycard
+    }
+
+    /**
+     * Authenticates to an already existing store.
+     *
+     * @param endpoint Relay endpoint e.g. 'wss://relay.endpoint.com'
+     * @param storeId Unique store ID.
+     * @param keyCard Private key in the form 0x{hex}
+     * @returns a RelayClientWrapper instance.
+     */
+    static async getInstance(
+        endpoint: string,
+        storeId: `0x${string}` = '0x0',
+        keyCard: `0x${string}`
+    ): Promise<RelayClientWrapper> {
+        const client: RelayClientWrapper = new RelayClientWrapper(
+            endpoint,
+            storeId,
+            keyCard
+        );
+        return client;
+    }
+
+    async pullEvents() {
+        if (!this.eventStream)
+            this.eventStream = await this._client.createEventStream();
+        console.log('reading');
+        console.log('read: ', await this.eventStream.getReader().read());
+        console.log('read: ', await this.eventStream.getReader().read());
+        console.log('read: ', await this.eventStream.getReader().read());
+    }
+
+    keyCardToString(): string {
+        return bufferToString(this._keyCard);
+    }
+
+    async connect(): Promise<void> {
+        await this._client.connect();
+    }
+
+    async disconnect(): Promise<void> {
+        await this._client.disconnect();
+    }
+
+    async createProduct(product: ProductConfig): Promise<string> {
+        let id = '';
+        try {
+            id = await this._client.createItem(product.price, {
+                name: product.name,
+                description: product.description,
+                image: product.image,
+            });
+        } catch (e) {
+            console.error(e);
+        }
+        return id;
+    }
+
+    async addToCart(productId: `0x${string}`, quantity: number) {
+        await this._client.changeStock([productId], [10]);
+        //this._cartId = await this._client.createCart();
+        console.log(
+            await this._client.changeCart(this.cartId, productId, quantity)
+        );
+    }
+
+    async setErc20(address: `0x${string}`) {
+        //3 == MANIFEST_FIELD_ADD_ERC20
+        const pb = await this._client.updateManifest(3, address);
+    }
+
+    private async readStream(
+        reader: ReadableStreamDefaultReader<Uint8Array>
+    ): Promise<void> {
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            console.log('Received data:', new TextDecoder().decode(value));
+        }
+        console.log('Stream has been fully read.');
     }
 }
 
