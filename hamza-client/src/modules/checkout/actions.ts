@@ -42,7 +42,7 @@ export async function applyDiscount(code: string) {
 
 export async function applyGiftCard(code: string) {
     const cartId = cookies().get('_medusa_cart_id')?.value;
-
+    console.log(code);
     if (!cartId) return 'No cartId cookie found';
 
     try {
