@@ -96,10 +96,10 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
                 }
                 acc[item.cart_id].push(item);
             }
-            acc[item.cart_id].push(item);
-        }
-        return acc;
-    }, {});
+            return acc;
+        },
+        {}
+    );
 
     return (
         <div className="flex flex-col justify-center gap-y-4 ">

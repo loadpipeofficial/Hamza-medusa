@@ -33,7 +33,7 @@ export default async function ReviewPage({ params }: Props) {
                 </div>
             </div>
             <div>
-                <ReviewTemplate item={order} />
+                <ReviewTemplate />
             </div>
         </div>
     );

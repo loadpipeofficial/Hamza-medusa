@@ -17,6 +17,33 @@ const MEDUSA_SERVER_URL =
 interface DetailedOrder extends Order {
     details?: any; // Further specify if you have the structure of the details
 }
+type OrderDetails = {
+    thumbnail: string;
+    title: string;
+    description: string;
+};
+type OrderProps = {
+    id: string;
+    display_id: string;
+    created_at: string;
+    details: OrderDetails;
+    paid_total: number;
+    currency_code: string;
+    unit_price: number;
+    thumbnail: string;
+    title: string;
+    description: string;
+    region: {
+        id: string;
+        name: string;
+    };
+};
+
+type WishlistProps = OrderProps & {
+    item: any;
+    order: any;
+    id: string;
+};
 
 const OrderOverview = ({ orders }: { orders: Order[] }) => {
     // Initialize state with the correct type
@@ -26,18 +53,6 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
     const countryCode = useParams().countryCode as string;
 
     const router = useRouter();
-
-    // async function fetchVendors() {
-    //     console.log(`FETCH VENDOR FUNCTION RUNNING`);
-    //     try {
-    //         const vendors = await getVendors();
-    //         console.log('Vendors:', vendors);
-    //     } catch (error) {
-    //         console.error('Error fetching vendors:', error);
-    //     }
-    // }
-    //
-    // fetchVendors();
 
     // lets make an axios call to http://localhost:9000/custom/order
     useEffect(() => {
@@ -114,7 +129,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                                 </span>
                             </div>
 
-                            {items.map((item) => (
+                            {items.map((item: WishlistProps) => (
                                 <>
                                     <OrderCard key={item.id} order={item} />
                                     <div className="flex justify-end">
