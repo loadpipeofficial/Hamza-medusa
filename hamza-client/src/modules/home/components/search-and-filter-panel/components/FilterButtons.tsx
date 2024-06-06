@@ -22,9 +22,14 @@ const FilterButtons = (props: any) => {
                 color: 'black',
             }}
         >
-            <Flex>
+            <Flex overflow="hidden" whiteSpace="nowrap" textOverflow="ellipsis">
                 <FaTshirt color="green" />
-                <Text px="2" alignSelf={'center'}>
+                <Text
+                    px="2"
+                    alignSelf={'center'}
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                >
                     {props.title}
                 </Text>
             </Flex>
