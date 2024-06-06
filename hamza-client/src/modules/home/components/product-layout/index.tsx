@@ -39,33 +39,31 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
     const products = data?.data;
 
     return (
-        <Box my="8" p="8">
-            <Container maxW="1440px">
-                <SimpleGrid
-                    columns={[1, 2, 3, 4]}
-                    spacing="1.25rem"
-                    rowGap="2.5rem"
-                    placeItems="center"
-                >
-                    {products.map((product: any) => {
-                        // Extracting prices from all variants
-                        const variantPrices = product.variants
-                            .map((variant: any) => variant.prices)
-                            .flat();
-                        return (
-                            <ProductCard
-                                key={product.id}
-                                productName={product.title}
-                                productPrice={variantPrices[0].amount}
-                                imageSrc={product.thumbnail}
-                                hasDiscount={product.is_giftcard}
-                                discountValue={product.discountValue}
-                            />
-                        );
-                    })}
-                </SimpleGrid>
-            </Container>
-        </Box>
+        <Container maxW="1440px" p="8" backgroundColor={'#2C272D'}>
+            <SimpleGrid
+                columns={[1, 2, 3, 4]}
+                spacing="1.25rem"
+                rowGap="2.5rem"
+                placeItems="center"
+            >
+                {products.map((product: any) => {
+                    // Extracting prices from all variants
+                    const variantPrices = product.variants
+                        .map((variant: any) => variant.prices)
+                        .flat();
+                    return (
+                        <ProductCard
+                            key={product.id}
+                            productName={product.title}
+                            productPrice={variantPrices[0].amount}
+                            imageSrc={product.thumbnail}
+                            hasDiscount={product.is_giftcard}
+                            discountValue={product.discountValue}
+                        />
+                    );
+                })}
+            </SimpleGrid>
+        </Container>
     );
 };
 

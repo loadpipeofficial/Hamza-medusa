@@ -12,6 +12,7 @@ import { getRegion } from 'app/actions';
 import { ProductCollectionWithPreviews } from 'types/global';
 import ContactSection from '@modules/home/components/contact-section';
 import ProductCardGroup from '@modules/home/components/product-layout';
+import SearchAndFilterPanel from '@modules/home/components/search-and-filter-panel';
 export const metadata: Metadata = {
     title: 'Hamza Shop',
     description:
@@ -74,7 +75,7 @@ export default async function Home({
 
     return (
         <>
-            <ProductCardGroup />
+            <SearchAndFilterPanel />
             {/* <Hero /> */}
             {/* <RecommendedItems />
             <ToggleSection />

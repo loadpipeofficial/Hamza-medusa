@@ -27,7 +27,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
             h="440px"
             bg="white"
             boxShadow="md"
-            border="1px solid black"
             borderRadius="0.725rem"
             overflow="hidden"
         >
