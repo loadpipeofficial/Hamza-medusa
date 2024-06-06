@@ -19,6 +19,7 @@ const SearchAndFilterPanel = () => {
                             <FilterButtons
                                 key={vendors.id}
                                 title={vendors.vendorName}
+                                selected={vendorName}
                                 setVendorName={() =>
                                     setVendorName(vendors.vendorName)
                                 }
