@@ -4,21 +4,61 @@ import Thumbnail from '@modules/products/components/thumbnail';
 import React, { useState } from 'react';
 import { Button } from '@medusajs/ui';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
-import itemStore from '@store/review/review-store';
+import itemStore, { Item } from '@store/review/review-store';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
 type ItemsProps = {
-    items: any;
+    currency_code: string;
+    id: string;
+    created_at: string;
+    updated_at: string;
+    cart_id: string;
+    order_id: string | null;
+    swap_id: string | null;
+    claim_order_id: string | null;
+    original_item_id: string | null;
+    order_edit_id: string | null;
+    title: string;
+    description: string;
+    thumbnail: string;
+    is_return: boolean;
+    is_giftcard: boolean;
+    should_merge: boolean;
+    allow_discounts: boolean;
+    has_shipping: boolean;
+    unit_price: number;
+    variant_id: string;
+    quantity: number;
+    fulfilled_quantity: number | null;
+    returned_quantity: number | null;
+    shipped_quantity: number | null;
+    metadata: Record<string, unknown>;
+    customer_id: string;
 };
+interface CartItem {
+    id: string;
+    name: string;
+    price: number;
+    quantity: number;
+    thumbnail: string;
+    title: string;
+}
+interface Items {
+    [key: string]: CartItem[];
+}
+
+interface Props {
+    items: Items;
+}
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 
-const Items = ({ items }: ItemsProps) => {
+const Items: React.FC<Props> = ({ items }) => {
     const setItem = itemStore((state) => state.setItem);
     const router = useRouter();
 
-    const handleItemClick = async (item) => {
+    const handleItemClick = async (item: ItemsProps) => {
         // console.log(`Checking review existence for order: ${item?.order_id}`);
         try {
             const response = await axios.post(
@@ -37,7 +77,7 @@ const Items = ({ items }: ItemsProps) => {
                 router.push(`/account/reviews/${item.id}`);
             }
         } catch (error) {
-            alert('Failed to check review existence: ' + error.message);
+            alert('Failed to check review existence: ' + error);
         }
         setItem(item);
     };
@@ -77,7 +117,7 @@ const Items = ({ items }: ItemsProps) => {
                                     <Thumbnail
                                         thumbnail={item.thumbnail}
                                         images={[]}
-                                        size={65}
+                                        size="small"
                                     />
                                     {item.title}
                                 </Table.Cell>
