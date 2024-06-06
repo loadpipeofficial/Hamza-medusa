@@ -10,70 +10,51 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cartController = void 0;
+const util_1 = require("./util");
 exports.cartController = {
+    //create cart
     post: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            const input = req.body;
+        (0, util_1.serveRequest)(req, res, (id, body) => __awaiter(void 0, void 0, void 0, function* () {
+            const input = body;
             const output = {
                 success: true,
                 cartId: '0x0',
             };
-            res.status(201).json(output);
-        }
-        catch (error) {
-            console.log(error);
-            res.status(500).json({
-                msg: 'Internal server error, contact API administrator',
-            });
-        }
+            return output;
+        }), 201);
     }),
+    //add item to cart
     put: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            const cartId = req.params.id;
-            const input = req.body;
+        (0, util_1.serveRequest)(req, res, (id, body) => __awaiter(void 0, void 0, void 0, function* () {
+            const cartId = id;
+            const input = body;
             const output = {
                 success: true,
             };
-            res.status(201).json(output);
-        }
-        catch (error) {
-            console.log(error);
-            res.status(500).json({
-                msg: 'Internal server error, contact API administrator',
-            });
-        }
+            return output;
+        }), 201);
     }),
+    //commit cart
     postId: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            const cartId = req.params.id;
-            const input = req.body;
+        (0, util_1.serveRequest)(req, res, (id, body) => __awaiter(void 0, void 0, void 0, function* () {
+            const cartId = id;
+            const input = body;
             const output = {
                 success: true,
             };
-            res.status(200).json(output);
-        }
-        catch (error) {
-            console.log(error);
-            res.status(500).json({
-                msg: 'Internal server error, contact API administrator',
-            });
-        }
+            return output;
+        }));
     }),
+    //abandon cart
     delete: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            const cartId = req.params.id;
-            const input = req.body;
+        (0, util_1.serveRequest)(req, res, (id, body) => __awaiter(void 0, void 0, void 0, function* () {
+            const cartId = id;
+            const input = body;
             const output = {
                 success: true,
             };
-            res.status(204).json(output);
-        }
-        catch (error) {
-            console.log(error);
-            res.status(500).json({
-                msg: 'Internal server error, contact API administrator',
-            });
-        }
+            return output;
+        }), 204);
     }),
 };
 //# sourceMappingURL=cart.js.map

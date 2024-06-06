@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { serveRequest } from './util';
 import {
     IAbandonCartOutput,
     IAbandonCartInput,
@@ -11,71 +12,66 @@ import {
 } from '../entity';
 
 export const cartController = {
+    //create cart
     post: async (req: Request, res: Response) => {
-        try {
-            const input: ICreateCartInput = req.body;
-            const output: ICreateCartOutput = {
-                success: true,
-                cartId: '0x0',
-            };
-
-            res.status(201).json(output);
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({
-                msg: 'Internal server error, contact API administrator',
-            });
-        }
+        serveRequest(
+            req,
+            res,
+            async (id, body) => {
+                const input: ICreateCartInput = body;
+                const output: ICreateCartOutput = {
+                    success: true,
+                    cartId: '0x0',
+                };
+                return output;
+            },
+            201
+        );
     },
 
+    //add item to cart
     put: async (req: Request, res: Response) => {
-        try {
-            const cartId = req.params.id;
-            const input: IAddCartItemInput = req.body;
-            const output: IAddCartItemOutput = {
-                success: true,
-            };
-
-            res.status(201).json(output);
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({
-                msg: 'Internal server error, contact API administrator',
-            });
-        }
+        serveRequest(
+            req,
+            res,
+            async (id, body) => {
+                const cartId = id;
+                const input: IAddCartItemInput = body;
+                const output: IAddCartItemOutput = {
+                    success: true,
+                };
+                return output;
+            },
+            201
+        );
     },
 
+    //commit cart
     postId: async (req: Request, res: Response) => {
-        try {
-            const cartId = req.params.id;
-            const input: ICommitCartInput = req.body;
+        serveRequest(req, res, async (id, body) => {
+            const cartId = id;
+            const input: ICommitCartInput = body;
             const output: ICommitCartOutput = {
                 success: true,
             };
-
-            res.status(200).json(output);
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({
-                msg: 'Internal server error, contact API administrator',
-            });
-        }
+            return output;
+        });
     },
 
+    //abandon cart
     delete: async (req: Request, res: Response) => {
-        try {
-            const cartId = req.params.id;
-            const input: IAbandonCartInput = req.body;
-            const output: IAbandonCartOutput = {
-                success: true,
-            };
-
-            res.status(204).json(output);
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({
-                msg: 'Internal server error, contact API administrator',
-            });
-        }
+        serveRequest(
+            req,
+            res,
+            async (id, body) => {
+                const cartId = id;
+                const input: IAbandonCartInput = body;
+                const output: IAbandonCartOutput = {
+                    success: true,
+                };
+                return output;
+            },
+            204
+        );
     },
 };

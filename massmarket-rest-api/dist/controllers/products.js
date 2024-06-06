@@ -10,38 +10,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.productsController = void 0;
+const util_1 = require("./util");
 exports.productsController = {
+    //create product
     post: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            const input = req.body;
+        (0, util_1.serveRequest)(req, res, (id, body) => __awaiter(void 0, void 0, void 0, function* () {
+            const input = body;
             const output = {
                 success: true,
                 productId: '0x01',
             };
-            res.status(201).json(output);
-        }
-        catch (error) {
-            console.log(error);
-            res.status(500).json({
-                msg: 'Internal server error, contact API administrator',
-            });
-        }
+            return output;
+        }), 201);
     }),
+    //update product
     put: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            const prodId = req.params.id;
-            const input = req.body;
+        (0, util_1.serveRequest)(req, res, (id, body) => __awaiter(void 0, void 0, void 0, function* () {
+            const input = body;
             const output = {
                 success: true,
             };
-            res.status(200).json({});
-        }
-        catch (error) {
-            console.log(error);
-            res.status(500).json({
-                msg: 'Internal server error, contact API administrator',
-            });
-        }
+            return output;
+        }), 200);
     }),
 };
 //# sourceMappingURL=products.js.map
