@@ -116,13 +116,27 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             </Box>
                             <Text
                                 color={'white'}
-                                mr="auto"
                                 pl="1"
                                 fontWeight="700"
                                 fontSize="1.25rem"
                                 lineHeight="33.72px"
                             >
                                 {productPrice}
+                            </Text>
+                            <Text
+                                textDecoration={
+                                    hasDiscount === true
+                                        ? 'line-through'
+                                        : 'none'
+                                }
+                                ml="2"
+                                alignSelf={'center'}
+                                color={'#555555'}
+                                fontWeight="700"
+                                fontSize="0.875rem"
+                                lineHeight="17.64px"
+                            >
+                                ${productPrice}
                             </Text>
                         </Flex>
                         <Text

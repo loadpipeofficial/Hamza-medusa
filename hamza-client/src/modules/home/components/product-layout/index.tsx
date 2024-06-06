@@ -26,6 +26,8 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
             )
     );
 
+    console.log(data);
+
     const { status, preferred_currency_code } = useCustomerAuthStore();
 
     if (isLoading) {
@@ -56,7 +58,7 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
                                 productName={product.title}
                                 productPrice={variantPrices[0].amount}
                                 imageSrc={product.thumbnail}
-                                hasDiscount={product.hasDiscount}
+                                hasDiscount={product.is_giftcard}
                                 discountValue={product.discountValue}
                             />
                         );
