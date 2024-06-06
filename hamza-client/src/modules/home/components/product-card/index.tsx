@@ -1,14 +1,45 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect } from 'react';
 import ProductCard from './components/product-card';
 import { Box, SimpleGrid, Container } from '@chakra-ui/react';
 import products from './data/data';
+import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
+import { formatCryptoPrice } from '@lib/util/get-product-price';
+import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 
-const ProductCardGroup = () => {
+type Props = {
+    vendorName: string;
+    category: string;
+};
+
+const ProductCardGroup = ({ vendorName, category }: Props) => {
     //TODO: Make product card clickable to product preview
     //TODO: Import Product from backend into Card
     //TODO: Filter Cards when searching
     //Will we add buy button / cart here?
     //Hovering over it could reveal a buy or cart button?
+
+    const { data, error, isLoading } = useQuery(
+        ['products', { vendor: vendorName }],
+        () =>
+            axios.get(
+                `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000'}/store/custom/products?store_name=${'Goblin Store'}`
+            )
+    );
+
+    const { status, preferred_currency_code } = useCustomerAuthStore();
+
+    if (isLoading) {
+        return null; // Suspense will handle the loading fallback.
+    }
+
+    if (error) return <div>Error: {error?.message}</div>;
+
+    console.log(data);
+    const products = data?.data;
+
     return (
         <Box my="8" p="8">
             <Container maxW="1440px">
@@ -18,16 +49,22 @@ const ProductCardGroup = () => {
                     rowGap="2.5rem"
                     placeItems="center"
                 >
-                    {products.map((product) => (
-                        <ProductCard
-                            key={product.id}
-                            productName={product.productName}
-                            productPrice={product.productPrice}
-                            imageSrc={product.imageSrc}
-                            hasDiscount={product.hasDiscount}
-                            discountValue={product.discountValue}
-                        />
-                    ))}
+                    {products.map((product: any) => {
+                        // Extracting prices from all variants
+                        const variantPrices = product.variants
+                            .map((variant: any) => variant.prices)
+                            .flat();
+                        return (
+                            <ProductCard
+                                key={product.id}
+                                productName={product.title}
+                                productPrice={variantPrices[0].amount}
+                                imageSrc={product.thumbnail}
+                                hasDiscount={product.hasDiscount}
+                                discountValue={product.discountValue}
+                            />
+                        );
+                    })}
                 </SimpleGrid>
             </Container>
         </Box>

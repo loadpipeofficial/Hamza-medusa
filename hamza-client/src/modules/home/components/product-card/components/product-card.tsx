@@ -11,7 +11,7 @@ import { FaBitcoin, FaEthereum } from 'react-icons/fa';
 
 interface ProductCardProps {
     productName: string;
-    productPrice: string;
+    productPrice: number;
     imageSrc: string;
     hasDiscount: boolean;
     discountValue: string;
