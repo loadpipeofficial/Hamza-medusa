@@ -2,16 +2,13 @@
 
 import React from 'react';
 import { Card, CardBody, Image, Text, Flex, Box } from '@chakra-ui/react';
-import {
-    TiStarOutline,
-    TiStarFullOutline,
-    TiStarHalfOutline,
-} from 'react-icons/ti';
+import { TiStarFullOutline } from 'react-icons/ti';
 import { FaBitcoin, FaEthereum } from 'react-icons/fa';
+import { AiOutlineDollar } from 'react-icons/ai';
 
 interface ProductCardProps {
     productName: string;
-    productPrice: string;
+    productPrice: number;
     imageSrc: string;
     hasDiscount: boolean;
     discountValue: string;
@@ -26,17 +23,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
     return (
         <Card
-            w={['100%', '100%', '235px']}
-            h="380px"
-            bg="white"
-            boxShadow="md"
-            border="1px solid black"
+            w={['100%', '100%', '293.13px']}
+            h="440px"
+            bg="transparent"
             borderRadius="0.725rem"
             overflow="hidden"
         >
             <Box
-                h="224px"
-                bg="gray.200"
+                h="200px"
                 position="relative"
                 display="flex"
                 justifyContent="center"
@@ -68,7 +62,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     </Text>
                 </Box>
             </Box>
-            <CardBody display={'flex'} flexDirection={'column'}>
+            <CardBody
+                backgroundColor={'black'}
+                display={'flex'}
+                flexDirection={'column'}
+            >
                 <Box
                     display={'flex'}
                     flexDirection={'column'}
@@ -77,24 +75,29 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 >
                     <Flex mb="1">
                         <Text
+                            color={'white'}
                             fontWeight="500"
-                            fontSize="1.30625rem"
+                            fontSize="1.25rem"
                             lineHeight="25.29px"
-                            noOfLines={2}
+                            noOfLines={3}
                         >
                             {productName}
                         </Text>
                         <Flex pl="1.5rem" mb="auto" ml="auto">
-                            <TiStarFullOutline
-                                style={{
-                                    width: '1.16125rem',
-                                    height: '1.16125rem',
-                                }}
-                            />
+                            <Box alignSelf={'center'}>
+                                <TiStarFullOutline
+                                    style={{
+                                        color: '#FEC84B',
+                                        width: '0.72875rem',
+                                        height: '0.72875rem',
+                                    }}
+                                />
+                            </Box>
                             <Text
+                                color={'white'}
                                 alignSelf={'center'}
                                 fontWeight="500"
-                                fontSize="13.93px"
+                                fontSize="0.75rem"
                                 lineHeight="16.86px"
                                 pl="0.1rem"
                             >
@@ -104,30 +107,59 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     </Flex>
 
                     <Box mt="auto">
+                        <Flex>
+                            <Box alignSelf={'center'}>
+                                <AiOutlineDollar size={24} color="#2775CA" />
+                            </Box>
+                            <Text
+                                color={'white'}
+                                pl="1"
+                                fontWeight="700"
+                                fontSize="1.25rem"
+                                lineHeight="33.72px"
+                            >
+                                {productPrice}
+                            </Text>
+                            <Text
+                                textDecoration={
+                                    hasDiscount === true
+                                        ? 'line-through'
+                                        : 'none'
+                                }
+                                ml="2"
+                                alignSelf={'center'}
+                                color={'#555555'}
+                                fontWeight="700"
+                                fontSize="0.875rem"
+                                lineHeight="17.64px"
+                            >
+                                ${productPrice}
+                            </Text>
+                        </Flex>
                         <Text
+                            color={'white'}
                             mr="auto"
                             fontWeight="700"
-                            fontSize="27.86px"
+                            fontSize="1.25rem"
                             lineHeight="33.72px"
-                            mb="2"
                         >
-                            {productPrice}
+                            ${productPrice}
                         </Text>
-                        <Flex align="center">
+                        <Flex py={2}>
                             <Text
+                                color={'#555555'}
                                 fontWeight="400"
-                                fontSize="14px"
+                                fontSize="1.25rem"
                                 lineHeight="16.94px"
-                                mr="2"
                             >
                                 Or pay with
                             </Text>
-                            <Flex>
+                            <Flex pl={2}>
                                 <Box mr="1" alignSelf={'center'}>
-                                    <FaBitcoin />
+                                    <FaBitcoin color={'#555555'} />
                                 </Box>
                                 <Box alignSelf={'center'}>
-                                    <FaEthereum />
+                                    <FaEthereum color={'#555555'} />
                                 </Box>
                             </Flex>
                         </Flex>
