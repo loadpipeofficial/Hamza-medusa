@@ -35,7 +35,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             overflow="hidden"
         >
             <Box
-                h="224px"
+                h="200px"
                 bg="gray.200"
                 position="relative"
                 display="flex"
@@ -68,7 +68,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     </Text>
                 </Box>
             </Box>
-            <CardBody display={'flex'} flexDirection={'column'}>
+            <CardBody
+                backgroundColor={'black'}
+                display={'flex'}
+                flexDirection={'column'}
+            >
                 <Box
                     display={'flex'}
                     flexDirection={'column'}
@@ -77,24 +81,29 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 >
                     <Flex mb="1">
                         <Text
+                            color={'white'}
                             fontWeight="500"
-                            fontSize="1.30625rem"
+                            fontSize="1.25rem"
                             lineHeight="25.29px"
-                            noOfLines={2}
+                            noOfLines={3}
                         >
                             {productName}
                         </Text>
                         <Flex pl="1.5rem" mb="auto" ml="auto">
-                            <TiStarFullOutline
-                                style={{
-                                    width: '1.16125rem',
-                                    height: '1.16125rem',
-                                }}
-                            />
+                            <Box alignSelf={'center'}>
+                                <TiStarFullOutline
+                                    style={{
+                                        color: '#FEC84B',
+                                        width: '0.72875rem',
+                                        height: '0.72875rem',
+                                    }}
+                                />
+                            </Box>
                             <Text
+                                color={'white'}
                                 alignSelf={'center'}
                                 fontWeight="500"
-                                fontSize="13.93px"
+                                fontSize="0.75rem"
                                 lineHeight="16.86px"
                                 pl="0.1rem"
                             >
@@ -105,9 +114,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
                     <Box mt="auto">
                         <Text
+                            color={'white'}
                             mr="auto"
                             fontWeight="700"
-                            fontSize="27.86px"
+                            fontSize="1.25rem"
                             lineHeight="33.72px"
                             mb="2"
                         >
@@ -115,6 +125,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                         </Text>
                         <Flex align="center">
                             <Text
+                                color={'#555555'}
                                 fontWeight="400"
                                 fontSize="14px"
                                 lineHeight="16.94px"

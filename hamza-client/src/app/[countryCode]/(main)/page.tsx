@@ -11,7 +11,7 @@ import Reputation from '@modules/home/components/reputation';
 import { getRegion } from 'app/actions';
 import { ProductCollectionWithPreviews } from 'types/global';
 import ContactSection from '@modules/home/components/contact-section';
-import ProductCardGroup from '@modules/home/components/product-card';
+import ProductCardGroup from '@modules/home/components/product-layout';
 export const metadata: Metadata = {
     title: 'Hamza Shop',
     description:
