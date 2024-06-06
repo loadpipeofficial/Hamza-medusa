@@ -23,8 +23,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
     return (
         <Card
-            w={['100%', '100%', '235px']}
-            h="380px"
+            w={['100%', '100%', '293.13px']}
+            h="440px"
             bg="white"
             boxShadow="md"
             border="1px solid black"
@@ -110,7 +110,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     </Flex>
 
                     <Box mt="auto">
-                        <Flex mb="2">
+                        <Flex>
                             <Box alignSelf={'center'}>
                                 <AiOutlineDollar size={24} color="#2775CA" />
                             </Box>
@@ -125,17 +125,25 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 {productPrice}
                             </Text>
                         </Flex>
-                        <Flex align="center">
+                        <Text
+                            color={'white'}
+                            mr="auto"
+                            fontWeight="700"
+                            fontSize="1.25rem"
+                            lineHeight="33.72px"
+                        >
+                            ${productPrice}
+                        </Text>
+                        <Flex py={2}>
                             <Text
                                 color={'#555555'}
                                 fontWeight="400"
                                 fontSize="1.25rem"
                                 lineHeight="16.94px"
-                                mr="2"
                             >
                                 Or pay with
                             </Text>
-                            <Flex>
+                            <Flex pl={2}>
                                 <Box mr="1" alignSelf={'center'}>
                                     <FaBitcoin color={'#555555'} />
                                 </Box>

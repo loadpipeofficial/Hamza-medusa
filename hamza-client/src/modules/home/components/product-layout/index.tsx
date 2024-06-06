@@ -16,10 +16,7 @@ type Props = {
 
 const ProductCardGroup = ({ vendorName, category }: Props) => {
     //TODO: Make product card clickable to product preview
-    //TODO: Import Product from backend into Card
     //TODO: Filter Cards when searching
-    //Will we add buy button / cart here?
-    //Hovering over it could reveal a buy or cart button?
 
     const { data, error, isLoading } = useQuery(
         ['products', { vendor: vendorName }],
@@ -37,14 +34,13 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
 
     if (error) return <div>Error: {error?.message}</div>;
 
-    console.log(data);
     const products = data?.data;
 
     return (
         <Box my="8" p="8">
             <Container maxW="1440px">
                 <SimpleGrid
-                    columns={[1, 2, 3, 4, 5]}
+                    columns={[1, 2, 3, 4]}
                     spacing="1.25rem"
                     rowGap="2.5rem"
                     placeItems="center"
