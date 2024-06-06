@@ -13,8 +13,12 @@ exports.productsController = void 0;
 exports.productsController = {
     post: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            //console.log('rc', cartId);
-            res.status(200).json({});
+            const input = req.body;
+            const output = {
+                success: true,
+                productId: '0x01',
+            };
+            res.status(201).json(output);
         }
         catch (error) {
             console.log(error);
@@ -25,7 +29,11 @@ exports.productsController = {
     }),
     put: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            //console.log('rc', cartId);
+            const prodId = req.params.id;
+            const input = req.body;
+            const output = {
+                success: true,
+            };
             res.status(200).json({});
         }
         catch (error) {

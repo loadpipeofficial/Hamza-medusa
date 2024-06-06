@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { RelayClientWrapper } from '../massmarket/client';
 import { ICreateStoreInput, ICreateStoreOutput } from '../entity';
 
 export const storeController = {

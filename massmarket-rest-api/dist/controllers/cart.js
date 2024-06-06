@@ -13,8 +13,12 @@ exports.cartController = void 0;
 exports.cartController = {
     post: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            //console.log('rc', cartId);
-            res.status(200).json({});
+            const input = req.body;
+            const output = {
+                success: true,
+                cartId: '0x0',
+            };
+            res.status(201).json(output);
         }
         catch (error) {
             console.log(error);
@@ -25,8 +29,12 @@ exports.cartController = {
     }),
     put: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            //console.log('rc', cartId);
-            res.status(200).json({});
+            const cartId = req.params.id;
+            const input = req.body;
+            const output = {
+                success: true,
+            };
+            res.status(201).json(output);
         }
         catch (error) {
             console.log(error);
@@ -37,8 +45,12 @@ exports.cartController = {
     }),
     postId: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            //console.log('rc', cartId);
-            res.status(200).json({});
+            const cartId = req.params.id;
+            const input = req.body;
+            const output = {
+                success: true,
+            };
+            res.status(200).json(output);
         }
         catch (error) {
             console.log(error);
@@ -49,8 +61,12 @@ exports.cartController = {
     }),
     delete: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            //console.log('rc', cartId);
-            res.status(200).json({});
+            const cartId = req.params.id;
+            const input = req.body;
+            const output = {
+                success: true,
+            };
+            res.status(204).json(output);
         }
         catch (error) {
             console.log(error);

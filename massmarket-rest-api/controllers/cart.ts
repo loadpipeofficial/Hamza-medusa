@@ -9,7 +9,6 @@ import {
     ICommitCartInput,
     ICommitCartOutput,
 } from '../entity';
-import { RelayClientWrapper } from '../massmarket/client';
 
 export const cartController = {
     post: async (req: Request, res: Response) => {

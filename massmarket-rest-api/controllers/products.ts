@@ -5,7 +5,6 @@ import {
     IUpdateProductInput,
     IUpdateProductOutput,
 } from '../entity';
-import { RelayClientWrapper } from '../massmarket/client';
 
 export const productsController = {
     post: async (req: Request, res: Response) => {

@@ -13,8 +13,13 @@ exports.storeController = void 0;
 exports.storeController = {
     post: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            //console.log('rc', cartId);
-            res.status(200).json({});
+            const input = req.body;
+            const output = {
+                success: true,
+                storeId: '0x01',
+                keyCard: '0x02',
+            };
+            res.status(201).json(output);
         }
         catch (error) {
             console.log(error);
