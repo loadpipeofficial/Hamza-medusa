@@ -17,7 +17,7 @@ export function useWishlistMutations() {
     const customer_id = customerState?.customer_id;
 
     const addWishlistItemMutation = useMutation(
-        (product: ProductType) => {
+        (product: any) => {
             console.log(
                 'PASSING CUSTOMER_ID',
                 customer_id,
@@ -43,7 +43,7 @@ export function useWishlistMutations() {
     );
 
     const removeWishlistItemMutation = useMutation(
-        (product: ProductType) => {
+        (product: any) => {
             console.log(
                 'PASSING CUSTOMER_ID',
                 customer_id,

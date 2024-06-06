@@ -6,7 +6,7 @@ import { Box, Grid, GridItem, Heading, Text } from '@chakra-ui/react'; // Import
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 import Thumbnail from '@modules/products/components/thumbnail';
 
-const VendorTemplate = ({ vendors }) => {
+const VendorTemplate = ({ vendors }: any) => {
     const [selectedVendor, setSelectedVendor] = useState(vendors[1]); // Set the second vendor as default selected
     const [products, setProducts] = useState([]); // State to hold the products
     const [reviewStats, setReviewStats] = useState({
@@ -14,7 +14,7 @@ const VendorTemplate = ({ vendors }) => {
         avgRating: 0,
     });
 
-    const handleSelectVendor = (vendor) => {
+    const handleSelectVendor = (vendor: any) => {
         setSelectedVendor(vendor);
         // console.log(`Selected Vendor ${vendor.id}`);
     };
@@ -63,7 +63,7 @@ const VendorTemplate = ({ vendors }) => {
         <div className="bg-black text-white text-center p-4">
             <h1 className="mb-4">Vendors</h1>
             <div className="flex flex-wrap justify-center">
-                {vendors.map((vendor) => (
+                {vendors.map((vendor: any) => (
                     <div key={vendor.id} className="mb-4 mx-4">
                         <Button
                             onClick={() => handleSelectVendor(vendor)}
@@ -109,7 +109,7 @@ const VendorTemplate = ({ vendors }) => {
                     justifyContent={{ base: 'center', md: 'space-between' }}
                 >
                     {/* Map over the products and render each product in a Chakra UI card */}
-                    {products.map((product) => (
+                    {products.map((product: any) => (
                         <GridItem
                             key={product.id}
                             minHeight="200px"
@@ -124,7 +124,6 @@ const VendorTemplate = ({ vendors }) => {
                             >
                                 <Thumbnail
                                     thumbnail={product.thumbnail}
-                                    alt={product.title}
                                     size={'small'}
                                 />
                                 <Box p={3}>

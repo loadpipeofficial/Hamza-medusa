@@ -12,7 +12,7 @@ import { Button } from '@medusajs/ui';
 import Thumbnail from '@modules/products/components/thumbnail';
 
 interface WishlistPopoverItemProps {
-    item: WishlistType;
+    item?: WishlistType;
 }
 
 interface PopoverButtonProps {
@@ -20,7 +20,7 @@ interface PopoverButtonProps {
 }
 
 // TODO: Should we move this component to modules/wishlist/ similar to where cart-dropdown is???
-const WishlistDropdown: React.FC<WishlistPopoverItemProps> = ({ item }) => {
+const WishlistDropdown: React.FC<WishlistPopoverItemProps> = () => {
     const { wishlist } = useWishlistStore((state) => ({
         wishlist: state.wishlist,
     }));
