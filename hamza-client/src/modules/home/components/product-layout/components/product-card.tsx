@@ -25,14 +25,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <Card
             w={['100%', '100%', '293.13px']}
             h="440px"
-            bg="white"
-            boxShadow="md"
+            bg="transparent"
             borderRadius="0.725rem"
             overflow="hidden"
         >
             <Box
                 h="200px"
-                bg="gray.200"
                 position="relative"
                 display="flex"
                 justifyContent="center"

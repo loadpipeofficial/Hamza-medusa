@@ -1,7 +1,7 @@
 const vendors = [
     {
         id: 1,
-        vendorName: 'Headphones Store',
+        vendorName: 'Goblin Store',
     },
     {
         id: 2,
@@ -9,7 +9,7 @@ const vendors = [
     },
     {
         id: 3,
-        vendorName: 'Goblin Store',
+        vendorName: 'Headphones Store',
     },
 ];
 

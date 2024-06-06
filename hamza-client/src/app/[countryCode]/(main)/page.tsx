@@ -13,6 +13,7 @@ import { ProductCollectionWithPreviews } from 'types/global';
 import ContactSection from '@modules/home/components/contact-section';
 import ProductCardGroup from '@modules/home/components/product-layout';
 import SearchAndFilterPanel from '@modules/home/components/search-and-filter-panel';
+import { Box } from '@chakra-ui/react';
 export const metadata: Metadata = {
     title: 'Hamza Shop',
     description:
@@ -74,20 +75,8 @@ export default async function Home({
     }
 
     return (
-        <>
+        <Box backgroundColor={'#2C272D'}>
             <SearchAndFilterPanel />
-            {/* <Hero /> */}
-            {/* <RecommendedItems />
-            <ToggleSection />
-            <Testimonials />
-            <Reputation />
-            <FAQSection />
-            <ContactSection /> */}
-            {/*<div className="py-12">*/}
-            {/*  <ul className="flex flex-col gap-x-6">*/}
-            {/*    <FeaturedProducts collections={collections} region={region} />*/}
-            {/*  </ul>*/}
-            {/*</div>*/}
-        </>
+        </Box>
     );
 }
