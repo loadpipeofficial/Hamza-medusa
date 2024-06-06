@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import ProductCard from './components/product-card';
-import { Box, SimpleGrid, Container } from '@chakra-ui/react';
-import products from './data/data';
+import { SimpleGrid, Container } from '@chakra-ui/react';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { formatCryptoPrice } from '@lib/util/get-product-price';
@@ -15,14 +14,11 @@ type Props = {
 };
 
 const ProductCardGroup = ({ vendorName, category }: Props) => {
-    //TODO: Make product card clickable to product preview
-    //TODO: Filter Cards when searching
-
     const { data, error, isLoading } = useQuery(
         ['products', { vendor: vendorName }],
         () =>
             axios.get(
-                `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000'}/store/custom/products?store_name=${'Goblin Store'}`
+                `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000'}/store/custom/products?store_name=${vendorName}`
             )
     );
 
@@ -38,6 +34,7 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
 
     const products = data?.data;
 
+    //TODO: Make product card clickable to product preview
     return (
         <Container maxW="1440px" p="8" backgroundColor={'#2C272D'}>
             <SimpleGrid
@@ -47,7 +44,6 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
                 placeItems="center"
             >
                 {products.map((product: any) => {
-                    // Extracting prices from all variants
                     const variantPrices = product.variants
                         .map((variant: any) => variant.prices)
                         .flat();
