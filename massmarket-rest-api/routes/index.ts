@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { testController } from '../controllers/test';
 import { storeController } from '../controllers/store';
 import { cartController } from '../controllers/cart';
+import { checkoutController } from '../controllers/checkout';
 import { productsController } from '../controllers/products';
 
 const router = Router();
@@ -28,5 +29,8 @@ router.delete('/cart', cartController.delete);
 
 //commitCart: POST /cart/<cartid>
 router.post('/cart:id', cartController.postId);
+
+//commitCart: POST /checkout
+router.post('/checkout', checkoutController.post);
 
 export default router;

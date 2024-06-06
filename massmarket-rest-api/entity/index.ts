@@ -1,6 +1,11 @@
+import { Hex } from 'viem';
+
 export type HexString = `0x${string}`;
 
-export interface ICreateStoreInput {}
+export interface ICreateStoreInput {
+    storeId: HexString;
+    keycard: HexString;
+}
 
 export interface ICreateStoreOutput {
     storeId: HexString;
@@ -8,7 +13,10 @@ export interface ICreateStoreOutput {
     success: boolean;
 }
 
-export interface ICreateCartInput {}
+export interface ICreateCartInput {
+    storeId: HexString;
+    keycard: HexString;
+}
 
 export interface ICreateCartOutput {
     cartId: HexString;
@@ -16,31 +24,44 @@ export interface ICreateCartOutput {
 }
 
 export interface IAddCartItemInput {
-    productId: HexString;
-    quantity: number;
+    storeId: HexString;
+    keycard: HexString;
+    item: IAddItemInput;
 }
 
 export interface IAddCartItemOutput {
     success: boolean;
 }
 
-export interface IAbandonCartInput {}
+export interface IAbandonCartInput {
+    storeId: HexString;
+    keycard: HexString;
+}
 
 export interface IAbandonCartOutput {
     success: boolean;
 }
 
-export interface ICommitCartInput {}
+export interface ICommitCartInput {
+    storeId: HexString;
+    keycard: HexString;
+}
 
 export interface ICommitCartOutput {
     success: boolean;
 }
 
-export interface ICreateProductInput {
+export interface IProductInput {
     name: string;
     price: string;
     description: string;
     image: string;
+}
+
+export interface ICreateProductInput {
+    storeId: HexString;
+    keycard: HexString;
+    products: IProductInput[];
 }
 
 export interface ICreateProductOutput {
@@ -49,6 +70,9 @@ export interface ICreateProductOutput {
 }
 
 export interface IUpdateProductInput {
+    storeId: HexString;
+    keycard: HexString;
+    productId: HexString;
     name: string;
     price: string;
     description: string;
@@ -57,4 +81,22 @@ export interface IUpdateProductInput {
 
 export interface IUpdateProductOutput {
     success: boolean;
+}
+
+export interface IAddItemInput {
+    productId: HexString;
+    quantity: number;
+}
+
+export interface ICheckoutInput {
+    storeId: HexString;
+    keycard: HexString;
+    paymentCurrency?: HexString;
+    items: IAddItemInput[];
+}
+
+export interface ICheckoutOutput {
+    success: boolean;
+    cartId: HexString;
+    paymentAddress: HexString;
 }
