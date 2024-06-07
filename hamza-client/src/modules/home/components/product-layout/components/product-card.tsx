@@ -164,14 +164,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             $ {productPrice}
                         </Text>
                         <Box py={2}>
-                            {/* <LocalizedClientLink href="/checkout?step=address"> */}
-                            <BuyButton
-                                handleBuyNow={() => handleBuyNow()}
-                                loader={loading}
-                                styles={'w-1/3 h-10 text-white'}
-                                outOfStock={false}
-                            />
-                            {/* </LocalizedClientLink> */}
+                            <LocalizedClientLink href="/checkout?step=address">
+                                <BuyButton
+                                    handleBuyNow={() => handleBuyNow()}
+                                    loader={loading}
+                                    styles={'w-20 h-10 text-white'}
+                                    outOfStock={false}
+                                />
+                            </LocalizedClientLink>
                         </Box>
                     </Box>
                 </Box>
