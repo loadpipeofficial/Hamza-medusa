@@ -37,7 +37,8 @@ class mmClient {
     async createProduct(product_id: string): Promise<boolean> {
         try {
             const response = await this.client.post(
-                `/api/products/${product_id}`
+                `/api/products/${product_id}`,
+                { headers: { 'Content-Type': 'application/json' } }
             );
             console.log(`Creating Product: ${product_id}`);
             return response.data;
@@ -47,18 +48,19 @@ class mmClient {
         }
     }
 
-    // async updateProduct(product_id: string): Promise<boolean> {
-    //     try {
-    //         const response = await this.client.put(
-    //             `/api/products/${product_id}`
-    //         );
-    //         console.log(`Updating Product: ${product_id}`);
-    //         return response.data;
-    //     } catch (error) {
-    //         console.error('Error updating product:', error.message);
-    //         throw error;
-    //     }
-    // }
+    async updateProduct(product_id: string): Promise<boolean> {
+        try {
+            const response = await this.client.put(
+                `/api/products/${product_id}`,
+                { headers: { 'Content-Type': 'application/json' } }
+            );
+            console.log(`Updating Product: ${product_id}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error updating product:', error.message);
+            throw error;
+        }
+    }
 }
 // Test script
 (async () => {
@@ -68,7 +70,7 @@ class mmClient {
     const store = await client.createStore();
     console.log('Store:', store);
     const createProduct = await client.createProduct('0x01');
-    console.log(`Creating Product: ${createProduct}`);
+    const updateProduct = await client.updateProduct('0x02');
 })();
 
 module.exports = mmClient;
