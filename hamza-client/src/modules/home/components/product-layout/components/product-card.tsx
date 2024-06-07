@@ -43,6 +43,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
         setLoading(false);
     };
 
+    const handleHeartClick = () => {
+        setSelectedHeart((prevColor: any) =>
+            prevColor === 'red' ? 'black' : 'red'
+        );
+    };
+
     return (
         <Card
             w={['100%', '100%', '293.13px']}
@@ -76,7 +82,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 >
                     <IoHeartCircleSharp
                         color={selectHeart}
-                        onClick={() => setSelectedHeart('red')}
+                        onClick={() => handleHeartClick()}
                         size={40}
                     />
                 </Box>
