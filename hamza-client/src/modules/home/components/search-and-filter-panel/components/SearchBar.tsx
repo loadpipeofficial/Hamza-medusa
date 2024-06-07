@@ -15,7 +15,7 @@ const SearchBar = () => {
         <Box pt="8" display={'flex'} justifyContent={'center'}>
             <InputGroup width="964px" height="82px">
                 <Input
-                    h="82px"
+                    height="100%"
                     borderRadius="40px"
                     padding="16px 8px 16px 28px"
                     border="2px solid"
@@ -27,11 +27,10 @@ const SearchBar = () => {
                     height="100%"
                     display="flex"
                     alignItems="center"
-                    justifyContent="center"
                     pointerEvents="none"
-                    pr="16px"
+                    mr="5"
                 >
-                    <FaSearch size={25} color="#3E3E3E" />
+                    <FaSearch size={28} color="#3E3E3E" />
                 </InputRightElement>
             </InputGroup>
         </Box>
