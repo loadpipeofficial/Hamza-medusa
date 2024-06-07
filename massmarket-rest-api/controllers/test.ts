@@ -1,26 +1,27 @@
 import { Request, Response } from 'express';
-//import { RelayClientWrapper } from '../massmarket/client';
-import { serveRequest } from './util';
+import { RelayClientWrapper } from '../massmarket/client';
+import { ENDPOINT, serveRequest } from './util';
 
 export const testController = {
     get: async (req: Request, res: Response) => {
-        /*
         serveRequest(
             req,
             res,
             async () => {
-                const rc = await RelayClientWrapper.login(
-                    'relay-beta.mass.market/v1',
-                    '0x03f3ab83d5270c9cfe5b4fa78815c503d4d7946d202a51f383946b9dc63a75cc',
-                    '0x65c1196c888ae6bb110077201346dfe426b220ce1d49a366102a2d85e7ad0e35'
+                const rc = new RelayClientWrapper(
+                    ENDPOINT,
+                    '0xb3196680cda22f98635bbc104e1f5e829ee8e71db27b5d6c9241d0e20c64e109',
+                    '0x7e683da67b0079c20a4856bfbd92b3c90b63f51bd57f7a9d2643aaba5c6b659b'
                 );
-                console.log('got the thing');
+
+                await rc.writeManifest();
+
                 return {
                     success: true,
                 };
             },
             200
-        );
+        ); /*
             console.log('creating cart...');
             //const cartId = await rc.createCart();
             //console.log('cart id', cartId);

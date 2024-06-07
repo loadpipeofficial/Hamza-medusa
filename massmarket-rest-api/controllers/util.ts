@@ -26,3 +26,5 @@ export function serveRequest(
         console.log(e);
     }
 }
+
+export const ENDPOINT = 'beta';

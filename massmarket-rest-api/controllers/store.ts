@@ -20,7 +20,7 @@ export const storeController = {
             async (id, body) => {
                 const input: ICreateStoreInput = body;
                 const output: ICreateStoreOutput = {
-                    success: true,
+                    success: false,
                     storeId: '0x0',
                     keyCard: '0x0',
                 };
@@ -29,6 +29,10 @@ export const storeController = {
                     await RelayClientWrapper.createAndInitializeStore();
                 output.storeId = data.storeId;
                 output.keyCard = data.keyCard;
+
+                //TODO: check for zeroAddress
+                output.success =
+                    output.storeId.length > 0 && output.keyCard.length > 0;
 
                 return output;
             },

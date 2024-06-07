@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { serveRequest } from './util';
+import { ENDPOINT, serveRequest } from './util';
 import {
     IAbandonCartOutput,
     IAbandonCartInput,
@@ -10,6 +10,8 @@ import {
     ICommitCartInput,
     ICommitCartOutput,
 } from '../entity';
+import { RelayClientWrapper } from '../massmarket/client';
+import { refCount } from 'rxjs';
 
 export const cartController = {
     //create cart
@@ -20,9 +22,23 @@ export const cartController = {
             async (id, body) => {
                 const input: ICreateCartInput = body;
                 const output: ICreateCartOutput = {
-                    success: true,
+                    success: false,
                     cartId: '0x0',
                 };
+
+                //get the client
+                const rc = await RelayClientWrapper.get(
+                    ENDPOINT,
+                    input.storeId,
+                    input.keycard
+                );
+
+                if (rc) {
+                    //create the cart
+                    output.cartId = await rc.createCart();
+                    output.success = output.cartId.length > 0;
+                }
+
                 return output;
             },
             201
@@ -40,6 +56,25 @@ export const cartController = {
                 const output: IAddCartItemOutput = {
                     success: true,
                 };
+
+                //get the client
+                const rc = await RelayClientWrapper.get(
+                    ENDPOINT,
+                    input.storeId,
+                    input.keycard
+                );
+
+                //add to cart
+                if (rc) {
+                    //create the cart
+                    await rc.addToCart(
+                        cartId,
+                        input.item.productId,
+                        input.item.quantity
+                    );
+                    output.success = true;
+                }
+
                 return output;
             },
             201
@@ -54,6 +89,22 @@ export const cartController = {
             const output: ICommitCartOutput = {
                 success: true,
             };
+
+            //get the client
+            const rc = await RelayClientWrapper.get(
+                ENDPOINT,
+                input.storeId,
+                input.keycard
+            );
+
+            //add to cart
+            if (rc) {
+                //create the cart
+                await rc.commitCart(cartId);
+
+                output.success = true;
+            }
+
             return output;
         });
     },
@@ -69,6 +120,21 @@ export const cartController = {
                 const output: IAbandonCartOutput = {
                     success: true,
                 };
+
+                //get the client
+                const rc = await RelayClientWrapper.get(
+                    ENDPOINT,
+                    input.storeId,
+                    input.keycard
+                );
+
+                //add to cart
+                if (rc) {
+                    //create the cart
+                    await rc.abandonCart(cartId);
+                    output.success = true;
+                }
+
                 return output;
             },
             204
