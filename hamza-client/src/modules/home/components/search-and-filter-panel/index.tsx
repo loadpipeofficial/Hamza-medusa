@@ -7,12 +7,14 @@ import FilterButtons from './components/FilterButtons';
 import vendors from './data/data';
 import { RiMenu2Fill } from 'react-icons/ri';
 import Reputation from '../reputation';
+import SearchBar from './components/SearchBar';
 
 const SearchAndFilterPanel = () => {
     const [vendorName, setVendorName] = useState('Goblin Store');
 
     return (
         <Box>
+            <SearchBar />
             <Reputation />
             <Container p="8" maxW="1440px">
                 <Flex gap="1rem">
