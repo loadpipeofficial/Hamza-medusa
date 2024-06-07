@@ -16,6 +16,11 @@ type ProductInput = {
     image: string;
 };
 
+type ProductOutput = {
+    productIds: HexString[];
+    success: boolean;
+};
+
 type checkoutInput = {
     productId: string;
     quantity: number;
@@ -25,6 +30,12 @@ type createStoreOutput = {
     storeId: string;
     keycard: string;
     success: boolean;
+};
+
+type checkoutOutput = {
+    success: boolean;
+    cartId: HexString;
+    paymentAddress: HexString;
 };
 
 // Mock data
@@ -93,7 +104,7 @@ class MMClient {
         storeId: HexString,
         keycard: HexString,
         products: ProductInput[]
-    ): Promise<HexString[]> {
+    ): Promise<ProductOutput> {
         try {
             const body = {
                 storeId,
@@ -117,7 +128,7 @@ class MMClient {
         storeId: HexString,
         keycard: HexString,
         product: ProductInput
-    ): Promise<HexString[]> {
+    ): Promise<ProductOutput> {
         try {
             const body = {
                 storeId,
@@ -145,7 +156,7 @@ class MMClient {
         storeId: HexString,
         keycard: HexString,
         items: checkoutInput[]
-    ): Promise<boolean> {
+    ): Promise<checkoutOutput> {
         try {
             const body = {
                 storeId,
