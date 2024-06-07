@@ -21,6 +21,12 @@ type checkoutInput = {
     quantity: number;
 };
 
+type createStoreOutput = {
+    storeId: string;
+    keycard: string;
+    success: boolean;
+};
+
 // Mock data
 
 const storeId: HexString = '0x1234567890abcdef';
@@ -46,7 +52,7 @@ const products: ProductInput[] = [
     },
 ];
 
-class mmClient {
+class MMClient {
     private client: AxiosInstance;
 
     constructor() {
@@ -66,12 +72,17 @@ class mmClient {
         }
     }
 
-    async createStore(options = { storeId, keyCard }): Promise<boolean> {
+    async createStore(
+        options: {
+            storeId?: HexString;
+            keyCard?: HexString;
+        } = {}
+    ): Promise<createStoreOutput> {
         // ): Promise<{ store_id: string; keycard: string }> {
         try {
             const response = await this.client.post('/api/store', options);
             // return response.data;
-            return true;
+            return response.data;
         } catch (error) {
             console.error('Error creating store:', error.message);
             throw error;
@@ -106,7 +117,7 @@ class mmClient {
         storeId: HexString,
         keycard: HexString,
         product: ProductInput
-    ): Promise<boolean> {
+    ): Promise<HexString[]> {
         try {
             const body = {
                 storeId,
@@ -157,7 +168,7 @@ class mmClient {
 
 // Test script
 (async () => {
-    const client = new mmClient();
+    const client = new MMClient();
     const status = await client.checkStatus();
     console.log('API Status:', status ? 'Online' : 'Offline');
     const store = await client.createStore();
