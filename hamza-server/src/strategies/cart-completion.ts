@@ -43,7 +43,7 @@ interface IPaymentGroupData {
     total: bigint;
 }
 
-const USE_MASS_MARKET = true;
+const USE_MASS_MARKET = false;
 
 /**
  * @name CartCompletionStrategy
@@ -147,7 +147,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
                     payment_count: payments.length,
                     message: 'payment successful',
                     payments,
-                    orders,
+                    orders: orderData.map((o) => o.order),
                     cartId: cartId,
                 },
             };
@@ -318,7 +318,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         let orders: Order[];
         try {
             for (const data of orderData) {
-                const lineItemValues = Object.values(data.lineItems);
+                const lineItemValues = Object.values(data.lineItemIds);
                 storeId = Object.values(data.order.store_id);
                 this.logger.debug(
                     `LINE ITEM VALUES ${lineItemValues} ${lineItemValues.length}`
@@ -376,7 +376,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             }
         }
         console.log(`storesToItems ${JSON.stringify(storesToItems)}`);
-        return storesToItems;
+        return [];
 
         //call checkout for each store
         // const promises: Promise<CheckoutOutput>[] = [];
