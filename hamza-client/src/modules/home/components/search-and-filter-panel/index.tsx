@@ -29,11 +29,16 @@ const SearchAndFilterPanel = () => {
                         );
                     })}
                     <Button
-                        background="radial-gradient(119.28% 648.85% at -19.83% -30.22%, #606060 0%, #0F242C 100%)"
                         display="flex"
                         justifyContent={'center'}
                         height="60px"
                         padding="10px 24px"
+                        gap="10px"
+                        borderRadius="56px"
+                        borderWidth="1px"
+                        borderColor="white"
+                        backgroundColor={'transparent'}
+                        color={'white'}
                     >
                         <RiMenu2Fill size={24} color={'white'} />
                         <Text color={'white'} alignSelf="center" pl="2">
