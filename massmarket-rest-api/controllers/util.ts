@@ -17,7 +17,6 @@ export function serveRequest(
     try {
         runFunction(req.params.id, req.body)
             .then((output) => {
-                console.log('returning success');
                 res.status(successReturnCode).json(output);
             })
             .catch((e) => {

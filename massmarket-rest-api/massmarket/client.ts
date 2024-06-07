@@ -61,7 +61,7 @@ export class RelayClientWrapper {
     }
 
     static randomStoreId(): `0x${string}` {
-        return bufferToString(new Uint8Array(randomBytes(32)));
+        return bytesToHex(new Uint8Array(randomBytes(32)));
     }
 
     /**
@@ -100,7 +100,7 @@ export class RelayClientWrapper {
         return client;
     }
 
-    static async createAndInitializeStore(endpoint: string) {
+    static async createAndInitializeStore() {
         //create random store id
         const storeId = bytesToHex(randomBytes(32));
 
@@ -148,20 +148,25 @@ export class RelayClientWrapper {
         await client.disconnect();
 
         //create relay client using STORE wallet private key instead of keycard
-        const client2 = new RelayClient({
-            relayEndpoint: `wss://${endpoint}`,
+        /*const client2 = new RelayClient({
+            relayEndpoint: `wss://relay-beta.mass.market/v1`,
             chain: sepolia,
             storeId: storeId,
-            keyCardWallet: privateKeyToAccount(walletPrivKey),
+            keyCardWallet: privateKeyToAccount(keycard.string),
             keyCardEnrolled: true,
-        });
+        });*/
 
         console.log('storeId', storeId);
         console.log('keycard', keycard.string);
 
         //THIS ONE WORKS TOO
-        console.log('writing manifest');
-        await client2.writeStoreManifest(storeId);
+        //console.log('writing manifest');
+        //await client2.writeStoreManifest(storeId);
+
+        return {
+            keyCard: keycard.string,
+            storeId,
+        };
 
         //now from here on, I can do anything I want, but using the wallet as the keycard
     }
@@ -197,7 +202,7 @@ export class RelayClientWrapper {
     }
 
     keyCardToString(): string {
-        return bufferToString(this._keyCard);
+        return bytesToHex(this._keyCard);
     }
 
     async connect(): Promise<void> {
@@ -206,6 +211,10 @@ export class RelayClientWrapper {
 
     async disconnect(): Promise<void> {
         await this._client.disconnect();
+    }
+
+    async writeManifest() {
+        await this._client.writeStoreManifest(this.storeId);
     }
 
     async createProduct(product: ProductConfig): Promise<string> {
