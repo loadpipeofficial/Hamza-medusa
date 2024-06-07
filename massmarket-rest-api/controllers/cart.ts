@@ -33,8 +33,8 @@ export const cartController = {
                     input.keycard
                 );
 
+                //create the cart
                 if (rc) {
-                    //create the cart
                     output.cartId = await rc.createCart();
                     output.success = output.cartId.length > 0;
                 }
@@ -66,7 +66,6 @@ export const cartController = {
 
                 //add to cart
                 if (rc) {
-                    //create the cart
                     await rc.addToCart(
                         cartId,
                         input.item.productId,
@@ -97,9 +96,8 @@ export const cartController = {
                 input.keycard
             );
 
-            //add to cart
+            //commit the cart
             if (rc) {
-                //create the cart
                 await rc.commitCart(cartId);
 
                 output.success = true;
@@ -128,9 +126,8 @@ export const cartController = {
                     input.keycard
                 );
 
-                //add to cart
+                //abandon cart
                 if (rc) {
-                    //create the cart
                     await rc.abandonCart(cartId);
                     output.success = true;
                 }

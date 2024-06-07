@@ -219,8 +219,8 @@ export class RelayClientWrapper {
         return await this._client.createCart();
     }
 
-    async createProduct(product: ProductConfig): Promise<string> {
-        let id = '';
+    async createProduct(product: ProductConfig): Promise<HexString> {
+        let id: HexString = '0x0';
         try {
             id = await this._client.createItem(product.price, {
                 name: product.name,

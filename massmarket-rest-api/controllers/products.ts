@@ -1,11 +1,13 @@
 import { Request, Response } from 'express';
-import { serveRequest } from './util';
+import { ENDPOINT, serveRequest } from './util';
 import {
+    HexString,
     ICreateProductInput,
     ICreateProductOutput,
     IUpdateProductInput,
     IUpdateProductOutput,
 } from '../entity';
+import { RelayClientWrapper } from '../massmarket/client';
 
 export const productsController = {
     //create product
@@ -17,8 +19,28 @@ export const productsController = {
                 const input: ICreateProductInput = body;
                 const output: ICreateProductOutput = {
                     success: true,
-                    productId: '0x01',
+                    productIds: [],
                 };
+
+                //get the client
+                const rc = await RelayClientWrapper.get(
+                    ENDPOINT,
+                    input.storeId,
+                    input.keycard
+                );
+
+                //add the product
+                if (rc) {
+                    const promises: Promise<HexString>[] = [];
+                    for (let prod of input.products) {
+                        promises.push(rc.createProduct(prod));
+                    }
+
+                    output.productIds = await Promise.all(promises);
+
+                    output.success = true;
+                }
+
                 return output;
             },
             201
@@ -35,6 +57,20 @@ export const productsController = {
                 const output: IUpdateProductOutput = {
                     success: true,
                 };
+
+                //get the client
+                const rc = await RelayClientWrapper.get(
+                    ENDPOINT,
+                    input.storeId,
+                    input.keycard
+                );
+
+                //update the product
+                if (rc) {
+                    //TODO: update the product
+
+                    output.success = true;
+                }
                 return output;
             },
             200

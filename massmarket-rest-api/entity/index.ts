@@ -65,7 +65,7 @@ export interface ICreateProductInput {
 }
 
 export interface ICreateProductOutput {
-    productId: HexString;
+    productIds: HexString[];
     success: boolean;
 }
 
