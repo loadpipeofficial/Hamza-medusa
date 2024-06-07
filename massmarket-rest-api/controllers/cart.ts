@@ -17,7 +17,6 @@ import {
     HexString,
 } from '../entity';
 import { RelayClientWrapper } from '../massmarket/client';
-import { refCount } from 'rxjs';
 
 export const cartController = {
     //create cart
