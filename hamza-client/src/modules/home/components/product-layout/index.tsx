@@ -1,12 +1,13 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import ProductCard from './components/product-card';
 import { SimpleGrid, Container } from '@chakra-ui/react';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { formatCryptoPrice } from '@lib/util/get-product-price';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
+import { addToCart } from '@modules/cart/actions';
 
 type Props = {
     vendorName: string;
@@ -14,6 +15,7 @@ type Props = {
 };
 
 const ProductCardGroup = ({ vendorName, category }: Props) => {
+    // Get products from vendor
     const { data, error, isLoading } = useQuery(
         ['products', { vendor: vendorName }],
         () =>
@@ -47,9 +49,13 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
                     const variantPrices = product.variants
                         .map((variant: any) => variant.prices)
                         .flat();
+
+                    const varientID = product.variants[0].id;
                     return (
                         <ProductCard
                             key={product.id}
+                            varientID={varientID}
+                            countryCode={product.countryCode}
                             productName={product.title}
                             productPrice={variantPrices[0].amount}
                             imageSrc={product.thumbnail}

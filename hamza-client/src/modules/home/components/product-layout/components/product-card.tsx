@@ -1,12 +1,17 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardBody, Image, Text, Flex, Box } from '@chakra-ui/react';
 import { TiStarFullOutline } from 'react-icons/ti';
 import { FaBitcoin, FaEthereum } from 'react-icons/fa';
 import { AiOutlineDollar } from 'react-icons/ai';
+import LocalizedClientLink from '@modules/common/components/localized-client-link';
+import BuyButton from '@modules/products/components/buy-button';
+import { addToCart } from '@modules/cart/actions';
 
 interface ProductCardProps {
+    varientID: string;
+    countryCode: string;
     productName: string;
     productPrice: number;
     imageSrc: string;
@@ -15,12 +20,27 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
+    varientID,
+    countryCode,
     productName,
     productPrice,
     imageSrc,
     hasDiscount,
     discountValue,
 }) => {
+    const [loading, setLoading] = useState(false);
+
+    const handleBuyNow = async () => {
+        setLoading(true);
+        await addToCart({
+            variantId: varientID,
+            quantity: 1,
+            countryCode: countryCode,
+            currencyCode: 'eth',
+        });
+        setLoading(false);
+    };
+
     return (
         <Card
             w={['100%', '100%', '293.13px']}
@@ -84,12 +104,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             {productName}
                         </Text>
                         <Flex pl="1.5rem" mb="auto" ml="auto">
-                            <Box alignSelf={'center'}>
+                            <Box mt="1px">
                                 <TiStarFullOutline
                                     style={{
                                         color: '#FEC84B',
-                                        width: '0.72875rem',
-                                        height: '0.72875rem',
+                                        width: '0.8rem',
+                                        height: '0.8rem',
                                     }}
                                 />
                             </Box>
@@ -98,7 +118,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 alignSelf={'center'}
                                 fontWeight="500"
                                 fontSize="0.75rem"
-                                lineHeight="16.86px"
+                                lineHeight="15.12px"
                                 pl="0.1rem"
                             >
                                 4.97
@@ -133,7 +153,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 fontSize="0.875rem"
                                 lineHeight="17.64px"
                             >
-                                ${productPrice}
+                                {productPrice}
                             </Text>
                         </Flex>
                         <Text
@@ -143,26 +163,18 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             fontSize="1.25rem"
                             lineHeight="33.72px"
                         >
-                            ${productPrice}
+                            $ {productPrice}
                         </Text>
-                        <Flex py={2}>
-                            <Text
-                                color={'#555555'}
-                                fontWeight="400"
-                                fontSize="1.25rem"
-                                lineHeight="16.94px"
-                            >
-                                Or pay with
-                            </Text>
-                            <Flex pl={2}>
-                                <Box mr="1" alignSelf={'center'}>
-                                    <FaBitcoin color={'#555555'} />
-                                </Box>
-                                <Box alignSelf={'center'}>
-                                    <FaEthereum color={'#555555'} />
-                                </Box>
-                            </Flex>
-                        </Flex>
+                        <Box py={2}>
+                            <LocalizedClientLink href="/checkout?step=address">
+                                <BuyButton
+                                    handleBuyNow={() => handleBuyNow()}
+                                    loader={loading}
+                                    styles={'w-20 h-10 text-white'}
+                                    outOfStock={false}
+                                />
+                            </LocalizedClientLink>
+                        </Box>
                     </Box>
                 </Box>
             </CardBody>
