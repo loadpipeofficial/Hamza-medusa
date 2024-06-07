@@ -9,6 +9,7 @@ try {
     console.error('Invalid REST_SERVER_URL:', REST_URL);
     process.exit(1); // Exit the process if the URL is invalid
 }
+
 type ProductInput = {
     name: string;
     price: number;
@@ -25,18 +26,18 @@ type ProductUpdateOutput = {
     success: boolean;
 };
 
-type checkoutInput = {
+type CheckoutInput = {
     productId: string;
     quantity: number;
 };
 
-type createStoreOutput = {
+type CreateStoreOutput = {
     storeId: string;
     keycard: string;
     success: boolean;
 };
 
-type checkoutOutput = {
+type CheckoutOutput = {
     success: boolean;
     cartId: HexString;
     paymentAddress: HexString;
@@ -46,6 +47,7 @@ type checkoutOutput = {
 
 const storeId: HexString = '0x1234567890abcdef';
 const keyCard: HexString = '0xabcdef1234567890';
+
 const products: ProductInput[] = [
     {
         name: 'Product 1',
@@ -67,7 +69,7 @@ const products: ProductInput[] = [
     },
 ];
 
-class MMClient {
+class MassMarketClient {
     private client: AxiosInstance;
 
     constructor() {
@@ -92,12 +94,12 @@ class MMClient {
             storeId?: HexString;
             keyCard?: HexString;
         } = {}
-    ): Promise<createStoreOutput> {
+    ): Promise<CreateStoreOutput> {
         // ): Promise<{ store_id: string; keycard: string }> {
         try {
             const response = await this.client.post('/api/store', options);
             // return response.data;
-            return response.data;
+            return response.data.storeId;
         } catch (error) {
             console.error('Error creating store:', error.message);
             throw error;
@@ -108,7 +110,7 @@ class MMClient {
         storeId: HexString,
         keycard: HexString,
         products: ProductInput[]
-    ): Promise<ProductOutput> {
+    ): Promise<HexString[]> {
         try {
             const body = {
                 storeId,
@@ -131,8 +133,9 @@ class MMClient {
     async updateProduct(
         storeId: HexString,
         keycard: HexString,
+        productId: HexString,
         product: ProductInput
-    ): Promise<ProductUpdateOutput> {
+    ): Promise<boolean> {
         try {
             const body = {
                 storeId,
@@ -141,7 +144,7 @@ class MMClient {
             };
 
             const response = await this.client.put(
-                `/api/products/${product.name}`,
+                `/api/products/${productId}`,
                 body,
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -149,7 +152,7 @@ class MMClient {
             );
 
             console.log(`Updating Product: ${product.name}`);
-            return response.data;
+            return response.data.success;
         } catch (error) {
             console.error('Error updating product:', error.message);
             throw error;
@@ -159,8 +162,8 @@ class MMClient {
     async checkout(
         storeId: HexString,
         keycard: HexString,
-        items: checkoutInput[]
-    ): Promise<checkoutOutput> {
+        items: CheckoutInput[]
+    ): Promise<CheckoutOutput> {
         try {
             const body = {
                 storeId,
@@ -183,7 +186,7 @@ class MMClient {
 
 // Test script
 (async () => {
-    const client = new MMClient();
+    const client = new MassMarketClient();
     const status = await client.checkStatus();
     console.log('API Status:', status ? 'Online' : 'Offline');
     const store = await client.createStore();
@@ -193,10 +196,10 @@ class MMClient {
         keyCard,
         products
     );
-    const updateProduct = await client.updateProduct('0x02');
+    //const updateProduct = await client.updateProduct('0x02');
 })();
 
-module.exports = mmClient;
+module.exports = MassMarketClient;
 
 // IGNORED METHODS
 // IGNORE FOR NOW
