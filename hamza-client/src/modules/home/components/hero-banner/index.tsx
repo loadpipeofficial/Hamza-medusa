@@ -16,7 +16,10 @@ const HeroBanner = () => {
                 style={{ fontSize: '32px' }}
             >
                 Buy & Sell Products Using{' '}
-                <span style={{ color: '#7B61FF' }}>Crypto</span> as a Community
+                <span style={{ color: '#7B61FF' }}>
+                    <b>Crypto</b>
+                </span>{' '}
+                as a Community
             </Text>
             <b />
             <Flex flexDirection={'row'}>

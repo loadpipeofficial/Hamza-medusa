@@ -12,7 +12,7 @@ import { FaSearch } from 'react-icons/fa';
 
 const SearchBar = () => {
     return (
-        <Box pt="8" display={'flex'} justifyContent={'center'}>
+        <Box pt="8" px="6" display={'flex'} justifyContent={'center'}>
             <InputGroup width="964px" height="82px">
                 <Input
                     height="100%"
