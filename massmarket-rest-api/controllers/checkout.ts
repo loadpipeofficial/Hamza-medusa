@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import { serveRequest } from './util';
+import { ENDPOINT, serveRequest } from './util';
 import { ICheckoutInput, ICheckoutOutput } from '../entity';
+import { RelayClientWrapper } from '../massmarket/client';
 
 export const checkoutController = {
     //checkout
@@ -16,6 +17,36 @@ export const checkoutController = {
                     cartId: '0x0',
                     paymentAddress: '0x0',
                 };
+
+                //get the client
+                const rc = await RelayClientWrapper.get(
+                    ENDPOINT,
+                    input.storeId,
+                    input.keycard
+                );
+
+                //do the full checkout
+                if (rc) {
+                    //create the cart
+                    output.cartId = await rc.createCart();
+
+                    //add items to cart
+                    for (let item of input.items) {
+                        await rc.addToCart(
+                            output.cartId,
+                            item.productId,
+                            item.quantity
+                        );
+                    }
+
+                    //commit the cart
+                    await rc.commitCart(output.cartId);
+
+                    //TODO: get payment address
+                    output.paymentAddress = '0x0';
+                    output.success = true;
+                }
+
                 return output;
             },
             201

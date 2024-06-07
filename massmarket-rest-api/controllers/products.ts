@@ -38,7 +38,9 @@ export const productsController = {
 
                     output.productIds = await Promise.all(promises);
 
-                    output.success = true;
+                    //TODO: better success check
+                    output.success =
+                        output.productIds.length == input.products.length;
                 }
 
                 return output;
