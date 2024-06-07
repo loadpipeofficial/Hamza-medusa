@@ -5,6 +5,7 @@ import { FaArrowRightLong } from 'react-icons/fa6';
 const HeroBanner = () => {
     return (
         <Flex
+            px={6}
             pt={8}
             justifyContent={'center'}
             alignItems={'center'}
