@@ -13,10 +13,12 @@ export const checkoutController = {
             async (id, body) => {
                 const input: ICheckoutInput = body;
                 const output: ICheckoutOutput = {
-                    success: true,
+                    success: false,
                     cartId: '0x0',
                     paymentAddress: '0x0',
                 };
+
+                if (!validateCheckoutInput(res, input)) return null;
 
                 //get the client
                 const rc = await RelayClientWrapper.get(
@@ -53,3 +55,7 @@ export const checkoutController = {
         );
     },
 };
+
+function validateCheckoutInput(res: Response, input: ICheckoutInput): boolean {
+    return true;
+}

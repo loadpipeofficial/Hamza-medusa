@@ -16,6 +16,7 @@ const viem_1 = require("viem");
 const accounts_1 = require("viem/accounts");
 const chains_1 = require("viem/chains");
 const utils_1 = require("./utils");
+const util_1 = require("../controllers/util");
 /**
  * Wrapper for the massmarket relay client, exposing those functions and properties
  * that we need for our specific use cases.
@@ -23,18 +24,8 @@ const utils_1 = require("./utils");
  * @author John R. Kosinski
  */
 class RelayClientWrapper {
-    /**
-     * Gets the cart id, if any; default is 0x0.
-     */
-    get cartId() {
-        return this._cartId;
-    }
-    set cartId(value) {
-        this._cartId = value;
-    }
     constructor(endpoint, storeId = '0x0', keyCardPrivKey = '0x0') {
         this._chain = chains_1.sepolia;
-        this._cartId = '0x0';
         this.eventStream = null;
         this.storeId = storeId;
         let keyCardEnrolled = false;
@@ -58,6 +49,11 @@ class RelayClientWrapper {
     }
     static randomStoreId() {
         return (0, viem_1.bytesToHex)(new Uint8Array((0, crypto_1.randomBytes)(32)));
+    }
+    static get(endpoint, storeId, keycard) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new RelayClientWrapper(endpoint, storeId, keycard);
+        });
     }
     /**
      * Creates a new store, authenticates, and returns a RelayClientWrapper instance.
@@ -100,7 +96,7 @@ class RelayClientWrapper {
             //create relay client instance
             console.log('create relay client');
             const client = new lib_1.RelayClient({
-                relayEndpoint: `wss://relay-beta.mass.market/v1`,
+                relayEndpoint: util_1.ENDPOINT,
                 chain: chains_1.sepolia,
                 storeId,
                 keyCardWallet: keycard.wallet,
@@ -183,9 +179,14 @@ class RelayClientWrapper {
             yield this._client.writeStoreManifest(this.storeId);
         });
     }
+    createCart() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this._client.createCart();
+        });
+    }
     createProduct(product) {
         return __awaiter(this, void 0, void 0, function* () {
-            let id = '';
+            let id = '0x0';
             try {
                 id = yield this._client.createItem(product.price, {
                     name: product.name,
@@ -199,11 +200,20 @@ class RelayClientWrapper {
             return id;
         });
     }
-    addToCart(productId, quantity) {
+    addToCart(cartId, productId, quantity) {
         return __awaiter(this, void 0, void 0, function* () {
             yield this._client.changeStock([productId], [10]);
-            //this._cartId = await this._client.createCart();
-            console.log(yield this._client.changeCart(this.cartId, productId, quantity));
+            console.log(yield this._client.changeCart(cartId, productId, quantity));
+        });
+    }
+    commitCart(cartId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this._client.commitCart(cartId);
+        });
+    }
+    abandonCart(cartId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this._client.abandonCart(cartId);
         });
     }
     setErc20(address) {

@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.productsController = void 0;
 const util_1 = require("./util");
+const client_1 = require("../massmarket/client");
 exports.productsController = {
     //create product
     post: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -18,8 +19,21 @@ exports.productsController = {
             const input = body;
             const output = {
                 success: true,
-                productId: '0x01',
+                productIds: [],
             };
+            //get the client
+            const rc = yield client_1.RelayClientWrapper.get(util_1.ENDPOINT, input.storeId, input.keycard);
+            //add the product
+            if (rc) {
+                const promises = [];
+                for (let prod of input.products) {
+                    promises.push(rc.createProduct(prod));
+                }
+                output.productIds = yield Promise.all(promises);
+                //TODO: better success check
+                output.success =
+                    output.productIds.length == input.products.length;
+            }
             return output;
         }), 201);
     }),
@@ -30,6 +44,13 @@ exports.productsController = {
             const output = {
                 success: true,
             };
+            //get the client
+            const rc = yield client_1.RelayClientWrapper.get(util_1.ENDPOINT, input.storeId, input.keycard);
+            //update the product
+            if (rc) {
+                //TODO: update the product
+                output.success = true;
+            }
             return output;
         }), 200);
     }),

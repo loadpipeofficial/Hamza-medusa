@@ -26,6 +26,8 @@ export const cartController = {
                     cartId: '0x0',
                 };
 
+                if (!validateCreateCartInput(res, input)) return null;
+
                 //get the client
                 const rc = await RelayClientWrapper.get(
                     ENDPOINT,
@@ -54,8 +56,10 @@ export const cartController = {
                 const cartId = id;
                 const input: IAddCartItemInput = body;
                 const output: IAddCartItemOutput = {
-                    success: true,
+                    success: false,
                 };
+
+                if (!validateAddItemInput(res, input)) return null;
 
                 //get the client
                 const rc = await RelayClientWrapper.get(
@@ -86,8 +90,10 @@ export const cartController = {
             const cartId = id;
             const input: ICommitCartInput = body;
             const output: ICommitCartOutput = {
-                success: true,
+                success: false,
             };
+
+            if (!validateCommitCartInput(res, input)) return null;
 
             //get the client
             const rc = await RelayClientWrapper.get(
@@ -116,8 +122,10 @@ export const cartController = {
                 const cartId = id;
                 const input: IAbandonCartInput = body;
                 const output: IAbandonCartOutput = {
-                    success: true,
+                    success: false,
                 };
+
+                if (!validateAbandonCartInput(res, input)) return null;
 
                 //get the client
                 const rc = await RelayClientWrapper.get(
@@ -138,3 +146,31 @@ export const cartController = {
         );
     },
 };
+
+function validateCreateCartInput(
+    res: Response,
+    input: ICreateCartInput
+): boolean {
+    return true;
+}
+
+function validateAddItemInput(
+    res: Response,
+    input: IAddCartItemInput
+): boolean {
+    return true;
+}
+
+function validateCommitCartInput(
+    res: Response,
+    input: ICommitCartInput
+): boolean {
+    return true;
+}
+
+function validateAbandonCartInput(
+    res: Response,
+    input: IAbandonCartInput
+): boolean {
+    return true;
+}

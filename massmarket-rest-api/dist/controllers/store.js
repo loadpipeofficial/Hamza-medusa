@@ -25,13 +25,16 @@ exports.storeController = {
         (0, util_1.serveRequest)(req, res, (id, body) => __awaiter(void 0, void 0, void 0, function* () {
             const input = body;
             const output = {
-                success: true,
+                success: false,
                 storeId: '0x0',
                 keyCard: '0x0',
             };
             const data = yield client_1.RelayClientWrapper.createAndInitializeStore();
             output.storeId = data.storeId;
             output.keyCard = data.keyCard;
+            //TODO: check for zeroAddress
+            output.success =
+                output.storeId.length > 0 && output.keyCard.length > 0;
             return output;
         }), 201);
     }),

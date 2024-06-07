@@ -11,15 +11,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cartController = void 0;
 const util_1 = require("./util");
+const client_1 = require("../massmarket/client");
 exports.cartController = {
     //create cart
     post: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         (0, util_1.serveRequest)(req, res, (id, body) => __awaiter(void 0, void 0, void 0, function* () {
             const input = body;
             const output = {
-                success: true,
+                success: false,
                 cartId: '0x0',
             };
+            //get the client
+            const rc = yield client_1.RelayClientWrapper.get(util_1.ENDPOINT, input.storeId, input.keycard);
+            //create the cart
+            if (rc) {
+                output.cartId = yield rc.createCart();
+                output.success = output.cartId.length > 0;
+            }
             return output;
         }), 201);
     }),
@@ -31,6 +39,13 @@ exports.cartController = {
             const output = {
                 success: true,
             };
+            //get the client
+            const rc = yield client_1.RelayClientWrapper.get(util_1.ENDPOINT, input.storeId, input.keycard);
+            //add to cart
+            if (rc) {
+                yield rc.addToCart(cartId, input.item.productId, input.item.quantity);
+                output.success = true;
+            }
             return output;
         }), 201);
     }),
@@ -42,6 +57,13 @@ exports.cartController = {
             const output = {
                 success: true,
             };
+            //get the client
+            const rc = yield client_1.RelayClientWrapper.get(util_1.ENDPOINT, input.storeId, input.keycard);
+            //commit the cart
+            if (rc) {
+                yield rc.commitCart(cartId);
+                output.success = true;
+            }
             return output;
         }));
     }),
@@ -53,6 +75,13 @@ exports.cartController = {
             const output = {
                 success: true,
             };
+            //get the client
+            const rc = yield client_1.RelayClientWrapper.get(util_1.ENDPOINT, input.storeId, input.keycard);
+            //abandon cart
+            if (rc) {
+                yield rc.abandonCart(cartId);
+                output.success = true;
+            }
             return output;
         }), 204);
     }),

@@ -18,9 +18,14 @@ export const productsController = {
             async (id, body) => {
                 const input: ICreateProductInput = body;
                 const output: ICreateProductOutput = {
-                    success: true,
+                    success: false,
                     productIds: [],
                 };
+
+                //validation
+                if (!validateCreateProductInput(res, input)) {
+                    return null;
+                }
 
                 //get the client
                 const rc = await RelayClientWrapper.get(
@@ -57,8 +62,13 @@ export const productsController = {
             async (id, body) => {
                 const input: IUpdateProductInput = body;
                 const output: IUpdateProductOutput = {
-                    success: true,
+                    success: false,
                 };
+
+                //validation
+                if (!validateUpdateProductInput(res, input)) {
+                    return null;
+                }
 
                 //get the client
                 const rc = await RelayClientWrapper.get(
@@ -79,3 +89,17 @@ export const productsController = {
         );
     },
 };
+
+function validateCreateProductInput(
+    res: Response,
+    input: ICreateProductInput
+): boolean {
+    return true;
+}
+
+function validateUpdateProductInput(
+    res: Response,
+    input: IUpdateProductInput
+): boolean {
+    return true;
+}

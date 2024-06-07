@@ -17,7 +17,7 @@ export function serveRequest(
     try {
         runFunction(req.params.id, req.body)
             .then((output) => {
-                res.status(successReturnCode).json(output);
+                if (output) res.status(successReturnCode).json(output);
             })
             .catch((e) => {
                 onError(e);

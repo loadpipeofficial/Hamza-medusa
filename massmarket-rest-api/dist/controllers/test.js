@@ -15,7 +15,7 @@ const util_1 = require("./util");
 exports.testController = {
     get: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         (0, util_1.serveRequest)(req, res, () => __awaiter(void 0, void 0, void 0, function* () {
-            const rc = new client_1.RelayClientWrapper('relay-beta.mass.market/v1', '0xb3196680cda22f98635bbc104e1f5e829ee8e71db27b5d6c9241d0e20c64e109', '0x7e683da67b0079c20a4856bfbd92b3c90b63f51bd57f7a9d2643aaba5c6b659b');
+            const rc = new client_1.RelayClientWrapper(util_1.ENDPOINT, '0xb3196680cda22f98635bbc104e1f5e829ee8e71db27b5d6c9241d0e20c64e109', '0x7e683da67b0079c20a4856bfbd92b3c90b63f51bd57f7a9d2643aaba5c6b659b');
             yield rc.writeManifest();
             return {
                 success: true,

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.serveRequest = void 0;
+exports.ENDPOINT = exports.serveRequest = void 0;
 function serveRequest(req, res, runFunction, successReturnCode = 200, defaultReturnCode = 500) {
     const onError = (e) => {
         console.error(e);
@@ -11,7 +11,6 @@ function serveRequest(req, res, runFunction, successReturnCode = 200, defaultRet
     try {
         runFunction(req.params.id, req.body)
             .then((output) => {
-            console.log('returning success');
             res.status(successReturnCode).json(output);
         })
             .catch((e) => {
@@ -23,4 +22,5 @@ function serveRequest(req, res, runFunction, successReturnCode = 200, defaultRet
     }
 }
 exports.serveRequest = serveRequest;
+exports.ENDPOINT = 'beta';
 //# sourceMappingURL=util.js.map

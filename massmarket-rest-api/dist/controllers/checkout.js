@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkoutController = void 0;
 const util_1 = require("./util");
+const client_1 = require("../massmarket/client");
 exports.checkoutController = {
     //checkout
     //creates cart, adds items to it, and commits it
@@ -22,6 +23,22 @@ exports.checkoutController = {
                 cartId: '0x0',
                 paymentAddress: '0x0',
             };
+            //get the client
+            const rc = yield client_1.RelayClientWrapper.get(util_1.ENDPOINT, input.storeId, input.keycard);
+            //do the full checkout
+            if (rc) {
+                //create the cart
+                output.cartId = yield rc.createCart();
+                //add items to cart
+                for (let item of input.items) {
+                    yield rc.addToCart(output.cartId, item.productId, item.quantity);
+                }
+                //commit the cart
+                yield rc.commitCart(output.cartId);
+                //TODO: get payment address
+                output.paymentAddress = '0x0';
+                output.success = true;
+            }
             return output;
         }), 201);
     }),
