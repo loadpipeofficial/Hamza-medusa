@@ -1,5 +1,10 @@
 import { Request, Response } from 'express';
-import { ENDPOINT, serveRequest } from './util';
+import {
+    ENDPOINT,
+    serveRequest,
+    validateRequiredHexString,
+    validateStoreIdAndKeycard,
+} from './util';
 import {
     HexString,
     ICreateProductInput,
@@ -60,13 +65,14 @@ export const productsController = {
             req,
             res,
             async (id, body) => {
+                const productId = id;
                 const input: IUpdateProductInput = body;
                 const output: IUpdateProductOutput = {
                     success: false,
                 };
 
                 //validation
-                if (!validateUpdateProductInput(res, input)) {
+                if (!validateUpdateProductInput(res, productId, input)) {
                     return null;
                 }
 
@@ -94,12 +100,16 @@ function validateCreateProductInput(
     res: Response,
     input: ICreateProductInput
 ): boolean {
+    if (!validateStoreIdAndKeycard(res, input)) return false;
     return true;
 }
 
 function validateUpdateProductInput(
     res: Response,
+    productId: HexString,
     input: IUpdateProductInput
 ): boolean {
+    if (!validateRequiredHexString(res, productId, 'productId')) return false;
+    if (!validateStoreIdAndKeycard(res, input)) return false;
     return true;
 }

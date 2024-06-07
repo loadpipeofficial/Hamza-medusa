@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { ENDPOINT, serveRequest } from './util';
+import { ENDPOINT, serveRequest, validateStoreIdAndKeycard } from './util';
 import { ICheckoutInput, ICheckoutOutput } from '../entity';
 import { RelayClientWrapper } from '../massmarket/client';
 
@@ -57,5 +57,13 @@ export const checkoutController = {
 };
 
 function validateCheckoutInput(res: Response, input: ICheckoutInput): boolean {
+    if (!validateStoreIdAndKeycard(res, input)) return false;
+
+    if (!input.items || !input.items.length) {
+        res.status(400).json({
+            msg: 'Required: items',
+        });
+        return false;
+    }
     return true;
 }

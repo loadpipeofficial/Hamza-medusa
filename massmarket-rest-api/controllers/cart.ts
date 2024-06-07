@@ -1,5 +1,10 @@
 import { Request, Response } from 'express';
-import { ENDPOINT, serveRequest } from './util';
+import {
+    ENDPOINT,
+    serveRequest,
+    validateRequiredHexString,
+    validateStoreIdAndKeycard,
+} from './util';
 import {
     IAbandonCartOutput,
     IAbandonCartInput,
@@ -9,6 +14,7 @@ import {
     IAddCartItemOutput,
     ICommitCartInput,
     ICommitCartOutput,
+    HexString,
 } from '../entity';
 import { RelayClientWrapper } from '../massmarket/client';
 import { refCount } from 'rxjs';
@@ -59,7 +65,7 @@ export const cartController = {
                     success: false,
                 };
 
-                if (!validateAddItemInput(res, input)) return null;
+                if (!validateAddItemInput(res, cartId, input)) return null;
 
                 //get the client
                 const rc = await RelayClientWrapper.get(
@@ -93,7 +99,7 @@ export const cartController = {
                 success: false,
             };
 
-            if (!validateCommitCartInput(res, input)) return null;
+            if (!validateCommitCartInput(res, cartId, input)) return null;
 
             //get the client
             const rc = await RelayClientWrapper.get(
@@ -125,7 +131,7 @@ export const cartController = {
                     success: false,
                 };
 
-                if (!validateAbandonCartInput(res, input)) return null;
+                if (!validateAbandonCartInput(res, cartId, input)) return null;
 
                 //get the client
                 const rc = await RelayClientWrapper.get(
@@ -151,26 +157,47 @@ function validateCreateCartInput(
     res: Response,
     input: ICreateCartInput
 ): boolean {
+    if (!validateStoreIdAndKeycard(res, input)) return false;
     return true;
 }
 
 function validateAddItemInput(
     res: Response,
+    cartId: HexString,
     input: IAddCartItemInput
 ): boolean {
+    if (!validateRequiredHexString(res, cartId, 'cartId')) return false;
+    if (!validateStoreIdAndKeycard(res, input)) return false;
+    if (!input.item) {
+        res.status(400).json({ message: 'Required: item' });
+        return false;
+    }
+    if (!validateRequiredHexString(res, input.item.productId, 'productId')) {
+        return false;
+    }
+    if (!input.item.quantity) {
+        res.status(400).json({ message: 'Required: item' });
+        return false;
+    }
     return true;
 }
 
 function validateCommitCartInput(
     res: Response,
+    cartId: HexString,
     input: ICommitCartInput
 ): boolean {
+    if (!validateRequiredHexString(res, cartId, 'cartId')) return false;
+    if (!validateStoreIdAndKeycard(res, input)) return false;
     return true;
 }
 
 function validateAbandonCartInput(
     res: Response,
+    cartId: HexString,
     input: IAbandonCartInput
 ): boolean {
+    if (!validateRequiredHexString(res, cartId, 'cartId')) return false;
+    if (!validateStoreIdAndKeycard(res, input)) return false;
     return true;
 }
