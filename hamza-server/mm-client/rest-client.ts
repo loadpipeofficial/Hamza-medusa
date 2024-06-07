@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
+export type HexString = `0x${string}`;
 
 const REST_URL = process.env.REST_SERVER_URL || 'http://localhost:3000';
 
@@ -34,7 +35,7 @@ class mmClient {
         }
     }
 
-    async createProduct(product_id: string): Promise<boolean> {
+    async createProduct(product_id: HexString): Promise<boolean> {
         try {
             const response = await this.client.post(
                 `/api/products/${product_id}`,
@@ -48,7 +49,7 @@ class mmClient {
         }
     }
 
-    async updateProduct(product_id: string): Promise<boolean> {
+    async updateProduct(product_id: HexString): Promise<boolean> {
         try {
             const response = await this.client.put(
                 `/api/products/${product_id}`,
