@@ -35,13 +35,13 @@ class mmClient {
         }
     }
 
-    async createProduct(product_id: HexString): Promise<boolean> {
+    async createProduct(productId: HexString): Promise<boolean> {
         try {
             const response = await this.client.post(
-                `/api/products/${product_id}`,
+                `/api/products/${productId}`,
                 { headers: { 'Content-Type': 'application/json' } }
             );
-            console.log(`Creating Product: ${product_id}`);
+            console.log(`Creating Product: ${productId}`);
             return response.data;
         } catch (error) {
             console.error('Error creating product:', error.message);
@@ -49,13 +49,13 @@ class mmClient {
         }
     }
 
-    async updateProduct(product_id: HexString): Promise<boolean> {
+    async updateProduct(productId: HexString): Promise<boolean> {
         try {
             const response = await this.client.put(
-                `/api/products/${product_id}`,
+                `/api/products/${productId}`,
                 { headers: { 'Content-Type': 'application/json' } }
             );
-            console.log(`Updating Product: ${product_id}`);
+            console.log(`Updating Product: ${productId}`);
             return response.data;
         } catch (error) {
             console.error('Error updating product:', error.message);
