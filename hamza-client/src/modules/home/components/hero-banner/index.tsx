@@ -10,7 +10,11 @@ const HeroBanner = () => {
             alignItems={'center'}
             flexDirection={'column'}
         >
-            <Text color={'#FBFDFA'} style={{ fontSize: '32px' }}>
+            <Text
+                lineHeight={'62px'}
+                color={'#FBFDFA'}
+                style={{ fontSize: '32px' }}
+            >
                 Buy & Sell Products Using{' '}
                 <span style={{ color: '#7B61FF' }}>Crypto</span> as a Community
             </Text>

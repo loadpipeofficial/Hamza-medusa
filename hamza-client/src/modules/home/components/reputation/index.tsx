@@ -11,6 +11,7 @@ const Reputation = () => {
     return (
         <Box
             bg="transparent"
+            mt={6}
             p={5}
             display="flex"
             flexDirection="column"
@@ -21,28 +22,36 @@ const Reputation = () => {
                 className="font-sora text-xs font-bold leading-6 tracking-wider text-center"
                 color="#9C9B9B"
                 mb={8}
-                mt={12}
             >
                 AS SEEN IN
             </Text>
-            <Flex gap={'42px'} justifyContent="center" mb={12}>
+            <Flex gap={'42px'} justifyContent="center" mb={6}>
                 <Image
-                    src={ethlondon}
+                    src={hns}
                     width={126}
                     height={116}
                     alt={'ETH London'}
+                    style={{
+                        filter: 'invert(47%) sepia(2%) saturate(0%) hue-rotate(186deg) brightness(90%) contrast(90%)',
+                    }}
                 />
                 <Image
-                    src={ethglobal}
+                    src={hns}
                     width={126}
                     height={116}
                     alt={'ETH Global'}
+                    style={{
+                        filter: 'invert(47%) sepia(2%) saturate(0%) hue-rotate(186deg) brightness(90%) contrast(90%)',
+                    }}
                 />
                 <Image
-                    src={cbs}
+                    src={hns}
                     width={126}
                     height={116}
                     alt={'Cross Border Summit'}
+                    style={{
+                        filter: 'invert(47%) sepia(2%) saturate(0%) hue-rotate(186deg) brightness(90%) contrast(90%)',
+                    }}
                 />
                 <Image
                     src={hns}
