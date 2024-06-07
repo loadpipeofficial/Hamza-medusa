@@ -1,8 +1,14 @@
 import axios, { AxiosInstance } from 'axios';
+
 export type HexString = `0x${string}`;
 
 const REST_URL = process.env.REST_SERVER_URL || 'http://localhost:3000';
-
+try {
+    new URL(REST_URL);
+} catch (error) {
+    console.error('Invalid REST_SERVER_URL:', REST_URL);
+    process.exit(1); // Exit the process if the URL is invalid
+}
 type ProductInput = {
     name: string;
     price: number;
@@ -10,13 +16,43 @@ type ProductInput = {
     image: string;
 };
 
+type checkoutInput = {
+    productId: string;
+    quantity: number;
+};
+
+// Mock data
+
+const storeId: HexString = '0x1234567890abcdef';
+const keyCard: HexString = '0xabcdef1234567890';
+const products: ProductInput[] = [
+    {
+        name: 'Product 1',
+        price: 19.99,
+        description: 'Description for product 1',
+        image: '',
+    },
+    {
+        name: 'Product 2',
+        price: 29.99,
+        description: 'Description for product 2',
+        image: '',
+    },
+    {
+        name: 'Product 3',
+        price: 39.99,
+        description: 'Description for product 3',
+        image: '',
+    },
+];
+
 class mmClient {
     private client: AxiosInstance;
 
     constructor() {
         this.client = axios.create({
             baseURL: REST_URL,
-            timeout: 1000,
+            timeout: 3000,
         });
     }
 
@@ -30,7 +66,7 @@ class mmClient {
         }
     }
 
-    async createStore(options = {}): Promise<boolean> {
+    async createStore(options = { storeId, keyCard }): Promise<boolean> {
         // ): Promise<{ store_id: string; keycard: string }> {
         try {
             const response = await this.client.post('/api/store', options);
@@ -54,33 +90,71 @@ class mmClient {
                 products,
             };
 
-            const response = await this.client.post(`/api/products/`, {
-                data: body,
+            const response = await this.client.post('/api/products', body, {
                 headers: { 'Content-Type': 'application/json' },
             });
 
-            console.log(`Creating Product`);
+            console.log('Creating Products');
             return response.data.productIds;
         } catch (error) {
-            console.error('Error creating product:', error.message);
+            console.error('Error creating products:', error.message);
             throw error;
         }
     }
 
-    async updateProduct(product_id: HexString): Promise<boolean> {
+    async updateProduct(
+        storeId: HexString,
+        keycard: HexString,
+        product: ProductInput
+    ): Promise<boolean> {
         try {
+            const body = {
+                storeId,
+                keycard,
+                product,
+            };
+
             const response = await this.client.put(
-                `/api/products/${product_id}`,
-                { headers: { 'Content-Type': 'application/json' } }
+                `/api/products/${product.name}`,
+                body,
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                }
             );
-            console.log(`Updating Product: ${product_id}`);
+
+            console.log(`Updating Product: ${product.name}`);
             return response.data;
         } catch (error) {
             console.error('Error updating product:', error.message);
             throw error;
         }
     }
+
+    async checkout(
+        storeId: HexString,
+        keycard: HexString,
+        items: checkoutInput[]
+    ): Promise<boolean> {
+        try {
+            const body = {
+                storeId,
+                keycard,
+                items,
+            };
+
+            const response = await this.client.post('/api/checkout', body, {
+                headers: { 'Content-Type': 'application/json' },
+            });
+
+            console.log('Checking out');
+            return response.data;
+        } catch (error) {
+            console.error('Error checking out:', error.message);
+            throw error;
+        }
+    }
 }
+
 // Test script
 (async () => {
     const client = new mmClient();
@@ -88,7 +162,11 @@ class mmClient {
     console.log('API Status:', status ? 'Online' : 'Offline');
     const store = await client.createStore();
     console.log('Store:', store);
-    const createProduct = await client.createProduct('0x01');
+    const createProduct = await client.createProducts(
+        storeId,
+        keyCard,
+        products
+    );
     const updateProduct = await client.updateProduct('0x02');
 })();
 
