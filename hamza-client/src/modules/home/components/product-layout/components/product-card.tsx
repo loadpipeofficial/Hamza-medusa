@@ -81,6 +81,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     py="0.725625rem"
                 >
                     <IoHeartCircleSharp
+                        style={{ cursor: 'pointer' }}
                         color={selectHeart}
                         onClick={() => handleHeartClick()}
                         size={40}
