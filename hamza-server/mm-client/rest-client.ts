@@ -22,36 +22,40 @@ class mmClient {
         }
     }
 
-    async createStore(
-        options = {}
-    ): Promise<{ store_id: string; keycard: string }> {
+    async createStore(options = {}): Promise<boolean> {
+        // ): Promise<{ store_id: string; keycard: string }> {
         try {
             const response = await this.client.post('/api/store', options);
-            return response.data;
+            // return response.data;
+            return true;
         } catch (error) {
             console.error('Error creating store:', error.message);
             throw error;
         }
     }
 
-    // async addProduct({
-    //     name,
-    //     price,
-    //     image,
-    // }: {
-    //     name: string;
-    //     price: string;
-    //     image: string;
-    // }): Promise<string> {
+    async createProduct(product_id: string): Promise<boolean> {
+        try {
+            const response = await this.client.post(
+                `/api/products/${product_id}`
+            );
+            console.log(`Creating Product: ${product_id}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error creating product:', error.message);
+            throw error;
+        }
+    }
+
+    // async updateProduct(product_id: string): Promise<boolean> {
     //     try {
-    //         const response = await this.client.post('/mm/product', {
-    //             name,
-    //             price,
-    //             image,
-    //         });
+    //         const response = await this.client.put(
+    //             `/api/products/${product_id}`
+    //         );
+    //         console.log(`Updating Product: ${product_id}`);
     //         return response.data;
     //     } catch (error) {
-    //         console.error('Error adding product:', error.message);
+    //         console.error('Error updating product:', error.message);
     //         throw error;
     //     }
     // }
@@ -63,6 +67,8 @@ class mmClient {
     console.log('API Status:', status ? 'Online' : 'Offline');
     const store = await client.createStore();
     console.log('Store:', store);
+    const createProduct = await client.createProduct('0x01');
+    console.log(`Creating Product: ${createProduct}`);
 })();
 
 module.exports = mmClient;

@@ -16,10 +16,10 @@ router.post('/store', storeController.post);
 router.post('/cart', cartController.post);
 
 //createProducts: POST /products
-router.put('/products:id', productsController.post);
+router.post('/products/:id', productsController.post);
 
 //updateProduct: PUT /products<id>
-router.put('/products:id', productsController.put);
+router.put('/products/:id', productsController.put);
 
 //addToCart: PUT /cart/<cartid>
 router.put('/cart:id', cartController.put);
