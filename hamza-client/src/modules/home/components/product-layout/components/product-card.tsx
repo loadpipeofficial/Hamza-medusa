@@ -84,12 +84,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             {productName}
                         </Text>
                         <Flex pl="1.5rem" mb="auto" ml="auto">
-                            <Box alignSelf={'center'}>
+                            <Box mt="1px">
                                 <TiStarFullOutline
                                     style={{
                                         color: '#FEC84B',
-                                        width: '0.72875rem',
-                                        height: '0.72875rem',
+                                        width: '0.8rem',
+                                        height: '0.8rem',
                                     }}
                                 />
                             </Box>
@@ -98,7 +98,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 alignSelf={'center'}
                                 fontWeight="500"
                                 fontSize="0.75rem"
-                                lineHeight="16.86px"
+                                lineHeight="15.12px"
                                 pl="0.1rem"
                             >
                                 4.97
@@ -133,7 +133,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 fontSize="0.875rem"
                                 lineHeight="17.64px"
                             >
-                                ${productPrice}
+                                {productPrice}
                             </Text>
                         </Flex>
                         <Text
@@ -143,7 +143,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             fontSize="1.25rem"
                             lineHeight="33.72px"
                         >
-                            ${productPrice}
+                            $ {productPrice}
                         </Text>
                         <Flex py={2}>
                             <Text
