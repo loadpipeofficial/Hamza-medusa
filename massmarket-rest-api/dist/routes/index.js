@@ -13,9 +13,9 @@ router.get('/store', store_1.storeController.post);
 //createCart: POST /cart
 router.post('/cart', cart_1.cartController.post);
 //createProducts: POST /products
-router.put('/products:id', products_1.productsController.post);
+router.post('/products/:id', products_1.productsController.post);
 //updateProduct: PUT /products<id>
-router.put('/products:id', products_1.productsController.put);
+router.put('/products/:id', products_1.productsController.put);
 //addToCart: PUT /cart/<cartid>
 router.put('/cart:id', cart_1.cartController.put);
 //abandonCart: DELETE /cart

@@ -67,4 +67,4 @@ export function validateStoreIdAndKeycard(
     return true;
 }
 
-export const ENDPOINT = 'beta';
+export const ENDPOINT = 'relay-beta.mass.market/v1';

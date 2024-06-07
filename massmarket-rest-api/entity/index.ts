@@ -1,5 +1,3 @@
-import { Hex } from 'viem';
-
 export type HexString = `0x${string}`;
 
 export interface ICreateStoreInput {

@@ -19,10 +19,12 @@ exports.checkoutController = {
         (0, util_1.serveRequest)(req, res, (id, body) => __awaiter(void 0, void 0, void 0, function* () {
             const input = body;
             const output = {
-                success: true,
+                success: false,
                 cartId: '0x0',
                 paymentAddress: '0x0',
             };
+            if (!validateCheckoutInput(res, input))
+                return null;
             //get the client
             const rc = yield client_1.RelayClientWrapper.get(util_1.ENDPOINT, input.storeId, input.keycard);
             //do the full checkout
@@ -43,4 +45,15 @@ exports.checkoutController = {
         }), 201);
     }),
 };
+function validateCheckoutInput(res, input) {
+    if (!(0, util_1.validateStoreIdAndKeycard)(res, input))
+        return false;
+    if (!input.items || !input.items.length) {
+        res.status(400).json({
+            msg: 'Required: items',
+        });
+        return false;
+    }
+    return true;
+}
 //# sourceMappingURL=checkout.js.map

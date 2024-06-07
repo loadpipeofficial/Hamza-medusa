@@ -21,6 +21,8 @@ exports.cartController = {
                 success: false,
                 cartId: '0x0',
             };
+            if (!validateCreateCartInput(res, input))
+                return null;
             //get the client
             const rc = yield client_1.RelayClientWrapper.get(util_1.ENDPOINT, input.storeId, input.keycard);
             //create the cart
@@ -37,8 +39,10 @@ exports.cartController = {
             const cartId = id;
             const input = body;
             const output = {
-                success: true,
+                success: false,
             };
+            if (!validateAddItemInput(res, cartId, input))
+                return null;
             //get the client
             const rc = yield client_1.RelayClientWrapper.get(util_1.ENDPOINT, input.storeId, input.keycard);
             //add to cart
@@ -55,8 +59,10 @@ exports.cartController = {
             const cartId = id;
             const input = body;
             const output = {
-                success: true,
+                success: false,
             };
+            if (!validateCommitCartInput(res, cartId, input))
+                return null;
             //get the client
             const rc = yield client_1.RelayClientWrapper.get(util_1.ENDPOINT, input.storeId, input.keycard);
             //commit the cart
@@ -73,8 +79,10 @@ exports.cartController = {
             const cartId = id;
             const input = body;
             const output = {
-                success: true,
+                success: false,
             };
+            if (!validateAbandonCartInput(res, cartId, input))
+                return null;
             //get the client
             const rc = yield client_1.RelayClientWrapper.get(util_1.ENDPOINT, input.storeId, input.keycard);
             //abandon cart
@@ -86,4 +94,41 @@ exports.cartController = {
         }), 204);
     }),
 };
+function validateCreateCartInput(res, input) {
+    if (!(0, util_1.validateStoreIdAndKeycard)(res, input))
+        return false;
+    return true;
+}
+function validateAddItemInput(res, cartId, input) {
+    if (!(0, util_1.validateRequiredHexString)(res, cartId, 'cartId'))
+        return false;
+    if (!(0, util_1.validateStoreIdAndKeycard)(res, input))
+        return false;
+    if (!input.item) {
+        res.status(400).json({ message: 'Required: item' });
+        return false;
+    }
+    if (!(0, util_1.validateRequiredHexString)(res, input.item.productId, 'productId')) {
+        return false;
+    }
+    if (!input.item.quantity) {
+        res.status(400).json({ message: 'Required: item' });
+        return false;
+    }
+    return true;
+}
+function validateCommitCartInput(res, cartId, input) {
+    if (!(0, util_1.validateRequiredHexString)(res, cartId, 'cartId'))
+        return false;
+    if (!(0, util_1.validateStoreIdAndKeycard)(res, input))
+        return false;
+    return true;
+}
+function validateAbandonCartInput(res, cartId, input) {
+    if (!(0, util_1.validateRequiredHexString)(res, cartId, 'cartId'))
+        return false;
+    if (!(0, util_1.validateStoreIdAndKeycard)(res, input))
+        return false;
+    return true;
+}
 //# sourceMappingURL=cart.js.map

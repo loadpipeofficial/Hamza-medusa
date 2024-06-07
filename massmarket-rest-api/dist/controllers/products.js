@@ -18,9 +18,13 @@ exports.productsController = {
         (0, util_1.serveRequest)(req, res, (id, body) => __awaiter(void 0, void 0, void 0, function* () {
             const input = body;
             const output = {
-                success: true,
+                success: false,
                 productIds: [],
             };
+            //validation
+            if (!validateCreateProductInput(res, input)) {
+                return null;
+            }
             //get the client
             const rc = yield client_1.RelayClientWrapper.get(util_1.ENDPOINT, input.storeId, input.keycard);
             //add the product
@@ -40,10 +44,15 @@ exports.productsController = {
     //update product
     put: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         (0, util_1.serveRequest)(req, res, (id, body) => __awaiter(void 0, void 0, void 0, function* () {
+            const productId = id;
             const input = body;
             const output = {
-                success: true,
+                success: false,
             };
+            //validation
+            if (!validateUpdateProductInput(res, productId, input)) {
+                return null;
+            }
             //get the client
             const rc = yield client_1.RelayClientWrapper.get(util_1.ENDPOINT, input.storeId, input.keycard);
             //update the product
@@ -55,4 +64,16 @@ exports.productsController = {
         }), 200);
     }),
 };
+function validateCreateProductInput(res, input) {
+    if (!(0, util_1.validateStoreIdAndKeycard)(res, input))
+        return false;
+    return true;
+}
+function validateUpdateProductInput(res, productId, input) {
+    if (!(0, util_1.validateRequiredHexString)(res, productId, 'productId'))
+        return false;
+    if (!(0, util_1.validateStoreIdAndKeycard)(res, input))
+        return false;
+    return true;
+}
 //# sourceMappingURL=products.js.map
