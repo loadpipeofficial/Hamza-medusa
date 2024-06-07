@@ -6,12 +6,14 @@ import { Box, Container, Flex, Button, Text } from '@chakra-ui/react';
 import FilterButtons from './components/FilterButtons';
 import vendors from './data/data';
 import { RiMenu2Fill } from 'react-icons/ri';
+import Reputation from '../reputation';
 
 const SearchAndFilterPanel = () => {
     const [vendorName, setVendorName] = useState('Goblin Store');
 
     return (
         <Box>
+            <Reputation />
             <Container p="8" maxW="1440px">
                 <Flex gap="1rem">
                     {vendors.map((vendors: any) => {
