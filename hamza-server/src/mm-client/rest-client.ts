@@ -21,6 +21,10 @@ type ProductOutput = {
     success: boolean;
 };
 
+type ProductUpdateOutput = {
+    success: boolean;
+};
+
 type checkoutInput = {
     productId: string;
     quantity: number;
@@ -128,7 +132,7 @@ class MMClient {
         storeId: HexString,
         keycard: HexString,
         product: ProductInput
-    ): Promise<ProductOutput> {
+    ): Promise<ProductUpdateOutput> {
         try {
             const body = {
                 storeId,
