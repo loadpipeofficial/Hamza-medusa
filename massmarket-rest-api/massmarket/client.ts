@@ -118,7 +118,7 @@ export class RelayClientWrapper {
         //create relay client instance
         console.log('create relay client');
         const client = new RelayClient({
-            relayEndpoint: ENDPOINT,
+            relayEndpoint: `wss://${ENDPOINT}`,
             chain: sepolia,
             storeId,
             keyCardWallet: keycard.wallet,
