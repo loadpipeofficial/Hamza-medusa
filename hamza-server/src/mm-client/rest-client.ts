@@ -3,6 +3,13 @@ export type HexString = `0x${string}`;
 
 const REST_URL = process.env.REST_SERVER_URL || 'http://localhost:3000';
 
+type ProductInput = {
+    name: string;
+    price: number;
+    description: string;
+    image: string;
+};
+
 class mmClient {
     private client: AxiosInstance;
 
@@ -35,27 +42,38 @@ class mmClient {
         }
     }
 
-    async createProduct(productId: HexString): Promise<boolean> {
+    async createProducts(
+        storeId: HexString,
+        keycard: HexString,
+        products: ProductInput[]
+    ): Promise<HexString[]> {
         try {
-            const response = await this.client.post(
-                `/api/products/${productId}`,
-                { headers: { 'Content-Type': 'application/json' } }
-            );
-            console.log(`Creating Product: ${productId}`);
-            return response.data;
+            const body = {
+                storeId,
+                keycard,
+                products,
+            };
+
+            const response = await this.client.post(`/api/products/`, {
+                data: body,
+                headers: { 'Content-Type': 'application/json' },
+            });
+
+            console.log(`Creating Product`);
+            return response.data.productIds;
         } catch (error) {
             console.error('Error creating product:', error.message);
             throw error;
         }
     }
 
-    async updateProduct(productId: HexString): Promise<boolean> {
+    async updateProduct(product_id: HexString): Promise<boolean> {
         try {
             const response = await this.client.put(
-                `/api/products/${productId}`,
+                `/api/products/${product_id}`,
                 { headers: { 'Content-Type': 'application/json' } }
             );
-            console.log(`Updating Product: ${productId}`);
+            console.log(`Updating Product: ${product_id}`);
             return response.data;
         } catch (error) {
             console.error('Error updating product:', error.message);
