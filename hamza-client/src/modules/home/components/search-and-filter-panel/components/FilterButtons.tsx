@@ -9,12 +9,7 @@ const FilterButtons = (props: any) => {
             padding="10px 24px"
             gap="10px"
             borderRadius="49px"
-            borderWidth="1px 0px 0px 0px"
-            border="1px solid"
-            borderColor="var(--gray-600, #475467)"
-            backgroundColor={
-                props.selected === props.title ? 'white' : 'transparent'
-            }
+            backgroundColor={props.selected === props.title ? 'white' : 'black'}
             color={props.selected === props.title ? 'black' : 'white'}
             onClick={() => props.setVendorName()}
             _hover={{

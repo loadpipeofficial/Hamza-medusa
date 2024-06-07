@@ -46,6 +46,7 @@ export type CheckoutOutput = {
 /**
  * Adapter for the REST API that hides the complexity of the
  * MassMarket relay client and exposes its methods.
+ *
  * @author Garo Nazarian
  */
 export class MassMarketClient {
@@ -58,7 +59,12 @@ export class MassMarketClient {
         });
     }
 
-    async checkStatus() {
+    /**
+     * Checks the status of the rest api server.
+     *
+     * @returns boolean, true if a-ok
+     */
+    async checkStatus(): Promise<boolean> {
         try {
             const response = await this.client.get('/');
             return response.status === 200;
@@ -68,6 +74,12 @@ export class MassMarketClient {
         }
     }
 
+    /**
+     * Creates an entirely new store with a unique id, on MassMarket.
+     *
+     * @param options Optional parameters (store id and keycard)
+     * @returns The identity & info of the new store
+     */
     async createStore(
         options: {
             storeId?: HexString;
@@ -85,6 +97,14 @@ export class MassMarketClient {
         }
     }
 
+    /**
+     * Creates one or more product listings on a MassMarket store.
+     *
+     * @param storeId unique ID of the store to which to add products
+     * @param keycard grants authorization to change things on the store
+     * @param products list of product specifications (array)
+     * @returns a list of product IDs of the new products
+     */
     async createProducts(
         storeId: HexString,
         keycard: HexString,
@@ -109,6 +129,15 @@ export class MassMarketClient {
         }
     }
 
+    /**
+     * Updates some data on a specific product in a store.
+     *
+     * @param storeId Unique id of the store on which to update products.
+     * @param keycard Grants authorization to the store.
+     * @param productId Unique id of the product to update.
+     * @param product Data to update on the product
+     * @returns true on success (boolean)
+     */
     async updateProduct(
         storeId: HexString,
         keycard: HexString,
@@ -138,6 +167,15 @@ export class MassMarketClient {
         }
     }
 
+    /**
+     * Complets checkout fully, creating a cart, adding items, and committing the cart.
+     *
+     * @param storeId Unique id of the store on which to run checkout.
+     * @param keycard Grants authorization to the store.
+     * @param items List of items and quantities to include in checkout.
+     *
+     * @returns Unknown at this time
+     */
     async checkout(
         storeId: HexString,
         keycard: HexString,
