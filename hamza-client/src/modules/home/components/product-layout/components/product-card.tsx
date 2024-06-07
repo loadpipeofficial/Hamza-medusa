@@ -8,6 +8,7 @@ import { AiOutlineDollar } from 'react-icons/ai';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import BuyButton from '@modules/products/components/buy-button';
 import { addToCart } from '@modules/cart/actions';
+import { IoHeartCircleOutline, IoHeartCircleSharp } from 'react-icons/io5';
 
 interface ProductCardProps {
     varientID: string;
@@ -29,6 +30,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     discountValue,
 }) => {
     const [loading, setLoading] = useState(false);
+    const [selectHeart, setSelectedHeart] = useState('black');
 
     const handleBuyNow = async () => {
         setLoading(true);
@@ -63,23 +65,20 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     width="100%"
                 />
                 <Box
-                    visibility={hasDiscount === true ? 'visible' : 'hidden'}
                     position="absolute"
                     fontWeight="bold"
-                    top="12px"
-                    right="12px"
+                    top="1px"
+                    right="1px"
                     backgroundColor={'white'}
                     borderRadius="2.6125rem"
                     px="0.725625rem"
                     py="0.725625rem"
                 >
-                    <Text
-                        color="black"
-                        fontSize="0.870625rem"
-                        lineHeight="1.05375rem"
-                    >
-                        {discountValue}% off
-                    </Text>
+                    <IoHeartCircleSharp
+                        color={selectHeart}
+                        onClick={() => setSelectedHeart('red')}
+                        size={40}
+                    />
                 </Box>
             </Box>
             <CardBody
