@@ -31,45 +31,24 @@ type CheckoutInput = {
     quantity: number;
 };
 
-type CreateStoreOutput = {
+export type CreateStoreOutput = {
     storeId: string;
     keycard: string;
     success: boolean;
 };
 
-type CheckoutOutput = {
+export type CheckoutOutput = {
     success: boolean;
     cartId: HexString;
     paymentAddress: HexString;
 };
 
-// Mock data
-
-const storeId: HexString = '0x1234567890abcdef';
-const keyCard: HexString = '0xabcdef1234567890';
-
-const products: ProductInput[] = [
-    {
-        name: 'Product 1',
-        price: 19.99,
-        description: 'Description for product 1',
-        image: '',
-    },
-    {
-        name: 'Product 2',
-        price: 29.99,
-        description: 'Description for product 2',
-        image: '',
-    },
-    {
-        name: 'Product 3',
-        price: 39.99,
-        description: 'Description for product 3',
-        image: '',
-    },
-];
-
-class MassMarketClient {
+/**
+ * Adapter for the REST API that hides the complexity of the
+ * MassMarket relay client and exposes its methods.
+ * @author Garo Nazarian
+ */
+export class MassMarketClient {
     private client: AxiosInstance;
 
     constructor() {
@@ -183,57 +162,3 @@ class MassMarketClient {
         }
     }
 }
-
-// Test script
-(async () => {
-    const client = new MassMarketClient();
-    const status = await client.checkStatus();
-    console.log('API Status:', status ? 'Online' : 'Offline');
-    const store = await client.createStore();
-    console.log('Store:', store);
-    const createProduct = await client.createProducts(
-        storeId,
-        keyCard,
-        products
-    );
-    //const updateProduct = await client.updateProduct('0x02');
-})();
-
-module.exports = MassMarketClient;
-
-// IGNORED METHODS
-// IGNORE FOR NOW
-// async createCart(): Promise<string> {
-//     try {
-//         const response = await this.client.post('/mm/cart');
-//         return response.data;
-//     } catch (error) {
-//         console.error('Error creating cart:', error.message);
-//         throw error;
-//     }
-// }
-
-// IGNORE FOR NOW
-// async commitCart(): Promise<string> {
-//     try {
-//         const response = await this.client.post('/mm/cart/commit');
-//         return response.data;
-//     } catch (error) {
-//         console.error('Error committing cart:', error.message);
-//         throw error;
-//     }
-// }
-
-// IGNORE FOR NOW
-// async addToCart(productId: string, quantity: number): Promise<string> {
-//     try {
-//         const response = await this.client.post('/mm/cart/add', {
-//             productId,
-//             quantity,
-//         });
-//         return response.data;
-//     } catch (error) {
-//         console.error('Error adding to cart:', error.message);
-//         throw error;
-//     }
-//

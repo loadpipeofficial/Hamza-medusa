@@ -241,12 +241,14 @@ class RelayClient extends events_1.EventEmitter {
     enrollKeycard(wallet) {
         return __awaiter(this, void 0, void 0, function* () {
             const publicKey = (0, viem_1.toBytes)(this.keyCardWallet.publicKey).slice(1);
+            console.log('1');
             const types = {
                 Enrollment: [{ name: 'keyCard', type: 'string' }],
             };
             const message = {
                 keyCard: Buffer.from(publicKey).toString('hex'),
             };
+            console.log('2');
             // formatMessageForSigning(message); will turn keyCard into key_card
             // const sig = await this.#signTypedDataMessage(types, message);
             const signature = yield wallet.signTypedData({
@@ -255,11 +257,14 @@ class RelayClient extends events_1.EventEmitter {
                 primaryType: 'Enrollment',
                 message,
             });
+            console.log('3');
             const body = JSON.stringify({
                 key_card: Buffer.from(publicKey).toString('base64'),
                 signature: RelayClient.hexToBase64(signature),
                 store_token_id: RelayClient.hexToBase64(this.storeId),
             });
+            console.log('4');
+            console.log('enroll url:', this.endpoint);
             const endpointURL = new URL(this.endpoint);
             endpointURL.protocol = this.useTLS ? 'https' : 'http';
             endpointURL.pathname += '/enroll_key_card';
@@ -268,6 +273,7 @@ class RelayClient extends events_1.EventEmitter {
                 method: 'POST',
                 body,
             });
+            console.log(response);
             if (response.ok) {
                 this.keyCardEnrolled = true;
             }

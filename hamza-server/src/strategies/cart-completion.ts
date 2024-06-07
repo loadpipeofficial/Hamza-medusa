@@ -12,10 +12,16 @@ import OrderService from '../services/order';
 import { PaymentService } from '@medusajs/medusa/dist/services';
 import { Payment } from '../models/payment';
 import { Order } from '../models/order';
+import { Product } from '../models/product';
 import { LineItem } from '../models/line-item';
 import { PaymentDataInput } from '@medusajs/medusa/dist/services/payment';
 import { RequestContext } from '@medusajs/medusa/dist/types/request';
 import PaymentRepository from '@medusajs/medusa/dist/repositories/payment';
+import { CheckoutOutput, MassMarketClient } from '../mm-client/rest-client';
+import { In } from 'typeorm';
+import OrderRepository from '@medusajs/medusa/dist/repositories/order';
+
+type HexString = `0x${string}`;
 
 type InjectedDependencies = {
     idempotencyKeyService: IdempotencyKeyService;
@@ -24,6 +30,7 @@ type InjectedDependencies = {
     cartService: CartService;
     orderService: OrderService;
     paymentRepository: typeof PaymentRepository;
+    orderRepository: typeof OrderRepository;
     logger: Logger;
 };
 
@@ -33,6 +40,8 @@ interface IPaymentGroupData {
     items: string[];
     total: bigint;
 }
+
+const USE_MASS_MARKET = true;
 
 /**
  * @name CartCompletionStrategy
@@ -52,6 +61,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
     protected readonly paymentService: PaymentService;
     protected readonly orderService: OrderService;
     protected readonly paymentRepository: typeof PaymentRepository;
+    protected readonly orderRepository: typeof OrderRepository;
     protected readonly logger: Logger;
 
     constructor({
@@ -61,6 +71,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         cartService,
         orderService,
         paymentRepository,
+        orderRepository,
         logger,
     }: InjectedDependencies) {
         super(arguments[0]);
@@ -70,6 +81,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         this.productService = productService;
         this.orderService = orderService;
         this.paymentRepository = paymentRepository;
+        this.orderRepository = orderRepository;
         this.logger = logger;
     }
 
@@ -118,6 +130,10 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
 
             //update payments with order ids
             await this.updatePaymentFromOrder(payments, orders);
+
+            if (USE_MASS_MARKET) {
+                await this.doMassMarketCheckout(orders.map((o) => o.id));
+            }
 
             //create & return the response
             const response: CartCompletionResponse = {
@@ -274,6 +290,62 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             fullOrder.store?.owner?.wallet_address ?? 'NA';
         return await this.paymentRepository.save(payment);
     }
+
+    private async doMassMarketCheckout(
+        orderIds: string[]
+    ): Promise<CheckoutOutput[]> {
+        const client = new MassMarketClient();
+
+        const orders: Order[] = await this.orderRepository.find({
+            where: { id: In(orderIds) },
+            relations: ['store', 'items.variant.product'],
+        });
+
+        //this is a dictionary of massmarket store ids, ->
+        //  it has a keycard, and an array of items
+        const storesToItems: {
+            [key: string]: {
+                keycard: string;
+                items: { productId: string; quantity: number }[];
+            };
+        } = {};
+
+        //this is populating that dictionary from the orders
+        for (const o of orders) {
+            const key = o.store.massmarket_store_id;
+            if (!storesToItems[key])
+                storesToItems[key] = {
+                    keycard: o.store.massmarket_keycard,
+                    items: [],
+                };
+            for (const item of o.items) {
+                const prod: Product = item.variant.product;
+                storesToItems[key].items.push({
+                    productId: prod.massmarket_prod_id,
+                    quantity: item.quantity,
+                });
+            }
+        }
+
+        //call checkout for each store
+        const promises: Promise<CheckoutOutput>[] = [];
+        for (const storeId in storesToItems) {
+            promises.push(
+                client.checkout(
+                    stringToHex(storeId),
+                    stringToHex(storesToItems[storeId].keycard),
+                    storesToItems[storeId].items
+                )
+            );
+        }
+
+        return await Promise.all(promises);
+    }
+}
+
+function stringToHex(input: string): HexString {
+    const hexString = Buffer.from(input, 'utf8').toString('hex');
+    return `0x${hexString}`;
 }
 
 export default CartCompletionStrategy;
