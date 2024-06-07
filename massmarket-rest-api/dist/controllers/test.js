@@ -10,25 +10,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.testController = void 0;
+const client_1 = require("../massmarket/client");
+const util_1 = require("./util");
 exports.testController = {
     get: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        /*
-        serveRequest(
-            req,
-            res,
-            async () => {
-                const rc = await RelayClientWrapper.login(
-                    'relay-beta.mass.market/v1',
-                    '0x03f3ab83d5270c9cfe5b4fa78815c503d4d7946d202a51f383946b9dc63a75cc',
-                    '0x65c1196c888ae6bb110077201346dfe426b220ce1d49a366102a2d85e7ad0e35'
-                );
-                console.log('got the thing');
-                return {
-                    success: true,
-                };
-            },
-            200
-        );
+        (0, util_1.serveRequest)(req, res, () => __awaiter(void 0, void 0, void 0, function* () {
+            const rc = new client_1.RelayClientWrapper(util_1.ENDPOINT, '0xb3196680cda22f98635bbc104e1f5e829ee8e71db27b5d6c9241d0e20c64e109', '0x7e683da67b0079c20a4856bfbd92b3c90b63f51bd57f7a9d2643aaba5c6b659b');
+            yield rc.writeManifest();
+            return {
+                success: true,
+            };
+        }), 200); /*
             console.log('creating cart...');
             //const cartId = await rc.createCart();
             //console.log('cart id', cartId);

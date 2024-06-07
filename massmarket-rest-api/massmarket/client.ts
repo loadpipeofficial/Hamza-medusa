@@ -4,6 +4,8 @@ import { http, createWalletClient, PrivateKeyAccount, bytesToHex } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { sepolia } from 'viem/chains';
 import { privateKeyStringToBytes, bufferToString } from './utils';
+import { HexString } from '../entity';
+import { ENDPOINT } from '../controllers/util';
 
 /**
  * Wrapper for the massmarket relay client, exposing those functions and properties
@@ -15,25 +17,13 @@ export class RelayClientWrapper {
     private _client: RelayClient;
     private _chain = sepolia;
     private _keyCard: Uint8Array;
-    private _cartId: `0x${string}` = '0x0';
-    readonly storeId: `0x${string}`;
+    readonly storeId: HexString;
     eventStream: ReadableStream<any> | null = null;
-
-    /**
-     * Gets the cart id, if any; default is 0x0.
-     */
-    get cartId(): `0x${string}` {
-        return this._cartId;
-    }
-
-    set cartId(value: `0x${string}`) {
-        this._cartId = value;
-    }
 
     constructor(
         endpoint: string,
-        storeId: `0x${string}` = '0x0',
-        keyCardPrivKey: `0x${string}` = '0x0'
+        storeId: HexString = '0x0',
+        keyCardPrivKey: HexString = '0x0'
     ) {
         this.storeId = storeId;
         let keyCardEnrolled: boolean = false;
@@ -60,8 +50,16 @@ export class RelayClientWrapper {
         this._client = new RelayClient(args);
     }
 
-    static randomStoreId(): `0x${string}` {
-        return bufferToString(new Uint8Array(randomBytes(32)));
+    static randomStoreId(): HexString {
+        return bytesToHex(new Uint8Array(randomBytes(32)));
+    }
+
+    static async get(
+        endpoint: string,
+        storeId: HexString,
+        keycard: HexString
+    ): Promise<RelayClientWrapper> {
+        return new RelayClientWrapper(endpoint, storeId, keycard);
     }
 
     /**
@@ -74,8 +72,8 @@ export class RelayClientWrapper {
      */
     static async create(
         endpoint: string,
-        storeId: `0x${string}` = '0x0',
-        walletPrivKey: `0x${string}`
+        storeId: HexString = '0x0',
+        walletPrivKey: HexString
     ): Promise<RelayClientWrapper> {
         const client: RelayClientWrapper = new RelayClientWrapper(
             endpoint,
@@ -100,7 +98,7 @@ export class RelayClientWrapper {
         return client;
     }
 
-    static async createAndInitializeStore(endpoint: string) {
+    static async createAndInitializeStore() {
         //create random store id
         const storeId = bytesToHex(randomBytes(32));
 
@@ -109,7 +107,7 @@ export class RelayClientWrapper {
         const keycardString = bytesToHex(keycardBytes);
         const keycard: {
             bytes: Buffer;
-            string: `0x${string}`;
+            string: HexString;
             wallet: PrivateKeyAccount;
         } = {
             bytes: keycardBytes,
@@ -120,7 +118,7 @@ export class RelayClientWrapper {
         //create relay client instance
         console.log('create relay client');
         const client = new RelayClient({
-            relayEndpoint: `wss://relay-beta.mass.market/v1`,
+            relayEndpoint: ENDPOINT,
             chain: sepolia,
             storeId,
             keyCardWallet: keycard.wallet,
@@ -148,20 +146,25 @@ export class RelayClientWrapper {
         await client.disconnect();
 
         //create relay client using STORE wallet private key instead of keycard
-        const client2 = new RelayClient({
-            relayEndpoint: `wss://${endpoint}`,
+        /*const client2 = new RelayClient({
+            relayEndpoint: `wss://relay-beta.mass.market/v1`,
             chain: sepolia,
             storeId: storeId,
-            keyCardWallet: privateKeyToAccount(walletPrivKey),
+            keyCardWallet: privateKeyToAccount(keycard.string),
             keyCardEnrolled: true,
-        });
+        });*/
 
         console.log('storeId', storeId);
         console.log('keycard', keycard.string);
 
         //THIS ONE WORKS TOO
-        console.log('writing manifest');
-        await client2.writeStoreManifest(storeId);
+        //console.log('writing manifest');
+        //await client2.writeStoreManifest(storeId);
+
+        return {
+            keyCard: keycard.string,
+            storeId,
+        };
 
         //now from here on, I can do anything I want, but using the wallet as the keycard
     }
@@ -176,8 +179,8 @@ export class RelayClientWrapper {
      */
     static async getInstance(
         endpoint: string,
-        storeId: `0x${string}` = '0x0',
-        keyCard: `0x${string}`
+        storeId: HexString = '0x0',
+        keyCard: HexString
     ): Promise<RelayClientWrapper> {
         const client: RelayClientWrapper = new RelayClientWrapper(
             endpoint,
@@ -197,7 +200,7 @@ export class RelayClientWrapper {
     }
 
     keyCardToString(): string {
-        return bufferToString(this._keyCard);
+        return bytesToHex(this._keyCard);
     }
 
     async connect(): Promise<void> {
@@ -208,8 +211,16 @@ export class RelayClientWrapper {
         await this._client.disconnect();
     }
 
-    async createProduct(product: ProductConfig): Promise<string> {
-        let id = '';
+    async writeManifest() {
+        await this._client.writeStoreManifest(this.storeId);
+    }
+
+    async createCart(): Promise<HexString> {
+        return await this._client.createCart();
+    }
+
+    async createProduct(product: ProductConfig): Promise<HexString> {
+        let id: HexString = '0x0';
         try {
             id = await this._client.createItem(product.price, {
                 name: product.name,
@@ -222,15 +233,20 @@ export class RelayClientWrapper {
         return id;
     }
 
-    async addToCart(productId: `0x${string}`, quantity: number) {
+    async addToCart(cartId: HexString, productId: HexString, quantity: number) {
         await this._client.changeStock([productId], [10]);
-        //this._cartId = await this._client.createCart();
-        console.log(
-            await this._client.changeCart(this.cartId, productId, quantity)
-        );
+        console.log(await this._client.changeCart(cartId, productId, quantity));
     }
 
-    async setErc20(address: `0x${string}`) {
+    async commitCart(cartId: HexString) {
+        await this._client.commitCart(cartId);
+    }
+
+    async abandonCart(cartId: HexString) {
+        await this._client.abandonCart(cartId);
+    }
+
+    async setErc20(address: HexString) {
         //3 == MANIFEST_FIELD_ADD_ERC20
         const pb = await this._client.updateManifest(3, address);
     }

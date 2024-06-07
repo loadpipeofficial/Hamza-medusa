@@ -16,6 +16,7 @@ const viem_1 = require("viem");
 const accounts_1 = require("viem/accounts");
 const chains_1 = require("viem/chains");
 const utils_1 = require("./utils");
+const util_1 = require("../controllers/util");
 /**
  * Wrapper for the massmarket relay client, exposing those functions and properties
  * that we need for our specific use cases.
@@ -23,18 +24,8 @@ const utils_1 = require("./utils");
  * @author John R. Kosinski
  */
 class RelayClientWrapper {
-    /**
-     * Gets the cart id, if any; default is 0x0.
-     */
-    get cartId() {
-        return this._cartId;
-    }
-    set cartId(value) {
-        this._cartId = value;
-    }
     constructor(endpoint, storeId = '0x0', keyCardPrivKey = '0x0') {
         this._chain = chains_1.sepolia;
-        this._cartId = '0x0';
         this.eventStream = null;
         this.storeId = storeId;
         let keyCardEnrolled = false;
@@ -57,7 +48,12 @@ class RelayClientWrapper {
         this._client = new lib_1.RelayClient(args);
     }
     static randomStoreId() {
-        return (0, utils_1.bufferToString)(new Uint8Array((0, crypto_1.randomBytes)(32)));
+        return (0, viem_1.bytesToHex)(new Uint8Array((0, crypto_1.randomBytes)(32)));
+    }
+    static get(endpoint, storeId, keycard) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new RelayClientWrapper(endpoint, storeId, keycard);
+        });
     }
     /**
      * Creates a new store, authenticates, and returns a RelayClientWrapper instance.
@@ -76,181 +72,16 @@ class RelayClientWrapper {
                 chain: chains_1.sepolia,
                 transport: (0, viem_1.http)(),
             });
-            yield client.connect();
-            const result = yield client._client.createStore(client.storeId, wallet);
-            console.log(yield client.enrollKeyCard(walletPrivKey));
-            yield client._client.connect();
+            //await client.connect();
+            //const result = await client._client.createStore(client.storeId, wallet);
+            //console.log(await client.enrollKeyCard(walletPrivKey));
+            //await client._client.connect();
             //console.log('manifest...');
             //await client._client.writeStoreManifest(client.storeId);
             return client;
         });
     }
-    /**
-     * Authenticates to an already existing store.
-     *
-     * @param endpoint Relay endpoint e.g. 'wss://relay.endpoint.com'
-     * @param storeId Unique store ID.
-     * @param keyCard Private key in the form 0x{hex}
-     * @returns a RelayClientWrapper instance.
-     */
-    static login(endpoint_1) {
-        return __awaiter(this, arguments, void 0, function* (endpoint, storeId = '0x0', keyCard) {
-            const client = new RelayClientWrapper(endpoint, storeId, keyCard);
-            //client.eventStream = await client._client.createEventStream();
-            return client;
-        });
-    }
-    pullEvents() {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (!this.eventStream)
-                this.eventStream = yield this._client.createEventStream();
-            console.log('reading');
-            console.log('read: ', yield this.eventStream.getReader().read());
-            console.log('read: ', yield this.eventStream.getReader().read());
-            console.log('read: ', yield this.eventStream.getReader().read());
-        });
-    }
-    readStream(reader) {
-        return __awaiter(this, void 0, void 0, function* () {
-            while (true) {
-                const { done, value } = yield reader.read();
-                if (done)
-                    break;
-                console.log('Received data:', new TextDecoder().decode(value));
-            }
-            console.log('Stream has been fully read.');
-        });
-    }
-    keyCardToString() {
-        return (0, utils_1.bufferToString)(this._keyCard);
-    }
-    connect() {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this._client.connect();
-        });
-    }
-    disconnect() {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this._client.disconnect();
-        });
-    }
-    enrollKeyCard() {
-        return __awaiter(this, arguments, void 0, function* (walletPrivKey = '0x0') {
-            const account = (0, accounts_1.privateKeyToAccount)(walletPrivKey);
-            const wallet = (0, viem_1.createWalletClient)({
-                account,
-                chain: this._chain,
-                transport: (0, viem_1.http)(),
-            });
-            //wallet.publicKey = account.publicKey;
-            return yield this._client.enrollKeycard(wallet);
-        });
-    }
-    writeManifest() {
-        return __awaiter(this, void 0, void 0, function* () {
-            this._client.writeStoreManifest(this.storeId);
-        });
-    }
-    createProduct(product) {
-        return __awaiter(this, void 0, void 0, function* () {
-            console.log('doing the create prod');
-            let id = '';
-            try {
-                id = yield this._client.createItem(product.price, {
-                    name: product.name,
-                    description: product.description,
-                    image: product.image,
-                });
-                console.log('did the create prod', id);
-            }
-            catch (e) {
-                console.error(e);
-            }
-            return id;
-        });
-    }
-    createCart() {
-        return __awaiter(this, void 0, void 0, function* () {
-            this._cartId = yield this._client.createCart();
-            return this._cartId;
-        });
-    }
-    abandonCart() {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this._client.abandonCart(this.cartId);
-        });
-    }
-    deleteProduct(productId) {
-        return __awaiter(this, void 0, void 0, function* () { });
-    }
-    updateProductPrice(productId, price) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const response = yield this._client.updateItem(productId, ItemField.ITEM_FIELD_PRICE, price);
-            return response;
-        });
-    }
-    addToCart(productId, quantity) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this._client.changeStock([productId], [10]);
-            //this._cartId = await this._client.createCart();
-            console.log(yield this._client.changeCart(this.cartId, productId, quantity));
-        });
-    }
-    commitCartEth() {
-        return __awaiter(this, void 0, void 0, function* () {
-            console.log('committing cart ' + this.cartId);
-            return (0, utils_1.bufferToString)((yield this._client.commitCart(this.cartId)).cartFinalizedId);
-        });
-    }
-    setErc20(address) {
-        return __awaiter(this, void 0, void 0, function* () {
-            //3 == MANIFEST_FIELD_ADD_ERC20
-            console.log('setErc2', address);
-            const pb = yield this._client.updateManifest(3, address);
-        });
-    }
-    checkoutEth() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const promise = this._client.commitCart(this.cartId);
-            try {
-                return yield promise;
-            }
-            catch (e) {
-                console.error(e);
-            }
-            return null;
-        });
-    }
-    checkoutErc20(productId, erc20, quantity) {
-        return __awaiter(this, void 0, void 0, function* () {
-            console.log('productId', productId);
-            const pb = yield this._client.changeStock([productId], [10]);
-            const cartId = yield this._client.createCart();
-            console.log('cart:', cartId);
-            yield this._client.changeCart(cartId, productId, quantity);
-            const response = yield this._client.commitCart(cartId, erc20);
-            console.log('checkout response: ');
-            console.log((0, utils_1.bufferToString)(response.cartFinalizedId));
-            console.log(response);
-        });
-    }
-    onEvent(event) {
-        console.log('EVENT:', event);
-        if (event.request.events) {
-            event.request.events.forEach((e) => {
-                console.log('event -> ', e);
-                if (e.cartFinalized) {
-                    if (e.cartFinalized.eventId) {
-                        console.log('eventid:', `0x${(0, utils_1.bufferToString)(e.cartFinalized.eventId)}`);
-                    }
-                    if (e.cartFinalized.purchaseAddr) {
-                        console.log('purchaseAddr:', `0x${(0, utils_1.bufferToString)(e.cartFinalized.purchaseAddr)}`);
-                    }
-                }
-            });
-        }
-    }
-    static createAndInitializeStore(endpoint) {
+    static createAndInitializeStore() {
         return __awaiter(this, void 0, void 0, function* () {
             //create random store id
             const storeId = (0, viem_1.bytesToHex)((0, crypto_1.randomBytes)(32));
@@ -265,7 +96,7 @@ class RelayClientWrapper {
             //create relay client instance
             console.log('create relay client');
             const client = new lib_1.RelayClient({
-                relayEndpoint: `wss://relay-beta.mass.market/v1`,
+                relayEndpoint: util_1.ENDPOINT,
                 chain: chains_1.sepolia,
                 storeId,
                 keyCardWallet: keycard.wallet,
@@ -287,19 +118,119 @@ class RelayClientWrapper {
             yield client.enrollKeycard(storeWallet); //this uses store wallet
             yield client.disconnect();
             //create relay client using STORE wallet private key instead of keycard
-            const client2 = new lib_1.RelayClient({
-                relayEndpoint: `wss://${endpoint}`,
-                chain: chains_1.sepolia,
+            /*const client2 = new RelayClient({
+                relayEndpoint: `wss://relay-beta.mass.market/v1`,
+                chain: sepolia,
                 storeId: storeId,
-                keyCardWallet: (0, accounts_1.privateKeyToAccount)(walletPrivKey),
+                keyCardWallet: privateKeyToAccount(keycard.string),
                 keyCardEnrolled: true,
-            });
+            });*/
             console.log('storeId', storeId);
             console.log('keycard', keycard.string);
             //THIS ONE WORKS TOO
-            console.log('writing manifest');
-            yield client2.writeStoreManifest(storeId);
+            //console.log('writing manifest');
+            //await client2.writeStoreManifest(storeId);
+            return {
+                keyCard: keycard.string,
+                storeId,
+            };
             //now from here on, I can do anything I want, but using the wallet as the keycard
+        });
+    }
+    /**
+     * Authenticates to an already existing store.
+     *
+     * @param endpoint Relay endpoint e.g. 'wss://relay.endpoint.com'
+     * @param storeId Unique store ID.
+     * @param keyCard Private key in the form 0x{hex}
+     * @returns a RelayClientWrapper instance.
+     */
+    static getInstance(endpoint_1) {
+        return __awaiter(this, arguments, void 0, function* (endpoint, storeId = '0x0', keyCard) {
+            const client = new RelayClientWrapper(endpoint, storeId, keyCard);
+            return client;
+        });
+    }
+    pullEvents() {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!this.eventStream)
+                this.eventStream = yield this._client.createEventStream();
+            console.log('reading');
+            console.log('read: ', yield this.eventStream.getReader().read());
+            console.log('read: ', yield this.eventStream.getReader().read());
+            console.log('read: ', yield this.eventStream.getReader().read());
+        });
+    }
+    keyCardToString() {
+        return (0, viem_1.bytesToHex)(this._keyCard);
+    }
+    connect() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this._client.connect();
+        });
+    }
+    disconnect() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this._client.disconnect();
+        });
+    }
+    writeManifest() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this._client.writeStoreManifest(this.storeId);
+        });
+    }
+    createCart() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this._client.createCart();
+        });
+    }
+    createProduct(product) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let id = '0x0';
+            try {
+                id = yield this._client.createItem(product.price, {
+                    name: product.name,
+                    description: product.description,
+                    image: product.image,
+                });
+            }
+            catch (e) {
+                console.error(e);
+            }
+            return id;
+        });
+    }
+    addToCart(cartId, productId, quantity) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this._client.changeStock([productId], [10]);
+            console.log(yield this._client.changeCart(cartId, productId, quantity));
+        });
+    }
+    commitCart(cartId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this._client.commitCart(cartId);
+        });
+    }
+    abandonCart(cartId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this._client.abandonCart(cartId);
+        });
+    }
+    setErc20(address) {
+        return __awaiter(this, void 0, void 0, function* () {
+            //3 == MANIFEST_FIELD_ADD_ERC20
+            const pb = yield this._client.updateManifest(3, address);
+        });
+    }
+    readStream(reader) {
+        return __awaiter(this, void 0, void 0, function* () {
+            while (true) {
+                const { done, value } = yield reader.read();
+                if (done)
+                    break;
+                console.log('Received data:', new TextDecoder().decode(value));
+            }
+            console.log('Stream has been fully read.');
         });
     }
 }

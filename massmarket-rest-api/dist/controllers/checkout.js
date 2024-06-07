@@ -9,50 +9,38 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.productsController = void 0;
+exports.checkoutController = void 0;
 const util_1 = require("./util");
 const client_1 = require("../massmarket/client");
-exports.productsController = {
-    //create product
+exports.checkoutController = {
+    //checkout
+    //creates cart, adds items to it, and commits it
     post: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         (0, util_1.serveRequest)(req, res, (id, body) => __awaiter(void 0, void 0, void 0, function* () {
             const input = body;
             const output = {
                 success: true,
-                productIds: [],
+                cartId: '0x0',
+                paymentAddress: '0x0',
             };
             //get the client
             const rc = yield client_1.RelayClientWrapper.get(util_1.ENDPOINT, input.storeId, input.keycard);
-            //add the product
+            //do the full checkout
             if (rc) {
-                const promises = [];
-                for (let prod of input.products) {
-                    promises.push(rc.createProduct(prod));
+                //create the cart
+                output.cartId = yield rc.createCart();
+                //add items to cart
+                for (let item of input.items) {
+                    yield rc.addToCart(output.cartId, item.productId, item.quantity);
                 }
-                output.productIds = yield Promise.all(promises);
-                //TODO: better success check
-                output.success =
-                    output.productIds.length == input.products.length;
+                //commit the cart
+                yield rc.commitCart(output.cartId);
+                //TODO: get payment address
+                output.paymentAddress = '0x0';
+                output.success = true;
             }
             return output;
         }), 201);
     }),
-    //update product
-    put: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        (0, util_1.serveRequest)(req, res, (id, body) => __awaiter(void 0, void 0, void 0, function* () {
-            const input = body;
-            const output = {
-                success: true,
-            };
-            //get the client
-            const rc = yield client_1.RelayClientWrapper.get(util_1.ENDPOINT, input.storeId, input.keycard);
-            //update the product
-            if (rc) {
-                //TODO: update the product
-                output.success = true;
-            }
-            return output;
-        }), 200);
-    }),
 };
-//# sourceMappingURL=products.js.map
+//# sourceMappingURL=checkout.js.map
