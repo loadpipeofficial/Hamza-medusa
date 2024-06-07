@@ -31,12 +31,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
     const [loading, setLoading] = useState(false);
 
     const handleBuyNow = async () => {
+        setLoading(true);
         await addToCart({
             variantId: varientID,
             quantity: 1,
             countryCode: countryCode,
             currencyCode: 'eth',
         });
+        setLoading(false);
     };
 
     return (
