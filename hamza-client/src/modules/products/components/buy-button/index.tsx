@@ -23,7 +23,7 @@ const BuyButton: React.FC<BuyButtonProps> = ({
             isLoading={loader}
             disabled={outOfStock}
         >
-            {title}
+            Buy Now
         </Button>
     );
 };

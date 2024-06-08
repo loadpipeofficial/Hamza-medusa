@@ -119,6 +119,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             borderColor="#7B61FF"
                             cursor="pointer"
                             onClick={() => toggleHeart()}
+                            sx={{
+                                userSelect: 'none', // Prevents text selection on card contents
+                            }}
                         >
                             <Box alignSelf="center">
                                 {selectWL === false ? (
@@ -207,7 +210,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                     loader={loadingBuy}
                                     styles={'w-15 text-white'}
                                     outOfStock={false}
-                                    title={'Buy'}
                                 />
                             </LocalizedClientLink>
                         </Box>
