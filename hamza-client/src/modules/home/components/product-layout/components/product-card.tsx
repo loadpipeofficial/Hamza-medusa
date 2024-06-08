@@ -7,6 +7,7 @@ import { FaBitcoin, FaEthereum } from 'react-icons/fa';
 import { AiOutlineDollar } from 'react-icons/ai';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import BuyButton from '@modules/products/components/buy-button';
+import CartButton from './cart-button';
 import { addToCart } from '@modules/cart/actions';
 import { IoHeartCircleOutline, IoHeartCircleSharp } from 'react-icons/io5';
 
@@ -29,18 +30,30 @@ const ProductCard: React.FC<ProductCardProps> = ({
     hasDiscount,
     discountValue,
 }) => {
-    const [loading, setLoading] = useState(false);
+    const [loadingBuy, setLoadingBuy] = useState(false);
+    const [loadingAddToCart, setLoadingAddToCard] = useState(false);
     const [selectHeart, setSelectedHeart] = useState('black');
 
-    const handleBuyNow = async () => {
-        setLoading(true);
+    const handleAddToCart = async () => {
+        setLoadingAddToCard(true);
         await addToCart({
             variantId: varientID,
             quantity: 1,
             countryCode: countryCode,
             currencyCode: 'eth',
         });
-        setLoading(false);
+        setLoadingAddToCard(false);
+    };
+
+    const handleBuyNow = async () => {
+        setLoadingBuy(true);
+        await addToCart({
+            variantId: varientID,
+            quantity: 1,
+            countryCode: countryCode,
+            currencyCode: 'eth',
+        });
+        setLoadingBuy(false);
     };
 
     const handleHeartClick = () => {
@@ -109,13 +122,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
                         >
                             {productName}
                         </Text>
-                        <Flex pl="1.5rem" mb="auto" ml="auto">
+                    </Flex>
+
+                    <Box mt="auto">
+                        <Flex>
                             <Box mt="1px">
                                 <TiStarFullOutline
                                     style={{
                                         color: '#FEC84B',
-                                        width: '0.8rem',
-                                        height: '0.8rem',
+                                        width: '23px',
+                                        height: '24px',
                                     }}
                                 />
                             </Box>
@@ -123,16 +139,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 color={'white'}
                                 alignSelf={'center'}
                                 fontWeight="500"
-                                fontSize="0.75rem"
+                                fontSize="14px"
                                 lineHeight="15.12px"
                                 pl="0.1rem"
                             >
                                 4.97
                             </Text>
+                            <Text color="#555555" ml="2">
+                                0 Reviews
+                            </Text>
                         </Flex>
-                    </Flex>
-
-                    <Box mt="auto">
                         <Flex>
                             <Box alignSelf={'center'}>
                                 <AiOutlineDollar size={24} color="#2775CA" />
@@ -162,29 +178,18 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 {productPrice}
                             </Text>
                         </Flex>
-                        <Text
-                            color={'white'}
-                            mr="auto"
-                            fontWeight="700"
-                            fontSize="1.25rem"
-                            lineHeight="33.72px"
-                        >
-                            $ {productPrice}
-                        </Text>
                         <Box py={2}>
-                            <BuyButton
-                                handleBuyNow={() => handleBuyNow()}
-                                loader={loading}
-                                styles={
-                                    'w-25 h-10 mr-2 bg-["invisible"] border-2 border-[#7B61FF] text-[#7B61FF]'
-                                }
+                            <CartButton
+                                handleBuyNow={() => handleAddToCart()}
+                                loader={loadingAddToCart}
+                                styles={'mr-2'}
                                 outOfStock={false}
                                 title={'Add to Cart'}
                             />
                             <LocalizedClientLink href="/checkout?step=address">
                                 <BuyButton
                                     handleBuyNow={() => handleBuyNow()}
-                                    loader={loading}
+                                    loader={loadingBuy}
                                     styles={'w-20 h-10 text-white'}
                                     outOfStock={false}
                                     title={'Buy Now'}
