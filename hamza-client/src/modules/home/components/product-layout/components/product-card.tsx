@@ -51,14 +51,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
     return (
         <Card
-            w={['100%', '100%', '293.13px']}
-            h="440px"
+            w={['100%', '100%', '295px']}
+            h="480px"
             bg="transparent"
             borderRadius="0.725rem"
             overflow="hidden"
         >
             <Box
-                h="200px"
+                h="240px"
                 position="relative"
                 display="flex"
                 justifyContent="center"
@@ -76,9 +76,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     top="1px"
                     right="1px"
                     backgroundColor={'white'}
-                    borderRadius="2.6125rem"
-                    px="0.725625rem"
-                    py="0.725625rem"
+                    borderRadius="2rem"
+                    px="2px"
+                    py="2px"
                 >
                     <IoHeartCircleSharp
                         style={{ cursor: 'pointer' }}
@@ -172,12 +172,22 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             $ {productPrice}
                         </Text>
                         <Box py={2}>
+                            <BuyButton
+                                handleBuyNow={() => handleBuyNow()}
+                                loader={loading}
+                                styles={
+                                    'w-25 h-10 mr-2 bg-["invisible"] border-2 border-[#7B61FF] text-[#7B61FF]'
+                                }
+                                outOfStock={false}
+                                title={'Add to Cart'}
+                            />
                             <LocalizedClientLink href="/checkout?step=address">
                                 <BuyButton
                                     handleBuyNow={() => handleBuyNow()}
                                     loader={loading}
                                     styles={'w-20 h-10 text-white'}
                                     outOfStock={false}
+                                    title={'Buy Now'}
                                 />
                             </LocalizedClientLink>
                         </Box>
