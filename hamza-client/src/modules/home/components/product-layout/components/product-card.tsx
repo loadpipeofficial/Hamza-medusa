@@ -138,20 +138,27 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             <Text
                                 color={'white'}
                                 alignSelf={'center'}
-                                fontWeight="500"
+                                fontWeight="700"
                                 fontSize="14px"
-                                lineHeight="15.12px"
+                                lineHeight="17.64px"
                                 pl="0.1rem"
                             >
                                 4.97
                             </Text>
-                            <Text color="#555555" ml="2">
-                                0 Reviews
+                            <Text
+                                alignSelf={'center'}
+                                fontWeight="400"
+                                fontSize="14px"
+                                lineHeight="17.64px"
+                                color="#555555"
+                                ml="1"
+                            >
+                                (0 reviews)
                             </Text>
                         </Flex>
                         <Flex>
                             <Box alignSelf={'center'}>
-                                <AiOutlineDollar size={24} color="#2775CA" />
+                                <AiOutlineDollar size={22} color="#2775CA" />
                             </Box>
                             <Text
                                 color={'white'}
@@ -169,6 +176,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                         : 'none'
                                 }
                                 ml="2"
+                                mb="1"
                                 alignSelf={'center'}
                                 color={'#555555'}
                                 fontWeight="700"
