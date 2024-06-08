@@ -1,4 +1,5 @@
-import { Button } from '@chakra-ui/react';
+import { Button, Text, Flex, Box } from '@chakra-ui/react';
+import { BiPlus } from 'react-icons/bi';
 
 type CartButtonProps = {
     styles: string;
@@ -25,7 +26,14 @@ const CartButton: React.FC<CartButtonProps> = ({
             isLoading={loader}
             disabled={outOfStock}
         >
-            {title}
+            <Flex>
+                <Box alignSelf={'center'}>
+                    <BiPlus color="#7B61FF" size={18} />
+                </Box>
+                <Text alignSelf={'center'} fontSize={'15px'}>
+                    {title}
+                </Text>
+            </Flex>
         </Button>
     );
 };

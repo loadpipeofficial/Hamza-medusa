@@ -141,7 +141,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 fontWeight="700"
                                 fontSize="14px"
                                 lineHeight="17.64px"
-                                pl="0.1rem"
+                                ml="1"
                             >
                                 4.97
                             </Text>
@@ -158,11 +158,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
                         </Flex>
                         <Flex>
                             <Box alignSelf={'center'}>
-                                <AiOutlineDollar size={22} color="#2775CA" />
+                                <AiOutlineDollar
+                                    style={{ width: '24px', height: '24px' }}
+                                    color="#2775CA"
+                                />
                             </Box>
                             <Text
                                 color={'white'}
-                                pl="1"
+                                ml="2"
                                 fontWeight="700"
                                 fontSize="1.25rem"
                                 lineHeight="33.72px"
@@ -198,9 +201,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 <BuyButton
                                     handleBuyNow={() => handleBuyNow()}
                                     loader={loadingBuy}
-                                    styles={'w-20 h-10 text-white'}
+                                    styles={'w-15 text-white'}
                                     outOfStock={false}
-                                    title={'Buy Now'}
+                                    title={'Buy'}
                                 />
                             </LocalizedClientLink>
                         </Box>
