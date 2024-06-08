@@ -127,7 +127,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             );
 
             //create orders
-            const orderData: { order: Order; lineItemIds: string[] }[] =
+            const orderData: { order: Order; lineItems: string[] }[] =
                 await this.createOrdersForPayments(cart, payments, groups);
 
             //update payments with order ids
@@ -256,7 +256,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         cart: Cart,
         payments: Payment[],
         paymentGroups: IPaymentGroupData[]
-    ): Promise<{ order: Order; lineItemIds: string[] }[]> {
+    ): Promise<{ order: Order; lineItems: string[] }[]> {
         const promises: Promise<Order>[] = [];
         for (let i = 0; i < payments.length; i++) {
             promises.push(
