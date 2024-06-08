@@ -15,7 +15,12 @@ const SearchAndFilterPanel = () => {
     return (
         <Box>
             <SearchBar />
-            <Reputation />
+            <Box
+                mb={{ sm: '-10rem', md: '0' }}
+                visibility={{ sm: 'hidden', md: 'visible' }}
+            >
+                <Reputation />
+            </Box>
             <Container p="8" maxW="1440px">
                 <Flex gap="1rem">
                     {vendors.map((vendors: any) => {
