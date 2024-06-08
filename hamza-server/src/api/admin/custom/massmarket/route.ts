@@ -1,5 +1,5 @@
 import { MedusaRequest, MedusaResponse, Logger } from '@medusajs/medusa';
-import { RelayClientWrapper } from '../../../../massmarket/client';
+//import { RelayClientWrapper } from '../../../../massmarket/client';
 
 const productsToIds = {
     'Medusa Longsleeve':
@@ -66,18 +66,20 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     const logger = req.scope.resolve('productService') as Logger;
 
     try {
+        /*
         const rc: RelayClientWrapper = new RelayClientWrapper(
             'relay-beta.mass.market/v1',
             '0x1300000000000000000000000000000000000000000000000000000000000006',
             '0x618f7c831ec88ca06505306a5047b8d0f515fb58cc33d75decd698c759b98284'
         );
+        */
 
         const stores = await storeService.getStores();
         for (let store of stores) {
             await updateStoreForMM(
                 storeRepository,
                 productService,
-                rc,
+                null,
                 store.id
             );
         }
