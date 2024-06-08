@@ -6,7 +6,7 @@ import { TiStarFullOutline } from 'react-icons/ti';
 import { FaBitcoin, FaEthereum } from 'react-icons/fa';
 import { AiOutlineDollar } from 'react-icons/ai';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
-import BuyButton from '@modules/products/components/buy-button';
+import BuyButton from './buy-button';
 import CartButton from './cart-button';
 import { addToCart } from '@modules/cart/actions';
 import { IoHeartCircleOutline, IoHeartCircleSharp } from 'react-icons/io5';
@@ -70,7 +70,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
     return (
         <Card
-            w={['100%', '100%', '295px']}
+            maxW={'295px'}
             h="480px"
             bg="transparent"
             borderRadius="0.725rem"
@@ -112,9 +112,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
                         </Text>
                         <Box
                             ml="auto"
-                            p="2"
                             display="flex"
-                            borderRadius="30px"
+                            justifyContent="center"
+                            alignItems="center"
+                            minWidth="50px"
+                            minHeight="50px"
+                            borderRadius="50%"
                             border="1px"
                             borderColor="#7B61FF"
                             cursor="pointer"
@@ -125,9 +128,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
                         >
                             <Box alignSelf="center">
                                 {selectWL === false ? (
-                                    <FaRegHeart color="#7B61FF" size={20} />
+                                    <FaRegHeart color="#7B61FF" size={23} />
                                 ) : (
-                                    <FaHeart color="#7B61FF" size={20} />
+                                    <FaHeart color="#7B61FF" size={23} />
                                 )}
                             </Box>
                         </Box>
@@ -196,11 +199,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 {productPrice}
                             </Text>
                         </Flex>
-                        <Box py={2}>
+                        <Flex
+                            direction={{ base: 'column', md: 'row' }} // Stack vertically on small screens, horizontally on medium and up
+                            gap="14px"
+                            py={2}
+                        >
                             <CartButton
                                 handleBuyNow={() => handleAddToCart()}
                                 loader={loadingAddToCart}
-                                styles={'mr-2'}
+                                styles={'w-full'}
                                 outOfStock={false}
                                 title={'Add to Cart'}
                             />
@@ -208,11 +215,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 <BuyButton
                                     handleBuyNow={() => handleBuyNow()}
                                     loader={loadingBuy}
-                                    styles={'w-15 text-white'}
+                                    styles={'w-full'}
                                     outOfStock={false}
+                                    title="Buy Now"
                                 />
                             </LocalizedClientLink>
-                        </Box>
+                        </Flex>
                     </Box>
                 </Box>
             </CardBody>
