@@ -72,22 +72,18 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <Card
             maxW={'295px'}
             h="480px"
-            bg="transparent"
+            backgroundColor={'black'}
             borderRadius="0.725rem"
             overflow="hidden"
         >
             <Box
                 h="240px"
+                width="100%"
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
             >
-                <Image
-                    src={imageSrc}
-                    alt={productName}
-                    height="100%"
-                    width="100%"
-                />
+                <Image src={imageSrc} alt={productName} />
             </Box>
             <CardBody
                 backgroundColor={'black'}
@@ -106,6 +102,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             fontWeight="500"
                             fontSize="1.25rem"
                             lineHeight="25.29px"
+                            mr="4"
                             noOfLines={3}
                         >
                             {productName}
@@ -115,8 +112,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             display="flex"
                             justifyContent="center"
                             alignItems="center"
-                            minWidth="50px"
-                            minHeight="50px"
+                            minWidth="40px"
+                            minHeight="40px"
                             borderRadius="50%"
                             border="1px"
                             borderColor="#7B61FF"
@@ -137,7 +134,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     </Flex>
 
                     <Box mt="auto">
-                        <Flex>
+                        <Flex mb="1">
                             <Box mt="1px">
                                 <IoStar
                                     style={{
