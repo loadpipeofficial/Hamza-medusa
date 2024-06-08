@@ -307,7 +307,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
     }
 
     private async doMassMarketCheckout(
-        orderData: { order: Order; lineItemIds: string[] }[]
+        orderData: { order: Order; lineItems: string[] }[]
     ): Promise<CheckoutOutput[]> {
         // const client = new MassMarketClient();
 
@@ -318,7 +318,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         let orders: Order[];
         try {
             for (const data of orderData) {
-                const lineItemValues = Object.values(data.lineItemIds);
+                const lineItemValues = Object.values(data.lineItems);
                 storeId = Object.values(data.order.store_id);
                 this.logger.debug(
                     `LINE ITEM VALUES ${lineItemValues} ${lineItemValues.length}`
@@ -351,7 +351,12 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         const storesToItems: {
             [key: string]: {
                 keycard: string;
-                items: { productId: string; quantity: number }[];
+                massmarket_store_id: string;
+
+                items: {
+                    productId: string;
+                    quantity: number;
+                }[];
             };
         } = {};
 
@@ -364,6 +369,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             if (!storesToItems[key])
                 storesToItems[key] = {
                     keycard: o.store.massmarket_keycard,
+                    massmarket_store_id: o.store.massmarket_store_id,
                     items: [],
                 };
             for (const item of items) {
