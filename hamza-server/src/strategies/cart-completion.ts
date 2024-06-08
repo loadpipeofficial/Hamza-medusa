@@ -382,21 +382,21 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             }
         }
         console.log(`storesToItems ${JSON.stringify(storesToItems)}`);
-        return [];
 
         //call checkout for each store
-        // const promises: Promise<CheckoutOutput>[] = [];
-        // for (const storeId in storesToItems) {
-        //     promises.push(
-        //         client.checkout(
-        //             stringToHex(storeId),
-        //             stringToHex(storesToItems[storeId].keycard),
-        //             storesToItems[storeId].items
-        //         )
-        //     );
-        // }
-        //
-        // return await Promise.all(promises);
+        const client = new MassMarketClient();
+        const promises: Promise<CheckoutOutput>[] = [];
+        for (const storeId in storesToItems) {
+            promises.push(
+                client.checkout(
+                    stringToHex(storeId),
+                    stringToHex(storesToItems[storeId].keycard),
+                    storesToItems[storeId].items
+                )
+            );
+        }
+
+        return await Promise.all(promises);
     }
 }
 
