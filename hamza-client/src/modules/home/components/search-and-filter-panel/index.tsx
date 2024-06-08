@@ -7,13 +7,20 @@ import FilterButtons from './components/FilterButtons';
 import vendors from './data/data';
 import { RiMenu2Fill } from 'react-icons/ri';
 import Reputation from '../reputation';
+import SearchBar from './components/SearchBar';
 
 const SearchAndFilterPanel = () => {
     const [vendorName, setVendorName] = useState('Goblin Store');
 
     return (
         <Box>
-            <Reputation />
+            <SearchBar />
+            <Box
+                mb={{ sm: '-10rem', md: '0' }}
+                visibility={{ sm: 'hidden', md: 'visible' }}
+            >
+                <Reputation />
+            </Box>
             <Container p="8" maxW="1440px">
                 <Flex gap="1rem">
                     {vendors.map((vendors: any) => {
@@ -29,11 +36,16 @@ const SearchAndFilterPanel = () => {
                         );
                     })}
                     <Button
-                        background="radial-gradient(119.28% 648.85% at -19.83% -30.22%, #606060 0%, #0F242C 100%)"
                         display="flex"
                         justifyContent={'center'}
                         height="60px"
                         padding="10px 24px"
+                        gap="10px"
+                        borderRadius="56px"
+                        borderWidth="1px"
+                        borderColor="white"
+                        backgroundColor={'transparent'}
+                        color={'white'}
                     >
                         <RiMenu2Fill size={24} color={'white'} />
                         <Text color={'white'} alignSelf="center" pl="2">

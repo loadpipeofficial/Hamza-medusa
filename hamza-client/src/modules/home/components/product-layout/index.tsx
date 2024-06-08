@@ -40,7 +40,7 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
     return (
         <Container maxW="1440px" p="8" backgroundColor={'#2C272D'}>
             <SimpleGrid
-                columns={[1, 2, 3, 4]}
+                columns={{ base: 1, sm: 1, md: 3, lg: 4 }}
                 spacing="1.25rem"
                 rowGap="2.5rem"
                 placeItems="center"

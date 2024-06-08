@@ -14,6 +14,8 @@ import ContactSection from '@modules/home/components/contact-section';
 import ProductCardGroup from '@modules/home/components/product-layout';
 import SearchAndFilterPanel from '@modules/home/components/search-and-filter-panel';
 import { Box } from '@chakra-ui/react';
+import HeroBanner from '@modules/home/components/hero-banner';
+
 export const metadata: Metadata = {
     title: 'Hamza Shop',
     description:
@@ -76,6 +78,7 @@ export default async function Home({
 
     return (
         <Box backgroundColor={'#2C272D'}>
+            <HeroBanner />
             <SearchAndFilterPanel />
         </Box>
     );
