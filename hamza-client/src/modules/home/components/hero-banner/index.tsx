@@ -12,6 +12,7 @@ const HeroBanner = () => {
             flexDirection={'column'}
         >
             <Text
+                mb={{ sm: 3, md: '0' }}
                 lineHeight={'62px'}
                 color={'#FBFDFA'}
                 style={{ fontSize: '32px' }}
@@ -23,15 +24,25 @@ const HeroBanner = () => {
                 as a Community
             </Text>
             <b />
-            <Flex flexDirection={'row'}>
+            <Flex
+                gap="10px"
+                flexDirection={{
+                    base: 'column',
+                    sm: 'column',
+                    md: 'row',
+                    lg: 'row',
+                }}
+                marginRight={{
+                    sm: 'auto',
+                    md: '0',
+                    lg: '0',
+                }}
+            >
                 <Text color={'#FBFDFA'} style={{ fontSize: '20px' }}>
                     By The <b>People</b>
                 </Text>
-                <Box
-                    style={{ marginLeft: '0.5rem', marginRight: '0.5rem' }}
-                    alignSelf="center"
-                >
-                    <FaArrowRightLong size={20} color="#FBFDFA" />
+                <Box marginRight={{ sm: 'auto' }} alignSelf="center">
+                    <FaArrowRightLong size={24} color="#FBFDFA" />
                 </Box>
                 <Text color={'#FBFDFA'} style={{ fontSize: '20px' }}>
                     For The <b>People</b> Using Blockchain Tech
