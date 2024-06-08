@@ -10,6 +10,8 @@ import BuyButton from '@modules/products/components/buy-button';
 import CartButton from './cart-button';
 import { addToCart } from '@modules/cart/actions';
 import { IoHeartCircleOutline, IoHeartCircleSharp } from 'react-icons/io5';
+import { IoStar } from 'react-icons/io5';
+import { FaRegHeart, FaHeart } from 'react-icons/fa6';
 
 interface ProductCardProps {
     varientID: string;
@@ -32,8 +34,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
     const [loadingBuy, setLoadingBuy] = useState(false);
     const [loadingAddToCart, setLoadingAddToCard] = useState(false);
+    const [selectWL, setSelectWL] = useState(false);
     const [selectHeart, setSelectedHeart] = useState('black');
 
+    const toggleHeart = () => {
+        setSelectWL((prev) => !prev);
+    };
     const handleAddToCart = async () => {
         setLoadingAddToCard(true);
         await addToCart({
@@ -72,7 +78,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
         >
             <Box
                 h="240px"
-                position="relative"
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
@@ -83,23 +88,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     height="100%"
                     width="100%"
                 />
-                <Box
-                    position="absolute"
-                    fontWeight="bold"
-                    top="1px"
-                    right="1px"
-                    backgroundColor={'white'}
-                    borderRadius="2rem"
-                    px="2px"
-                    py="2px"
-                >
-                    <IoHeartCircleSharp
-                        style={{ cursor: 'pointer' }}
-                        color={selectHeart}
-                        onClick={() => handleHeartClick()}
-                        size={40}
-                    />
-                </Box>
             </Box>
             <CardBody
                 backgroundColor={'black'}
@@ -122,15 +110,33 @@ const ProductCard: React.FC<ProductCardProps> = ({
                         >
                             {productName}
                         </Text>
+                        <Box
+                            ml="auto"
+                            p="2"
+                            display="flex"
+                            borderRadius="30px"
+                            border="1px"
+                            borderColor="#7B61FF"
+                            cursor="pointer"
+                            onClick={() => toggleHeart()}
+                        >
+                            <Box alignSelf="center">
+                                {selectWL === false ? (
+                                    <FaRegHeart color="#7B61FF" size={20} />
+                                ) : (
+                                    <FaHeart color="#7B61FF" size={20} />
+                                )}
+                            </Box>
+                        </Box>
                     </Flex>
 
                     <Box mt="auto">
                         <Flex>
                             <Box mt="1px">
-                                <TiStarFullOutline
+                                <IoStar
                                     style={{
                                         color: '#FEC84B',
-                                        width: '23px',
+                                        width: '24px',
                                         height: '24px',
                                     }}
                                 />
@@ -140,7 +146,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 alignSelf={'center'}
                                 fontWeight="700"
                                 fontSize="14px"
-                                lineHeight="17.64px"
                                 ml="1"
                             >
                                 4.97
@@ -149,7 +154,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 alignSelf={'center'}
                                 fontWeight="400"
                                 fontSize="14px"
-                                lineHeight="17.64px"
                                 color="#555555"
                                 ml="1"
                             >
