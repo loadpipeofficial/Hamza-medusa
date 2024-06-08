@@ -6,8 +6,12 @@ import { TiStarFullOutline } from 'react-icons/ti';
 import { FaBitcoin, FaEthereum } from 'react-icons/fa';
 import { AiOutlineDollar } from 'react-icons/ai';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
-import BuyButton from '@modules/products/components/buy-button';
+import BuyButton from './buy-button';
+import CartButton from './cart-button';
 import { addToCart } from '@modules/cart/actions';
+import { IoHeartCircleOutline, IoHeartCircleSharp } from 'react-icons/io5';
+import { IoStar } from 'react-icons/io5';
+import { FaRegHeart, FaHeart } from 'react-icons/fa6';
 
 interface ProductCardProps {
     varientID: string;
@@ -28,59 +32,58 @@ const ProductCard: React.FC<ProductCardProps> = ({
     hasDiscount,
     discountValue,
 }) => {
-    const [loading, setLoading] = useState(false);
+    const [loadingBuy, setLoadingBuy] = useState(false);
+    const [loadingAddToCart, setLoadingAddToCard] = useState(false);
+    const [selectWL, setSelectWL] = useState(false);
+    const [selectHeart, setSelectedHeart] = useState('black');
 
-    const handleBuyNow = async () => {
-        setLoading(true);
+    const toggleHeart = () => {
+        setSelectWL((prev) => !prev);
+    };
+    const handleAddToCart = async () => {
+        setLoadingAddToCard(true);
         await addToCart({
             variantId: varientID,
             quantity: 1,
             countryCode: countryCode,
             currencyCode: 'eth',
         });
-        setLoading(false);
+        setLoadingAddToCard(false);
+    };
+
+    const handleBuyNow = async () => {
+        setLoadingBuy(true);
+        await addToCart({
+            variantId: varientID,
+            quantity: 1,
+            countryCode: countryCode,
+            currencyCode: 'eth',
+        });
+        setLoadingBuy(false);
+    };
+
+    const handleHeartClick = () => {
+        setSelectedHeart((prevColor: any) =>
+            prevColor === 'red' ? 'black' : 'red'
+        );
     };
 
     return (
         <Card
-            w={['100%', '100%', '293.13px']}
-            h="440px"
-            bg="transparent"
+            maxW={'295px'}
+            h="480px"
+            backgroundColor={'black'}
             borderRadius="0.725rem"
             overflow="hidden"
         >
             <Box
-                h="200px"
-                position="relative"
+                h="240px"
+                width="100%"
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
             >
-                <Image
-                    src={imageSrc}
-                    alt={productName}
-                    height="100%"
-                    width="100%"
-                />
-                <Box
-                    visibility={hasDiscount === true ? 'visible' : 'hidden'}
-                    position="absolute"
-                    fontWeight="bold"
-                    top="12px"
-                    right="12px"
-                    backgroundColor={'white'}
-                    borderRadius="2.6125rem"
-                    px="0.725625rem"
-                    py="0.725625rem"
-                >
-                    <Text
-                        color="black"
-                        fontSize="0.870625rem"
-                        lineHeight="1.05375rem"
-                    >
-                        {discountValue}% off
-                    </Text>
-                </Box>
+                <Image src={imageSrc} alt={productName} />
             </Box>
             <CardBody
                 backgroundColor={'black'}
@@ -99,41 +102,77 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             fontWeight="500"
                             fontSize="1.25rem"
                             lineHeight="25.29px"
+                            mr="4"
                             noOfLines={3}
                         >
                             {productName}
                         </Text>
-                        <Flex pl="1.5rem" mb="auto" ml="auto">
+                        <Box
+                            ml="auto"
+                            display="flex"
+                            justifyContent="center"
+                            alignItems="center"
+                            minWidth="40px"
+                            minHeight="40px"
+                            borderRadius="50%"
+                            border="1px"
+                            borderColor="#7B61FF"
+                            cursor="pointer"
+                            onClick={() => toggleHeart()}
+                            sx={{
+                                userSelect: 'none', // Prevents text selection on card contents
+                            }}
+                        >
+                            <Box alignSelf="center">
+                                {selectWL === false ? (
+                                    <FaRegHeart color="#7B61FF" size={23} />
+                                ) : (
+                                    <FaHeart color="#7B61FF" size={23} />
+                                )}
+                            </Box>
+                        </Box>
+                    </Flex>
+
+                    <Box mt="auto">
+                        <Flex mb="1">
                             <Box mt="1px">
-                                <TiStarFullOutline
+                                <IoStar
                                     style={{
                                         color: '#FEC84B',
-                                        width: '0.8rem',
-                                        height: '0.8rem',
+                                        width: '24px',
+                                        height: '24px',
                                     }}
                                 />
                             </Box>
                             <Text
                                 color={'white'}
                                 alignSelf={'center'}
-                                fontWeight="500"
-                                fontSize="0.75rem"
-                                lineHeight="15.12px"
-                                pl="0.1rem"
+                                fontWeight="700"
+                                fontSize="14px"
+                                ml="1"
                             >
                                 4.97
                             </Text>
+                            <Text
+                                alignSelf={'center'}
+                                fontWeight="400"
+                                fontSize="14px"
+                                color="#555555"
+                                ml="1"
+                            >
+                                (0 reviews)
+                            </Text>
                         </Flex>
-                    </Flex>
-
-                    <Box mt="auto">
                         <Flex>
                             <Box alignSelf={'center'}>
-                                <AiOutlineDollar size={24} color="#2775CA" />
+                                <AiOutlineDollar
+                                    style={{ width: '24px', height: '24px' }}
+                                    color="#2775CA"
+                                />
                             </Box>
                             <Text
                                 color={'white'}
-                                pl="1"
+                                ml="2"
                                 fontWeight="700"
                                 fontSize="1.25rem"
                                 lineHeight="33.72px"
@@ -147,6 +186,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                         : 'none'
                                 }
                                 ml="2"
+                                mb="1"
                                 alignSelf={'center'}
                                 color={'#555555'}
                                 fontWeight="700"
@@ -156,25 +196,28 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 {productPrice}
                             </Text>
                         </Flex>
-                        <Text
-                            color={'white'}
-                            mr="auto"
-                            fontWeight="700"
-                            fontSize="1.25rem"
-                            lineHeight="33.72px"
+                        <Flex
+                            direction={{ base: 'column', md: 'row' }} // Stack vertically on small screens, horizontally on medium and up
+                            gap="14px"
+                            py={2}
                         >
-                            $ {productPrice}
-                        </Text>
-                        <Box py={2}>
+                            <CartButton
+                                handleBuyNow={() => handleAddToCart()}
+                                loader={loadingAddToCart}
+                                styles={'w-full'}
+                                outOfStock={false}
+                                title={'Add to Cart'}
+                            />
                             <LocalizedClientLink href="/checkout?step=address">
                                 <BuyButton
                                     handleBuyNow={() => handleBuyNow()}
-                                    loader={loading}
-                                    styles={'w-20 h-10 text-white'}
+                                    loader={loadingBuy}
+                                    styles={'w-full'}
                                     outOfStock={false}
+                                    title="Buy Now"
                                 />
                             </LocalizedClientLink>
-                        </Box>
+                        </Flex>
                     </Box>
                 </Box>
             </CardBody>

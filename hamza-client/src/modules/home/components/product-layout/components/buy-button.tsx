@@ -1,6 +1,7 @@
-import { Button } from '@medusajs/ui';
+import { Button, Text, Flex, Box } from '@chakra-ui/react';
+import { BiPlus } from 'react-icons/bi';
 
-type BuyButtonProps = {
+type CartButtonProps = {
     styles: string;
     handleBuyNow: () => void;
     loader: boolean;
@@ -8,7 +9,7 @@ type BuyButtonProps = {
     title: string;
 };
 
-const BuyButton: React.FC<BuyButtonProps> = ({
+const BuyButton: React.FC<CartButtonProps> = ({
     styles,
     handleBuyNow,
     loader,
@@ -17,13 +18,19 @@ const BuyButton: React.FC<BuyButtonProps> = ({
 }) => {
     return (
         <Button
+            color="#7B61FF"
+            borderColor="#7B61FF"
             className={styles}
-            variant="primary"
+            variant="outline"
             onClick={handleBuyNow}
             isLoading={loader}
             disabled={outOfStock}
         >
-            Buy Now
+            <Flex>
+                <Text alignSelf={'center'} fontSize={'15px'}>
+                    {title}
+                </Text>
+            </Flex>
         </Button>
     );
 };
