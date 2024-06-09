@@ -9,10 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.testController = void 0;
+exports.test2Controller = void 0;
 const client_1 = require("../massmarket/client");
 const util_1 = require("./util");
-exports.testController = {
+exports.test2Controller = {
     get: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         (0, util_1.serveRequest)(req, res, () => __awaiter(void 0, void 0, void 0, function* () {
             /*
@@ -24,11 +24,7 @@ exports.testController = {
 
             await rc.writeManifest();
             */
-            const output = yield client_1.RelayClientWrapper.createAndInitializeStore();
-            console.log(output);
-            yield client_1.RelayClientWrapper.get('', output.storeId, output.keyCard);
-            yield client_1.RelayClientWrapper.get('', output.storeId, output.keyCard);
-            yield client_1.RelayClientWrapper.get('', output.storeId, output.keyCard);
+            yield client_1.RelayClientWrapper.get(util_1.ENDPOINT, `0x${req.query.id}`, `0x${req.query.kc}`);
             return {
                 success: true,
             };
@@ -47,4 +43,4 @@ exports.testController = {
         //console.log('rc', cartId);
     }),
 };
-//# sourceMappingURL=test.js.map
+//# sourceMappingURL=test2.js.map

@@ -50,9 +50,24 @@ class RelayClientWrapper {
     static randomStoreId() {
         return (0, viem_1.bytesToHex)(new Uint8Array((0, crypto_1.randomBytes)(32)));
     }
+    /**
+     * Gets an instance from cache, if one exists. Otherwise, creates a new instance
+     * and caches it.
+     * @param endpoint
+     * @param storeId
+     * @param keycard
+     * @returns
+     */
     static get(endpoint, storeId, keycard) {
         return __awaiter(this, void 0, void 0, function* () {
-            return new RelayClientWrapper(endpoint, storeId, keycard);
+            //return from cache
+            if (cache.contains(storeId)) {
+                return cache.get(storeId);
+            }
+            //create instance and cache it
+            const instance = new RelayClientWrapper(util_1.ENDPOINT, storeId, keycard);
+            cache.add(storeId, instance);
+            return instance;
         });
     }
     /**
@@ -72,15 +87,14 @@ class RelayClientWrapper {
                 chain: chains_1.sepolia,
                 transport: (0, viem_1.http)(),
             });
-            //await client.connect();
-            //const result = await client._client.createStore(client.storeId, wallet);
-            //console.log(await client.enrollKeyCard(walletPrivKey));
-            //await client._client.connect();
-            //console.log('manifest...');
-            //await client._client.writeStoreManifest(client.storeId);
+            cache.add(storeId, client);
             return client;
         });
     }
+    /**
+     * Creates a new store with a random storeId, enrolls a keycard, and writes the manifest.
+     * @returns The store id and keycard value for the new store.
+     */
     static createAndInitializeStore() {
         return __awaiter(this, void 0, void 0, function* () {
             //create random store id
@@ -130,6 +144,8 @@ class RelayClientWrapper {
             //THIS ONE WORKS TOO
             //console.log('writing manifest');
             //await client2.writeStoreManifest(storeId);
+            //add to cache
+            cache.add(storeId, new RelayClientWrapper(util_1.ENDPOINT, storeId, keycard.string));
             return {
                 keyCard: keycard.string,
                 storeId,
@@ -236,6 +252,33 @@ class RelayClientWrapper {
 }
 exports.RelayClientWrapper = RelayClientWrapper;
 /**
+ * Caches instances by id. The purpose is that one instance per store exists in
+ * memory, at most.
+ */
+class RelayClientCache {
+    constructor() {
+        this.clients = {};
+        this.clear();
+    }
+    contains(id) {
+        return this.clients[id] ? true : false;
+    }
+    add(id, instance) {
+        console.log(`adding instance ${id} to cache`);
+        this.clients[id] = instance;
+    }
+    get(id) {
+        console.log(`getting instance ${id} from cache`);
+        return this.clients[id];
+    }
+    remove(id) {
+        delete this.clients[id];
+    }
+    clear() {
+        this.clients = {};
+    }
+}
+/**
  * Massmarket's item field enum, for manifest fields.
  */
 var ItemField;
@@ -244,4 +287,5 @@ var ItemField;
     ItemField[ItemField["ITEM_FIELD_PRICE"] = 1] = "ITEM_FIELD_PRICE";
     ItemField[ItemField["ITEM_FIELD_METADATA"] = 2] = "ITEM_FIELD_METADATA";
 })(ItemField || (ItemField = {}));
+const cache = new RelayClientCache();
 //# sourceMappingURL=client.js.map
