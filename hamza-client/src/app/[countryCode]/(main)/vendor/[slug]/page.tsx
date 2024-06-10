@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import React, { Suspense, useEffect, useState } from 'react';
 import ProductCollections from '@modules/collections/product_collection_filter';
-import { Box, Grid, GridItem, Heading, Text } from '@chakra-ui/react'; // Import Chakra UI components
+import { Box, Grid, GridItem, Heading, Text, Image } from '@chakra-ui/react'; // Import Chakra UI components
 import SkeletonProductGrid from '@modules/skeletons/templates/skeleton-product-grid';
 import axios from 'axios';
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
@@ -64,10 +64,13 @@ export default function Page({ params }: { params: { slug: string } }) {
             <h1 className="text-3xl font-bold mb-4 text-center">
                 {displaySlug} {/* Display the capitalized slug */}
             </h1>
-            <Thumbnail
-                thumbnail={reviewStats.thumbnail}
-                images={[]}
-                size={'small'}
+            <Image
+                src={reviewStats.thumbnail} // Replace with your image URL
+                alt="Vendor"
+                borderRadius="full"
+                boxSize="150px"
+                mx="auto"
+                my={4}
             />
             <Text>Total Products: {reviewStats.productCount}</Text>
             <Text>Vendor Created at: {readableDate}</Text>
