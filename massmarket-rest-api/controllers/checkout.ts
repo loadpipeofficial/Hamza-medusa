@@ -20,6 +20,7 @@ export const checkoutController = {
 
                 if (!validateCheckoutInput(res, input)) return null;
 
+                /*
                 //get the client
                 const rc = await RelayClientWrapper.get(
                     ENDPOINT,
@@ -44,14 +45,20 @@ export const checkoutController = {
                     //commit the cart
                     await rc.commitCart(output.cartId);
 
-                    //TODO: get payment address
-                    output.paymentAddress = '0x0';
+                    output.paymentAddress =
+                        '0x0DcA1518DB5A058F29EBfDab76739faf8Fb4544c';
                     output.success = true;
                 }
+                */
+
+                //TODO: REMOVE (dummy checkout)
+                output.paymentAddress =
+                    '0x0DcA1518DB5A058F29EBfDab76739faf8Fb4544c';
+                output.success = true;
 
                 return output;
             },
-            201
+            200
         );
     },
 };
