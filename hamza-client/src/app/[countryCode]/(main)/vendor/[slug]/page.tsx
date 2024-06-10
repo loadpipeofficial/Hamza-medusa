@@ -94,10 +94,7 @@ export default function Page({ params }: { params: { slug: string } }) {
         setAbuseReason('');
         setAbuseDetails('');
         setIsSubmitted(true);
-        setTimeout(() => {
-            setIsSubmitted(false);
-            onClose();
-        }, 2000); // Close the modal after 2 seconds
+        onClose();
     };
 
     return (
@@ -135,8 +132,12 @@ export default function Page({ params }: { params: { slug: string } }) {
                 <ProductCollections vendorName={displaySlug} />{' '}
                 {/* Pass the capitalized slug */}
             </div>
-            <Button onClick={onOpen} colorScheme="red" mt={4}>
-                Report Abuse
+            <Button
+                onClick={onOpen}
+                colorScheme={isSubmitted ? 'green' : 'red'}
+                mt={4}
+            >
+                {isSubmitted ? 'Report Submitted' : 'Report Abuse'}
             </Button>
 
             <Modal isOpen={isOpen} onClose={onClose}>
