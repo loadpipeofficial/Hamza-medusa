@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Link, Text } from '@chakra-ui/react';
 import { FaArrowRightLong } from 'react-icons/fa6';
 
 const HeroBanner = () => {
@@ -11,6 +11,21 @@ const HeroBanner = () => {
             alignItems={'center'}
             flexDirection={'column'}
         >
+            <Flex
+                w="100%"
+                bg="blue.400"
+                color="white"
+                py={2}
+                mb={4}
+                justifyContent="center"
+                alignItems="center"
+            >
+                <Link href="https://blog.hamza.biz/affiliate/" isExternal>
+                    <Text fontSize="lg" fontWeight="bold">
+                        Become an affiliate
+                    </Text>
+                </Link>
+            </Flex>
             <Text
                 mb={{ sm: 3, md: '0' }}
                 lineHeight={'62px'}
