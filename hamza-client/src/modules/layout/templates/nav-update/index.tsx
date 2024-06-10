@@ -14,6 +14,7 @@ import SearchModal from '@modules/search/templates/search-modal';
 import SearchModalWrapper from '@modules/search/templates/search-wrapper';
 import dynamic from 'next/dynamic';
 import { Container, Box, Flex, Text } from '@chakra-ui/react';
+import NavLink from './nav-link/nav-link';
 
 const Nav = () => {
     return (
@@ -24,23 +25,27 @@ const Nav = () => {
             display="flex"
             alignItems="center"
         >
-            <Flex
-                width={'100%'}
-                gap={'56px'}
-                alignSelf="center"
-                backgroundColor={'red'}
-            >
-                <Text alignSelf="center">Hamza</Text>
-                <Box alignSelf="center">Home</Box>
-                <Box alignSelf="center">Market Place</Box>
-                <Box alignSelf="center">Store</Box>
-                <Box alignSelf={'center'}>About</Box>
+            <Flex width={'100%'} alignSelf="center">
+                <Text
+                    alignSelf="center"
+                    color={'white'}
+                    fontSize={'40px'}
+                    mr="1rem"
+                >
+                    Hamza
+                </Text>
+                <Flex>
+                    <NavLink href="/" title={'Home'} />
+                    <NavLink href="/" title={'Market Place'} />
+                    <NavLink href="/" title={'Store'} />
+                    <NavLink href="/" title={'About'} />
+                </Flex>
 
-                <Box ml="auto">
+                <Flex marginLeft="auto" gap={'36px'}>
                     <Suspense
                         fallback={
                             <LocalizedClientLink
-                                className="hover:text-ui-fg-base font-sora"
+                                className="mt-auto"
                                 href="/cart"
                             >
                                 <span
@@ -54,10 +59,12 @@ const Nav = () => {
                             </LocalizedClientLink>
                         }
                     >
-                        <CartButton />
+                        <Box alignSelf={'center'}>
+                            <CartButton />
+                        </Box>
                         <WalletConnectButton />
                     </Suspense>
-                </Box>
+                </Flex>
             </Flex>
         </Container>
     );
