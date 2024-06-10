@@ -9,6 +9,7 @@ import {
 } from '@medusajs/medusa/dist/types/product';
 import { Product } from '../models/product';
 import logger from '@medusajs/medusa-cli/dist/reporter';
+import { StoreRepository } from '../repositories/store';
 
 export type UpdateProductProductVariantDTO = {
     id?: string;
@@ -44,10 +45,12 @@ type UpdateProductInput = Omit<Partial<CreateProductInput>, 'variants'> & {
 class ProductService extends MedusaProductService {
     static LIFE_TIME = Lifetime.SCOPED;
     protected readonly logger: Logger;
+    protected readonly storeRepository_: typeof StoreRepository;
 
     constructor(container) {
         super(container);
         this.logger = container.logger;
+        this.storeRepository_ = container.storeRepository;
     }
 
     async updateProduct(
@@ -76,6 +79,20 @@ class ProductService extends MedusaProductService {
         });
     }
 
+    async getStoreFromProduct(productId: string): Promise<string> {
+        try {
+            const product = await this.productRepository_.findOne({
+                where: { id: productId },
+                relations: ['store'],
+            });
+
+            return product.store.name;
+        } catch (error) {
+            this.logger.error('Error fetching store from product:', error);
+            throw new Error('Failed to fetch store from product');
+        }
+    }
+
     async getProductsFromReview(storeId: string) {
         try {
             const products = await this.productRepository_.find({
@@ -101,6 +118,57 @@ class ProductService extends MedusaProductService {
         } catch (error) {
             // Handle the error here
             console.error(
+                'Error occurred while fetching products from review:',
+                error
+            );
+            throw new Error('Failed to fetch products from review.');
+        }
+    }
+
+    async getProductsFromStoreName(storeName: string) {
+        try {
+            const store = await this.storeRepository_.findOne({
+                where: { name: storeName },
+            });
+
+            if (!store) {
+                return null;
+            }
+
+            let totalReviews = 0;
+            let totalRating = 0;
+
+            const products = await this.productRepository_.find({
+                where: { store_id: store.id },
+                relations: ['reviews'],
+            });
+
+            let thumbnail = store.icon;
+            let productCount = products.length;
+            let createdAt = store.created_at;
+
+            products.forEach((product) => {
+                product.reviews.forEach((review) => {
+                    totalRating += review.rating;
+                });
+                totalReviews += product.reviews.length;
+            });
+
+            const avgRating = totalReviews > 0 ? totalRating / totalReviews : 0;
+
+            const reviewStats = {
+                reviewCount: totalReviews,
+                avgRating,
+                productCount,
+                createdAt,
+                numberOfFollowers: store.numberOfFollowers,
+                thumbnail,
+            };
+
+            return reviewStats;
+        } catch (error) {
+            // Handle the error here
+            this.logger.error(
                 'Error occurred while fetching products from review:',
                 error
             );

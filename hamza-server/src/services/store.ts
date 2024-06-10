@@ -28,7 +28,8 @@ class StoreService extends MedusaStoreService {
     async createStore(
         user: User,
         store_name: string,
-        collection: string
+        collection: string,
+        icon: string
     ): Promise<Store> {
         let owner_id = user.id;
         this.logger.debug('owner_id: ' + owner_id);
@@ -37,6 +38,7 @@ class StoreService extends MedusaStoreService {
         // newStore.owner = user; // Set the owner
         newStore.name = store_name; // Set the store name
         newStore.owner_id = owner_id; // Set the owner_id
+        newStore.icon = icon;
         newStore = await storeRepo.save(newStore);
         this.logger.debug('New Store Saved:' + newStore);
         await this.populateProductsWithStoreId(newStore, collection);

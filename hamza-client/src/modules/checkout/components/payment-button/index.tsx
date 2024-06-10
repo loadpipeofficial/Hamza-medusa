@@ -131,7 +131,7 @@ const CryptoPaymentButton = ({
      * @param data
      * @returns {transaction_id, payer_address, escrow_contract_address, success }
      */
-    const doWalletPayment = async (data: any) => {
+    const doWalletPayment_mm = async (data: any) => {
         try {
             //get provider and such
             const rawchainId = await window.ethereum.request({
@@ -176,7 +176,7 @@ const CryptoPaymentButton = ({
      * @param data
      * @returns {transaction_id, payer_address, escrow_contract_address, success }
      */
-    const doWalletPayment_switch = async (data: any) => {
+    const doWalletPayment = async (data: any) => {
         try {
             //get provider and such
             const rawchainId = await window.ethereum.request({

@@ -8,12 +8,15 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
         'productReviewService'
     );
 
-    const { customer_id, order_id } = readRequestBody(req.body, ['order_id']);
+    const { product_id, order_id } = readRequestBody(req.body, [
+        'order_id',
+        'product_id',
+    ]);
     logger.debug(`Order ID is ${order_id}`);
     try {
         const verify = await productReviewService.getSpecificReview(
             order_id,
-            customer_id
+            product_id
         );
         res.json(verify);
     } catch (err) {
