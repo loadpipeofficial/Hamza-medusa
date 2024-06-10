@@ -21,7 +21,7 @@ const Nav = () => {
         <Container
             h={'78px'}
             maxW={'1440px'}
-            bgColor={'black'}
+            bgColor={'transparent'}
             display="flex"
             alignItems="center"
         >
