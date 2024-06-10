@@ -41,9 +41,8 @@ const Nav = () => {
                 </Text>
                 <Flex>
                     <NavLink href="/" title={'Home'} />
-                    <NavLink href="/" title={'Marketplace'} />
-                    <NavLink href="/" title={'Store'} />
-                    <NavLink href="/" title={'About'} />
+                    <NavLink href="/store" title={'Store'} />
+                    <NavLink href="/account" title={'Account'} />
                 </Flex>
 
                 <Flex marginLeft="auto" gap={'36px'}>

@@ -1,6 +1,7 @@
 'use client';
-import { Button } from '@chakra-ui/react';
+import { Box, Button, Text, Flex } from '@chakra-ui/react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { formatAddress } from '@lib/util/format-address';
 
 export const WalletConnectButton = () => {
     return (
@@ -37,27 +38,23 @@ export const WalletConnectButton = () => {
                             if (!connected) {
                                 return (
                                     <Button
-                                        h="50px"
+                                        h="2.5rem"
+                                        fontSize={'.875rem'}
                                         borderRadius={'50px'}
                                         onClick={openConnectModal}
                                         style={{
                                             backgroundColor: '#94D42A',
-                                            color: 'white',
-                                            cursor: 'pointer',
-                                            fontWeight: 'bold',
                                             outline: 'none',
                                             transition: 'all 0.3s ease',
                                         }}
                                     >
-                                        <span
-                                            style={{
-                                                color: 'black',
-                                                fontSize: '18px',
-                                                fontWeight: 'bold',
-                                            }}
+                                        <Text
+                                            textStyle="h2"
+                                            color="black"
+                                            fontSize={'.875rem'}
                                         >
                                             Connect Wallet
-                                        </span>
+                                        </Text>
                                     </Button>
                                 );
                             }
@@ -70,44 +67,47 @@ export const WalletConnectButton = () => {
                                 );
                             }
                             return (
-                                <div
-                                    style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '8px',
-                                    }}
-                                >
-                                    <button
-                                        onClick={openAccountModal}
-                                        type="button"
+                                <Flex flexDirection={'row'} gap="20px">
+                                    <Box
+                                        w="20px"
+                                        h="20px"
+                                        alignSelf={'center'}
                                         style={{
-                                            background: 'none',
-                                            cursor: 'pointer',
+                                            background: chain.iconBackground,
+                                            borderRadius: '50%',
+                                            overflow: 'hidden',
                                         }}
                                     >
-                                        <div
-                                            style={{
-                                                background:
-                                                    chain.iconBackground,
-                                                width: 20, // Adjust the size as needed
-                                                height: 20,
-                                                borderRadius: '50%', // Makes it circular
-                                                overflow: 'hidden',
-                                            }}
+                                        {chain.iconUrl && (
+                                            <img
+                                                alt={`${chain.name ?? 'Chain'} icon`}
+                                                src={chain.iconUrl}
+                                                style={{
+                                                    width: 20,
+                                                    height: 20,
+                                                }}
+                                            />
+                                        )}
+                                    </Box>
+                                    <Button
+                                        h="2.5rem"
+                                        borderRadius={'50px'}
+                                        backgroundColor={'#94D42A'}
+                                        onClick={openAccountModal}
+                                        style={{
+                                            outline: 'none',
+                                            transition: 'all 0.3s ease',
+                                        }}
+                                    >
+                                        <Text
+                                            textStyle="h2"
+                                            color="black"
+                                            fontSize={'.875rem'}
                                         >
-                                            {chain.iconUrl && (
-                                                <img
-                                                    alt={`${chain.name ?? 'Chain'} icon`}
-                                                    src={chain.iconUrl}
-                                                    style={{
-                                                        width: 20,
-                                                        height: 20,
-                                                    }}
-                                                />
-                                            )}
-                                        </div>
-                                    </button>
-                                </div>
+                                            {formatAddress(account.address)}
+                                        </Text>
+                                    </Button>
+                                </Flex>
                             );
                         })()}
                     </div>
