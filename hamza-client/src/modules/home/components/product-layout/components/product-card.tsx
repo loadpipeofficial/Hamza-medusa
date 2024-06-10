@@ -70,6 +70,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
     return (
         <Card
+            fontFamily={'Sora'}
             maxW={'295px'}
             h="480px"
             backgroundColor={'black'}
@@ -99,7 +100,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     <Flex mb="1">
                         <Text
                             color={'white'}
-                            fontWeight="500"
+                            fontWeight="700"
                             fontSize="1.25rem"
                             lineHeight="25.29px"
                             mr="4"
@@ -155,7 +156,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             </Text>
                             <Text
                                 alignSelf={'center'}
-                                fontWeight="400"
+                                fontWeight="700"
                                 fontSize="14px"
                                 color="#555555"
                                 ml="1"

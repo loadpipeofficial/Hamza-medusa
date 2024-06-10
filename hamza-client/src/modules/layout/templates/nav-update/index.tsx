@@ -31,21 +31,23 @@ const Nav = () => {
             alignItems="center"
         >
             <Flex width={'100%'} alignSelf="center">
-                <Text
-                    alignSelf="center"
-                    color={'white'}
-                    fontSize={'40px'}
-                    mr="1rem"
-                >
-                    Hamza
-                </Text>
+                <LocalizedClientLink href="/">
+                    <Text
+                        alignSelf="center"
+                        color={'white'}
+                        fontSize={'40px'}
+                        mr="1rem"
+                    >
+                        Hamza
+                    </Text>
+                </LocalizedClientLink>
                 <Flex>
                     <NavLink href="/" title={'Home'} />
                     <NavLink href="/store" title={'Store'} />
                     <NavLink href="/account" title={'Account'} />
                 </Flex>
 
-                <Flex marginLeft="auto" gap={'20px'}>
+                <Flex marginLeft="auto" gap={'15px'}>
                     <Suspense
                         fallback={
                             <LocalizedClientLink
