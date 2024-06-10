@@ -11,7 +11,7 @@ import {
     TiStarFullOutline,
     TiStarHalfOutline,
 } from 'react-icons/ti';
-
+import { useRouter } from 'next/navigation';
 import {
     formatCryptoPrice,
     getProductPrice,
@@ -36,6 +36,8 @@ export default function ProductPrice({
         : product.variants[0].prices;
     const [averageRating, setAverageRating] = useState(0);
     const [reviewCount, setReviewCount] = useState(0);
+    const [storeName, setStoreName] = useState('');
+    const router = useRouter();
 
     // console.log(`Product is ${product.id}`);
     useEffect(() => {
@@ -71,11 +73,30 @@ export default function ProductPrice({
             }
         };
 
-        const getStoreName = async () => {};
+        const getStoreName = async () => {
+            try {
+                const response = await axios.post(
+                    `${BACKEND_URL}/custom/get-store`,
+                    {
+                        product_id: product.id,
+                    },
+                    { headers: { 'Content-Type': 'application/json' } }
+                );
+                console.log(`STORE NAME is ${response.data}`);
+                setStoreName(response.data);
+            } catch (error) {
+                console.error('Failed to fetch store name:', error);
+            }
+        };
 
+        getStoreName();
         fetchReviewCount();
         fetchAverageRating();
     }, [product.id]);
+
+    const navigateToVendor = () => {
+        router.push(`/us/vendor/${storeName}`);
+    };
 
     let preferredPrice =
         status == 'authenticated' &&
@@ -125,6 +146,15 @@ export default function ProductPrice({
                         Average Rating: {renderStars(averageRating)}
                     </p>
                 )}
+                <h3
+                    onClick={navigateToVendor}
+                    tabIndex={0} // This makes the element focusable
+                >
+                    Vendor:{' '}
+                    <span className="text-blue-500 ext-blue-500 hover:text-blue-700 focus:text-blue-700 cursor-pointer">
+                        {storeName}
+                    </span>
+                </h3>{' '}
             </div>
             {preferredPrice ? (
                 <span className={clx('text-xl-semi')}>
