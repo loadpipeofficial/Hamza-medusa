@@ -39,6 +39,7 @@ export declare module '@medusajs/medusa/dist/models/store' {
         owner?: User;
         owner_id?: string;
         roles: Role[];
+        numberOfFollowers: number;
     }
 }
 
