@@ -42,17 +42,20 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
         const store0 = await storeService.createStore(
             user0,
             'Goblin Store',
-            'pcol_01HRVF8HCVY8B00RF5S54THTPC'
+            'pcol_01HRVF8HCVY8B00RF5S54THTPC',
+            'https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatpants-gray-front.png'
         );
         const store1 = await storeService.createStore(
             user1,
             'Quality Store',
-            'pcol_01HSGAM4918EX0DETKY6E662WT'
+            'pcol_01HSGAM4918EX0DETKY6E662WT',
+            'http://54.253.186.85/vr_3.webp'
         );
         const store2 = await storeService.createStore(
             user2,
             'Headphones Store',
-            'pcol_01HSGAMXDJD725MR3VSW631SN2'
+            'pcol_01HSGAMXDJD725MR3VSW631SN2',
+            'http://54.253.186.85/headphones.webp'
         );
 
         await productCollectionService.update(

@@ -129,6 +129,7 @@ class ProductService extends MedusaProductService {
                 relations: ['reviews'],
             });
 
+            let thumbnail = store.icon;
             let productCount = products.length;
             let createdAt = store.created_at;
 
@@ -147,6 +148,7 @@ class ProductService extends MedusaProductService {
                 productCount,
                 createdAt,
                 numberOfFollowers: store.numberOfFollowers,
+                thumbnail,
             };
 
             return reviewStats;

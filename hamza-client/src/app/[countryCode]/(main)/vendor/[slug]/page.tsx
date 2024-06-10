@@ -8,6 +8,7 @@ import SkeletonProductGrid from '@modules/skeletons/templates/skeleton-product-g
 import axios from 'axios';
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 import { format } from 'date-fns';
+import Thumbnail from '@modules/products/components/thumbnail';
 
 export default function Page({ params }: { params: { slug: string } }) {
     const displaySlug = capitalizeSlug(params.slug);
@@ -17,6 +18,7 @@ export default function Page({ params }: { params: { slug: string } }) {
         productCount: 0,
         createdAt: '',
         numberOfFollowers: 0,
+        thumbnail: '',
     });
     console.log(`slug name ${displaySlug}`);
     // can I get a store_id from vendor name??
@@ -32,6 +34,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                 );
                 console.log(`Response ${JSON.stringify(response.data)}`);
                 setReviewStats(response.data);
+                console.log(`THUMBNAIL: ${response.data.icon}`);
             } catch (error) {
                 console.log(`Error ${error}`);
             }
@@ -61,6 +64,11 @@ export default function Page({ params }: { params: { slug: string } }) {
             <h1 className="text-3xl font-bold mb-4 text-center">
                 {displaySlug} {/* Display the capitalized slug */}
             </h1>
+            <Thumbnail
+                thumbnail={reviewStats.thumbnail}
+                images={[]}
+                size={'small'}
+            />
             <Text>Total Products: {reviewStats.productCount}</Text>
             <Text>Vendor Created at: {readableDate}</Text>
             <Text>Number of Followers: {reviewStats.numberOfFollowers}</Text>

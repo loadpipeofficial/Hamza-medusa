@@ -40,6 +40,7 @@ export declare module '@medusajs/medusa/dist/models/store' {
         owner_id?: string;
         roles: Role[];
         numberOfFollowers: number;
+        icon: string;
     }
 }
 
