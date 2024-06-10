@@ -119,7 +119,6 @@ export const formatVariantPrice = ({
         variant,
         region,
         includeTaxes,
-        currency_code,
     });
 
     return convertToLocale({
@@ -257,19 +256,15 @@ const convertToLocale = ({
     maximumFractionDigits = 2,
     locale = 'en-US',
 }): ConvertToLocaleParams => {
-    return {
-        amount: 0,
-        currency_code: '',
-    };
-    /*
-    // Ensure currency_code is a valid string before proceeding
     if (typeof currency_code !== 'string' || !currency_code) {
         console.error('Invalid or missing currency code', currency_code);
-        return amount.toString(); // or handle the error as needed
+        return amount.toString();
     }
 
+    let formattedAmount;
+
     if (traditionalCurrencies.includes(currency_code.toUpperCase())) {
-        return new Intl.NumberFormat(locale, {
+        formattedAmount = new Intl.NumberFormat(locale, {
             style: 'currency',
             currency: currency_code,
             minimumFractionDigits,
@@ -277,9 +272,10 @@ const convertToLocale = ({
         }).format(amount);
     } else {
         // Custom handling for non-standard currency codes
-        return `${amount.toFixed(minimumFractionDigits)} ${currency_code.toUpperCase()}`;
+        formattedAmount = `${amount.toFixed(minimumFractionDigits)} ${currency_code.toUpperCase()}`;
     }
-    */
+
+    return amount.toString();
 };
 
 type ConvertToLocaleParams = {
