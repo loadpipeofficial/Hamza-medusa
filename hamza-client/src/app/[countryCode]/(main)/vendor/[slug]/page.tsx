@@ -3,12 +3,34 @@
 import { useRouter } from 'next/navigation';
 import React, { Suspense, useEffect, useState } from 'react';
 import ProductCollections from '@modules/collections/product_collection_filter';
-import { Box, Grid, GridItem, Heading, Text, Image } from '@chakra-ui/react'; // Import Chakra UI components
-import SkeletonProductGrid from '@modules/skeletons/templates/skeleton-product-grid';
+import {
+    Box,
+    Grid,
+    GridItem,
+    Heading,
+    Text,
+    Image,
+    Button,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    FormControl,
+    FormLabel,
+    Input,
+    Textarea,
+    Select,
+    useDisclosure,
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
+} from '@chakra-ui/react';
 import axios from 'axios';
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
-import { format } from 'date-fns';
-import Thumbnail from '@modules/products/components/thumbnail';
 
 export default function Page({ params }: { params: { slug: string } }) {
     const displaySlug = capitalizeSlug(params.slug);
@@ -20,6 +42,11 @@ export default function Page({ params }: { params: { slug: string } }) {
         numberOfFollowers: 0,
         thumbnail: '',
     });
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [abuseReason, setAbuseReason] = useState('');
+    const [abuseDetails, setAbuseDetails] = useState('');
+    const [isSubmitted, setIsSubmitted] = useState(false);
+
     console.log(`slug name ${displaySlug}`);
     // can I get a store_id from vendor name??
     // yes you can so let's do that, /custom/vendors/vendor-reviews
@@ -59,6 +86,20 @@ export default function Page({ params }: { params: { slug: string } }) {
         }
     }
 
+    const handleSubmit = () => {
+        console.log('Abuse Report Submitted');
+        console.log('Reason:', abuseReason);
+        console.log('Details:', abuseDetails);
+        // Reset form values
+        setAbuseReason('');
+        setAbuseDetails('');
+        setIsSubmitted(true);
+        setTimeout(() => {
+            setIsSubmitted(false);
+            onClose();
+        }, 2000); // Close the modal after 2 seconds
+    };
+
     return (
         <div className="bg-black text-white text-center flex flex-col py-12">
             <h1 className="text-3xl font-bold mb-4 text-center">
@@ -94,6 +135,77 @@ export default function Page({ params }: { params: { slug: string } }) {
                 <ProductCollections vendorName={displaySlug} />{' '}
                 {/* Pass the capitalized slug */}
             </div>
+            <Button onClick={onOpen} colorScheme="red" mt={4}>
+                Report Abuse
+            </Button>
+
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Report Abuse</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        {isSubmitted ? (
+                            <Alert status="success">
+                                <AlertIcon />
+                                <AlertTitle mr={2}>Abuse reported!</AlertTitle>
+                                <AlertDescription>
+                                    Your report has been submitted.
+                                </AlertDescription>
+                            </Alert>
+                        ) : (
+                            <>
+                                <FormControl id="abuse-reason" isRequired>
+                                    <FormLabel>Reason</FormLabel>
+                                    <Select
+                                        placeholder="Select reason"
+                                        value={abuseReason}
+                                        onChange={(e) =>
+                                            setAbuseReason(e.target.value)
+                                        }
+                                    >
+                                        <option value="spam">Spam</option>
+                                        <option value="harassment">
+                                            Harassment
+                                        </option>
+                                        <option value="inappropriate">
+                                            Inappropriate Content
+                                        </option>
+                                    </Select>
+                                </FormControl>
+                                <FormControl
+                                    id="abuse-details"
+                                    isRequired
+                                    mt={4}
+                                >
+                                    <FormLabel>Details</FormLabel>
+                                    <Textarea
+                                        placeholder="Provide additional details"
+                                        value={abuseDetails}
+                                        onChange={(e) =>
+                                            setAbuseDetails(e.target.value)
+                                        }
+                                    />
+                                </FormControl>
+                            </>
+                        )}
+                    </ModalBody>
+                    <ModalFooter>
+                        {!isSubmitted && (
+                            <Button
+                                colorScheme="blue"
+                                mr={3}
+                                onClick={handleSubmit}
+                            >
+                                Submit
+                            </Button>
+                        )}
+                        <Button variant="ghost" onClick={onClose}>
+                            Cancel
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </div>
     );
 }
