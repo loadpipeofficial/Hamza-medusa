@@ -1,5 +1,5 @@
 'use client';
-import { Box, Button, Text, Flex } from '@chakra-ui/react';
+import { Box, Button, Text, Flex, Image } from '@chakra-ui/react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { formatAddress } from '@lib/util/format-address';
 
@@ -39,7 +39,6 @@ export const WalletConnectButton = () => {
                                 return (
                                     <Button
                                         h="2.5rem"
-                                        fontSize={'.875rem'}
                                         borderRadius={'50px'}
                                         onClick={openConnectModal}
                                         style={{
@@ -51,7 +50,7 @@ export const WalletConnectButton = () => {
                                         <Text
                                             textStyle="h2"
                                             color="black"
-                                            fontSize={'.875rem'}
+                                            fontSize={'20px'}
                                         >
                                             Connect Wallet
                                         </Text>
@@ -67,32 +66,28 @@ export const WalletConnectButton = () => {
                                 );
                             }
                             return (
-                                <Flex flexDirection={'row'} gap="20px">
+                                <Flex flexDirection={'row'} gap="15px">
                                     <Box
-                                        w="20px"
-                                        h="20px"
+                                        w="2.5rem"
+                                        h="2.5rem"
+                                        display={'flex'}
+                                        justifyContent={'center'}
+                                        borderRadius={'50%'}
                                         alignSelf={'center'}
-                                        style={{
-                                            background: chain.iconBackground,
-                                            borderRadius: '50%',
-                                            overflow: 'hidden',
-                                        }}
+                                        backgroundColor={'#2C272D'}
                                     >
                                         {chain.iconUrl && (
-                                            <img
+                                            <Image
+                                                alignSelf={'center'}
                                                 alt={`${chain.name ?? 'Chain'} icon`}
                                                 src={chain.iconUrl}
-                                                style={{
-                                                    width: 20,
-                                                    height: 20,
-                                                }}
                                             />
                                         )}
                                     </Box>
                                     <Button
                                         h="2.5rem"
                                         borderRadius={'50px'}
-                                        backgroundColor={'#94D42A'}
+                                        backgroundColor={'#2C272D'}
                                         onClick={openAccountModal}
                                         style={{
                                             outline: 'none',
@@ -101,8 +96,8 @@ export const WalletConnectButton = () => {
                                     >
                                         <Text
                                             textStyle="h2"
-                                            color="black"
-                                            fontSize={'.875rem'}
+                                            color="white"
+                                            fontSize={'20px'}
                                         >
                                             {formatAddress(account.address)}
                                         </Text>

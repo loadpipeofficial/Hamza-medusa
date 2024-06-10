@@ -45,7 +45,7 @@ const Nav = () => {
                     <NavLink href="/account" title={'Account'} />
                 </Flex>
 
-                <Flex marginLeft="auto" gap={'36px'}>
+                <Flex marginLeft="auto" gap={'20px'}>
                     <Suspense
                         fallback={
                             <LocalizedClientLink

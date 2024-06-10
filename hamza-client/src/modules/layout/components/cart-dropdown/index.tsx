@@ -83,10 +83,7 @@ const CartDropdown = ({
                         href="/cart"
                     >
                         <span
-                            style={{
-                                fontSize: ' 0.875rem',
-                                fontWeight: 'bold',
-                            }}
+                            style={{ fontSize: '20px', fontWeight: 'bold' }}
                         >{`Cart (${totalItems})`}</span>
                     </LocalizedClientLink>
                 </Popover.Button>
