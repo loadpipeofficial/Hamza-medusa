@@ -117,8 +117,6 @@ class ProductService extends MedusaProductService {
                 where: { name: storeName },
             });
 
-            console.log('store:', store);
-
             if (!store) {
                 return null;
             }
@@ -131,6 +129,8 @@ class ProductService extends MedusaProductService {
                 relations: ['reviews'],
             });
 
+            let productCount = products.length;
+
             products.forEach((product) => {
                 product.reviews.forEach((review) => {
                     totalRating += review.rating;
@@ -140,12 +140,16 @@ class ProductService extends MedusaProductService {
 
             const avgRating = totalReviews > 0 ? totalRating / totalReviews : 0;
 
-            const reviewStats = { reviewCount: totalReviews, avgRating };
+            const reviewStats = {
+                reviewCount: totalReviews,
+                avgRating,
+                productCount,
+            };
 
             return reviewStats;
         } catch (error) {
             // Handle the error here
-            console.error(
+            this.logger.error(
                 'Error occurred while fetching products from review:',
                 error
             );
