@@ -104,8 +104,8 @@ export class MassmarketPaymentClient {
                     currency: payment.currency ?? '0x0',
                     amount: payment.amount,
                     order: ethers.keccak256('0x0'),
-                    payeeAddress: '0x0',
-                    isPaymentEndpoint: false,
+                    payeeAddress: '0x0', //switch address, or store owner address
+                    isPaymentEndpoint: false, //true if using switch
                     shopId: ethers.toBigInt('0x0'),
                     shopSignature: new Uint8Array(64),
                 };

@@ -7,7 +7,8 @@ const chainConfig: any = {
     11155111: {
         chain_name: 'sepolia',
         master_switch: {
-            address: '0x0Ac64d6d09bB3B7ab6999f9BE3b9f017220fb1e9',
+            //address: '0x0Ac64d6d09bB3B7ab6999f9BE3b9f017220fb1e9',
+            address: '0x74b7284836F753101bD683C3843e95813b381f18',
         },
     },
     11155420: {
