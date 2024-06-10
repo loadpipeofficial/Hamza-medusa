@@ -7,6 +7,7 @@ import { Box, Grid, GridItem, Heading, Text } from '@chakra-ui/react'; // Import
 import SkeletonProductGrid from '@modules/skeletons/templates/skeleton-product-grid';
 import axios from 'axios';
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
+import { format } from 'date-fns';
 
 export default function Page({ params }: { params: { slug: string } }) {
     const displaySlug = capitalizeSlug(params.slug);
@@ -14,6 +15,7 @@ export default function Page({ params }: { params: { slug: string } }) {
         reviewCount: 0,
         avgRating: 0,
         productCount: 0,
+        createdAt: '',
     });
     console.log(`slug name ${displaySlug}`);
     // can I get a store_id from vendor name??
@@ -37,12 +39,29 @@ export default function Page({ params }: { params: { slug: string } }) {
         fetchData();
     }, [displaySlug]);
 
+    let readableDate = 'Invalid date';
+    if (reviewStats.createdAt) {
+        try {
+            readableDate = new Date(reviewStats.createdAt).toLocaleDateString(
+                'en-US',
+                {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                }
+            );
+        } catch (error) {
+            console.error('Error parsing date:', error);
+        }
+    }
+
     return (
         <div className="bg-black text-white text-center flex flex-col py-12">
             <h1 className="text-3xl font-bold mb-4 text-center">
                 {displaySlug} {/* Display the capitalized slug */}
             </h1>
-            <Text>Total Products: {reviewStats.productCount}</Text>{' '}
+            <Text>Total Products: {reviewStats.productCount}</Text>
+            <Text>Vendor Created at: {readableDate}</Text>
             <Box>
                 <Heading as="h2" size="md" mt={4}>
                     Review Stats

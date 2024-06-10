@@ -130,6 +130,7 @@ class ProductService extends MedusaProductService {
             });
 
             let productCount = products.length;
+            let createdAt = store.created_at;
 
             products.forEach((product) => {
                 product.reviews.forEach((review) => {
@@ -144,6 +145,7 @@ class ProductService extends MedusaProductService {
                 reviewCount: totalReviews,
                 avgRating,
                 productCount,
+                createdAt,
             };
 
             return reviewStats;
