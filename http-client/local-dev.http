@@ -226,8 +226,8 @@ POST http://localhost:9000/custom/review/existing
 Content-Type: application/json
 
 {
-  "order_id": "order_01HZHANA5PXQNBQ50Y4HX6PA61",
-  "product_id": "prod_01HZGXK5K93QD6132PNESEYBVS"
+  "order_id": "order_01J00BJJVD3N6XGE7RYAVJ3EVX",
+  "product_id": "variant_01J008A6ZZJ9YM9ENWRJ36ZFN0"
 }
 
 ### Return all vendors
@@ -240,6 +240,14 @@ Content-Type: application/json
 
 {
   "store_id": "store_01HZGXTNW8CZ291Q1TACR6GQVW"
+}
+
+### Get Vendor by Store Name
+POST http://localhost:9000/custom/vendors/vendor-store
+Content-Type: application/json
+
+{
+  "store_name": "Goblin Store"
 }
 
 
