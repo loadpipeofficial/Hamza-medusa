@@ -16,8 +16,8 @@ const SearchAndFilterPanel = () => {
         <Box>
             <SearchBar />
             <Box
-                mb={{ sm: '-10rem', md: '0' }}
-                visibility={{ sm: 'hidden', md: 'visible' }}
+                mb={{ base: '-10rem', md: '0' }}
+                visibility={{ base: 'hidden', md: 'visible' }}
             >
                 <Reputation />
             </Box>
