@@ -9,6 +9,7 @@ import {
 } from '@medusajs/medusa/dist/types/product';
 import { Product } from '../models/product';
 import logger from '@medusajs/medusa-cli/dist/reporter';
+import { StoreRepository } from '../repositories/store';
 
 export type UpdateProductProductVariantDTO = {
     id?: string;
@@ -44,10 +45,12 @@ type UpdateProductInput = Omit<Partial<CreateProductInput>, 'variants'> & {
 class ProductService extends MedusaProductService {
     static LIFE_TIME = Lifetime.SCOPED;
     protected readonly logger: Logger;
+    protected readonly storeRepository_: typeof StoreRepository;
 
     constructor(container) {
         super(container);
         this.logger = container.logger;
+        this.storeRepository_ = container.storeRepository;
     }
 
     async updateProduct(
@@ -85,6 +88,48 @@ class ProductService extends MedusaProductService {
 
             let totalReviews = 0;
             let totalRating = 0;
+
+            products.forEach((product) => {
+                product.reviews.forEach((review) => {
+                    totalRating += review.rating;
+                });
+                totalReviews += product.reviews.length;
+            });
+
+            const avgRating = totalReviews > 0 ? totalRating / totalReviews : 0;
+
+            const reviewStats = { reviewCount: totalReviews, avgRating };
+
+            return reviewStats;
+        } catch (error) {
+            // Handle the error here
+            console.error(
+                'Error occurred while fetching products from review:',
+                error
+            );
+            throw new Error('Failed to fetch products from review.');
+        }
+    }
+
+    async getProductsFromStoreName(storeName: string) {
+        try {
+            const store = await this.storeRepository_.findOne({
+                where: { name: storeName },
+            });
+
+            console.log('store:', store);
+
+            if (!store) {
+                return null;
+            }
+
+            let totalReviews = 0;
+            let totalRating = 0;
+
+            const products = await this.productRepository_.find({
+                where: { store_id: store.id },
+                relations: ['reviews'],
+            });
 
             products.forEach((product) => {
                 product.reviews.forEach((review) => {

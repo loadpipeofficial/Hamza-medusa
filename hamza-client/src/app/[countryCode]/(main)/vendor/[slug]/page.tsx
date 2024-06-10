@@ -1,12 +1,19 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import ProductCollections from '@modules/collections/product_collection_filter';
 import SkeletonProductGrid from '@modules/skeletons/templates/skeleton-product-grid';
+const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 
 export default function Page({ params }: { params: { slug: string } }) {
     const displaySlug = capitalizeSlug(params.slug);
+
+    // can I get a store_id from vendor name??
+    // yes you can so let's do that, /custom/vendors/vendor-reviews
+    useEffect(() => {
+        const fetchData = async () => {};
+    });
 
     return (
         <div className="bg-black text-white flex flex-col py-12">
