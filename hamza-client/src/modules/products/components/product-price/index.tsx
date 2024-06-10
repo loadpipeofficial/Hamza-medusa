@@ -71,6 +71,8 @@ export default function ProductPrice({
             }
         };
 
+        const getStoreName = async () => {};
+
         fetchReviewCount();
         fetchAverageRating();
     }, [product.id]);

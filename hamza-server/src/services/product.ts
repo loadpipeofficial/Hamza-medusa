@@ -79,6 +79,20 @@ class ProductService extends MedusaProductService {
         });
     }
 
+    async getStoreFromProduct(productId: string): Promise<string> {
+        try {
+            const product = await this.productRepository_.findOne({
+                where: { id: productId },
+                relations: ['store'],
+            });
+
+            return product.store.name;
+        } catch (error) {
+            this.logger.error('Error fetching store from product:', error);
+            throw new Error('Failed to fetch store from product');
+        }
+    }
+
     async getProductsFromReview(storeId: string) {
         try {
             const products = await this.productRepository_.find({
