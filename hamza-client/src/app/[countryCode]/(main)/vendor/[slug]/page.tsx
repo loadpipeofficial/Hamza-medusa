@@ -16,6 +16,7 @@ export default function Page({ params }: { params: { slug: string } }) {
         avgRating: 0,
         productCount: 0,
         createdAt: '',
+        numberOfFollowers: 0,
     });
     console.log(`slug name ${displaySlug}`);
     // can I get a store_id from vendor name??
@@ -62,6 +63,7 @@ export default function Page({ params }: { params: { slug: string } }) {
             </h1>
             <Text>Total Products: {reviewStats.productCount}</Text>
             <Text>Vendor Created at: {readableDate}</Text>
+            <Text>Number of Followers: {reviewStats.numberOfFollowers}</Text>
             <Box>
                 <Heading as="h2" size="md" mt={4}>
                     Review Stats

@@ -20,4 +20,9 @@ export class Store extends MedusaStore {
 
     @Column()
     massmarket_keycard?: string;
+
+    get numberOfFollowers(): number {
+        // Hard-coded value for now
+        return 100;
+    }
 }
