@@ -4,6 +4,7 @@
         "allowJs": true,
         "esModuleInterop": true,
         "module": "commonjs",
+        "typeRoots": ["./node_modules/@types"],
         "moduleResolution": "node",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
