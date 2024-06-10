@@ -1,4 +1,5 @@
 'use client';
+import { Button } from '@chakra-ui/react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 export const WalletConnectButton = () => {
@@ -35,16 +36,14 @@ export const WalletConnectButton = () => {
                         {(() => {
                             if (!connected) {
                                 return (
-                                    <button
+                                    <Button
+                                        h="50px"
+                                        borderRadius={'50px'}
                                         onClick={openConnectModal}
-                                        type="button"
                                         style={{
-                                            padding: '5px 10px',
-                                            border: '2px solid white',
-                                            backgroundColor: 'transparent',
+                                            backgroundColor: '#94D42A',
                                             color: 'white',
                                             cursor: 'pointer',
-                                            borderRadius: '4px',
                                             fontWeight: 'bold',
                                             outline: 'none',
                                             transition: 'all 0.3s ease',
@@ -52,13 +51,14 @@ export const WalletConnectButton = () => {
                                     >
                                         <span
                                             style={{
-                                                fontSize: '14px',
+                                                color: 'black',
+                                                fontSize: '18px',
                                                 fontWeight: 'bold',
                                             }}
                                         >
                                             Connect Wallet
                                         </span>
-                                    </button>
+                                    </Button>
                                 );
                             }
                             if (chain && chain.unsupported) {

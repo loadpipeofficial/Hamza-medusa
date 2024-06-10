@@ -1,6 +1,6 @@
 import React from 'react';
 import { headers } from 'next/headers';
-import { Suspense, useState } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { listRegions } from '@lib/data';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
@@ -19,6 +19,11 @@ import NavLink from './nav-link/nav-link';
 const Nav = () => {
     return (
         <Container
+            style={{
+                zIndex: '1',
+                backgroundColor: '#020202',
+            }}
+            className="sticky top-0"
             h={'78px'}
             maxW={'1440px'}
             bgColor={'transparent'}
@@ -36,7 +41,7 @@ const Nav = () => {
                 </Text>
                 <Flex>
                     <NavLink href="/" title={'Home'} />
-                    <NavLink href="/" title={'Market Place'} />
+                    <NavLink href="/" title={'Marketplace'} />
                     <NavLink href="/" title={'Store'} />
                     <NavLink href="/" title={'About'} />
                 </Flex>
@@ -62,7 +67,9 @@ const Nav = () => {
                         <Box alignSelf={'center'}>
                             <CartButton />
                         </Box>
-                        <WalletConnectButton />
+                        <Box alignSelf={'center'}>
+                            <WalletConnectButton />
+                        </Box>
                     </Suspense>
                 </Flex>
             </Flex>

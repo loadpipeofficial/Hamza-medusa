@@ -77,13 +77,13 @@ const CartDropdown = ({
             onMouseLeave={close}
         >
             <Popover className="relative h-full text-white">
-                <Popover.Button className="h-full">
+                <Popover.Button className="h-full bg-slate-500">
                     <LocalizedClientLink
                         className="hover:text-ui-fg-base"
                         href="/cart"
                     >
                         <span
-                            style={{ fontSize: '14px', fontWeight: 'bold' }}
+                            style={{ fontSize: '20px', fontWeight: 'bold' }}
                         >{`Cart (${totalItems})`}</span>
                     </LocalizedClientLink>
                 </Popover.Button>
