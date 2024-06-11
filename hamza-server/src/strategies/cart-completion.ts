@@ -323,7 +323,12 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
     - 
     */
     private async doMassMarketCheckout(
-        orderData: { order: Order; lineItems: string[] }[]
+        orderData: {
+            order: Order;
+            lineItems: string[];
+            orders: Order[];
+            items: LineItem[];
+        }[]
     ): Promise<CheckoutResult[]> {
         console.log(`orderData ${JSON.stringify(orderData)}`);
 
@@ -333,15 +338,16 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         try {
             for (const data of orderData) {
                 const lineItemValues = Object.values(data.lineItems);
-                storeId = Object.values(data.order.store_id);
+                storeId = data.order.store_id;
+                this.logger.debug('storeId: ' + storeId);
                 this.logger.debug(
                     `LINE ITEM VALUES ${lineItemValues} ${lineItemValues.length}`
                 );
-                items = await this.lineItemRepository.find({
+                data.items = await this.lineItemRepository.find({
                     where: { id: In(lineItemValues) },
                     relations: ['variant.product', 'order'],
                 });
-                orders = await this.orderRepository.find({
+                data.orders = await this.orderRepository.find({
                     where: { id: In([data.order.id]) },
                     relations: ['store'],
                 });
@@ -365,19 +371,18 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         } = {};
 
         //this is populating that dictionary from the orders
-        for (const o of orders) {
-            console.log(`Order is ${JSON.stringify(o.store)}`);
-            const key = o.store.massmarket_store_id;
+        for (const o of orderData) {
+            const key = o.orders[0].store.massmarket_store_id;
+            this.logger.debug('MM store Id: ' + key);
 
             if (!storesToItems[key])
                 storesToItems[key] = {
-                    keycard: o.store.massmarket_keycard,
-                    massmarket_store_id: o.store.massmarket_store_id,
-                    orderId: o.id,
+                    keycard: o.orders[0].store.massmarket_keycard,
+                    massmarket_store_id: o.orders[0].store.massmarket_store_id,
+                    orderId: o.orders[0].id,
                     items: [],
                 };
-            for (const item of items) {
-                console.log(`Item is ${JSON.stringify(item)}`);
+            for (const item of o.items) {
                 const prod: Product = item.variant.product;
                 storesToItems[key].items.push({
                     productId: prod.massmarket_prod_id,
@@ -385,7 +390,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
                 });
             }
         }
-        console.log(`storesToItems ${JSON.stringify(storesToItems)}`);
+        this.logger.debug(`storesToItems ${JSON.stringify(storesToItems)}`);
 
         //call checkout for each store
         const client = new MassMarketClient();
