@@ -204,7 +204,7 @@ export default class OrderService extends MedusaOrderService {
     async cancelOrderFromCart(cart_id: string) {
         await this.orderRepository_.update(
             { status: OrderStatus.PENDING, cart: { id: cart_id } },
-            { status: OrderStatus.CANCELED }
+            { status: OrderStatus.ARCHIVED }
         );
     }
 }
