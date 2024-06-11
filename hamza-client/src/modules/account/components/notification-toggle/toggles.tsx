@@ -29,6 +29,24 @@ const ToggleNotifications = ({ region }: { region: Region }) => {
         }
     };
 
+    const handleCheckboxChange = (event) => {
+        const value = event.target.value;
+        if (value === 'none') {
+            setSelectedNotifications(['none']);
+        } else {
+            setSelectedNotifications((prevSelected) => {
+                if (prevSelected.includes(value)) {
+                    return prevSelected.filter((item) => item !== value);
+                } else {
+                    return [
+                        ...prevSelected.filter((item) => item !== 'none'),
+                        value,
+                    ];
+                }
+            });
+        }
+    };
+
     const handleSave = () => {
         // Save the notification preferences and method here
         console.log('Selected Notifications:', selectedNotifications);
@@ -39,34 +57,61 @@ const ToggleNotifications = ({ region }: { region: Region }) => {
     return (
         <FormControl>
             <FormLabel>Notification Preferences</FormLabel>
-            <CheckboxGroup
-                value={selectedNotifications}
-                onChange={handleNotificationChange}
-            >
-                <Stack spacing={3}>
-                    <Checkbox value="orderShipped">
-                        Notify when order shipped
-                    </Checkbox>
-                    <Checkbox value="newProduct">
-                        Notify when followed sellers post a new product
-                    </Checkbox>
-                    <Checkbox value="orderStatusChanged">
-                        Notify when order status changed
-                    </Checkbox>
-                    <Checkbox value="promotions">
-                        Notify for promotions/discounts
-                    </Checkbox>
-                    <Checkbox value="surveys">Notify for surveys</Checkbox>
-                    <Checkbox value="necessary">
-                        Necessary notifications only (when this is checked,
-                        other checkboxes are cleared)
-                    </Checkbox>
-                    <Checkbox value="none">
-                        No notifications (when this is checked, other checkboxes
-                        are cleared)
-                    </Checkbox>
-                </Stack>
-            </CheckboxGroup>
+            <Stack spacing={3}>
+                <Checkbox
+                    value="orderShipped"
+                    isChecked={selectedNotifications.includes('orderShipped')}
+                    onChange={handleCheckboxChange}
+                >
+                    Notify when order shipped
+                </Checkbox>
+                <Checkbox
+                    value="newProduct"
+                    isChecked={selectedNotifications.includes('newProduct')}
+                    onChange={handleCheckboxChange}
+                >
+                    Notify when followed sellers post a new product
+                </Checkbox>
+                <Checkbox
+                    value="orderStatusChanged"
+                    isChecked={selectedNotifications.includes(
+                        'orderStatusChanged'
+                    )}
+                    onChange={handleCheckboxChange}
+                >
+                    Notify when order status changed
+                </Checkbox>
+                <Checkbox
+                    value="promotions"
+                    isChecked={selectedNotifications.includes('promotions')}
+                    onChange={handleCheckboxChange}
+                >
+                    Notify for promotions/discounts
+                </Checkbox>
+                <Checkbox
+                    value="surveys"
+                    isChecked={selectedNotifications.includes('surveys')}
+                    onChange={handleCheckboxChange}
+                >
+                    Notify for surveys
+                </Checkbox>
+                <Checkbox
+                    value="necessary"
+                    isChecked={selectedNotifications.includes('necessary')}
+                    onChange={handleCheckboxChange}
+                >
+                    Necessary notifications only (when this is checked, other
+                    checkboxes are cleared)
+                </Checkbox>
+                <Checkbox
+                    value="none"
+                    isChecked={selectedNotifications.includes('none')}
+                    onChange={handleCheckboxChange}
+                >
+                    No notifications (when this is checked, other checkboxes are
+                    cleared)
+                </Checkbox>
+            </Stack>
             <FormLabel mt={4}>Notify by:</FormLabel>
             <RadioGroup
                 value={notificationMethod}
