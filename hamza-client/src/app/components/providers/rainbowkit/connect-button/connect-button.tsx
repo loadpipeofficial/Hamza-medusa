@@ -48,11 +48,11 @@ export const WalletConnectButton = () => {
                                         }}
                                     >
                                         <Text
-                                            textStyle="h2"
+                                            fontFamily={'Sora'}
                                             color="black"
                                             fontSize={{
                                                 base: '12px',
-                                                md: '20px',
+                                                md: '16px',
                                             }}
                                         >
                                             Connect Wallet

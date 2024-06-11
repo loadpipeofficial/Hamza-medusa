@@ -29,9 +29,8 @@ const NavLink: React.FC<NavLinkProps> = ({ href, title }) => {
                 onMouseLeave={handleMouseLeave}
             >
                 <Text
-                    // fontFamily="Sora"
+                    className="text-base font-semibold"
                     alignSelf={'center'}
-                    fontSize={'20px'}
                     color={isHovered ? '#94D42A' : 'white'}
                 >
                     {title}

@@ -19,6 +19,7 @@ export default async function Nav() {
     const regions = await listRegions().then((regions) => regions);
     return (
         <Flex
+            fontFamily={'Sora'}
             zIndex={'1'}
             className="sticky top-0"
             width="100%"
