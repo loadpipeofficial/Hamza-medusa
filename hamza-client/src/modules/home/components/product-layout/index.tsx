@@ -8,6 +8,8 @@ import { useQuery } from '@tanstack/react-query';
 import { formatCryptoPrice } from '@lib/util/get-product-price';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import { addToCart } from '@modules/cart/actions';
+import { ProductPreview } from '@modules/products/components/product-preview';
+import LocalizedClientLink from '@modules/common/components/localized-client-link';
 
 type Props = {
     vendorName: string;
@@ -38,14 +40,14 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
 
     //TODO: Make product card clickable to product preview
     return (
-        <Container maxW="1440px" p="8" backgroundColor={'#2C272D'}>
+        <Container maxW="1280px" py="8" backgroundColor={'transparent'}>
             <SimpleGrid
-                columns={{ base: 1, sm: 1, md: 3, lg: 4 }}
+                columns={{ base: 1, md: 2, lg: 4 }}
                 spacing="1.25rem"
                 rowGap="2.5rem"
                 placeItems="center"
             >
-                {products.map((product: any) => {
+                {products.map((product: any, index: number) => {
                     const variantPrices = product.variants
                         .map((variant: any) => variant.prices)
                         .flat();
@@ -53,7 +55,8 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
                     const varientID = product.variants[0].id;
                     return (
                         <ProductCard
-                            key={product.id}
+                            key={index}
+                            productHandle={products[index].handle}
                             varientID={varientID}
                             countryCode={product.countryCode}
                             productName={product.title}

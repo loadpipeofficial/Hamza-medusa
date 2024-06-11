@@ -77,7 +77,7 @@ export default async function Home({
     }
 
     return (
-        <Box backgroundColor={'#2C272D'}>
+        <Box backgroundColor={'transparent'}>
             <HeroBanner />
             <SearchAndFilterPanel />
         </Box>
