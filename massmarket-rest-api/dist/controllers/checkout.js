@@ -21,14 +21,17 @@ exports.checkoutController = {
             const output = {
                 success: true,
                 receiverAddress: '0x0DcA1518DB5A058F29EBfDab76739faf8Fb4544c',
-                amount: BigInt(11),
+                amount: '1100000',
                 orderId: '0x0DcA1518DB5A058F29EBfDab76739faf8Fb4544c',
                 chainId: 11155111,
                 ttl: 1,
             };
-            if (!validateCheckoutInput(res, input))
-                return null;
             /*
+            if (!validateCheckoutInput(res, input)) {
+                console.log('validation failed');
+                return null;
+            }
+
             //get the client
             const rc = await RelayClientWrapper.get(
                 ENDPOINT,
@@ -58,6 +61,7 @@ exports.checkoutController = {
                 output.success = true;
             }
             */
+            console.log('returning output');
             return output;
         }), 200);
     }),

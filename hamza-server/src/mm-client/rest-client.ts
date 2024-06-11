@@ -3,7 +3,7 @@ import { BigNumberish } from 'ethers';
 
 export type HexString = `0x${string}`;
 
-const REST_URL = process.env.REST_SERVER_URL || 'http://localhost:3000';
+const REST_URL = process.env.REST_SERVER_URL || 'http://localhost:3001';
 try {
     new URL(REST_URL);
 } catch (error) {

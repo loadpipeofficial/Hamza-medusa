@@ -8,6 +8,8 @@ export function serveRequest(
     successReturnCode: number = 200,
     defaultReturnCode: number = 500
 ) {
+    console.log('request served: ', JSON.stringify(req.body));
+
     const onError = (e: any) => {
         console.error(e);
         res.status(defaultReturnCode).json({
