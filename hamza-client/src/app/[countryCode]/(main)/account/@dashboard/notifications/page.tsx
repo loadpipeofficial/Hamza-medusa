@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import AddressBook from '@modules/account/components/address-book';
+import Notification from '@modules/account/components/notifications';
 
 import { getCustomer } from '@lib/data';
 
@@ -26,14 +26,13 @@ export default async function Notifications() {
     return (
         <div className="w-full bg-black text-white p-8">
             <div className="mb-8 flex flex-col gap-y-4">
-                <h1 className="text-2xl-semi">Shipping Addresses</h1>
+                <h1 className="text-2xl-semi">Notifications</h1>
                 <p className="text-base-regular">
-                    View and update your shipping addresses, you can add as many
-                    as you like. Saving your addresses will make them available
-                    during checkout.
+                    View and update your notifications, you can toggle them on
+                    or off. Saving your notifications will make them available
                 </p>
             </div>
-            <AddressBook customer={customer} region={region} />
+            <Notification customer={customer} region={region} />
         </div>
     );
 }
