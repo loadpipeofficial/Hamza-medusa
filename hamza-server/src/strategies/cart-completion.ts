@@ -322,7 +322,6 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         let storeId;
         let items: LineItem[];
         let orders: Order[];
-        this.logger.debug('DOMASSMAKRET 1');
         try {
             for (const data of orderData) {
                 const lineItemValues = Object.values(data.lineItems);
@@ -342,17 +341,6 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         } catch (e) {
             this.logger.error(`Error ${e}`);
         }
-        this.logger.debug('DOMASSMAKRET 2');
-
-        if (items.length > 0) {
-            this.logger.debug(`Items from LINEITEM  ${JSON.stringify(items)}}`);
-        }
-
-        if (orders.length > 0) {
-            this.logger.debug(
-                `Orders from LINEITEM  ${JSON.stringify(orders)}}`
-            );
-        }
 
         //this is a dictionary of massmarket store ids, ->
         //  it has a keycard, and an array of items
@@ -367,8 +355,6 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
                 }[];
             };
         } = {};
-
-        console.log(`storesToItems ${JSON.stringify(storesToItems)}`);
 
         //this is populating that dictionary from the orders
         for (const o of orders) {
@@ -397,7 +383,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         const client = new MassMarketClient();
         const output: CheckoutResult[] = [];
         for (const storeId in storesToItems) {
-            this.logger.debug('DOMASSMAKRET checkouting ' + store);
+            this.logger.debug('calling massmarket rest client for ' + storeId);
             const checkout = await client.checkout(
                 stringToHex(storeId),
                 stringToHex(storesToItems[storeId].keycard),
