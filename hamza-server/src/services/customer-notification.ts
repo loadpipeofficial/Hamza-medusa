@@ -63,17 +63,36 @@ class CustomerNotificationSerivce extends TransactionBaseService {
         return createdNotificationTypes;
     }
 
-    // async notifyOrderShipped() {
-    //     try {
-    //         console.log('Order Shipped');
-    //         const customerNotification =
-    //             await this.customerNotificationRepository.create({
-    //                 type: 'order_shipped',
-    //             });
-    //     } catch (e) {
-    //         this.logger.error(`Error modifying shipping: ${e}`);
-    //     }
-    // }
+    async notifyOrderShipped(customer_id: string): Promise<any> {
+        try {
+            console.log('Order Shipped');
+
+            // Find the notification type for "order_shipped"
+            const notificationType =
+                await this.notificationTypeRepository.findOne({
+                    where: { name: 'order_shipped' },
+                });
+
+            if (!notificationType) {
+                throw new Error('Notification type "order_shipped" not found');
+            }
+
+            // Create the customer notification
+            const customerNotification =
+                this.customerNotificationRepository.create({
+                    notification_type: notificationType, // Use the correct property name
+                    customer_id: customer_id,
+                });
+
+            // Save the customer notification
+            return await this.customerNotificationRepository.save(
+                customerNotification
+            );
+        } catch (e) {
+            this.logger.error(`Error notifying order shipped: ${e}`);
+            throw e; // Rethrow the error to ensure it can be handled appropriately upstream
+        }
+    }
 }
 
 export default CustomerNotificationSerivce;

@@ -5,12 +5,10 @@ import {
     Index,
     JoinColumn,
     ManyToOne,
-    OneToMany,
 } from 'typeorm';
 import { BaseEntity } from '@medusajs/medusa';
 import { generateEntityId } from '@medusajs/medusa/dist/utils';
 import { Customer } from '@medusajs/medusa/dist/models/customer';
-import { NotificationType } from './notification-type';
 
 @Entity()
 export class CustomerNotification extends BaseEntity {
@@ -24,12 +22,11 @@ export class CustomerNotification extends BaseEntity {
     @JoinColumn({ name: 'customer_id' })
     customer: Customer;
 
-    @ManyToOne(() => NotificationType)
-    @JoinColumn({ name: 'notification_type_id' })
-    notification_type: NotificationType[];
+    @Column({ name: 'notification_type' })
+    notification_type: string;
 
     @BeforeInsert()
     private beforeInsert(): void {
-        this.id = generateEntityId(this.id, 'customer-notification');
+        this.id = generateEntityId(this.id, 'notification');
     }
 }

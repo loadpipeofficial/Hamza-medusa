@@ -273,3 +273,5 @@ Content-Type: application/json
 ### Create Notification Types
 GET http://localhost:9000/custom/notification/create-types
 Content-Type: application/json
+
+
