@@ -25,7 +25,12 @@ import LineItemRepository from '@medusajs/medusa/dist/repositories/line-item';
 type HexString = `0x${string}`;
 
 type CheckoutResult = CheckoutOutput & { medusaOrderId: string };
-type OrderData = { order: Order; lineItems: string[] };
+type OrderData = {
+    order: Order;
+    lineItems: string[];
+    items?: LineItem[];
+    orders?: Order[];
+};
 
 type InjectedDependencies = {
     idempotencyKeyService: IdempotencyKeyService;
@@ -316,19 +321,12 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
 
     /*
     To test: 
-    - multiple orders 
-    - orders get updated in DB 
     - checkout with token currency
     - validation failures (rest server) 
     - 
     */
     private async doMassMarketCheckout(
-        orderData: {
-            order: Order;
-            lineItems: string[];
-            orders: Order[];
-            items: LineItem[];
-        }[]
+        orderData: OrderData[]
     ): Promise<CheckoutResult[]> {
         console.log(`orderData ${JSON.stringify(orderData)}`);
 
@@ -429,7 +427,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
 }
 
 function stringToHex(input: string): HexString {
-    const hexString = Buffer.from(input, 'utf8').toString('hex');
+    const hexString = input.startsWith('0x') ? input.substring(2) : input;
     return `0x${hexString}`;
 }
 
