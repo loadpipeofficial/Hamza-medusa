@@ -4,12 +4,14 @@ import { readRequestBody } from '../../../utils/request-body';
 
 interface ICheckoutData {
     order_id: string;
+    cart_id: string;
     wallet_address: string;
     currency_code: string;
     amount: number;
     massmarket_amount: string;
     massmarket_order_id: string;
     massmarket_ttl: number;
+    orders: any[];
 }
 
 export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
@@ -23,14 +25,17 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
         orders.forEach((o) => {
             output.push({
                 order_id: o.id,
+                cart_id: o.cart_id,
                 wallet_address: o.store?.owner?.wallet_address ?? '',
                 currency_code: o.payments[0].currency_code,
                 amount: o.payments[0].amount,
                 massmarket_amount: o.massmarket_amount,
                 massmarket_order_id: o.massmarket_order_id,
                 massmarket_ttl: o.massmarket_ttl,
+                orders,
             });
         });
+        logger.debug(`returning checkout data: ${output}`);
         res.send({ orders: output });
     } catch (e) {
         logger.error(e);

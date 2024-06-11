@@ -95,7 +95,7 @@ export interface ICheckoutInput {
 
 export interface ICheckoutOutput {
     success: boolean;
-    receiverAddress: HexString;
+    contractAddress: HexString;
     orderId: HexString;
     amount: string;
     chainId: number;

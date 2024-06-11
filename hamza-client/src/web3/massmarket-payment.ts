@@ -4,7 +4,6 @@ import { erc20abi } from './abi/erc20-abi';
 import { IMultiPaymentInput, ITransactionOutput } from './';
 import { getCurrencyAddress } from '../currency.config';
 import { HexString } from 'ethers/lib.commonjs/utils/data';
-import { escapeSelector } from 'cypress/types/jquery';
 
 interface IPaymentRequest {
     chainId: number;

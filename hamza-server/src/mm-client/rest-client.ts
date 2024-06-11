@@ -40,7 +40,7 @@ export type CreateStoreOutput = {
 
 export type CheckoutOutput = {
     success: boolean;
-    receiverAddress: HexString;
+    contractAddress: HexString;
     orderId: HexString;
     amount: BigInt;
     chainId: number;

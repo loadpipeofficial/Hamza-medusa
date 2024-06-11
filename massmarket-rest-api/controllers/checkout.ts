@@ -16,10 +16,10 @@ export const checkoutController = {
                 //TODO: REMOVE (dummy checkout)
                 const output: ICheckoutOutput = {
                     success: true,
-                    receiverAddress:
+                    contractAddress:
                         '0x0DcA1518DB5A058F29EBfDab76739faf8Fb4544c',
                     amount: '1100000',
-                    orderId: '0x0DcA1518DB5A058F29EBfDab76739faf8Fb4544c',
+                    orderId: '0x3DcA1518DB5A058F29EBfDab76739faf8Fb4511a',
                     chainId: 11155111,
                     ttl: 1,
                 };

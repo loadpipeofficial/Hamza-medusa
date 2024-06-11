@@ -6,12 +6,12 @@ import { HexString } from 'ethers/lib.commonjs/utils/data';
  */
 export interface IPaymentInput {
     id: BigNumberish;
-    receiver: HexString;
+    receiver: HexString; //contract address
     payer: HexString;
     amount: BigNumberish;
     currency?: string; //token address, or ethers.ZeroAddress for native
-    orderId: HexString;
-    storeId: HexString;
+    orderId: HexString; //massmarket order id
+    storeId: HexString; //massmarket store id
     chainId: number;
     ttl: number;
 }

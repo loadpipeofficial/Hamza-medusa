@@ -314,6 +314,14 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         return await this.paymentRepository.save(payment);
     }
 
+    /*
+    To test: 
+    - multiple orders 
+    - orders get updated in DB 
+    - checkout with token currency
+    - validation failures (rest server) 
+    - 
+    */
     private async doMassMarketCheckout(
         orderData: { order: Order; lineItems: string[] }[]
     ): Promise<CheckoutResult[]> {
@@ -403,13 +411,15 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         for (const r of checkoutResults) {
             promises.push(
                 this.orderRepository.save({
-                    id: r.orderId,
+                    id: r.medusaOrderId,
                     massmarket_order_id: r.orderId,
                     massmarket_ttl: r.ttl,
                     massmarket_amount: r.amount.toString(),
                 })
             );
         }
+
+        await Promise.all(promises);
     }
 }
 
