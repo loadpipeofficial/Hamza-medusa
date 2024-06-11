@@ -1,10 +1,12 @@
 import { clx } from '@medusajs/ui';
-import { Flex, Container, Text, Box } from '@chakra-ui/react';
+import { Flex, Container, Text, Box, Divider, Image } from '@chakra-ui/react';
 
 import { getCategoriesList, getCollectionsList } from '@lib/data';
 
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import MedusaCTA from '../../components/medusa-cta';
+import coinbase from '../../../../../public/images/wallet_connect/coinbase.png';
+import metamask from '../../../../../public/images/wallet_connect/metamask.png';
 
 const fetchCollections = async () => {
     const { collections } = await getCollectionsList();
@@ -24,66 +26,109 @@ export default async function Footer() {
         (categories) => categories
     );
     return (
-        <Flex width="full" bgColor={'black'} justifyContent={'center'}>
+        <Flex
+            fontFamily={'Sora'}
+            width="full"
+            bgColor={'black'}
+            py="4rem"
+            justifyContent={'center'}
+        >
             <Flex
                 maxWidth={'1440px'}
-                justifyContent={'space-between'}
-                pt="4rem"
-                pb="3rem"
+                px="2rem"
+                flexDirection={'column'}
                 width={'100%'}
             >
-                <Flex flexDir={'column'} color={'white'} gap={'8px'}>
-                    <Text className="text-base font-bold">
-                        Processing and Shipping
-                    </Text>
-                    <Text className="text-base font-bold">
-                        Our Copyrights Policy
-                    </Text>
-                    <Text className="text-base font-bold">
-                        Our Return Policy
-                    </Text>
-                    <Text className="text-base font-bold">Catalog</Text>
-                    <Text className="text-base font-bold">Articles</Text>
-                    <Text className="text-base font-bold">Privacy Policy</Text>
-                    <Text className="text-base font-bold">
-                        Terms and Conditions
-                    </Text>
-                </Flex>
+                {/* links */}
+                <Divider mx="auto" color="#555555" maxWidth={'1204px'} />
+                <Flex
+                    pt="3rem"
+                    pb="2rem"
+                    justifyContent={'space-between'}
+                    width={'100%'}
+                >
+                    <Flex flexDir={'column'} color={'white'} gap={'8px'}>
+                        <Text className="text-base font-bold">
+                            Processing and Shipping
+                        </Text>
+                        <Text className="text-base font-bold">
+                            Our Copyrights Policy
+                        </Text>
+                        <Text className="text-base font-bold">
+                            Our Return Policy
+                        </Text>
+                        <Text className="text-base font-bold">Catalog</Text>
+                        <Text className="text-base font-bold">Articles</Text>
+                        <Text className="text-base font-bold">
+                            Privacy Policy
+                        </Text>
+                        <Text className="text-base font-bold">
+                            Terms and Conditions
+                        </Text>
+                    </Flex>
 
-                <Flex flexDir={'column'} color={'white'} gap={'8px'}>
-                    <Text className="text-base font-bold">
-                        Processing and Shipping
-                    </Text>
-                    <Text className="text-base font-bold">
-                        Our Copyrights Policy
-                    </Text>
-                    <Text className="text-base font-bold">
-                        Our Return Policy
-                    </Text>
-                    <Text className="text-base font-bold">Catalog</Text>
-                    <Text className="text-base font-bold">Articles</Text>
-                    <Text className="text-base font-bold">Privacy Policy</Text>
-                    <Text className="text-base font-bold">
-                        Terms and Conditions
-                    </Text>
-                </Flex>
+                    <Flex flexDir={'column'} color={'white'} gap={'8px'}>
+                        <Text className="text-base font-bold">CONTACT US</Text>
+                        <Text className="text-base font-normal">
+                            +1-888-417-8278
+                        </Text>
+                        <Text className="text-base font-bold">
+                            team@hamza.biz
+                        </Text>
+                        <Text className="text-base font-bold">
+                            Monday-Friday
+                        </Text>
+                        <Text className="text-base font-normal">
+                            10:00 PM - 7:00 AM
+                        </Text>
 
-                <Flex flexDir={'column'} color={'white'} gap={'8px'}>
-                    <Text className="text-base font-bold">
-                        Processing and Shipping
-                    </Text>
-                    <Text className="text-base font-bold">
-                        Our Copyrights Policy
-                    </Text>
-                    <Text className="text-base font-bold">
-                        Our Return Policy
-                    </Text>
-                    <Text className="text-base font-bold">Catalog</Text>
-                    <Text className="text-base font-bold">Articles</Text>
-                    <Text className="text-base font-bold">Privacy Policy</Text>
-                    <Text className="text-base font-bold">
-                        Terms and Conditions
-                    </Text>
+                        <Text mt="1rem" className="text-base font-bold">
+                            1STAG INT LTD
+                        </Text>
+                        <Text className="text-base font-bold">
+                            Agias Fylaxeos 73, 2nd Floor
+                        </Text>
+                        <Text className="text-base font-bold">
+                            Limassol, 3087, Cyprus
+                        </Text>
+                    </Flex>
+
+                    <Flex flexDir={'column'} color={'white'} gap={'8px'}>
+                        <Text className="text-base font-bold">
+                            Free Shipping Worldwide
+                        </Text>
+                        <Text className="text-base font-bold">
+                            365 DAYS Money Back Guarantee
+                        </Text>
+                        <Text className="text-base font-bold">
+                            Included Lifetime Warranty
+                        </Text>
+                        <Text className="text-base font-bold">
+                            Certificate of Authenticity
+                        </Text>
+                    </Flex>
+                </Flex>
+                {/* Bottom Content */}
+                <Divider />
+                {/* Bottom Content */}
+
+                <Flex pt="2rem" justifyContent={'space-between'} width={'100%'}>
+                    <Flex flexDir={'column'} color={'white'} gap={'8px'}>
+                        <Text className="text-3xl font-bold">HAMZA</Text>
+                    </Flex>
+
+                    <Flex flexDir={'row'} color={'white'} gap={'8px'}>
+                        <Text className="text-base font-bold">Coinbase</Text>
+                        <Text className="text-base font-bold">Metmask</Text>
+                        <Text className="text-base font-bold">Coinbase</Text>
+                        <Text className="text-base font-bold">Metmask</Text>
+                    </Flex>
+
+                    <Flex flexDir={'column'} color={'white'} gap={'8px'}>
+                        <Text className="text-base font-bold">
+                            Certificate of Authenticity
+                        </Text>
+                    </Flex>
                 </Flex>
             </Flex>
         </Flex>
