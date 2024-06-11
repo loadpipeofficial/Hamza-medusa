@@ -309,9 +309,24 @@ const CryptoPaymentButton = ({
             } else {
                 setSubmitting(false);
                 setErrorMessage('Checkout was not completed.');
+                await cancelOrderFromCart();
             }
         } else {
+            await cancelOrderFromCart();
             throw new Error('Checkout failed to complete.');
+        }
+    };
+
+    const cancelOrderFromCart = async () => {
+        try {
+            let response = await axios.get(
+                `${MEDUSA_SERVER_URL}/custom/cancel-order/${cart.id}`
+            );
+            console.log(response);
+            return;
+        } catch (e) {
+            console.log('error in cancelling order ', e);
+            return;
         }
     };
 
@@ -332,7 +347,7 @@ const CryptoPaymentButton = ({
                     onSuccess: ({}) => {
                         //this calls the CartCompletion routine
                         completeCart.mutate(void 0, {
-                            onSuccess: ({ data, type }) => {
+                            onSuccess: async ({ data, type }) => {
                                 //TODO: data is undefined
                                 try {
                                     //this does wallet payment, and everything after
@@ -341,13 +356,15 @@ const CryptoPaymentButton = ({
                                     console.error(e);
                                     setSubmitting(false);
                                     setErrorMessage(
-                                        'Checkout was not completed.'
+                                        'Checkout was not completed'
                                     );
+                                    await cancelOrderFromCart();
                                 }
                             },
-                            onError: ({}) => {
+                            onError: async ({}) => {
                                 setSubmitting(false);
-                                setErrorMessage('Checkout was not completed.');
+                                setErrorMessage('Checkout was not completed');
+                                await cancelOrderFromCart();
                             },
                         });
                     },
@@ -358,7 +375,8 @@ const CryptoPaymentButton = ({
         } catch (e) {
             console.error(e);
             setSubmitting(false);
-            setErrorMessage('Checkout was not completed.');
+            setErrorMessage('Checkout was not completed');
+            await cancelOrderFromCart();
         }
     };
 
