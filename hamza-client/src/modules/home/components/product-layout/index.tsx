@@ -38,9 +38,9 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
 
     //TODO: Make product card clickable to product preview
     return (
-        <Container maxW="1440px" p="8" backgroundColor={'#2C272D'}>
+        <Container maxW="1440px" py="8" backgroundColor={'transparent'}>
             <SimpleGrid
-                columns={{ base: 1, sm: 1, md: 3, lg: 4 }}
+                columns={{ base: 1, md: 2, lg: 4 }}
                 spacing="1.25rem"
                 rowGap="2.5rem"
                 placeItems="center"

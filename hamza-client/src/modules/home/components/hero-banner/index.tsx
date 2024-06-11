@@ -21,6 +21,7 @@ const HeroBanner = () => {
                 </Link>
             </Flex>
             <Flex
+                fontFamily={'Sora'}
                 px={6}
                 pt={8}
                 justifyContent={'center'}
@@ -44,20 +45,20 @@ const HeroBanner = () => {
                     gap="10px"
                     flexDirection={{
                         base: 'column',
-                        sm: 'column',
                         md: 'row',
-                        lg: 'row',
                     }}
                     marginRight={{
-                        sm: 'auto',
+                        base: 'auto',
                         md: '0',
-                        lg: '0',
                     }}
                 >
                     <Text color={'#FBFDFA'} style={{ fontSize: '20px' }}>
                         By The <b>People</b>
                     </Text>
-                    <Box marginRight={{ sm: 'auto' }} alignSelf="center">
+                    <Box
+                        marginRight={{ base: 'auto', md: '0' }}
+                        alignSelf="center"
+                    >
                         <FaArrowRightLong size={24} color="#FBFDFA" />
                     </Box>
                     <Text color={'#FBFDFA'} style={{ fontSize: '20px' }}>
