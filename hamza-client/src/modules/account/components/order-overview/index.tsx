@@ -39,7 +39,6 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
     //
     // fetchVendors();
 
-    // lets make an axios call to http://localhost:9000/custom/order
     useEffect(() => {
         const fetchOrders = async () => {
             try {

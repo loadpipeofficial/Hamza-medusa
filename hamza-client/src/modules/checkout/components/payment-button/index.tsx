@@ -59,9 +59,6 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({ cart }) => {
             ? true
             : false;
 
-    //TODO: what we need this fo?
-    const paymentSession = cart.payment_session as PaymentSession;
-
     return <CryptoPaymentButton notReady={notReady} cart={cart} />;
 };
 
@@ -107,32 +104,33 @@ const CryptoPaymentButton = ({
         chainId: number
     ) => {
         if (data.orders) {
-            const switchInput: IMultiPaymentInput[] = [];
+            const paymentInput: IMultiPaymentInput[] = [];
             data.orders.forEach((o: any) => {
-                o.amount = o.massmarket_amount; // translateToNativeAmount(o, chainId);
+                //o.amount = o.massmarket_amount; // translateToNativeAmount(o, chainId);
                 const input: IMultiPaymentInput = {
                     currency: o.currency_code,
                     receiver: o.wallet_address,
                     payments: [
                         {
-                            id: ethers.toBigInt(
-                                ethers.keccak256(ethers.toUtf8Bytes(o.order_id))
-                            ),
+                            //id: ethers.toBigInt(
+                            //    ethers.keccak256(ethers.toUtf8Bytes(o.order_id))
+                            //),
+                            id: o.massmarket_order_id,
                             payer: payer,
                             amount: o.massmarket_amount,
                             currency: o.currency_code,
-                            receiver: o.wallet_address,
+                            receiver: data.wallet_address,
                             orderId: o.massmarket_order_id,
-                            storeId: o.massmarket_store_id,
+                            storeId: o.orders[0].store.massmarket_store_id,
                             chainId,
                             ttl: o.massmarket_ttl,
                         },
                     ],
                 };
-                switchInput.push(input);
+                paymentInput.push(input);
             });
 
-            return switchInput;
+            return paymentInput;
         }
         return [];
     };
@@ -178,12 +176,17 @@ const CryptoPaymentButton = ({
                     escrow_contract_address
                 );
 
+            console.log('payment address:', paymentContractAddr);
+            console.log('escrow address:', escrow_contract_address);
+
             //create the inputs
             const paymentInput: IMultiPaymentInput[] = await createPaymentInput(
                 data,
                 await signer.getAddress(),
                 chainId
             );
+
+            console.log('payment input: ', paymentInput);
 
             //send payment to contract
             const output: ITransactionOutput =

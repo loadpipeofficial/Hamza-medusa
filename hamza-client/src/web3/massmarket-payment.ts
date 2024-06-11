@@ -8,13 +8,13 @@ import { HexString } from 'ethers/lib.commonjs/utils/data';
 interface IPaymentRequest {
     chainId: number;
     ttl: number; //block timestamp from cartFinalized event
-    order: HexString; //keccak of cartId
+    order: any; //keccak of cartId
     currency: HexString; //0x0 for native, otherwise the token address
     amount: BigNumberish; //payment amt (token or native)
     payeeAddress: HexString; //store owner
-    isPaymentEndpoint: boolean;
-    shopId: BigNumberish;
-    shopSignature: Uint8Array; // 64 zeros
+    isPaymentEndpoint: boolean; //true
+    shopId: BigNumberish; //the storeId
+    shopSignature: any; // 64 zeros
 }
 
 export class MassmarketPaymentClient {
@@ -82,6 +82,7 @@ export class MassmarketPaymentClient {
 
         const requests: IPaymentRequest[] = this.convertInputs(inputs);
 
+        console.log('sending requests: ', requests, nativeTotal);
         const tx: any = await this.paymentContract.multiPay(requests, {
             value: nativeTotal,
         });
@@ -104,13 +105,21 @@ export class MassmarketPaymentClient {
                 const request: IPaymentRequest = {
                     chainId: payment.chainId,
                     ttl: payment.ttl,
-                    currency: payment.currency ?? '0x0',
-                    amount: payment.amount,
-                    order: payment.orderId,
+                    currency:
+                        '0x1300000000000000000000000000000000000000000000000000000000000006', //payment.currency ?? '0x0',
+                    amount: 1,
+                    //order: payment.orderId,
+                    order: [
+                        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    ],
                     payeeAddress: this.escrowAddress, //switch address, or store owner address
-                    isPaymentEndpoint: false, //true if using switch
+                    isPaymentEndpoint: true, //true if using switch
                     shopId: payment.storeId,
-                    shopSignature: new Uint8Array(64),
+                    shopSignature: [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    ],
                 };
                 output.push(request);
             }

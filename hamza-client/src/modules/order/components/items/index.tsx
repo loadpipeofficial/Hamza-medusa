@@ -18,11 +18,11 @@ const Items = ({ items }: ItemsProps) => {
     const setItem = itemStore((state) => state.setItem);
     const router = useRouter();
 
-    const handleItemClick = async (item) => {
+    const handleItemClick = async (item: any) => {
         // console.log(`Checking review existence for order: ${item?.order_id}`);
         try {
             const response = await axios.post(
-                `http://localhost:9000/custom/review/exists`,
+                `${BACKEND_URL}/custom/review/exists`,
                 {
                     order_id: item?.order_id,
                 }
@@ -36,7 +36,7 @@ const Items = ({ items }: ItemsProps) => {
                 // console.log('User has not reviewed yet');
                 router.push(`/account/reviews/${item.id}`);
             }
-        } catch (error) {
+        } catch (error: any) {
             alert('Failed to check review existence: ' + error.message);
         }
         setItem(item);
