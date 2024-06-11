@@ -8,6 +8,8 @@ import { useQuery } from '@tanstack/react-query';
 import { formatCryptoPrice } from '@lib/util/get-product-price';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import { addToCart } from '@modules/cart/actions';
+import { ProductPreview } from '@modules/products/components/product-preview';
+import LocalizedClientLink from '@modules/common/components/localized-client-link';
 
 type Props = {
     vendorName: string;
@@ -45,23 +47,27 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
                 rowGap="2.5rem"
                 placeItems="center"
             >
-                {products.map((product: any) => {
+                {products.map((product: any, index: number) => {
                     const variantPrices = product.variants
                         .map((variant: any) => variant.prices)
                         .flat();
 
                     const varientID = product.variants[0].id;
                     return (
-                        <ProductCard
-                            key={product.id}
-                            varientID={varientID}
-                            countryCode={product.countryCode}
-                            productName={product.title}
-                            productPrice={variantPrices[0].amount}
-                            imageSrc={product.thumbnail}
-                            hasDiscount={product.is_giftcard}
-                            discountValue={product.discountValue}
-                        />
+                        <LocalizedClientLink
+                            key={products.id}
+                            href={`/products/${products[index].handle}`}
+                        >
+                            <ProductCard
+                                varientID={varientID}
+                                countryCode={product.countryCode}
+                                productName={product.title}
+                                productPrice={variantPrices[0].amount}
+                                imageSrc={product.thumbnail}
+                                hasDiscount={product.is_giftcard}
+                                discountValue={product.discountValue}
+                            />
+                        </LocalizedClientLink>
                     );
                 })}
             </SimpleGrid>

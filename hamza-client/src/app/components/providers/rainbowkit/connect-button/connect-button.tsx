@@ -48,6 +48,7 @@ export const WalletConnectButton = () => {
                                         }}
                                     >
                                         <Text
+                                            className="font-semibold"
                                             fontFamily={'Sora'}
                                             color="black"
                                             fontSize={{

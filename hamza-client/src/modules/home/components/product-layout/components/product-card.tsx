@@ -78,11 +78,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
             overflow="hidden"
         >
             <Box
+                onClick={() => console.log('hello')}
                 h="240px"
                 width="100%"
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
+                style={{ cursor: 'pointer' }}
             >
                 <Image src={imageSrc} alt={productName} />
             </Box>
