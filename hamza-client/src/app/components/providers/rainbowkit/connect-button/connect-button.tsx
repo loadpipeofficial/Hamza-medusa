@@ -69,8 +69,9 @@ export const WalletConnectButton = () => {
                                 );
                             }
                             return (
-                                <Flex flexDirection={'row'} gap="15px">
+                                <Flex flexDirection={'row'}>
                                     <Box
+                                        mr="0.5rem"
                                         w="2.5rem"
                                         h="2.5rem"
                                         display={'flex'}

@@ -31,11 +31,7 @@ export default async function Nav() {
             alignItems="center"
         >
             <Flex width={'100%'} alignSelf="center">
-                <Box
-                    display={{ base: 'block', md: 'none' }}
-                    alignSelf="center"
-                    bgColor={'white'}
-                >
+                <Box display={{ base: 'block', md: 'none' }} alignSelf="center">
                     <SideMenu regions={regions} />
                 </Box>
                 <LocalizedClientLink href="/">
@@ -67,7 +63,10 @@ export default async function Nav() {
                             <CgBell color="white" size={'24px'} />
                         </Box>
                         <CartButton />
-                        <Box alignSelf={'center'}>
+                        <Box
+                            alignSelf={'center'}
+                            display={{ base: 'none', md: 'block' }}
+                        >
                             <CgProfile color="white" size={'24px'} />
                         </Box>
                     </Suspense>

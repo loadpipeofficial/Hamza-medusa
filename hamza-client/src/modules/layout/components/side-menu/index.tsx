@@ -9,6 +9,7 @@ import { Fragment, useEffect } from 'react';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import CountrySelect from '../country-select';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
+import { MdOutlineMenu } from 'react-icons/md';
 
 const SideMenuItems: any = {
     Home: '/',
@@ -38,7 +39,7 @@ const SideMenu = ({ regions }: { regions: Region[] | null }) => {
                         <>
                             <div className="relative flex h-full">
                                 <Popover.Button className="relative h-full flex items-center transition-all ease-out duration-200 focus:outline-none hover:text-ui-fg-base">
-                                    Menu
+                                    <MdOutlineMenu color="white" size="2rem" />
                                 </Popover.Button>
                             </div>
 
