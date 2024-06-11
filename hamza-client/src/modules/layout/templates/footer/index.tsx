@@ -1,12 +1,7 @@
 import { clx } from '@medusajs/ui';
 import { Flex, Container, Text, Box, Divider, Image } from '@chakra-ui/react';
-
 import { getCategoriesList, getCollectionsList } from '@lib/data';
-
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
-import MedusaCTA from '../../components/medusa-cta';
-import coinbase from '../../../../../public/images/wallet_connect/coinbase.png';
-import metamask from '../../../../../public/images/wallet_connect/metamask.png';
 
 const fetchCollections = async () => {
     const { collections } = await getCollectionsList();
@@ -34,13 +29,13 @@ export default async function Footer() {
             justifyContent={'center'}
         >
             <Flex
-                maxWidth={'1440px'}
+                maxWidth={'1280px'}
                 px="2rem"
                 flexDirection={'column'}
                 width={'100%'}
             >
                 {/* links */}
-                <Divider mx="auto" color="#555555" maxWidth={'1204px'} />
+                <Divider mx="auto" color="#555555" maxWidth={'1014px'} />
                 <Flex
                     pt="3rem"
                     pb="2rem"
