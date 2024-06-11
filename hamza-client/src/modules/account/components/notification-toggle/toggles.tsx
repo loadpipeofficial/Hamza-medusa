@@ -95,14 +95,14 @@ const ToggleNotifications = ({ region }: { region: Region }) => {
                 >
                     Notify for surveys
                 </Checkbox>
-                <Checkbox
-                    value="necessary"
-                    isChecked={selectedNotifications.includes('necessary')}
-                    onChange={handleCheckboxChange}
-                >
-                    Necessary notifications only (when this is checked, other
-                    checkboxes are cleared)
-                </Checkbox>
+                {/*<Checkbox*/}
+                {/*    value="necessary"*/}
+                {/*    isChecked={selectedNotifications.includes('necessary')}*/}
+                {/*    onChange={handleCheckboxChange}*/}
+                {/*>*/}
+                {/*    Necessary notifications only (when this is checked, other*/}
+                {/*    checkboxes are cleared)*/}
+                {/*</Checkbox>*/}
                 <Checkbox
                     value="none"
                     isChecked={selectedNotifications.includes('none')}
