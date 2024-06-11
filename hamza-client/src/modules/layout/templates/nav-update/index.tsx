@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import { Suspense, useState, useEffect } from 'react';
 import { listRegions } from '@lib/data';
@@ -16,24 +14,9 @@ import dynamic from 'next/dynamic';
 import { Container, Box, Flex, Text } from '@chakra-ui/react';
 import NavLink from './nav-link/nav-link';
 import { CgProfile, CgBell } from 'react-icons/cg';
-import { HiOutlineShoppingCart } from 'react-icons/hi';
 
-interface Region {
-    id: string;
-    name: string;
-}
-
-const Nav = () => {
-    const [regions, setRegions] = useState<Region[] | null>(null);
-
-    useEffect(() => {
-        const fetchRegions = async () => {
-            const regionsData = await listRegions();
-            setRegions(regionsData);
-        };
-        fetchRegions();
-    }, []);
-
+export default async function Nav() {
+    const regions = await listRegions().then((regions) => regions);
     return (
         <Container
             style={{
@@ -75,43 +58,21 @@ const Nav = () => {
                 </Flex>
 
                 <Flex marginLeft="auto" gap={'15px'}>
-                    <Suspense
-                        fallback={
-                            <LocalizedClientLink
-                                className="mt-auto"
-                                href="/cart"
-                            >
-                                <span
-                                    style={{
-                                        fontSize: '14px',
-                                        fontWeight: 'bold',
-                                    }}
-                                >
-                                    Cart (0)
-                                </span>
-                            </LocalizedClientLink>
-                        }
-                    >
-                        {/* <Box alignSelf={'center'}>
-                            <CartButton />
-                        </Box> */}
+                    <Suspense>
                         <Box alignSelf={'center'}>
                             <WalletConnectButton />
                         </Box>
+
+                        <Box alignSelf={'center'}>
+                            <CgBell color="white" size={'24px'} />
+                        </Box>
+                        <CartButton />
+                        <Box alignSelf={'center'}>
+                            <CgProfile color="white" size={'24px'} />
+                        </Box>
                     </Suspense>
-                    <Box alignSelf={'center'}>
-                        <CgBell color="white" size={'24px'} />
-                    </Box>
-                    <Box alignSelf={'center'}>
-                        <HiOutlineShoppingCart color="white" size={'24px'} />
-                    </Box>
-                    <Box alignSelf={'center'}>
-                        <CgProfile color="white" size={'24px'} />
-                    </Box>
                 </Flex>
             </Flex>
         </Container>
     );
-};
-
-export default Nav;
+}

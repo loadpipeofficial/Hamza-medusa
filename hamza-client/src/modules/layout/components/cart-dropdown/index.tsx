@@ -5,13 +5,14 @@ import { Cart } from '@medusajs/medusa';
 import { Button } from '@medusajs/ui';
 import { useParams, usePathname } from 'next/navigation';
 import { Fragment, useEffect, useRef, useState } from 'react';
-
+import { Flex, Box } from '@chakra-ui/react';
 import { formatAmount } from '@lib/util/prices';
 import DeleteButton from '@modules/common/components/delete-button';
 import LineItemOptions from '@modules/common/components/line-item-options';
 import LineItemPrice from '@modules/common/components/line-item-price';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import Thumbnail from '@modules/products/components/thumbnail';
+import { HiOutlineShoppingCart } from 'react-icons/hi';
 
 const CartDropdown = ({
     cart: cartState,
@@ -82,9 +83,21 @@ const CartDropdown = ({
                         className="hover:text-ui-fg-base"
                         href="/cart"
                     >
-                        <span
-                            style={{ fontSize: '20px', fontWeight: 'bold' }}
-                        >{`Cart (${totalItems})`}</span>
+                        <Flex>
+                            <Box alignSelf={'center'}>
+                                <HiOutlineShoppingCart
+                                    color="white"
+                                    size={'24px'}
+                                />
+                            </Box>
+                            <span
+                                style={{
+                                    fontSize: '20px',
+                                    fontWeight: 'bold',
+                                    alignSelf: 'center',
+                                }}
+                            >{`(${totalItems})`}</span>
+                        </Flex>
                     </LocalizedClientLink>
                 </Popover.Button>
                 <Transition
