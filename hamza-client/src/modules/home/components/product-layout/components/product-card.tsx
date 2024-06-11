@@ -12,7 +12,6 @@ import { addToCart } from '@modules/cart/actions';
 import { IoHeartCircleOutline, IoHeartCircleSharp } from 'react-icons/io5';
 import { IoStar } from 'react-icons/io5';
 import { FaRegHeart, FaHeart } from 'react-icons/fa6';
-
 interface ProductCardProps {
     varientID: string;
     countryCode: string;
@@ -21,6 +20,7 @@ interface ProductCardProps {
     imageSrc: string;
     hasDiscount: boolean;
     discountValue: string;
+    productHandle: string;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -31,6 +31,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     imageSrc,
     hasDiscount,
     discountValue,
+    productHandle,
 }) => {
     const [loadingBuy, setLoadingBuy] = useState(false);
     const [loadingAddToCart, setLoadingAddToCard] = useState(false);
@@ -77,17 +78,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
             borderRadius="0.725rem"
             overflow="hidden"
         >
-            <Box
-                onClick={() => console.log('hello')}
-                h="240px"
-                width="100%"
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                style={{ cursor: 'pointer' }}
-            >
-                <Image src={imageSrc} alt={productName} />
-            </Box>
+            <LocalizedClientLink href={`/products/${productHandle}`}>
+                <Box
+                    onClick={() => console.log('hello')}
+                    h="240px"
+                    width="100%"
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    style={{ cursor: 'pointer' }}
+                >
+                    <Image src={imageSrc} alt={productName} />
+                </Box>
+            </LocalizedClientLink>
             <CardBody
                 backgroundColor={'black'}
                 display={'flex'}

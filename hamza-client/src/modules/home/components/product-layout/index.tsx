@@ -54,20 +54,17 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
 
                     const varientID = product.variants[0].id;
                     return (
-                        <LocalizedClientLink
-                            key={products.id}
-                            href={`/products/${products[index].handle}`}
-                        >
-                            <ProductCard
-                                varientID={varientID}
-                                countryCode={product.countryCode}
-                                productName={product.title}
-                                productPrice={variantPrices[0].amount}
-                                imageSrc={product.thumbnail}
-                                hasDiscount={product.is_giftcard}
-                                discountValue={product.discountValue}
-                            />
-                        </LocalizedClientLink>
+                        <ProductCard
+                            key={index}
+                            productHandle={products[index].handle}
+                            varientID={varientID}
+                            countryCode={product.countryCode}
+                            productName={product.title}
+                            productPrice={variantPrices[0].amount}
+                            imageSrc={product.thumbnail}
+                            hasDiscount={product.is_giftcard}
+                            discountValue={product.discountValue}
+                        />
                     );
                 })}
             </SimpleGrid>
