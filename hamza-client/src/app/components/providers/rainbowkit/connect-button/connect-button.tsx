@@ -50,7 +50,10 @@ export const WalletConnectButton = () => {
                                         <Text
                                             textStyle="h2"
                                             color="black"
-                                            fontSize={'20px'}
+                                            fontSize={{
+                                                base: '12px',
+                                                md: '20px',
+                                            }}
                                         >
                                             Connect Wallet
                                         </Text>
@@ -97,7 +100,10 @@ export const WalletConnectButton = () => {
                                         <Text
                                             textStyle="h2"
                                             color="white"
-                                            fontSize={'20px'}
+                                            fontSize={{
+                                                base: '12px',
+                                                md: '20px',
+                                            }}
                                         >
                                             {formatAddress(account.address)}
                                         </Text>

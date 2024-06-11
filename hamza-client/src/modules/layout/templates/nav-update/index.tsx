@@ -33,6 +33,7 @@ const Nav = () => {
             <Flex width={'100%'} alignSelf="center">
                 <LocalizedClientLink href="/">
                     <Text
+                        display={{ base: 'none', md: 'block' }}
                         alignSelf="center"
                         color={'white'}
                         fontSize={'40px'}
@@ -41,7 +42,8 @@ const Nav = () => {
                         Hamza
                     </Text>
                 </LocalizedClientLink>
-                <Flex>
+
+                <Flex display={{ base: 'none', md: 'flex' }}>
                     <NavLink href="/" title={'Home'} />
                     <NavLink href="/store" title={'Store'} />
                     <NavLink href="/account" title={'Account'} />
@@ -66,9 +68,9 @@ const Nav = () => {
                             </LocalizedClientLink>
                         }
                     >
-                        <Box alignSelf={'center'}>
+                        {/* <Box alignSelf={'center'}>
                             <CartButton />
-                        </Box>
+                        </Box> */}
                         <Box alignSelf={'center'}>
                             <WalletConnectButton />
                         </Box>
