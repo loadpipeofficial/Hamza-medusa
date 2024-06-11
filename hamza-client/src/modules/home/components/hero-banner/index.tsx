@@ -1,8 +1,26 @@
-import React from 'react';
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import { Box, Flex, Link, Text } from '@chakra-ui/react';
 import { FaArrowRightLong } from 'react-icons/fa6';
 
 const HeroBanner = () => {
+    const [opacity, setOpacity] = useState(1);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrollY = window.scrollY;
+            const newOpacity = Math.max(0, 1 - scrollY / 200);
+            setOpacity(newOpacity);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
     return (
         <>
             <Flex
@@ -13,6 +31,7 @@ const HeroBanner = () => {
                 mb={4}
                 justifyContent="center"
                 alignItems="center"
+                style={{ opacity, transition: 'opacity 0.5s ease-out' }}
             >
                 <Link href="https://blog.hamza.biz/affiliate/" isExternal>
                     <Text fontSize="lg" fontWeight="bold">

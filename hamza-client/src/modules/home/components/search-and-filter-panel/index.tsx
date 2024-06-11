@@ -22,7 +22,7 @@ const SearchAndFilterPanel = () => {
             >
                 <Reputation />
             </Box>
-            <Container py="8" maxW="1440px">
+            <Container py="8" maxW="1280px">
                 <Flex gap="1rem">
                     {vendors.map((vendors: any) => {
                         return (
