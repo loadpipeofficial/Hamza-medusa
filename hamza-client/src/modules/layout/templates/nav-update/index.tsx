@@ -15,6 +15,8 @@ import SearchModalWrapper from '@modules/search/templates/search-wrapper';
 import dynamic from 'next/dynamic';
 import { Container, Box, Flex, Text } from '@chakra-ui/react';
 import NavLink from './nav-link/nav-link';
+import { CgProfile, CgBell } from 'react-icons/cg';
+import { HiOutlineShoppingCart } from 'react-icons/hi';
 
 interface Region {
     id: string;
@@ -97,6 +99,15 @@ const Nav = () => {
                             <WalletConnectButton />
                         </Box>
                     </Suspense>
+                    <Box alignSelf={'center'}>
+                        <CgBell color="white" size={'24px'} />
+                    </Box>
+                    <Box alignSelf={'center'}>
+                        <HiOutlineShoppingCart color="white" size={'24px'} />
+                    </Box>
+                    <Box alignSelf={'center'}>
+                        <CgProfile color="white" size={'24px'} />
+                    </Box>
                 </Flex>
             </Flex>
         </Container>
