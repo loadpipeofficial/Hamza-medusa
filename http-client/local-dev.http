@@ -268,3 +268,8 @@ Content-Type: application/json
 {
   "store_id": "store_01HZGXK5DHZCHW6ECP5DN3DDHF"
 }
+
+
+### Create Notification Types
+GET http://localhost:9000/custom/notification/create-types
+Content-Type: application/json
