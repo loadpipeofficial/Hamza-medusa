@@ -242,6 +242,16 @@ Content-Type: application/json
   "store_id": "store_01HZGXTNW8CZ291Q1TACR6GQVW"
 }
 
+
+### GET Store Name from Product ID
+POST http://localhost:9000/custom/get-store
+Content-Type: application/json
+
+{
+  "product_id": "prod_01J00RYNARG6AXK0TRFPG0TPET"
+}
+
+
 ### Get Vendor by Store Name
 POST http://localhost:9000/custom/vendors/vendor-store
 Content-Type: application/json
