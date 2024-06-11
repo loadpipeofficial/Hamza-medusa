@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
+import { BigNumberish } from 'ethers';
 
 export type HexString = `0x${string}`;
 
@@ -39,8 +40,11 @@ export type CreateStoreOutput = {
 
 export type CheckoutOutput = {
     success: boolean;
-    cartId: HexString;
-    paymentAddress: HexString;
+    receiverAddress: HexString;
+    orderId: HexString;
+    amount: BigInt;
+    chainId: number;
+    ttl: number;
 };
 
 /**

@@ -11,38 +11,55 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkoutController = void 0;
 const util_1 = require("./util");
-const client_1 = require("../massmarket/client");
 exports.checkoutController = {
     //checkout
     //creates cart, adds items to it, and commits it
     post: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         (0, util_1.serveRequest)(req, res, (id, body) => __awaiter(void 0, void 0, void 0, function* () {
             const input = body;
+            //TODO: REMOVE (dummy checkout)
             const output = {
-                success: false,
-                cartId: '0x0',
-                paymentAddress: '0x0',
+                success: true,
+                receiverAddress: '0x0DcA1518DB5A058F29EBfDab76739faf8Fb4544c',
+                amount: BigInt(11),
+                orderId: '0x0DcA1518DB5A058F29EBfDab76739faf8Fb4544c',
+                chainId: 11155111,
+                ttl: 1,
             };
             if (!validateCheckoutInput(res, input))
                 return null;
+            /*
             //get the client
-            const rc = yield client_1.RelayClientWrapper.get(util_1.ENDPOINT, input.storeId, input.keycard);
+            const rc = await RelayClientWrapper.get(
+                ENDPOINT,
+                input.storeId,
+                input.keycard
+            );
+
             //do the full checkout
             if (rc) {
                 //create the cart
-                output.cartId = yield rc.createCart();
+                output.cartId = await rc.createCart();
+
                 //add items to cart
                 for (let item of input.items) {
-                    yield rc.addToCart(output.cartId, item.productId, item.quantity);
+                    await rc.addToCart(
+                        output.cartId,
+                        item.productId,
+                        item.quantity
+                    );
                 }
+
                 //commit the cart
-                yield rc.commitCart(output.cartId);
-                //TODO: get payment address
-                output.paymentAddress = '0x0';
+                await rc.commitCart(output.cartId);
+
+                output.paymentAddress =
+                    '0x0DcA1518DB5A058F29EBfDab76739faf8Fb4544c';
                 output.success = true;
             }
+            */
             return output;
-        }), 201);
+        }), 200);
     }),
 };
 function validateCheckoutInput(res, input) {

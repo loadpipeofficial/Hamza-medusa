@@ -12,10 +12,16 @@ export const checkoutController = {
             res,
             async (id, body) => {
                 const input: ICheckoutInput = body;
+
+                //TODO: REMOVE (dummy checkout)
                 const output: ICheckoutOutput = {
-                    success: false,
-                    cartId: '0x0',
-                    paymentAddress: '0x0',
+                    success: true,
+                    receiverAddress:
+                        '0x0DcA1518DB5A058F29EBfDab76739faf8Fb4544c',
+                    amount: BigInt(11),
+                    orderId: '0x0DcA1518DB5A058F29EBfDab76739faf8Fb4544c',
+                    chainId: 11155111,
+                    ttl: 1,
                 };
 
                 if (!validateCheckoutInput(res, input)) return null;
@@ -50,11 +56,6 @@ export const checkoutController = {
                     output.success = true;
                 }
                 */
-
-                //TODO: REMOVE (dummy checkout)
-                output.paymentAddress =
-                    '0x0DcA1518DB5A058F29EBfDab76739faf8Fb4544c';
-                output.success = true;
 
                 return output;
             },

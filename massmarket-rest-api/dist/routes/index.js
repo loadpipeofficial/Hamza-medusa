@@ -2,14 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const test_1 = require("../controllers/test");
-const test2_1 = require("../controllers/test2");
 const store_1 = require("../controllers/store");
 const cart_1 = require("../controllers/cart");
 const checkout_1 = require("../controllers/checkout");
 const products_1 = require("../controllers/products");
 const router = (0, express_1.Router)();
 router.get('/', test_1.testController.get);
-router.get('/test', test2_1.test2Controller.get);
 //createStore: POST /store
 router.post('/store', store_1.storeController.post);
 //createCart: POST /cart

@@ -4,6 +4,7 @@ import { erc20abi } from './abi/erc20-abi';
 import { IMultiPaymentInput, ITransactionOutput } from './';
 import { getCurrencyAddress } from '../currency.config';
 import { HexString } from 'ethers/lib.commonjs/utils/data';
+import { escapeSelector } from 'cypress/types/jquery';
 
 interface IPaymentRequest {
     chainId: number;
@@ -18,7 +19,8 @@ interface IPaymentRequest {
 }
 
 export class MassmarketPaymentClient {
-    contractAddress: string;
+    contractAddress: HexString;
+    escrowAddress: HexString;
     paymentContract: ethers.Contract;
     provider: ethers.Provider;
     signer: ethers.Signer;
@@ -31,11 +33,13 @@ export class MassmarketPaymentClient {
     constructor(
         provider: ethers.Provider,
         signer: ethers.Signer,
-        address: string
+        address: HexString,
+        escrowAddress: HexString
     ) {
         this.provider = provider;
         this.signer = signer;
         this.contractAddress = address;
+        this.escrowAddress = escrowAddress;
 
         this.paymentContract = new ethers.Contract(
             this.contractAddress,
@@ -99,14 +103,14 @@ export class MassmarketPaymentClient {
         for (const input of inputs) {
             for (const payment of input.payments) {
                 const request: IPaymentRequest = {
-                    chainId: 11155111,
-                    ttl: 0,
+                    chainId: payment.chainId,
+                    ttl: payment.ttl,
                     currency: payment.currency ?? '0x0',
                     amount: payment.amount,
-                    order: ethers.keccak256('0x0'),
-                    payeeAddress: '0x0', //switch address, or store owner address
+                    order: payment.orderId,
+                    payeeAddress: this.escrowAddress, //switch address, or store owner address
                     isPaymentEndpoint: false, //true if using switch
-                    shopId: ethers.toBigInt('0x0'),
+                    shopId: payment.storeId,
                     shopSignature: new Uint8Array(64),
                 };
                 output.push(request);

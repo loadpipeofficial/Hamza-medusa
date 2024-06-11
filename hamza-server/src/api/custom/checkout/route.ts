@@ -7,6 +7,9 @@ interface ICheckoutData {
     wallet_address: string;
     currency_code: string;
     amount: number;
+    massmarket_amount: string;
+    massmarket_order_id: string;
+    massmarket_ttl: number;
 }
 
 export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
@@ -23,6 +26,9 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
                 wallet_address: o.store?.owner?.wallet_address ?? '',
                 currency_code: o.payments[0].currency_code,
                 amount: o.payments[0].amount,
+                massmarket_amount: o.massmarket_amount,
+                massmarket_order_id: o.massmarket_order_id,
+                massmarket_ttl: o.massmarket_ttl,
             });
         });
         res.send({ orders: output });
