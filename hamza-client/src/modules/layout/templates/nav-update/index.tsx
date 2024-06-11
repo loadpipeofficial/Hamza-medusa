@@ -1,7 +1,7 @@
+'use client';
+
 import React from 'react';
-import { headers } from 'next/headers';
 import { Suspense, useState, useEffect } from 'react';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { listRegions } from '@lib/data';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import CartButton from '@modules/layout/components/cart-button';
@@ -16,7 +16,22 @@ import dynamic from 'next/dynamic';
 import { Container, Box, Flex, Text } from '@chakra-ui/react';
 import NavLink from './nav-link/nav-link';
 
+interface Region {
+    id: string;
+    name: string;
+}
+
 const Nav = () => {
+    const [regions, setRegions] = useState<Region[] | null>(null);
+
+    useEffect(() => {
+        const fetchRegions = async () => {
+            const regionsData = await listRegions();
+            setRegions(regionsData);
+        };
+        fetchRegions();
+    }, []);
+
     return (
         <Container
             style={{
@@ -31,6 +46,13 @@ const Nav = () => {
             alignItems="center"
         >
             <Flex width={'100%'} alignSelf="center">
+                <Box
+                    display={{ base: 'block', md: 'none' }}
+                    alignSelf="center"
+                    bgColor={'white'}
+                >
+                    <SideMenu regions={regions} />
+                </Box>
                 <LocalizedClientLink href="/">
                     <Text
                         display={{ base: 'none', md: 'block' }}
