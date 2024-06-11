@@ -18,60 +18,65 @@ import { CgProfile, CgBell } from 'react-icons/cg';
 export default async function Nav() {
     const regions = await listRegions().then((regions) => regions);
     return (
-        <Container
-            style={{
-                zIndex: '1',
-                backgroundColor: '#020202',
-            }}
+        <Flex
+            zIndex={'1'}
             className="sticky top-0"
-            h={'78px'}
-            maxW={'1440px'}
-            bgColor={'transparent'}
-            display="flex"
-            alignItems="center"
+            width="100%"
+            backgroundColor={'#020202'}
         >
-            <Flex width={'100%'} alignSelf="center">
-                <Box display={{ base: 'block', md: 'none' }} alignSelf="center">
-                    <SideMenu regions={regions} />
-                </Box>
-                <LocalizedClientLink href="/">
-                    <Text
-                        display={{ base: 'none', md: 'block' }}
+            <Container
+                h={'78px'}
+                maxWidth={'1280px'}
+                bgColor={'transparent'}
+                display="flex"
+                alignItems="center"
+            >
+                <Flex width={'100%'} alignSelf="center">
+                    <Box
+                        display={{ base: 'block', md: 'none' }}
                         alignSelf="center"
-                        color={'white'}
-                        fontSize={'40px'}
-                        mr="1rem"
                     >
-                        Hamza
-                    </Text>
-                </LocalizedClientLink>
-
-                <Flex display={{ base: 'none', md: 'flex' }}>
-                    <NavLink href="/" title={'Home'} />
-                    <NavLink href="/store" title={'Store'} />
-                    <NavLink href="/account" title={'Account'} />
-                    <NavLink href="/verify-email" title={'Verify'} />
-                </Flex>
-
-                <Flex marginLeft="auto" gap={'15px'}>
-                    <Suspense>
-                        <Box alignSelf={'center'}>
-                            <WalletConnectButton />
-                        </Box>
-
-                        <Box alignSelf={'center'}>
-                            <CgBell color="white" size={'24px'} />
-                        </Box>
-                        <CartButton />
-                        <Box
-                            alignSelf={'center'}
+                        <SideMenu regions={regions} />
+                    </Box>
+                    <LocalizedClientLink href="/">
+                        <Text
                             display={{ base: 'none', md: 'block' }}
+                            alignSelf="center"
+                            color={'white'}
+                            fontSize={'40px'}
+                            mr="1rem"
                         >
-                            <CgProfile color="white" size={'24px'} />
-                        </Box>
-                    </Suspense>
+                            Hamza
+                        </Text>
+                    </LocalizedClientLink>
+
+                    <Flex display={{ base: 'none', md: 'flex' }}>
+                        <NavLink href="/" title={'Home'} />
+                        <NavLink href="/store" title={'Store'} />
+                        <NavLink href="/account" title={'Account'} />
+                        <NavLink href="/verify-email" title={'Verify'} />
+                    </Flex>
+
+                    <Flex marginLeft="auto" gap={'15px'}>
+                        <Suspense>
+                            <Box alignSelf={'center'}>
+                                <WalletConnectButton />
+                            </Box>
+
+                            <Box alignSelf={'center'}>
+                                <CgBell color="white" size={'24px'} />
+                            </Box>
+                            <CartButton />
+                            <Box
+                                alignSelf={'center'}
+                                display={{ base: 'none', md: 'block' }}
+                            >
+                                <CgProfile color="white" size={'24px'} />
+                            </Box>
+                        </Suspense>
+                    </Flex>
                 </Flex>
-            </Flex>
-        </Container>
+            </Container>
+        </Flex>
     );
 }
