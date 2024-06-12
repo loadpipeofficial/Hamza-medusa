@@ -15,6 +15,7 @@ import {
     Button,
 } from '@chakra-ui/react';
 import CurrencyButton from './currency-button';
+import CategoryButton from './category-button';
 
 const SideMenu = () => {
     const [minValue, setMinValue] = useState(0);
@@ -93,18 +94,38 @@ const SideMenu = () => {
             {/* Slider end */}
 
             {/* Crypto Currencies */}
-            <Heading as="h2" size="h2">
-                Cryptocurrency
-            </Heading>
-            <Text mt="5px" color="secondary.davy.900">
-                Pay with different cryptocurrencies
-            </Text>
+            <Box mt="2rem">
+                <Heading as="h2" size="h2">
+                    Cryptocurrency
+                </Heading>
+                <Text mt="5px" color="secondary.davy.900">
+                    Pay with different cryptocurrencies
+                </Text>
 
-            <Flex mt="1rem" flexDirection={'column'} gap="16px">
-                <CurrencyButton name="ETH" />
-                <CurrencyButton name="USDT" />
-                <CurrencyButton name="USDC" />
-            </Flex>
+                <Flex mt="1rem" flexDirection={'column'} gap="16px">
+                    <CurrencyButton name="ETH" />
+                    <CurrencyButton name="USDT" />
+                    <CurrencyButton name="USDC" />
+                </Flex>
+            </Box>
+
+            {/* Categories */}
+            <Box mt="2rem">
+                <Heading as="h2" size="h2">
+                    Cryptocurrency
+                </Heading>
+
+                <Flex mt="1rem" flexDirection={'column'} gap="16px">
+                    <CategoryButton name="Arts" />
+                    <CategoryButton name="Arts" />
+                    <CategoryButton name="Arts" />
+                    <CategoryButton name="Arts" />
+                    <CategoryButton name="Arts" />
+                    <CategoryButton name="Arts" />
+                    <CategoryButton name="Arts" />
+                    <CategoryButton name="Arts" />
+                </Flex>
+            </Box>
         </Box>
     );
 };
