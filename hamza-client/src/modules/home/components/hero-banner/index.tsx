@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Box, Flex, Link, Text } from '@chakra-ui/react';
+import { Box, Flex, Link, Text, Heading } from '@chakra-ui/react';
 import { FaArrowRightLong } from 'react-icons/fa6';
 
 const HeroBanner = () => {
@@ -25,7 +25,7 @@ const HeroBanner = () => {
         <>
             <Flex
                 w="100%"
-                bg="blue.400"
+                bg="primary.indigo.900"
                 color="white"
                 py={2}
                 mb={4}
