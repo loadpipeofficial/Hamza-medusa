@@ -268,3 +268,22 @@ Content-Type: application/json
 {
   "store_id": "store_01HZGXK5DHZCHW6ECP5DN3DDHF"
 }
+
+
+### Create Notification Types
+POST http://localhost:9000/custom/notification/add-notification
+Content-Type: application/json
+
+{
+  "customer_id": "cus_01J05FKX1EPSEXJ3XH5KZ3F3CM",
+    "notification_type": "order, review, wishlist"
+}
+
+### Remove All Notifications for Customer
+DELETE http://localhost:9000/custom/notification/remove-notification
+Content-Type: application/json
+
+{
+  "customer_id": "cus_01J05FKX1EPSEXJ3XH5KZ3F3CM"
+}
+
