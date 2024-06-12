@@ -271,7 +271,12 @@ Content-Type: application/json
 
 
 ### Create Notification Types
-GET http://localhost:9000/custom/notification/create-types
+POST http://localhost:9000/custom/notification/add-notification
 Content-Type: application/json
+
+{
+  "customer_id": "cus_01J05FKX1EPSEXJ3XH5KZ3F3CM",
+    "notification_type": "order"
+}
 
 
