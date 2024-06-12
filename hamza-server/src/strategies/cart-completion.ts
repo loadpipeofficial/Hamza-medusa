@@ -12,10 +12,17 @@ import OrderService from '../services/order';
 import { PaymentService } from '@medusajs/medusa/dist/services';
 import { Payment } from '../models/payment';
 import { Order } from '../models/order';
+import { Product } from '../models/product';
 import { LineItem } from '../models/line-item';
 import { PaymentDataInput } from '@medusajs/medusa/dist/services/payment';
 import { RequestContext } from '@medusajs/medusa/dist/types/request';
 import PaymentRepository from '@medusajs/medusa/dist/repositories/payment';
+import { CheckoutOutput, MassMarketClient } from '../mm-client/rest-client';
+import { In } from 'typeorm';
+import OrderRepository from '@medusajs/medusa/dist/repositories/order';
+import LineItemRepository from '@medusajs/medusa/dist/repositories/line-item';
+
+type HexString = `0x${string}`;
 
 type InjectedDependencies = {
     idempotencyKeyService: IdempotencyKeyService;
@@ -24,6 +31,8 @@ type InjectedDependencies = {
     cartService: CartService;
     orderService: OrderService;
     paymentRepository: typeof PaymentRepository;
+    orderRepository: typeof OrderRepository;
+    lineItemRepository: typeof LineItemRepository;
     logger: Logger;
 };
 
@@ -33,6 +42,8 @@ interface IPaymentGroupData {
     items: string[];
     total: bigint;
 }
+
+const USE_MASS_MARKET = false;
 
 /**
  * @name CartCompletionStrategy
@@ -52,6 +63,8 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
     protected readonly paymentService: PaymentService;
     protected readonly orderService: OrderService;
     protected readonly paymentRepository: typeof PaymentRepository;
+    protected readonly orderRepository: typeof OrderRepository;
+    protected readonly lineItemRepository: typeof LineItemRepository;
     protected readonly logger: Logger;
 
     constructor({
@@ -61,6 +74,8 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         cartService,
         orderService,
         paymentRepository,
+        orderRepository,
+        lineItemRepository,
         logger,
     }: InjectedDependencies) {
         super(arguments[0]);
@@ -70,6 +85,8 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         this.productService = productService;
         this.orderService = orderService;
         this.paymentRepository = paymentRepository;
+        this.orderRepository = orderRepository;
+        this.lineItemRepository = lineItemRepository;
         this.logger = logger;
     }
 
@@ -110,14 +127,18 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             );
 
             //create orders
-            const orders: Order[] = await this.createOrdersForPayments(
-                cart,
-                payments,
-                groups
-            );
+            const orderData: { order: Order; lineItems: string[] }[] =
+                await this.createOrdersForPayments(cart, payments, groups);
 
             //update payments with order ids
-            await this.updatePaymentFromOrder(payments, orders);
+            await this.updatePaymentFromOrder(
+                payments,
+                orderData.map((o) => o.order)
+            );
+
+            if (USE_MASS_MARKET) {
+                await this.doMassMarketCheckout(orderData);
+            }
 
             //create & return the response
             const response: CartCompletionResponse = {
@@ -126,7 +147,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
                     payment_count: payments.length,
                     message: 'payment successful',
                     payments,
-                    orders,
+                    orders: orderData.map((o) => o.order),
                     cartId: cartId,
                 },
             };
@@ -235,7 +256,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         cart: Cart,
         payments: Payment[],
         paymentGroups: IPaymentGroupData[]
-    ): Promise<Order[]> {
+    ): Promise<{ order: Order; lineItems: string[] }[]> {
         const promises: Promise<Order>[] = [];
         for (let i = 0; i < payments.length; i++) {
             promises.push(
@@ -247,7 +268,17 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             );
         }
 
-        return await Promise.all(promises);
+        const orders = await Promise.all(promises);
+        const output = [];
+
+        for (let i = 0; i < payments.length; i++) {
+            output.push({
+                order: orders[i],
+                lineItems: paymentGroups[i].items,
+            });
+        }
+
+        return output;
     }
 
     private async updatePaymentFromOrder(
@@ -274,6 +305,104 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             fullOrder.store?.owner?.wallet_address ?? 'NA';
         return await this.paymentRepository.save(payment);
     }
+
+    private async doMassMarketCheckout(
+        orderData: { order: Order; lineItems: string[] }[]
+    ): Promise<CheckoutOutput[]> {
+        // const client = new MassMarketClient();
+
+        console.log(`orderData ${JSON.stringify(orderData)}`);
+
+        let storeId;
+        let items: LineItem[];
+        let orders: Order[];
+        try {
+            for (const data of orderData) {
+                const lineItemValues = Object.values(data.lineItems);
+                storeId = Object.values(data.order.store_id);
+                this.logger.debug(
+                    `LINE ITEM VALUES ${lineItemValues} ${lineItemValues.length}`
+                );
+                items = await this.lineItemRepository.find({
+                    where: { id: In(lineItemValues) },
+                    relations: ['variant.product', 'order'],
+                });
+                orders = await this.orderRepository.find({
+                    where: { id: In([data.order.id]) },
+                    relations: ['store'],
+                });
+            }
+        } catch (e) {
+            this.logger.debug(`Error ${e}`);
+        }
+
+        if (items.length > 0) {
+            this.logger.debug(`Items from LINEITEM  ${JSON.stringify(items)}}`);
+        }
+
+        if (orders.length > 0) {
+            this.logger.debug(
+                `Orders from LINEITEM  ${JSON.stringify(orders)}}`
+            );
+        }
+
+        //this is a dictionary of massmarket store ids, ->
+        //  it has a keycard, and an array of items
+        const storesToItems: {
+            [key: string]: {
+                keycard: string;
+                massmarket_store_id: string;
+
+                items: {
+                    productId: string;
+                    quantity: number;
+                }[];
+            };
+        } = {};
+
+        console.log(`storesToItems ${JSON.stringify(storesToItems)}`);
+
+        //this is populating that dictionary from the orders
+        for (const o of orders) {
+            console.log(`Order is ${JSON.stringify(o.store)}`);
+            const key = '0x13891241';
+            if (!storesToItems[key])
+                storesToItems[key] = {
+                    keycard: o.store.massmarket_keycard,
+                    massmarket_store_id: o.store.massmarket_store_id,
+                    items: [],
+                };
+            for (const item of items) {
+                console.log(`Item is ${JSON.stringify(item)}`);
+                const prod: Product = item.variant.product;
+                storesToItems[key].items.push({
+                    productId: prod.massmarket_prod_id,
+                    quantity: item.quantity,
+                });
+            }
+        }
+        console.log(`storesToItems ${JSON.stringify(storesToItems)}`);
+
+        //call checkout for each store
+        const client = new MassMarketClient();
+        const promises: Promise<CheckoutOutput>[] = [];
+        for (const storeId in storesToItems) {
+            promises.push(
+                client.checkout(
+                    stringToHex(storeId),
+                    stringToHex(storesToItems[storeId].keycard),
+                    storesToItems[storeId].items
+                )
+            );
+        }
+
+        return await Promise.all(promises);
+    }
+}
+
+function stringToHex(input: string): HexString {
+    const hexString = Buffer.from(input, 'utf8').toString('hex');
+    return `0x${hexString}`;
 }
 
 export default CartCompletionStrategy;

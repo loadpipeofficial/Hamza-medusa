@@ -9,12 +9,12 @@ import { Fragment, useEffect } from 'react';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import CountrySelect from '../country-select';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
+import { MdOutlineMenu } from 'react-icons/md';
 
 const SideMenuItems: any = {
     Home: '/',
     Store: '/store',
     Search: '/search',
-    //Account: "/account",
     Cart: '/cart',
 };
 
@@ -26,8 +26,9 @@ const SideMenu = ({ regions }: { regions: Region[] | null }) => {
             is_verified == false &&
             (SideMenuItems['Verify Account'] = '/verify-email');
         status == 'authenticated' &&
-            is_verified == true &&
-            (SideMenuItems['Account'] = '/account');
+            (is_verified == true
+                ? (SideMenuItems['Account'] = '/account')
+                : (SideMenuItems['Account'] = '/account/profile'));
     }, [status]);
 
     return (
@@ -38,7 +39,7 @@ const SideMenu = ({ regions }: { regions: Region[] | null }) => {
                         <>
                             <div className="relative flex h-full">
                                 <Popover.Button className="relative h-full flex items-center transition-all ease-out duration-200 focus:outline-none hover:text-ui-fg-base">
-                                    Menu
+                                    <MdOutlineMenu color="white" size="2rem" />
                                 </Popover.Button>
                             </div>
 

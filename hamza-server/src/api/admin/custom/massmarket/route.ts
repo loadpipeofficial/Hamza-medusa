@@ -1,5 +1,5 @@
 import { MedusaRequest, MedusaResponse, Logger } from '@medusajs/medusa';
-import { RelayClientWrapper } from '../../../../massmarket/client';
+//import { RelayClientWrapper } from '../../../../massmarket/client';
 
 const productsToIds = {
     'Medusa Longsleeve':
@@ -35,12 +35,13 @@ const productsToIds = {
 };
 
 async function updateStoreForMM(
-    storeService,
+    storeRepository,
     productService,
     rc,
     storeId: string
 ) {
-    storeService.update(storeId, {
+    storeRepository.save({
+        id: storeId,
         massmarket_store_id:
             '0x1300000000000000000000000000000000000000000000000000000000000006',
         massmarket_keycard:
@@ -60,44 +61,30 @@ async function updateStoreForMM(
 export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     const userService = req.scope.resolve('userService');
     const storeService = req.scope.resolve('storeService');
+    const storeRepository = req.scope.resolve('storeRepository');
     const productService = req.scope.resolve('productService');
     const logger = req.scope.resolve('productService') as Logger;
 
     try {
         /*
-        const rc: RelayClientWrapper = await RelayClientWrapper.create(
-            'relay-beta.mass.market/v1',
-            RelayClientWrapper.randomStoreId(),
-            ''
-        );
-        */
-
         const rc: RelayClientWrapper = new RelayClientWrapper(
             'relay-beta.mass.market/v1',
             '0x1300000000000000000000000000000000000000000000000000000000000006',
             '0x618f7c831ec88ca06505306a5047b8d0f515fb58cc33d75decd698c759b98284'
         );
-
-        //STEP 1: create store
-        //STEP 2: new instance, with keyCardEnrolled: false; enroll keycard
-        //STEP 3:
-
-        //store ID: 0x047f08ec70214e9f937de66dff2dabf95855c0388a4e19152d1fd119e176a456
-        //keycard: 0x56d6577a01cb81fbfdbb5e4d639b790928f9a57d5bf1a43e93aa2187c178af11
-
-        /*
-        this.logger.debug(
-            await rc.enrollKeyCard(
-                '0x65c1196c888ae6bb110077201346dfe426b220ce1d49a366102a2d85e7ad0e35'
-            )
-        );*/
+        */
 
         const stores = await storeService.getStores();
         for (let store of stores) {
-            await updateStoreForMM(storeService, productService, rc, store.id);
+            await updateStoreForMM(
+                storeRepository,
+                productService,
+                null,
+                store.id
+            );
         }
 
-        return res.json({ id: rc.storeId, keyCard: rc.keyCardToString() });
+        return res.json({ ok: true });
     } catch (error) {
         logger.error(error);
         return res

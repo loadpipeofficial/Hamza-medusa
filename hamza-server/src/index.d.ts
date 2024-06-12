@@ -28,11 +28,19 @@ export declare module '@medusajs/medusa/dist/models/customer' {
     }
 }
 
+export declare module '@medusajs/medusa/dist/models/line-item' {
+    declare interface LineItem {
+        currency_code: string;
+    }
+}
+
 export declare module '@medusajs/medusa/dist/models/store' {
     declare interface Store {
         owner?: User;
         owner_id?: string;
         roles: Role[];
+        numberOfFollowers: number;
+        icon: string;
     }
 }
 

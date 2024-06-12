@@ -226,8 +226,8 @@ POST http://localhost:9000/custom/review/existing
 Content-Type: application/json
 
 {
-  "order_id": "order_01HZHANA5PXQNBQ50Y4HX6PA61",
-  "product_id": "prod_01HZGXK5K93QD6132PNESEYBVS"
+  "order_id": "order_01J00BJJVD3N6XGE7RYAVJ3EVX",
+  "product_id": "variant_01J008A6ZZJ9YM9ENWRJ36ZFN0"
 }
 
 ### Return all vendors
@@ -243,6 +243,24 @@ Content-Type: application/json
 }
 
 
+### GET Store Name from Product ID
+POST http://localhost:9000/custom/get-store
+Content-Type: application/json
+
+{
+  "product_id": "prod_01J00RYNARG6AXK0TRFPG0TPET"
+}
+
+
+### Get Vendor by Store Name
+POST http://localhost:9000/custom/vendors/vendor-store
+Content-Type: application/json
+
+{
+  "store_name": "Goblin Store"
+}
+
+
 ### Get Product Reviews by Store_id
 POST http://localhost:9000/custom/vendors/vendor-reviews
 Content-Type: application/json
@@ -250,3 +268,22 @@ Content-Type: application/json
 {
   "store_id": "store_01HZGXK5DHZCHW6ECP5DN3DDHF"
 }
+
+
+### Create Notification Types
+POST http://localhost:9000/custom/notification/add-notification
+Content-Type: application/json
+
+{
+  "customer_id": "cus_01J05FKX1EPSEXJ3XH5KZ3F3CM",
+    "notification_type": "order, review, wishlist"
+}
+
+### Remove All Notifications for Customer
+DELETE http://localhost:9000/custom/notification/remove-notification
+Content-Type: application/json
+
+{
+  "customer_id": "cus_01J05FKX1EPSEXJ3XH5KZ3F3CM"
+}
+
