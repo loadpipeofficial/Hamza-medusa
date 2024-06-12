@@ -65,17 +65,43 @@ class CustomerNotificationSerivce extends TransactionBaseService {
     //     return createdNotificationTypes;
     // }
 
-    async addNotification(customerId: string, notificationType: string) {
+    async addOrUpdateNotification(
+        customerId: string,
+        notificationType: string
+    ) {
         try {
-            const notification = this.customerNotificationRepository.create({
-                customer_id: customerId,
-                notification_type: notificationType,
-            });
-            const notify =
-                await this.customerNotificationRepository.save(notification);
-            return notify;
+            const existingNotification =
+                await this.customerNotificationRepository.findOne({
+                    where: { customer_id: customerId },
+                });
+
+            if (existingNotification) {
+                this.logger.log(
+                    `Notification already exists: ${existingNotification}`
+                );
+                // Update the existing notification
+                existingNotification.updated_at = new Date(); // or any other fields that need to be updated
+                const updatedNotification =
+                    await this.customerNotificationRepository.save(
+                        existingNotification
+                    );
+                return updatedNotification;
+            } else {
+                // Create a new notification
+                const notification = this.customerNotificationRepository.create(
+                    {
+                        customer_id: customerId,
+                        notification_type: notificationType,
+                    }
+                );
+                const newNotification =
+                    await this.customerNotificationRepository.save(
+                        notification
+                    );
+                return newNotification;
+            }
         } catch (e) {
-            this.logger.error(`Error adding notification: ${e}`);
+            this.logger.error(`Error adding or updating notification: ${e}`);
             throw e;
         }
     }

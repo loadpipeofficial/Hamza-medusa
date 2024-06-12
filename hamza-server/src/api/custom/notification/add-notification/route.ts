@@ -12,15 +12,13 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
         'notification_type',
     ]);
     if (!customer_id || !notification_type) {
-        return res
-            .status(400)
-            .json({
-                message: 'customer_id and notification_type are required',
-            });
+        return res.status(400).json({
+            message: 'customer_id and notification_type are required',
+        });
     }
 
     try {
-        const types = await customerNotificationService.addNotification(
+        const types = await customerNotificationService.addOrUpdateNotification(
             customer_id,
             notification_type
         );
