@@ -11,7 +11,7 @@ interface IPaymentRequest {
     order: any; //keccak of cartId
     currency: HexString; //0x0 for native, otherwise the token address
     amount: BigNumberish; //payment amt (token or native)
-    payeeAddress: HexString; //store owner
+    payeeAddress: HexString; //escrow contract
     isPaymentEndpoint: boolean; //true
     shopId: BigNumberish; //the storeId
     shopSignature: any; // 64 zeros
@@ -105,17 +105,12 @@ export class MassmarketPaymentClient {
                 const request: IPaymentRequest = {
                     chainId: payment.chainId,
                     ttl: payment.ttl,
-                    currency:
-                        '0x1300000000000000000000000000000000000000000000000000000000000006', //payment.currency ?? '0x0',
+                    currency: input.currency, //payment.currency ?? '0x0',
                     amount: 1,
-                    //order: payment.orderId,
-                    order: [
-                        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    ],
+                    order: '0x0000000000000000000000003DcA1518DB5A058F29EBfDab76739faf8Fb4511a', //payment.orderId,
                     payeeAddress: this.escrowAddress, //switch address, or store owner address
                     isPaymentEndpoint: true, //true if using switch
-                    shopId: payment.storeId,
+                    shopId: 1,
                     shopSignature: [
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
