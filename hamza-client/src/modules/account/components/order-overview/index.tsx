@@ -32,10 +32,17 @@ interface DetailedOrder extends Order {
 const OrderOverview = ({ orders }: { orders: Order[] }) => {
     // Initialize state with the correct type
     const [detailedOrders, setDetailedOrders] = useState<DetailedOrder[]>([]);
-    const [orderStatus, setOrderStatus] = useState('');
+    const [orderStatuses, setOrderStatuses] = useState<{
+        [key: string]: string;
+    }>({});
     const [cancelReason, setCancelReason] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const openModal = () => setIsModalOpen(true);
+    const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
+
+    const openModal = (orderId: string) => {
+        setSelectedOrderId(orderId);
+        setIsModalOpen(true);
+    };
     const closeModal = () => setIsModalOpen(false);
     // console.log('Orders: ', orders);
 
@@ -51,40 +58,87 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                         cart_id: orders[0].cart_id,
                     }
                 );
-                // console.log('Data: ', data);
                 setDetailedOrders(data.order);
             } catch (error) {
                 console.error('Error fetching orders: ', error);
             }
         };
 
-        const fetchOrderStatus = async () => {
-            try {
-                const { data } = await axios.get(
-                    `${MEDUSA_SERVER_URL}/custom/order/status`,
-                    {
-                        params: {
-                            order_id: orders[0].id,
-                        },
-                    }
-                );
-                console.log('Order status: ', data.order);
-                setOrderStatus(data.order);
-            } catch (error) {
-                console.error('Error fetching order status: ', error);
-            }
-        };
-
-        fetchOrderStatus();
         fetchOrders();
     }, [orders]);
 
+    const groupedByCartId = detailedOrders.reduce((acc, item) => {
+        if (!acc[item.cart_id]) {
+            acc[item.cart_id] = [];
+        }
+        acc[item.cart_id].push(item);
+        return acc;
+    }, {});
+
+    useEffect(() => {
+        const fetchStatuses = async () => {
+            if (!orders || orders.length === 0) return;
+
+            const statuses = await Promise.allSettled(
+                orders.map(async (order, index) => {
+                    console.log(`Fetching status for order ${order.id}`);
+                    try {
+                        const statusRes = await axios.get(
+                            `${MEDUSA_SERVER_URL}/custom/order/status`,
+                            {
+                                params: {
+                                    order_id: order.id,
+                                },
+                            }
+                        );
+                        return {
+                            orderId: order.id,
+                            status: statusRes.data.order.status,
+                        };
+                    } catch (error) {
+                        console.error(
+                            `Error fetching status for order ${order.id}:`,
+                            error
+                        );
+                        return {
+                            orderId: order.id,
+                            status: 'unknown',
+                        };
+                    }
+                })
+            );
+
+            const statusMap = {};
+            statuses.forEach((result) => {
+                if (result.status === 'fulfilled') {
+                    const { orderId, status } = result.value;
+                    statusMap[orderId] = status;
+                } else {
+                    console.error(
+                        `Failed to fetch status for order: ${result.reason}`
+                    );
+                }
+            });
+
+            setOrderStatuses(statusMap);
+        };
+
+        if (Object.keys(detailedOrders).length > 0) {
+            fetchStatuses();
+        }
+    }, [detailedOrders, orders]);
+
     const handleCancel = async () => {
+        if (!selectedOrderId) return;
+
         try {
             await axios.delete(`${MEDUSA_SERVER_URL}/custom/order/cancel`, {
-                params: { order_id: orders[0].id },
+                params: { order_id: selectedOrderId },
             });
-            setOrderStatus('canceled');
+            setOrderStatuses((prevStatuses) => ({
+                ...prevStatuses,
+                [selectedOrderId]: 'canceled',
+            }));
             setIsModalOpen(false);
         } catch (error) {
             console.error('Error cancelling order: ', error);
@@ -110,14 +164,6 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
 
         return;
     };
-
-    const groupedByCartId = detailedOrders.reduce((acc, item) => {
-        if (!acc[item.cart_id]) {
-            acc[item.cart_id] = [];
-        }
-        acc[item.cart_id].push(item);
-        return acc;
-    }, {});
 
     // console.log('groupedByCartId: ', groupedByCartId);
 
@@ -151,13 +197,13 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                                             href={`/account/orders/details/${orders[index].id}`}
                                             passHref
                                         >
-                                            <Button variant="secondary">
+                                            <Button colorScheme="blue">
                                                 See details
                                             </Button>
                                         </LocalizedClientLink>
-                                        {orderStatus === 'canceled' ? (
+                                        {orderStatuses[item.id] ===
+                                        'canceled' ? (
                                             <Button
-                                                variant="outline"
                                                 colorScheme="red"
                                                 ml={4}
                                                 isDisabled
@@ -169,7 +215,9 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                                                 variant="solid"
                                                 colorScheme="blue"
                                                 ml={4}
-                                                onClick={openModal}
+                                                onClick={() =>
+                                                    openModal(item.id)
+                                                }
                                             >
                                                 Request Cancellation
                                             </Button>
