@@ -279,4 +279,11 @@ Content-Type: application/json
     "notification_type": "order, review, wishlist"
 }
 
+### Remove All Notifications for Customer
+DELETE http://localhost:9000/custom/notification/remove-notification
+Content-Type: application/json
+
+{
+  "customer_id": "cus_01J05FKX1EPSEXJ3XH5KZ3F3CM"
+}
 

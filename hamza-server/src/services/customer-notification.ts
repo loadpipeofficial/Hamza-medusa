@@ -103,6 +103,28 @@ class CustomerNotificationSerivce extends TransactionBaseService {
             throw e;
         }
     }
+
+    async removeNotification(customerId: string) {
+        try {
+            const existingNotification =
+                await this.customerNotificationRepository.findOne({
+                    where: { customer_id: customerId },
+                });
+
+            if (existingNotification) {
+                existingNotification.notification_type = '';
+                await this.customerNotificationRepository.save(
+                    existingNotification
+                );
+                return true;
+            } else {
+                return false;
+            }
+        } catch (e) {
+            this.logger.error(`Error removing notification: ${e}`);
+            throw e;
+        }
+    }
 }
 
 export default CustomerNotificationSerivce;
