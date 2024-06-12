@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Checkbox,
     Stack,
@@ -12,22 +12,14 @@ import {
     Button,
 } from '@chakra-ui/react';
 import { Region } from '@medusajs/medusa';
+const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
+import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 
 const ToggleNotifications = ({ region }: { region: Region }) => {
     const [selectedNotifications, setSelectedNotifications] = useState([]);
     const [notificationMethod, setNotificationMethod] = useState('');
 
-    const handleNotificationChange = (value) => {
-        if (value.includes('necessary')) {
-            setSelectedNotifications(['necessary']);
-        } else if (value.includes('none')) {
-            setSelectedNotifications(['none']);
-        } else {
-            setSelectedNotifications(
-                value.filter((item) => item !== 'necessary' && item !== 'none')
-            );
-        }
-    };
+    const { customer_id } = useCustomerAuthStore();
 
     const handleCheckboxChange = (event) => {
         const value = event.target.value;
@@ -47,11 +39,45 @@ const ToggleNotifications = ({ region }: { region: Region }) => {
         }
     };
 
-    const handleSave = () => {
-        // Save the notification preferences and method here
-        console.log('Selected Notifications:', selectedNotifications);
-        console.log('Notification Method:', notificationMethod);
-        // Add your save logic here
+    const handleSave = async () => {
+        try {
+            if (selectedNotifications.includes('none')) {
+                // Call the delete route if 'none' is selected
+                await fetch(
+                    `${BACKEND_URL}/custom/notification/remove-notification`,
+                    {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            customer_id: customer_id,
+                            notification_type: 'none',
+                        }),
+                    }
+                );
+            } else {
+                // Call the add/update route with the selected notifications
+                const notificationsString = selectedNotifications.join(', ');
+                await fetch(
+                    `${BACKEND_URL}/custom/notification/add-notification`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            customer_id: customer_id,
+                            notification_type: notificationsString,
+                        }),
+                    }
+                );
+            }
+            console.log('Selected Notifications:', selectedNotifications);
+            console.log('Notification Method:', notificationMethod);
+        } catch (error) {
+            console.error('Error saving notification preferences:', error);
+        }
     };
 
     return (
@@ -95,14 +121,6 @@ const ToggleNotifications = ({ region }: { region: Region }) => {
                 >
                     Notify for surveys
                 </Checkbox>
-                {/*<Checkbox*/}
-                {/*    value="necessary"*/}
-                {/*    isChecked={selectedNotifications.includes('necessary')}*/}
-                {/*    onChange={handleCheckboxChange}*/}
-                {/*>*/}
-                {/*    Necessary notifications only (when this is checked, other*/}
-                {/*    checkboxes are cleared)*/}
-                {/*</Checkbox>*/}
                 <Checkbox
                     value="none"
                     isChecked={selectedNotifications.includes('none')}
