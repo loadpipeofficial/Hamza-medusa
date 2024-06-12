@@ -217,6 +217,8 @@ export default class OrderService extends MedusaOrderService {
             where: { id: orderId },
         });
         return order.status;
+    }
+
     async cancelOrderFromCart(cart_id: string) {
         await this.orderRepository_.update(
             { status: OrderStatus.PENDING, cart: { id: cart_id } },
