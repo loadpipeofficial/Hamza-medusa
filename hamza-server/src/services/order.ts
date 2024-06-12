@@ -200,4 +200,15 @@ export default class OrderService extends MedusaOrderService {
 
         return orders;
     }
+
+    async cancellationStatus(orderId: string) {
+        const order = await this.orderRepository_.findOne({
+            where: { id: orderId },
+        });
+        if (order.status === OrderStatus.PENDING) {
+            order.status = OrderStatus.CANCELED;
+            await this.orderRepository_.save(order);
+            return order;
+        }
+    }
 }
