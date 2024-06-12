@@ -14,6 +14,7 @@ import {
     Divider,
     Button,
 } from '@chakra-ui/react';
+import CurrencyButton from './currency-button';
 
 const SideMenu = () => {
     const [minValue, setMinValue] = useState(0);
@@ -100,20 +101,9 @@ const SideMenu = () => {
             </Text>
 
             <Flex mt="1rem" flexDirection={'column'} gap="16px">
-                <Flex>
-                    <Text>icon</Text>
-                    <Text>ETH</Text>
-                </Flex>
-
-                <Flex>
-                    <Text>icon</Text>
-                    <Text>ETH</Text>
-                </Flex>
-
-                <Flex>
-                    <Text>icon</Text>
-                    <Text>ETH</Text>
-                </Flex>
+                <CurrencyButton name="ETH" />
+                <CurrencyButton name="USDT" />
+                <CurrencyButton name="USDC" />
             </Flex>
         </Box>
     );
