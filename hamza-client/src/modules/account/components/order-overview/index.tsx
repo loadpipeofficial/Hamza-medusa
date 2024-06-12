@@ -3,12 +3,23 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Order } from '@medusajs/medusa';
-import { Button } from '@medusajs/ui';
 import OrderCard from '../order-card';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import { addToCart } from '@modules/cart/actions';
 import { useParams, useRouter } from 'next/navigation';
 import { getVendors } from '@lib/data/index';
+import {
+    Button,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalCloseButton,
+    ModalBody,
+    ModalFooter,
+    Textarea,
+    VStack,
+} from '@chakra-ui/react';
 
 const MEDUSA_SERVER_URL =
     process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
@@ -21,25 +32,16 @@ interface DetailedOrder extends Order {
 const OrderOverview = ({ orders }: { orders: Order[] }) => {
     // Initialize state with the correct type
     const [detailedOrders, setDetailedOrders] = useState<DetailedOrder[]>([]);
+    const [orderStatus, setOrderStatus] = useState('');
+    const [cancelReason, setCancelReason] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
     // console.log('Orders: ', orders);
 
     const countryCode = useParams().countryCode as string;
-
     const router = useRouter();
 
-    // async function fetchVendors() {
-    //     console.log(`FETCH VENDOR FUNCTION RUNNING`);
-    //     try {
-    //         const vendors = await getVendors();
-    //         console.log('Vendors:', vendors);
-    //     } catch (error) {
-    //         console.error('Error fetching vendors:', error);
-    //     }
-    // }
-    //
-    // fetchVendors();
-
-    // lets make an axios call to http://localhost:9000/custom/order
     useEffect(() => {
         const fetchOrders = async () => {
             try {
@@ -56,8 +58,38 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
             }
         };
 
+        const fetchOrderStatus = async () => {
+            try {
+                const { data } = await axios.get(
+                    `${MEDUSA_SERVER_URL}/custom/order/status`,
+                    {
+                        params: {
+                            order_id: orders[0].id,
+                        },
+                    }
+                );
+                console.log('Order status: ', data.order);
+                setOrderStatus(data.order);
+            } catch (error) {
+                console.error('Error fetching order status: ', error);
+            }
+        };
+
+        fetchOrderStatus();
         fetchOrders();
     }, [orders]);
+
+    const handleCancel = async () => {
+        try {
+            await axios.delete(`${MEDUSA_SERVER_URL}/custom/order/cancel`, {
+                params: { order_id: orders[0].id },
+            });
+            setOrderStatus('canceled');
+            setIsModalOpen(false);
+        } catch (error) {
+            console.error('Error cancelling order: ', error);
+        }
+    };
 
     const handleReorder = async (items: any) => {
         // console.log('Reorder button clicked');
@@ -114,7 +146,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                             {items.map((item) => (
                                 <>
                                     <OrderCard key={item.id} order={item} />
-                                    <div className="flex justify-end">
+                                    <div className="flex justify-end items-center">
                                         <LocalizedClientLink
                                             href={`/account/orders/details/${orders[index].id}`}
                                             passHref
@@ -123,12 +155,59 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                                                 See details
                                             </Button>
                                         </LocalizedClientLink>
+                                        {orderStatus === 'canceled' ? (
+                                            <Button
+                                                variant="outline"
+                                                colorScheme="red"
+                                                ml={4}
+                                                isDisabled
+                                            >
+                                                Order Cancelled
+                                            </Button>
+                                        ) : (
+                                            <Button
+                                                variant="solid"
+                                                colorScheme="blue"
+                                                ml={4}
+                                                onClick={openModal}
+                                            >
+                                                Request Cancellation
+                                            </Button>
+                                        )}
                                     </div>
                                 </>
                             ))}
                         </div>
                     )
                 )}
+                <Modal isOpen={isModalOpen} onClose={closeModal}>
+                    <ModalOverlay />
+                    <ModalContent>
+                        <ModalHeader>Request Cancellation</ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody>
+                            <Textarea
+                                placeholder="Reason for cancellation"
+                                value={cancelReason}
+                                onChange={(e) =>
+                                    setCancelReason(e.target.value)
+                                }
+                            />
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button variant="ghost" onClick={closeModal}>
+                                Cancel
+                            </Button>
+                            <Button
+                                colorScheme="blue"
+                                ml={3}
+                                onClick={handleCancel}
+                            >
+                                Submit
+                            </Button>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
             </div>
         );
     }
