@@ -12,6 +12,7 @@ import {
     SliderMark,
     Flex,
     Divider,
+    Button,
 } from '@chakra-ui/react';
 
 const SideMenu = () => {
@@ -31,10 +32,12 @@ const SideMenu = () => {
             <Heading as="h2" size="h2">
                 Price Range
             </Heading>
-            <Text color="secondary.davy.900">Prices before fees and taxes</Text>
+            <Text mt="5px" color="secondary.davy.900">
+                Prices before fees and taxes
+            </Text>
 
             {/* Slider  */}
-            <Box my="1rem">
+            <Box my="2rem">
                 <Slider aria-label="slider-ex-1" defaultValue={0}>
                     <SliderTrack>
                         <SliderFilledTrack />
@@ -42,19 +45,24 @@ const SideMenu = () => {
                     <SliderThumb />
                 </Slider>
 
-                <Flex justifyContent={'center'}>
+                <Flex mt="1rem" justifyContent={'center'}>
                     <Flex
                         borderColor={'secondary.davy.900'}
                         flexDirection={'column'}
                         alignItems={'center'}
+                        justifyContent={'center'}
                         mr="auto"
                         borderRadius={'12px'}
                         borderWidth={'1px'}
                         h="56px"
                         w="124px"
                     >
-                        <Text color="secondary.davy.900">Minimum</Text>
-                        <Text fontSize={'18px'}>USD {minValue}</Text>
+                        <Text color="secondary.davy.900" lineHeight="1">
+                            Minimum
+                        </Text>
+                        <Text fontSize={'18px'} lineHeight="1">
+                            USD {minValue}
+                        </Text>
                     </Flex>
                     <Divider
                         borderColor="secondary.davy.900"
@@ -65,24 +73,48 @@ const SideMenu = () => {
                         borderColor={'secondary.davy.900'}
                         flexDirection={'column'}
                         alignItems={'center'}
+                        justifyContent={'center'}
                         ml="auto"
                         borderRadius={'12px'}
                         borderWidth={'1px'}
                         h="56px"
                         w="124px"
                     >
-                        <Text color="secondary.davy.900">Maximum</Text>
-                        <Text fontSize={'18px'}>USD {maxValue}</Text>
+                        <Text color="secondary.davy.900" lineHeight="1">
+                            Maximum
+                        </Text>
+                        <Text fontSize={'18px'} lineHeight="1">
+                            USD {maxValue}
+                        </Text>
                     </Flex>
                 </Flex>
             </Box>
+            {/* Slider end */}
 
+            {/* Crypto Currencies */}
             <Heading as="h2" size="h2">
                 Cryptocurrency
             </Heading>
-            <Text color="secondary.davy.900">
+            <Text mt="5px" color="secondary.davy.900">
                 Pay with different cryptocurrencies
             </Text>
+
+            <Flex mt="1rem" flexDirection={'column'} gap="16px">
+                <Flex>
+                    <Text>icon</Text>
+                    <Text>ETH</Text>
+                </Flex>
+
+                <Flex>
+                    <Text>icon</Text>
+                    <Text>ETH</Text>
+                </Flex>
+
+                <Flex>
+                    <Text>icon</Text>
+                    <Text>ETH</Text>
+                </Flex>
+            </Flex>
         </Box>
     );
 };
