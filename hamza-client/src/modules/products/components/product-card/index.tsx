@@ -97,36 +97,36 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             fontWeight="700"
                             fontSize="1.25rem"
                             lineHeight="25.29px"
-                            mr="4"
                             noOfLines={3}
                         >
                             {productName}
                         </Text>
                         {/* wish list heart code */}
-                        {/* <Box
-                            ml="auto"
-                            display="flex"
-                            justifyContent="center"
-                            alignItems="center"
-                            minWidth="40px"
-                            minHeight="40px"
-                            borderRadius="50%"
-                            border="1px"
-                            borderColor="#7B61FF"
-                            cursor="pointer"
-                            onClick={() => toggleHeart()}
-                            sx={{
-                                userSelect: 'none',
-                            }}
-                        >
-                            <Box alignSelf="center">
-                                {selectWL === false ? (
-                                    <FaRegHeart color="#7B61FF" size={23} />
-                                ) : (
-                                    <FaHeart color="#7B61FF" size={23} />
-                                )}
+                        <Box pl="1rem" ml="auto">
+                            <Box
+                                display="flex"
+                                justifyContent="center"
+                                alignItems="center"
+                                minWidth="40px"
+                                minHeight="40px"
+                                borderRadius="50%"
+                                border="1px"
+                                borderColor="#7B61FF"
+                                cursor="pointer"
+                                onClick={() => toggleHeart()}
+                                sx={{
+                                    userSelect: 'none',
+                                }}
+                            >
+                                <Box alignSelf="center">
+                                    {selectWL === false ? (
+                                        <FaRegHeart color="#7B61FF" size={23} />
+                                    ) : (
+                                        <FaHeart color="#7B61FF" size={23} />
+                                    )}
+                                </Box>
                             </Box>
-                        </Box> */}
+                        </Box>
                     </Flex>
 
                     <Box mt="auto">
