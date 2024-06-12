@@ -40,7 +40,6 @@ const HeroBanner = () => {
                 </Link>
             </Flex>
             <Flex
-                fontFamily={'Sora'}
                 px={6}
                 pt={8}
                 justifyContent={'center'}

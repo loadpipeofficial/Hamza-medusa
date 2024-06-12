@@ -12,12 +12,12 @@ const SideMenu = () => {
             width={'100%'}
             backgroundColor={'#121212'}
         >
-            <Heading as="h2" style={{ fontSize: '24px', lineHeight: '40px' }}>
+            <Heading as="h2" size="h2">
                 Price Range
             </Heading>
             <Text color={'#767676'}>Prices before fees and taxes</Text>
 
-            <Heading as="h2" style={{ fontSize: '24px', lineHeight: '40px' }}>
+            <Heading as="h2" size="h2">
                 Cryptocurrency
             </Heading>
             <Text className="text-base font-normal" color={'#767676'}>
