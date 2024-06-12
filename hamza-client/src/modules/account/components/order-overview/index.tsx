@@ -93,7 +93,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                         );
                         return {
                             orderId: order.id,
-                            status: statusRes.data.order.status,
+                            status: statusRes.data.order,
                         };
                     } catch (error) {
                         console.error(
@@ -121,6 +121,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
             });
 
             setOrderStatuses(statusMap);
+            console.log('Order statuses: ', statusMap);
         };
 
         if (Object.keys(detailedOrders).length > 0) {
@@ -201,7 +202,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                                                 See details
                                             </Button>
                                         </LocalizedClientLink>
-                                        {orderStatuses[item.id] ===
+                                        {orderStatuses[orders[index].id] ===
                                         'canceled' ? (
                                             <Button
                                                 colorScheme="red"
@@ -216,7 +217,11 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                                                 colorScheme="blue"
                                                 ml={4}
                                                 onClick={() =>
-                                                    openModal(item.id)
+                                                    openModal(
+                                                        orderStatuses[
+                                                            orders[index].id
+                                                        ]
+                                                    )
                                                 }
                                             >
                                                 Request Cancellation
