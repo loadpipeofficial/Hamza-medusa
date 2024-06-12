@@ -16,7 +16,7 @@ import { RelayClientWrapper } from '../massmarket/client';
 
 export const productsController = {
     //create product
-    post: async (req: Request, res: Response) => {
+    createProducts: async (req: Request, res: Response) => {
         serveRequest(
             req,
             res,
@@ -60,7 +60,7 @@ export const productsController = {
     },
 
     //update product
-    put: async (req: Request, res: Response) => {
+    updateProduct: async (req: Request, res: Response) => {
         serveRequest(
             req,
             res,

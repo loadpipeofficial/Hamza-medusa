@@ -6,7 +6,7 @@ import { RelayClientWrapper } from '../massmarket/client';
 export const checkoutController = {
     //checkout
     //creates cart, adds items to it, and commits it
-    post: async (req: Request, res: Response) => {
+    doCheckout: async (req: Request, res: Response) => {
         serveRequest(
             req,
             res,
