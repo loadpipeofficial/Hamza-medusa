@@ -14,7 +14,7 @@ const util_1 = require("./util");
 exports.checkoutController = {
     //checkout
     //creates cart, adds items to it, and commits it
-    post: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    doCheckout: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         (0, util_1.serveRequest)(req, res, (id, body) => __awaiter(void 0, void 0, void 0, function* () {
             const input = body;
             //TODO: REMOVE (dummy checkout)

@@ -14,7 +14,7 @@ const util_1 = require("./util");
 const client_1 = require("../massmarket/client");
 exports.productsController = {
     //create product
-    post: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    createProducts: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         (0, util_1.serveRequest)(req, res, (id, body) => __awaiter(void 0, void 0, void 0, function* () {
             const input = body;
             const output = {
@@ -42,7 +42,7 @@ exports.productsController = {
         }), 201);
     }),
     //update product
-    put: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    updateProduct: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         (0, util_1.serveRequest)(req, res, (id, body) => __awaiter(void 0, void 0, void 0, function* () {
             const productId = id;
             const input = body;

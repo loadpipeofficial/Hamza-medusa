@@ -24,17 +24,16 @@ const util_1 = require("../controllers/util");
  * @author John R. Kosinski
  */
 class RelayClientWrapper {
-    constructor(endpoint, storeId = '0x0', keyCardPrivKey = '0x0') {
+    constructor(endpoint, storeId = '0x0', keyCardPrivKey = '0x0', keyCardEnrolled = true) {
         this._chain = chains_1.sepolia;
         this.eventStream = null;
         this.storeId = storeId;
-        let keyCardEnrolled = false;
         if ((keyCardPrivKey === null || keyCardPrivKey === void 0 ? void 0 : keyCardPrivKey.length) === 0 || keyCardPrivKey === '0x0') {
             this._keyCard = new Uint8Array((0, crypto_1.randomBytes)(32));
             keyCardPrivKey = (0, utils_1.bufferToString)(this._keyCard);
+            keyCardEnrolled = false;
         }
         else {
-            keyCardEnrolled = true;
             this._keyCard = (0, utils_1.privateKeyStringToBytes)(keyCardPrivKey);
         }
         const keyCardWallet = (0, accounts_1.privateKeyToAccount)(keyCardPrivKey);
@@ -126,7 +125,10 @@ class RelayClientWrapper {
             });
             //create store
             console.log('create store');
+            console.log('storeId', storeId);
+            console.log('keycard', keycard.string);
             yield client.createStore(storeId, storeWallet);
+            yield (0, utils_1.sleep)(90);
             //enroll keycard
             console.log('enrolling KC');
             yield client.enrollKeycard(storeWallet); //this uses store wallet
@@ -139,11 +141,9 @@ class RelayClientWrapper {
                 keyCardWallet: privateKeyToAccount(keycard.string),
                 keyCardEnrolled: true,
             });*/
-            console.log('storeId', storeId);
-            console.log('keycard', keycard.string);
             //THIS ONE WORKS TOO
-            //console.log('writing manifest');
-            //await client2.writeStoreManifest(storeId);
+            console.log('writing manifest');
+            yield client.writeStoreManifest(storeId);
             //add to cache
             cache.add(storeId, new RelayClientWrapper(util_1.ENDPOINT, storeId, keycard.string));
             return {
@@ -167,14 +167,24 @@ class RelayClientWrapper {
             return client;
         });
     }
+    static enrollNewKeycard(endpoint, storeId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const rc = new RelayClientWrapper(endpoint, storeId, '0x0', false);
+            yield rc.enrollKeycard();
+            return rc;
+        });
+    }
     pullEvents() {
         return __awaiter(this, void 0, void 0, function* () {
+            var _a, _b, _c;
+            yield this._client.connect();
             if (!this.eventStream)
                 this.eventStream = yield this._client.createEventStream();
             console.log('reading');
-            console.log('read: ', yield this.eventStream.getReader().read());
-            console.log('read: ', yield this.eventStream.getReader().read());
-            console.log('read: ', yield this.eventStream.getReader().read());
+            const events = yield this.eventStream.getReader().read();
+            console.log('read: ', events);
+            console.log((_a = events.value) === null || _a === void 0 ? void 0 : _a.events.length);
+            console.log((_b = events.value) === null || _b === void 0 ? void 0 : _b.events[((_c = events.value) === null || _c === void 0 ? void 0 : _c.events.length) - 1]);
         });
     }
     keyCardToString() {
@@ -188,6 +198,29 @@ class RelayClientWrapper {
     disconnect() {
         return __awaiter(this, void 0, void 0, function* () {
             yield this._client.disconnect();
+        });
+    }
+    enrollKeycard() {
+        return __awaiter(this, void 0, void 0, function* () {
+            /*
+            const keyCardAccount = privateKeyToAccount(
+                bufferToString(this._keyCard)
+            );
+    
+            const keyCardWallet = createWalletClient({
+                keyCardAccount,
+                chain: sepolia,
+                transport: http(),
+            });
+            */
+            const walletPrivKey = '0x65c1196c888ae6bb110077201346dfe426b220ce1d49a366102a2d85e7ad0e35';
+            const account = (0, accounts_1.privateKeyToAccount)(walletPrivKey);
+            const storeWallet = (0, viem_1.createWalletClient)({
+                account,
+                chain: chains_1.sepolia,
+                transport: (0, viem_1.http)(),
+            });
+            yield this._client.enrollKeycard(storeWallet);
         });
     }
     writeManifest() {
@@ -209,6 +242,7 @@ class RelayClientWrapper {
                     description: product.description,
                     image: product.image,
                 });
+                yield this._client.changeStock([id], [1000]);
             }
             catch (e) {
                 console.error(e);
@@ -216,8 +250,8 @@ class RelayClientWrapper {
             return id;
         });
     }
-    addToCart(cartId, productId, quantity) {
-        return __awaiter(this, void 0, void 0, function* () {
+    addToCart(cartId_1, productId_1) {
+        return __awaiter(this, arguments, void 0, function* (cartId, productId, quantity = 1) {
             yield this._client.changeStock([productId], [10]);
             console.log(yield this._client.changeCart(cartId, productId, quantity));
         });

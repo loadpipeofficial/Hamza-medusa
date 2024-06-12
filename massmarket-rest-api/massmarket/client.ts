@@ -3,7 +3,7 @@ import { randomBytes } from 'crypto';
 import { http, createWalletClient, PrivateKeyAccount, bytesToHex } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { sepolia } from 'viem/chains';
-import { privateKeyStringToBytes, bufferToString } from './utils';
+import { privateKeyStringToBytes, bufferToString, sleep } from './utils';
 import { HexString } from '../entity';
 import { ENDPOINT } from '../controllers/util';
 
@@ -23,16 +23,15 @@ export class RelayClientWrapper {
     constructor(
         endpoint: string,
         storeId: HexString = '0x0',
-        keyCardPrivKey: HexString = '0x0'
+        keyCardPrivKey: HexString = '0x0',
+        keyCardEnrolled: boolean = true
     ) {
         this.storeId = storeId;
-        let keyCardEnrolled: boolean = false;
-
         if (keyCardPrivKey?.length === 0 || keyCardPrivKey === '0x0') {
             this._keyCard = new Uint8Array(randomBytes(32));
             keyCardPrivKey = bufferToString(this._keyCard);
+            keyCardEnrolled = false;
         } else {
-            keyCardEnrolled = true;
             this._keyCard = privateKeyStringToBytes(keyCardPrivKey);
         }
 
@@ -161,7 +160,11 @@ export class RelayClientWrapper {
 
         //create store
         console.log('create store');
+        console.log('storeId', storeId);
+        console.log('keycard', keycard.string);
         await client.createStore(storeId, storeWallet);
+
+        await sleep(90);
 
         //enroll keycard
         console.log('enrolling KC');
@@ -177,12 +180,9 @@ export class RelayClientWrapper {
             keyCardEnrolled: true,
         });*/
 
-        console.log('storeId', storeId);
-        console.log('keycard', keycard.string);
-
         //THIS ONE WORKS TOO
-        //console.log('writing manifest');
-        //await client2.writeStoreManifest(storeId);
+        console.log('writing manifest');
+        await client.writeStoreManifest(storeId);
 
         //add to cache
         cache.add(
@@ -219,13 +219,24 @@ export class RelayClientWrapper {
         return client;
     }
 
+    static async enrollNewKeycard(
+        endpoint: string,
+        storeId: HexString
+    ): Promise<RelayClientWrapper> {
+        const rc = new RelayClientWrapper(endpoint, storeId, '0x0', false);
+        await rc.enrollKeycard();
+        return rc;
+    }
+
     async pullEvents() {
+        await this._client.connect();
         if (!this.eventStream)
             this.eventStream = await this._client.createEventStream();
         console.log('reading');
-        console.log('read: ', await this.eventStream.getReader().read());
-        console.log('read: ', await this.eventStream.getReader().read());
-        console.log('read: ', await this.eventStream.getReader().read());
+        const events = await this.eventStream.getReader().read();
+        console.log('read: ', events);
+        console.log(events.value?.events.length);
+        console.log(events.value?.events[events.value?.events.length - 1]);
     }
 
     keyCardToString(): string {
@@ -238,6 +249,31 @@ export class RelayClientWrapper {
 
     async disconnect(): Promise<void> {
         await this._client.disconnect();
+    }
+
+    async enrollKeycard(): Promise<void> {
+        /*
+        const keyCardAccount = privateKeyToAccount(
+            bufferToString(this._keyCard)
+        );
+
+        const keyCardWallet = createWalletClient({
+            keyCardAccount,
+            chain: sepolia,
+            transport: http(),
+        });
+        */
+        const walletPrivKey =
+            '0x65c1196c888ae6bb110077201346dfe426b220ce1d49a366102a2d85e7ad0e35';
+        const account: PrivateKeyAccount = privateKeyToAccount(walletPrivKey);
+
+        const storeWallet = createWalletClient({
+            account,
+            chain: sepolia,
+            transport: http(),
+        });
+
+        await this._client.enrollKeycard(storeWallet);
     }
 
     async writeManifest() {
@@ -256,13 +292,18 @@ export class RelayClientWrapper {
                 description: product.description,
                 image: product.image,
             });
+            await this._client.changeStock([id], [1000]);
         } catch (e) {
             console.error(e);
         }
         return id;
     }
 
-    async addToCart(cartId: HexString, productId: HexString, quantity: number) {
+    async addToCart(
+        cartId: HexString,
+        productId: HexString,
+        quantity: number = 1
+    ) {
         await this._client.changeStock([productId], [10]);
         console.log(await this._client.changeCart(cartId, productId, quantity));
     }
