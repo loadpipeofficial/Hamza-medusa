@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Flex, Box, Container, Text } from '@chakra-ui/react';
 import ProductCardGroup from '@modules/products/components/product-card-group';
-import SideMenu from './component/side-menu';
+import SideMenu from './component/store-side-menu';
 
 const StoreTemplate = () => {
     const gridLayout = {

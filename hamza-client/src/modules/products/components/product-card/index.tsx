@@ -61,11 +61,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
     return (
         <Card
-            fontFamily={'Sora'}
             maxW={'295px'}
-            h="480px"
-            backgroundColor={'black'}
-            borderRadius="0.725rem"
+            h="399px"
+            backgroundColor={'#121212'}
+            borderRadius="16px"
             overflow="hidden"
         >
             <LocalizedClientLink href={`/products/${productHandle}`}>
@@ -82,7 +81,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 </Box>
             </LocalizedClientLink>
             <CardBody
-                backgroundColor={'black'}
+                backgroundColor={'#121212'}
                 display={'flex'}
                 flexDirection={'column'}
             >
@@ -103,7 +102,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
                         >
                             {productName}
                         </Text>
-                        <Box
+                        {/* wish list heart code */}
+                        {/* <Box
                             ml="auto"
                             display="flex"
                             justifyContent="center"
@@ -116,7 +116,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             cursor="pointer"
                             onClick={() => toggleHeart()}
                             sx={{
-                                userSelect: 'none', // Prevents text selection on card contents
+                                userSelect: 'none',
                             }}
                         >
                             <Box alignSelf="center">
@@ -126,7 +126,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                     <FaHeart color="#7B61FF" size={23} />
                                 )}
                             </Box>
-                        </Box>
+                        </Box> */}
                     </Flex>
 
                     <Box mt="auto">
@@ -192,7 +192,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 {productPrice}
                             </Text>
                         </Flex>
-                        <Flex
+                        {/* add to cart / buy button */}
+                        {/* <Flex
                             direction={{ base: 'column', md: 'row' }} // Stack vertically on small screens, horizontally on medium and up
                             gap="14px"
                             py={2}
@@ -213,7 +214,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                     title="Buy Now"
                                 />
                             </LocalizedClientLink>
-                        </Flex>
+                        </Flex> */}
                     </Box>
                 </Box>
             </CardBody>

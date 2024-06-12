@@ -71,7 +71,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
     return (
         <Card
-            fontFamily={'Sora'}
             maxW={'295px'}
             h="480px"
             backgroundColor={'black'}
