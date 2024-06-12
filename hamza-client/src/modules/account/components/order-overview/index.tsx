@@ -217,11 +217,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                                                 colorScheme="blue"
                                                 ml={4}
                                                 onClick={() =>
-                                                    openModal(
-                                                        orderStatuses[
-                                                            orders[index].id
-                                                        ]
-                                                    )
+                                                    openModal(orders[index].id)
                                                 }
                                             >
                                                 Request Cancellation
