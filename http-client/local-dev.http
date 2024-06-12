@@ -276,7 +276,7 @@ Content-Type: application/json
 
 {
   "customer_id": "cus_01J05FKX1EPSEXJ3XH5KZ3F3CM",
-    "notification_type": "order"
+    "notification_type": "order, review, wishlist"
 }
 
 

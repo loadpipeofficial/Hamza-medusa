@@ -76,11 +76,9 @@ class CustomerNotificationSerivce extends TransactionBaseService {
                 });
 
             if (existingNotification) {
-                this.logger.log(
-                    `Notification already exists: ${existingNotification}`
-                );
                 // Update the existing notification
-                existingNotification.updated_at = new Date(); // or any other fields that need to be updated
+                existingNotification.updated_at = new Date();
+                existingNotification.notification_type = notificationType;
                 const updatedNotification =
                     await this.customerNotificationRepository.save(
                         existingNotification
