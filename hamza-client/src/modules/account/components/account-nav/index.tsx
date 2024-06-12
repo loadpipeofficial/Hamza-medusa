@@ -3,7 +3,12 @@
 import { Customer } from '@medusajs/medusa';
 import { clx } from '@medusajs/ui';
 import { ArrowRightOnRectangle } from '@medusajs/icons';
-import { useParams, usePathname } from 'next/navigation';
+import {
+    useParams,
+    usePathname,
+    useRouter,
+    useSearchParams,
+} from 'next/navigation';
 
 import ChevronDown from '@modules/common/icons/chevron-down';
 import { signOut } from '@modules/account/actions';
@@ -12,6 +17,7 @@ import MapPin from '@modules/common/icons/map-pin';
 import Package from '@modules/common/icons/package';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
+import { useEffect } from 'react';
 
 const AccountNav = ({
     customer,
@@ -19,8 +25,20 @@ const AccountNav = ({
     customer: Omit<Customer, 'password_hash'> | null;
 }) => {
     const route = usePathname();
+    const searchParams = useSearchParams();
     const { countryCode } = useParams();
-    const { setCustomerAuthData } = useCustomerAuthStore();
+    const {
+        setCustomerAuthData,
+        is_verified,
+        customer_id,
+        preferred_currency_code,
+        setStatus,
+        setVerified,
+        status,
+        token,
+        wallet_address,
+    } = useCustomerAuthStore();
+    const router = useRouter();
     const handleLogout = async () => {
         setCustomerAuthData({
             customer_id: '',
@@ -31,6 +49,27 @@ const AccountNav = ({
         });
         await signOut();
     };
+
+    useEffect(() => {
+        if (searchParams.get('verify') == 'true') {
+            setCustomerAuthData({
+                customer_id: customer_id!,
+                is_verified: true,
+                preferred_currency_code,
+                token,
+                wallet_address,
+            });
+        }
+    }, []);
+    useEffect(() => {
+        if (
+            route == `/${countryCode}/account` &&
+            !is_verified &&
+            !searchParams.get('verify')
+        ) {
+            router.push(`/${countryCode}/account/profile`);
+        }
+    }, [is_verified]);
 
     return (
         <div>
@@ -117,11 +156,17 @@ const AccountNav = ({
                     </div>
                     <div className="text-base-regular">
                         <ul className="flex mb-0 justify-start items-start flex-col gap-y-4 ">
-                            <li className="text-white">
-                                <AccountNavLink href="/account" route={route!}>
-                                    Overview
-                                </AccountNavLink>
-                            </li>
+                            {is_verified && (
+                                <li className="text-white">
+                                    <AccountNavLink
+                                        href="/account"
+                                        route={route!}
+                                    >
+                                        Overview
+                                    </AccountNavLink>
+                                </li>
+                            )}
+
                             <li>
                                 <AccountNavLink
                                     href="/account/profile"
@@ -130,14 +175,17 @@ const AccountNav = ({
                                     Profile
                                 </AccountNavLink>
                             </li>
-                            <li>
-                                <AccountNavLink
-                                    href="/account/addresses"
-                                    route={route!}
-                                >
-                                    Addresses
-                                </AccountNavLink>
-                            </li>
+                            {is_verified && (
+                                <li>
+                                    <AccountNavLink
+                                        href="/account/addresses"
+                                        route={route!}
+                                    >
+                                        Addresses
+                                    </AccountNavLink>
+                                </li>
+                            )}
+
                             <li>
                                 <AccountNavLink
                                     href="/account/orders"

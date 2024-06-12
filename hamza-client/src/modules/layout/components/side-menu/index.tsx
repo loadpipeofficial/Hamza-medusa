@@ -14,7 +14,6 @@ const SideMenuItems: any = {
     Home: '/',
     Store: '/store',
     Search: '/search',
-    //Account: "/account",
     Cart: '/cart',
 };
 
@@ -26,8 +25,9 @@ const SideMenu = ({ regions }: { regions: Region[] | null }) => {
             is_verified == false &&
             (SideMenuItems['Verify Account'] = '/verify-email');
         status == 'authenticated' &&
-            is_verified == true &&
-            (SideMenuItems['Account'] = '/account');
+            (is_verified == true
+                ? (SideMenuItems['Account'] = '/account')
+                : (SideMenuItems['Account'] = '/account/profile'));
     }, [status]);
 
     return (
