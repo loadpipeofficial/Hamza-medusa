@@ -296,3 +296,10 @@ Content-Type: application/json
   "order_id": "order_01J05M54MDN9AC5E5JNMYHFKB8"
 }
 
+### GET Order Status
+GET http://localhost:9000/custom/order/status
+Content-Type: application/json
+
+{
+  "order_id": "order_01J05M54MDN9AC5E5JNMYHFKB8"
+}

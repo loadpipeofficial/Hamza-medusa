@@ -211,4 +211,11 @@ export default class OrderService extends MedusaOrderService {
             return order;
         }
     }
+
+    async orderStatus(orderId: string) {
+        const order = await this.orderRepository_.findOne({
+            where: { id: orderId },
+        });
+        return order.status;
+    }
 }
