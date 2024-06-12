@@ -1,7 +1,7 @@
 import { extendTheme } from '@chakra-ui/react';
 
 const colors = {
-    brand: {
+    primary: {
         indigo: {
             900: '#7B61FF', // darkest
             800: '#8C7AFF',
@@ -62,6 +62,44 @@ const colors = {
             200: '#B3B3B3',
             100: '#CCCCCC',
             50: '#E6E6E6', // lightest
+        },
+    },
+    secondary: {
+        onyx: {
+            900: '#121212', // darkest
+            800: '#262626',
+            700: '#3A3A3A',
+            600: '#4E4E4E',
+            500: '#626262', // midpoint
+            400: '#767676',
+            300: '#8A8A8A',
+            200: '#9E9E9E',
+            100: '#B3B3B3',
+            50: '#C7C7C7', // lightest
+        },
+        davy: {
+            900: '#555555', // darkest
+            800: '#6A6A6A',
+            700: '#7F7F7F',
+            600: '#949494',
+            500: '#A9A9A9', // midpoint
+            400: '#BEBEBE',
+            300: '#D3D3D3',
+            200: '#E8E8E8',
+            100: '#FDFDFD',
+            50: '#FFFFFF', // lightest
+        },
+        charcoal: {
+            900: '#3E3E3E', // darkest
+            800: '#525252',
+            700: '#666666',
+            600: '#7A7A7A',
+            500: '#8E8E8E', // midpoint
+            400: '#A2A2A2',
+            300: '#B6B6B6',
+            200: '#CACACA',
+            100: '#DEDEDE',
+            50: '#F2F2F2', // lightest
         },
     },
 };

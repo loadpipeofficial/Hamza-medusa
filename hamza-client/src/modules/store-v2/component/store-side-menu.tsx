@@ -15,12 +15,12 @@ const SideMenu = () => {
             <Heading as="h2" size="h2">
                 Price Range
             </Heading>
-            <Text color={'#767676'}>Prices before fees and taxes</Text>
+            <Text color="secondary.davy.900">Prices before fees and taxes</Text>
 
             <Heading as="h2" size="h2">
                 Cryptocurrency
             </Heading>
-            <Text className="text-base font-normal" color={'#767676'}>
+            <Text color="secondary.davy.900">
                 Pay with different cryptocurrencies
             </Text>
         </Box>
