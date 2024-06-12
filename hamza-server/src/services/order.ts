@@ -151,7 +151,7 @@ export default class OrderService extends MedusaOrderService {
     ): Promise<Order[]> {
         //get orders
         const orders: Order[] = await this.orderRepository_.find({
-            where: { cart_id },
+            where: { cart_id, status: OrderStatus.PENDING },
         });
 
         this.logger.debug(`Cart Products ${cartProducts}`);
@@ -217,5 +217,10 @@ export default class OrderService extends MedusaOrderService {
             where: { id: orderId },
         });
         return order.status;
+    async cancelOrderFromCart(cart_id: string) {
+        await this.orderRepository_.update(
+            { status: OrderStatus.PENDING, cart: { id: cart_id } },
+            { status: OrderStatus.ARCHIVED }
+        );
     }
 }

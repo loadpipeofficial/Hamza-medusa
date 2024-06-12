@@ -10,6 +10,7 @@ import Image from 'next/image';
 const Reputation = () => {
     return (
         <Box
+            fontFamily={'Sora'}
             bg="transparent"
             mt={6}
             p={5}
@@ -19,6 +20,7 @@ const Reputation = () => {
             className="w-full font-sora"
         >
             <Text
+                letterSpacing={'4px'}
                 className="font-sora text-xs font-bold leading-6 tracking-wider text-center"
                 color="#9C9B9B"
                 mb={8}

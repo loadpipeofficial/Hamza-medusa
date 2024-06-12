@@ -12,16 +12,17 @@ import SearchBar from './components/SearchBar';
 const SearchAndFilterPanel = () => {
     const [vendorName, setVendorName] = useState('Goblin Store');
 
+    //TODO: reputation causing overflow
     return (
         <Box>
             <SearchBar />
             <Box
-                mb={{ sm: '-10rem', md: '0' }}
-                visibility={{ sm: 'hidden', md: 'visible' }}
+                mb={{ base: '-10rem', md: '0' }}
+                display={{ base: 'none', md: 'block' }}
             >
                 <Reputation />
             </Box>
-            <Container p="8" maxW="1440px">
+            <Container py="8" maxW="1280px">
                 <Flex gap="1rem">
                     {vendors.map((vendors: any) => {
                         return (

@@ -20,6 +20,8 @@ const FilterButtons = (props: any) => {
             <Flex overflow="hidden" whiteSpace="nowrap" textOverflow="ellipsis">
                 <FaTshirt color="green" />
                 <Text
+                    fontFamily={'Sora'}
+                    fontWeight={'400'}
                     px="2"
                     alignSelf={'center'}
                     overflow="hidden"

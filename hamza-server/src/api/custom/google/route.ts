@@ -98,7 +98,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
             }
         );
 
-        return res.redirect(`${process.env.STORE_URL}/account`);
+        return res.redirect(`${process.env.STORE_URL}/account?verify=true`);
     } catch (err) {
         console.error('Error creating product review:', err);
         res.status(500).json({
