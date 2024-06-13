@@ -40,10 +40,7 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
                 wallet_address.length >= 10
                     ? wallet_address.substring(0, 10)
                     : wallet_address,
-            last_name:
-                wallet_address.length > 10
-                    ? wallet_address.substring(10)
-                    : wallet_address,
+            last_name: '',
             password: 'password', //TODO: (JK) store the default password someplace
             wallet_address: wallet_address,
         };

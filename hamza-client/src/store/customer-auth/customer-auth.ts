@@ -27,6 +27,7 @@ type Actions = {
     }) => void;
     setStatus: (status: AuthenticationStatus) => void;
     setVerified: (status: boolean) => void;
+    setCustomerPreferredCurrency: (currency: string) => void;
 };
 
 export const useCustomerAuthStore = create<State & Actions>()(
@@ -54,6 +55,8 @@ export const useCustomerAuthStore = create<State & Actions>()(
                 }),
             setStatus: (status) => set({ status: status }),
             setVerified: (status) => set({ is_verified: status }),
+            setCustomerPreferredCurrency: (currency) =>
+                set({ preferred_currency_code: currency }),
         }),
 
         {
