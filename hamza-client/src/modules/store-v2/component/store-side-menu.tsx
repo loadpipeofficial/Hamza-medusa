@@ -19,6 +19,7 @@ import CurrencyButton from './currency-button';
 import CategoryButton from './category-button';
 import FilterIcon from '../assets/filter-button.svg';
 import currencies from '../data/crypto-currencies';
+import ReviewButton from './review-button';
 
 const SideMenu = () => {
     const [minValue, setMinValue] = useState(0);
@@ -139,11 +140,11 @@ const SideMenu = () => {
                 </Heading>
 
                 <Flex mt="1rem" flexDirection={'column'} gap="16px">
-                    <CategoryButton name="Arts" />
-                    <CategoryButton name="Arts" />
-                    <CategoryButton name="Arts" />
-                    <CategoryButton name="Arts" />
-                    <CategoryButton name="Arts" />
+                    <ReviewButton rating="1" />
+                    <ReviewButton rating="2" />
+                    <ReviewButton rating="3" />
+                    <ReviewButton rating="4" />
+                    <ReviewButton rating="5" />
                 </Flex>
             </Box>
 
