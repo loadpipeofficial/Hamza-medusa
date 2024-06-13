@@ -133,7 +133,7 @@ const SideMenu = () => {
 
             {/* Rating */}
 
-            {/* <Box mt="2rem">
+            <Box mt="2rem">
                 <Heading as="h2" size="h2">
                     Rating
                 </Heading>
@@ -144,11 +144,9 @@ const SideMenu = () => {
                     <CategoryButton name="Arts" />
                     <CategoryButton name="Arts" />
                     <CategoryButton name="Arts" />
-                    <CategoryButton name="Arts" />
-                    <CategoryButton name="Arts" />
-                    <CategoryButton name="Arts" />
                 </Flex>
-            </Box> */}
+            </Box>
+
             <Box mt="2rem">
                 <Button
                     backgroundColor={'secondary.onyx.900'}

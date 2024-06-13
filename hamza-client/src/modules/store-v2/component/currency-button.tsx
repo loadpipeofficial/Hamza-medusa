@@ -31,13 +31,18 @@ const CurrencyButton = (props: any) => {
     return (
         <Flex>
             <Flex
+                onClick={() => {}}
                 borderColor={'secondary.davy.900'}
                 display={'flex'}
                 flexDirection={'row'}
                 alignItems={'center'}
                 borderWidth={'1px'}
                 borderRadius={'49px'}
-                style={{ padding: '10px 24px' }}
+                style={{ padding: '10px 24px', cursor: 'pointer' }}
+                _hover={{
+                    background: 'white',
+                    color: 'secondary.onyx.900',
+                }}
             >
                 <Image src={currency} alt={currencyAlt} />
                 <Text ml="1rem">{props.name}</Text>
