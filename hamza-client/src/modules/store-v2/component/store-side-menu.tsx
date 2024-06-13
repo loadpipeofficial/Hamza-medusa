@@ -18,6 +18,7 @@ import Image from 'next/image';
 import CurrencyButton from './currency-button';
 import CategoryButton from './category-button';
 import FilterIcon from '../assets/filter-button.svg';
+import currencies from '../data/crypto-currencies';
 
 const SideMenu = () => {
     const [minValue, setMinValue] = useState(0);
@@ -106,16 +107,16 @@ const SideMenu = () => {
                 </Text>
 
                 <Flex mt="1rem" flexDirection={'column'} gap="16px">
-                    <CurrencyButton name="ETH" />
-                    <CurrencyButton name="USDT" />
-                    <CurrencyButton name="USDC" />
+                    {Object.keys(currencies).map((key) => (
+                        <CurrencyButton key={key} name={currencies[key]} />
+                    ))}
                 </Flex>
             </Box>
 
             {/* Categories */}
             <Box mt="2rem">
                 <Heading as="h2" size="h2">
-                    Cryptocurrency
+                    Categories
                 </Heading>
 
                 <Flex mt="1rem" flexDirection={'column'} gap="16px">
