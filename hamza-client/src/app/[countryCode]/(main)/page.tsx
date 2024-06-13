@@ -17,9 +17,8 @@ import { Box } from '@chakra-ui/react';
 import HeroBanner from '@modules/home/components/hero-banner';
 
 export const metadata: Metadata = {
-    title: 'Hamza Shop',
-    description:
-        'A performant frontend ecommerce starter template with Next.js 14 and Medusa.',
+    title: 'Hamza Store',
+    description: 'Buy & Sell Products Using Crypto as a Community',
 };
 
 const getCollectionsWithProducts = async (

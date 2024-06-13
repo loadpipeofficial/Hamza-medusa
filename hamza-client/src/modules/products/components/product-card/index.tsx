@@ -2,14 +2,11 @@
 
 import React, { useState } from 'react';
 import { Card, CardBody, Image, Text, Flex, Box } from '@chakra-ui/react';
-import { TiStarFullOutline } from 'react-icons/ti';
-import { FaBitcoin, FaEthereum } from 'react-icons/fa';
 import { AiOutlineDollar } from 'react-icons/ai';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
-import BuyButton from './buy-button';
-import CartButton from './cart-button';
+import BuyButton from '../buy-button';
+import CartButton from '@modules/home/components/product-layout/components/cart-button';
 import { addToCart } from '@modules/cart/actions';
-import { IoHeartCircleOutline, IoHeartCircleSharp } from 'react-icons/io5';
 import { IoStar } from 'react-icons/io5';
 import { FaRegHeart, FaHeart } from 'react-icons/fa6';
 interface ProductCardProps {
@@ -36,7 +33,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
     const [loadingBuy, setLoadingBuy] = useState(false);
     const [loadingAddToCart, setLoadingAddToCard] = useState(false);
     const [selectWL, setSelectWL] = useState(false);
-    const [selectHeart, setSelectedHeart] = useState('black');
 
     const toggleHeart = () => {
         setSelectWL((prev) => !prev);
@@ -63,18 +59,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
         setLoadingBuy(false);
     };
 
-    const handleHeartClick = () => {
-        setSelectedHeart((prevColor: any) =>
-            prevColor === 'red' ? 'black' : 'red'
-        );
-    };
-
     return (
         <Card
             maxW={'295px'}
-            h="480px"
-            backgroundColor={'black'}
-            borderRadius="0.725rem"
+            h="399px"
+            backgroundColor={'#121212'}
+            borderRadius="16px"
             overflow="hidden"
         >
             <LocalizedClientLink href={`/products/${productHandle}`}>
@@ -91,7 +81,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 </Box>
             </LocalizedClientLink>
             <CardBody
-                backgroundColor={'black'}
+                backgroundColor={'#121212'}
                 display={'flex'}
                 flexDirection={'column'}
             >
@@ -107,33 +97,34 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             fontWeight="700"
                             fontSize="1.25rem"
                             lineHeight="25.29px"
-                            mr="4"
                             noOfLines={3}
                         >
                             {productName}
                         </Text>
-                        <Box
-                            ml="auto"
-                            display="flex"
-                            justifyContent="center"
-                            alignItems="center"
-                            minWidth="40px"
-                            minHeight="40px"
-                            borderRadius="50%"
-                            border="1px"
-                            borderColor="#7B61FF"
-                            cursor="pointer"
-                            onClick={() => toggleHeart()}
-                            sx={{
-                                userSelect: 'none', // Prevents text selection on card contents
-                            }}
-                        >
-                            <Box alignSelf="center">
-                                {selectWL === false ? (
-                                    <FaRegHeart color="#7B61FF" size={23} />
-                                ) : (
-                                    <FaHeart color="#7B61FF" size={23} />
-                                )}
+                        {/* wish list heart code */}
+                        <Box pl="1rem" ml="auto">
+                            <Box
+                                display="flex"
+                                justifyContent="center"
+                                alignItems="center"
+                                minWidth="40px"
+                                minHeight="40px"
+                                borderRadius="50%"
+                                border="1px"
+                                borderColor="#7B61FF"
+                                cursor="pointer"
+                                onClick={() => toggleHeart()}
+                                sx={{
+                                    userSelect: 'none',
+                                }}
+                            >
+                                <Box alignSelf="center">
+                                    {selectWL === false ? (
+                                        <FaRegHeart color="#7B61FF" size={23} />
+                                    ) : (
+                                        <FaHeart color="#7B61FF" size={23} />
+                                    )}
+                                </Box>
                             </Box>
                         </Box>
                     </Flex>
@@ -201,7 +192,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 {productPrice}
                             </Text>
                         </Flex>
-                        <Flex
+                        {/* add to cart / buy button */}
+                        {/* <Flex
                             direction={{ base: 'column', md: 'row' }} // Stack vertically on small screens, horizontally on medium and up
                             gap="14px"
                             py={2}
@@ -222,7 +214,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                     title="Buy Now"
                                 />
                             </LocalizedClientLink>
-                        </Flex>
+                        </Flex> */}
                     </Box>
                 </Box>
             </CardBody>

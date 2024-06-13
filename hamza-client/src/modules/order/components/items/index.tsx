@@ -62,7 +62,7 @@ const Items: React.FC<Props> = ({ items }) => {
         // console.log(`Checking review existence for order: ${item?.order_id}`);
         try {
             const response = await axios.post(
-                `http://localhost:9000/custom/review/exists`,
+                `${BACKEND_URL}/custom/review/exists`,
                 {
                     order_id: item?.order_id,
                 }
