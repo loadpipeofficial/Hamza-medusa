@@ -17,20 +17,11 @@ import { LineItem } from '../models/line-item';
 import { PaymentDataInput } from '@medusajs/medusa/dist/services/payment';
 import { RequestContext } from '@medusajs/medusa/dist/types/request';
 import PaymentRepository from '@medusajs/medusa/dist/repositories/payment';
-import { CheckoutOutput, MassMarketClient } from '../mm-client/rest-client';
 import { In } from 'typeorm';
 import OrderRepository from '@medusajs/medusa/dist/repositories/order';
 import LineItemRepository from '@medusajs/medusa/dist/repositories/line-item';
 
 type HexString = `0x${string}`;
-
-type CheckoutResult = CheckoutOutput & { medusaOrderId: string };
-type OrderData = {
-    order: Order;
-    lineItems: string[];
-    items?: LineItem[];
-    orders?: Order[];
-};
 
 type InjectedDependencies = {
     idempotencyKeyService: IdempotencyKeyService;
@@ -50,8 +41,6 @@ interface IPaymentGroupData {
     items: string[];
     total: bigint;
 }
-
-const USE_MASS_MARKET = true;
 
 /**
  * @name CartCompletionStrategy
@@ -135,23 +124,14 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             );
 
             //create orders
-            const orderData: OrderData[] = await this.createOrdersForPayments(
-                cart,
-                payments,
-                groups
-            );
+            const orderData: { order: Order; lineItems: string[] }[] =
+                await this.createOrdersForPayments(cart, payments, groups);
 
             //update payments with order ids
             await this.updatePaymentFromOrder(
                 payments,
                 orderData.map((o) => o.order)
             );
-
-            if (USE_MASS_MARKET) {
-                const checkoutResults: CheckoutResult[] =
-                    await this.doMassMarketCheckout(orderData);
-                await this.updateOrderForMassMarket(checkoutResults);
-            }
 
             //create & return the response
             const response: CartCompletionResponse = {
@@ -318,116 +298,10 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             fullOrder.store?.owner?.wallet_address ?? 'NA';
         return await this.paymentRepository.save(payment);
     }
-
-    /*
-    To test: 
-    - checkout with token currency
-    - validation failures (rest server) 
-    - 
-    */
-    private async doMassMarketCheckout(
-        orderData: OrderData[]
-    ): Promise<CheckoutResult[]> {
-        console.log(`orderData ${JSON.stringify(orderData)}`);
-
-        let storeId;
-        let items: LineItem[];
-        let orders: Order[];
-        try {
-            for (const data of orderData) {
-                const lineItemValues = Object.values(data.lineItems);
-                storeId = data.order.store_id;
-                this.logger.debug('storeId: ' + storeId);
-                this.logger.debug(
-                    `LINE ITEM VALUES ${lineItemValues} ${lineItemValues.length}`
-                );
-                data.items = await this.lineItemRepository.find({
-                    where: { id: In(lineItemValues) },
-                    relations: ['variant.product', 'order'],
-                });
-                data.orders = await this.orderRepository.find({
-                    where: { id: In([data.order.id]) },
-                    relations: ['store'],
-                });
-            }
-        } catch (e) {
-            this.logger.error(`Error ${e}`);
-        }
-
-        //this is a dictionary of massmarket store ids, ->
-        //  it has a keycard, and an array of items
-        const storesToItems: {
-            [key: string]: {
-                keycard: string;
-                massmarket_store_id: string;
-                orderId: string;
-                items: {
-                    productId: string;
-                    quantity: number;
-                }[];
-            };
-        } = {};
-
-        //this is populating that dictionary from the orders
-        for (const o of orderData) {
-            const key = o.orders[0].store.massmarket_store_id;
-            this.logger.debug('MM store Id: ' + key);
-
-            if (!storesToItems[key])
-                storesToItems[key] = {
-                    keycard: o.orders[0].store.massmarket_keycard,
-                    massmarket_store_id: o.orders[0].store.massmarket_store_id,
-                    orderId: o.orders[0].id,
-                    items: [],
-                };
-            for (const item of o.items) {
-                const prod: Product = item.variant.product;
-                storesToItems[key].items.push({
-                    productId: prod.massmarket_prod_id,
-                    quantity: item.quantity,
-                });
-            }
-        }
-        this.logger.debug(`storesToItems ${JSON.stringify(storesToItems)}`);
-
-        //call checkout for each store
-        const client = new MassMarketClient();
-        const output: CheckoutResult[] = [];
-        for (const storeId in storesToItems) {
-            this.logger.debug('calling massmarket rest client for ' + storeId);
-            const checkout = await client.checkout(
-                stringToHex(storeId),
-                stringToHex(storesToItems[storeId].keycard),
-                storesToItems[storeId].items
-            );
-            output.push({
-                ...checkout,
-                medusaOrderId: storesToItems[storeId].orderId,
-            });
-        }
-
-        return output;
-    }
-
-    private async updateOrderForMassMarket(checkoutResults: CheckoutResult[]) {
-        const promises: Promise<Order>[] = [];
-        for (const r of checkoutResults) {
-            promises.push(
-                this.orderRepository.save({
-                    id: r.medusaOrderId,
-                    massmarket_order_id: r.orderId,
-                    massmarket_ttl: r.ttl,
-                    massmarket_amount: r.amount.toString(),
-                })
-            );
-        }
-
-        await Promise.all(promises);
-    }
 }
 
 function stringToHex(input: string): HexString {
-    const hexString = input.startsWith('0x') ? input.substring(2) : input;
+    const hexString = Buffer.from(input, 'utf8').toString('hex');
     return `0x${hexString}`;
 }
 
