@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, Flex } from '@chakra-ui/react';
 import CategoryTopButton from './category-top-button';
 import ReviewButton from './review-button';
@@ -9,6 +9,7 @@ const StoreFilterDisplay = () => {
         useStorePage();
 
     // Function to generate filter tags
+
     const filterTags = () => {
         const tags = [];
         if (categorySelect) {
@@ -21,11 +22,12 @@ const StoreFilterDisplay = () => {
                 <CategoryTopButton key="currency" name={`${currencySelect}`} />
             );
         }
-        if (reviewStarsSelect !== null) {
+        if (reviewStarsSelect) {
             // Check for non-null explicitly for numbers
             tags.push(
                 <ReviewButton
                     key="reviewStars"
+                    filter={true}
                     name={`${reviewStarsSelect} Stars`}
                 />
             );
@@ -43,7 +45,7 @@ const StoreFilterDisplay = () => {
                     <CategoryTopButton name="Headphones Store" />
                 </Flex>
                 <Text color="primary.indigo.900">Filters Applied</Text>
-                {filterTags()}
+                <Flex gap="26px">{filterTags()}</Flex>
             </Flex>
         </Flex>
     );

@@ -1,21 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { Text, Flex, Divider, Button } from '@chakra-ui/react';
+import { Text, Flex } from '@chakra-ui/react';
 import ReviewStar from '../../../../public/images/products/review-star.svg';
 import useStorePage from '@store/store-page/store-page';
 
-const ReviewButton = (props: any) => {
-    const { setReviewStarsSelect } = useStorePage();
+// Define the props type with TypeScript
+interface ReviewButtonProps {
+    rating: string;
+    name?: string;
+    filter: boolean; // Now filter is explicitly a boolean
+}
 
-    const handleSelectItem = (itemName: string) => {
-        setReviewStarsSelect(itemName);
-    };
+const ReviewButton: React.FC<ReviewButtonProps> = ({
+    rating,
+    name,
+    filter,
+}) => {
+    const { setReviewStarsSelect } = useStorePage();
 
     const [title, setTitle] = useState('1 Star');
     const [ratingAlt, setRatingAlt] = useState('1 Star');
 
     useEffect(() => {
-        switch (props.rating) {
+        switch (rating) {
             case '1':
                 setTitle('1 Star');
                 setRatingAlt('1 Star');
@@ -33,18 +40,23 @@ const ReviewButton = (props: any) => {
                 setRatingAlt('4 Stars');
                 break;
             case '5':
-                setTitle('5 Star');
+                setTitle('5 Stars');
                 setRatingAlt('5 Stars');
                 break;
             default:
                 setTitle('1 Star');
                 setRatingAlt('1 Star');
         }
-    }, [props.rating]);
+    }, [rating]);
+
+    const handleSelectItem = (itemName: string) => {
+        setReviewStarsSelect(itemName);
+    };
+
     return (
         <Flex>
             <Flex
-                onClick={() => handleSelectItem(props.rating)}
+                onClick={() => handleSelectItem(rating)}
                 borderColor={'secondary.davy.900'}
                 display={'flex'}
                 flexDirection={'row'}
@@ -58,7 +70,7 @@ const ReviewButton = (props: any) => {
                 }}
             >
                 <Image src={ReviewStar} alt={ratingAlt} />
-                <Text ml="10px">{title}</Text>
+                <Text ml="10px">{filter ? name : title}</Text>
             </Flex>
         </Flex>
     );
