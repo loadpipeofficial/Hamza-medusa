@@ -10,7 +10,7 @@ import FilterButton from './filter-button';
 import RangeSlider from './range-slider';
 
 const SideMenu = () => {
-    const ratings = [1, 2, 3, 4, 5];
+    const ratings = ['1', '2', '3', '4', '5'];
 
     return (
         <Box
@@ -71,7 +71,7 @@ const SideMenu = () => {
 
                 <Flex mt="1rem" flexDirection={'column'} gap="16px">
                     {ratings.map((rating) => (
-                        <ReviewButton key={rating} rating={rating.toString()} />
+                        <ReviewButton key={rating} rating={rating} />
                     ))}
                 </Flex>
             </Box>
