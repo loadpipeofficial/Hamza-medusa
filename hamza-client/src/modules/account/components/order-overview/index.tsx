@@ -3,12 +3,23 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Order } from '@medusajs/medusa';
-import { Button } from '@medusajs/ui';
 import OrderCard from '../order-card';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import { addToCart } from '@modules/cart/actions';
 import { useParams, useRouter } from 'next/navigation';
 import { getVendors } from '@lib/data/index';
+import {
+    Button,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalCloseButton,
+    ModalBody,
+    ModalFooter,
+    Textarea,
+    VStack,
+} from '@chakra-ui/react';
 
 const MEDUSA_SERVER_URL =
     process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
@@ -48,13 +59,23 @@ type WishlistProps = OrderProps & {
 const OrderOverview = ({ orders }: { orders: Order[] }) => {
     // Initialize state with the correct type
     const [detailedOrders, setDetailedOrders] = useState<DetailedOrder[]>([]);
+    const [orderStatuses, setOrderStatuses] = useState<{
+        [key: string]: string;
+    }>({});
+    const [cancelReason, setCancelReason] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
+
+    const openModal = (orderId: string) => {
+        setSelectedOrderId(orderId);
+        setIsModalOpen(true);
+    };
+    const closeModal = () => setIsModalOpen(false);
     // console.log('Orders: ', orders);
 
     const countryCode = useParams().countryCode as string;
-
     const router = useRouter();
 
-    // lets make an axios call to http://localhost:9000/custom/order
     useEffect(() => {
         const fetchOrders = async () => {
             try {
@@ -64,7 +85,6 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                         cart_id: orders[0].cart_id,
                     }
                 );
-                // console.log('Data: ', data);
                 setDetailedOrders(data.order);
             } catch (error) {
                 console.error('Error fetching orders: ', error);
@@ -73,6 +93,85 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
 
         fetchOrders();
     }, [orders]);
+
+    const groupedByCartId = detailedOrders.reduce((acc, item) => {
+        if (!acc[item.cart_id]) {
+            acc[item.cart_id] = [];
+        }
+        acc[item.cart_id].push(item);
+        return acc;
+    }, {});
+
+    useEffect(() => {
+        const fetchStatuses = async () => {
+            if (!orders || orders.length === 0) return;
+
+            const statuses = await Promise.allSettled(
+                orders.map(async (order, index) => {
+                    console.log(`Fetching status for order ${order.id}`);
+                    try {
+                        const statusRes = await axios.get(
+                            `${MEDUSA_SERVER_URL}/custom/order/status`,
+                            {
+                                params: {
+                                    order_id: order.id,
+                                },
+                            }
+                        );
+                        return {
+                            orderId: order.id,
+                            status: statusRes.data.order,
+                        };
+                    } catch (error) {
+                        console.error(
+                            `Error fetching status for order ${order.id}:`,
+                            error
+                        );
+                        return {
+                            orderId: order.id,
+                            status: 'unknown',
+                        };
+                    }
+                })
+            );
+
+            const statusMap = {};
+            statuses.forEach((result) => {
+                if (result.status === 'fulfilled') {
+                    const { orderId, status } = result.value;
+                    statusMap[orderId] = status;
+                } else {
+                    console.error(
+                        `Failed to fetch status for order: ${result.reason}`
+                    );
+                }
+            });
+
+            setOrderStatuses(statusMap);
+            console.log('Order statuses: ', statusMap);
+        };
+
+        if (Object.keys(detailedOrders).length > 0) {
+            fetchStatuses();
+        }
+    }, [detailedOrders, orders]);
+
+    const handleCancel = async () => {
+        if (!selectedOrderId) return;
+
+        try {
+            await axios.delete(`${MEDUSA_SERVER_URL}/custom/order/cancel`, {
+                params: { order_id: selectedOrderId },
+            });
+            setOrderStatuses((prevStatuses) => ({
+                ...prevStatuses,
+                [selectedOrderId]: 'canceled',
+            }));
+            setIsModalOpen(false);
+        } catch (error) {
+            console.error('Error cancelling order: ', error);
+        }
+    };
 
     const handleReorder = async (items: any) => {
         // console.log('Reorder button clicked');
@@ -93,17 +192,6 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
 
         return;
     };
-
-    const groupedByCartId = detailedOrders.reduce(
-        (acc: { [key: string]: any }, item) => {
-            if (!acc[item.cart_id]) {
-                acc[item.cart_id] = [];
-            }
-            acc[item.cart_id].push(item);
-            return acc;
-        },
-        {}
-    );
 
     // console.log('groupedByCartId: ', groupedByCartId);
 
@@ -132,21 +220,70 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                             {items.map((item: WishlistProps) => (
                                 <>
                                     <OrderCard key={item.id} order={item} />
-                                    <div className="flex justify-end">
+                                    <div className="flex justify-end items-center">
                                         <LocalizedClientLink
                                             href={`/account/orders/details/${orders[index].id}`}
                                             passHref
                                         >
-                                            <Button variant="secondary">
+                                            <Button colorScheme="blue">
                                                 See details
                                             </Button>
                                         </LocalizedClientLink>
+                                        {orderStatuses[orders[index].id] ===
+                                        'canceled' ? (
+                                            <Button
+                                                colorScheme="red"
+                                                ml={4}
+                                                isDisabled
+                                            >
+                                                Order Cancelled
+                                            </Button>
+                                        ) : (
+                                            <Button
+                                                variant="solid"
+                                                colorScheme="blue"
+                                                ml={4}
+                                                onClick={() =>
+                                                    openModal(orders[index].id)
+                                                }
+                                            >
+                                                Request Cancellation
+                                            </Button>
+                                        )}
                                     </div>
                                 </>
                             ))}
                         </div>
                     )
                 )}
+                <Modal isOpen={isModalOpen} onClose={closeModal}>
+                    <ModalOverlay />
+                    <ModalContent>
+                        <ModalHeader>Request Cancellation</ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody>
+                            <Textarea
+                                placeholder="Reason for cancellation"
+                                value={cancelReason}
+                                onChange={(e) =>
+                                    setCancelReason(e.target.value)
+                                }
+                            />
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button variant="ghost" onClick={closeModal}>
+                                Cancel
+                            </Button>
+                            <Button
+                                colorScheme="blue"
+                                ml={3}
+                                onClick={handleCancel}
+                            >
+                                Submit
+                            </Button>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
             </div>
         );
     }
