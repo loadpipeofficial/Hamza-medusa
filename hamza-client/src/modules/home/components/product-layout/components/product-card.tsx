@@ -12,6 +12,7 @@ import { addToCart } from '@modules/cart/actions';
 import { IoHeartCircleOutline, IoHeartCircleSharp } from 'react-icons/io5';
 import { IoStar } from 'react-icons/io5';
 import { FaRegHeart, FaHeart } from 'react-icons/fa6';
+import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
 interface ProductCardProps {
     varientID: string;
     countryCode: string;
@@ -23,7 +24,7 @@ interface ProductCardProps {
     productHandle: string;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({
+const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
     varientID,
     countryCode,
     productName,
@@ -32,11 +33,18 @@ const ProductCard: React.FC<ProductCardProps> = ({
     hasDiscount,
     discountValue,
     productHandle,
+    productId,
 }) => {
     const [loadingBuy, setLoadingBuy] = useState(false);
     const [loadingAddToCart, setLoadingAddToCard] = useState(false);
     const [selectWL, setSelectWL] = useState(false);
     const [selectHeart, setSelectedHeart] = useState('black');
+    const { addWishlistItemMutation, removeWishlistItemMutation } =
+        useWishlistMutations();
+    const toggleWishlist = async () => {
+        // console.log('toggle wishlist-dropdown item', product);
+        addWishlistItemMutation.mutate({ id: productId });
+    };
 
     const toggleHeart = () => {
         setSelectWL((prev) => !prev);
@@ -61,12 +69,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
             currencyCode: 'eth',
         });
         setLoadingBuy(false);
-    };
-
-    const handleHeartClick = () => {
-        setSelectedHeart((prevColor: any) =>
-            prevColor === 'red' ? 'black' : 'red'
-        );
     };
 
     return (
@@ -123,7 +125,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             border="1px"
                             borderColor="#7B61FF"
                             cursor="pointer"
-                            onClick={() => toggleHeart()}
+                            onClick={() => toggleWishlist()} //todo
                             sx={{
                                 userSelect: 'none', // Prevents text selection on card contents
                             }}
