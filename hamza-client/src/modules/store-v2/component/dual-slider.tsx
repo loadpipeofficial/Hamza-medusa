@@ -10,16 +10,22 @@ import {
     RangeSliderThumb,
 } from '@chakra-ui/react';
 
-const DualSlider = () => {
-    const [range, setRange] = useState([10, 2000]);
+// Define a type for the range state
+type RangeType = [number, number];
 
-    const handleRangeChange = (values) => {
-        setRange(values);
+const DualSlider = () => {
+    // Using the RangeType for the state
+    const [range, setRange] = useState<RangeType>([10, 2000]);
+
+    // Define the type for the values parameter
+    const handleRangeChange = (values: number[]) => {
+        setRange(values as RangeType);
     };
 
     return (
         <Box my="2rem">
             <RangeSlider
+                // eslint-disable-next-line jsx-a11y/aria-proptypes
                 aria-label={['min', 'max']}
                 defaultValue={[10, 2000]}
                 min={0}
