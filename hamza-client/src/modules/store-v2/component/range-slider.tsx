@@ -13,7 +13,7 @@ import {
 // Define a type for the range state
 type RangeType = [number, number];
 
-const DualSlider = () => {
+const RangeSliderComponent = () => {
     // Using the RangeType for the state
     const [range, setRange] = useState<RangeType>([10, 2000]);
 
@@ -96,4 +96,4 @@ const DualSlider = () => {
     );
 };
 
-export default DualSlider;
+export default RangeSliderComponent;

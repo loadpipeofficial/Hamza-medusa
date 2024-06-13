@@ -1,29 +1,16 @@
 'use client';
 
-import React, { useState } from 'react';
-import {
-    Box,
-    Text,
-    Heading,
-    Slider,
-    SliderTrack,
-    SliderFilledTrack,
-    SliderThumb,
-    SliderMark,
-    Flex,
-    Divider,
-} from '@chakra-ui/react';
+import React, from 'react';
+import { Box, Text, Heading, Flex } from '@chakra-ui/react';
 import CurrencyButton from './currency-button';
 import CategoryButton from './category-button';
 import currencies from '../data/crypto-currencies';
 import ReviewButton from './review-button';
 import FilterButton from './filter-button';
-import DualSlider from './dual-slider';
+import RangeSlider from './range-slider';
 
 const SideMenu = () => {
     const ratings = [1, 2, 3, 4, 5];
-    const [minValue, setMinValue] = useState(0);
-    const [maxValue, setMaxValue] = useState(100);
 
     return (
         <Box
@@ -44,7 +31,7 @@ const SideMenu = () => {
             </Text>
 
             {/* Slider  */}
-            <DualSlider />
+            <RangeSlider />
             {/* Slider end */}
 
             {/* Crypto Currencies */}
