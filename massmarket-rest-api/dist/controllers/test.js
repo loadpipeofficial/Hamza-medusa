@@ -60,6 +60,22 @@ exports.testController = {
         (0, util_1.serveRequest)(req, res, () => __awaiter(void 0, void 0, void 0, function* () {
             const rc = new client_1.RelayClientWrapper(util_1.ENDPOINT, '0xe8b3a2a736a13a35c3329e772a1e5bfd7c0ebde8e4cb38889ecfce8b1e3db0b6', '0xfc5f10e06f7a6c7c26c2930f7dde591f37470677c3fde258b39df6043741fc2b');
             //await rc.writeManifest();
+            const cartId = yield rc.createCart();
+            console.log('CART ID: ', cartId);
+            //add a product to cart
+            yield rc.addToCart(cartId, '0xa3438104c764746a3d67c761e154ad26a958153743e97db10747121d4c68d642');
+            const commitId = yield rc.commitCart(cartId);
+            console.log('COMMIT: ', commitId);
+            // 0x6e29512af3215eea503f568441ac050c700bcf918bd11a239db20e2995df3ed2
+            return {
+                success: true,
+            };
+        }), 200);
+    }),
+    checkout2: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        (0, util_1.serveRequest)(req, res, () => __awaiter(void 0, void 0, void 0, function* () {
+            const rc = new client_1.RelayClientWrapper(util_1.ENDPOINT, '0xe8b3a2a736a13a35c3329e772a1e5bfd7c0ebde8e4cb38889ecfce8b1e3db0b6', '0xfc5f10e06f7a6c7c26c2930f7dde591f37470677c3fde258b39df6043741fc2b');
+            //await rc.writeManifest();
             //console.log('CART ID: ', await rc.createCart());
             //add a product to cart
             //await rc.addToCart(
