@@ -1,7 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Card, CardBody, Image, Text, Flex, Box } from '@chakra-ui/react';
+import {
+    Card,
+    CardBody,
+    Image,
+    Text,
+    Flex,
+    Box,
+    Skeleton,
+} from '@chakra-ui/react';
 import { AiOutlineDollar } from 'react-icons/ai';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import BuyButton from '../buy-button';
@@ -9,6 +17,7 @@ import CartButton from '@modules/home/components/product-layout/components/cart-
 import { addToCart } from '@modules/cart/actions';
 import { IoStar } from 'react-icons/io5';
 import { FaRegHeart, FaHeart } from 'react-icons/fa6';
+
 interface ProductCardProps {
     varientID: string;
     countryCode: string;
@@ -33,6 +42,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     const [loadingBuy, setLoadingBuy] = useState(false);
     const [loadingAddToCart, setLoadingAddToCard] = useState(false);
     const [selectWL, setSelectWL] = useState(false);
+    const [imageLoaded, setImageLoaded] = useState(false);
 
     const toggleHeart = () => {
         setSelectWL((prev) => !prev);
@@ -77,7 +87,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     alignItems="center"
                     style={{ cursor: 'pointer' }}
                 >
-                    <Image src={imageSrc} alt={productName} />
+                    {!imageLoaded && <Skeleton height="240px" width="100%" />}
+                    <Image
+                        src={imageSrc}
+                        alt={productName}
+                        onLoad={() => setImageLoaded(true)}
+                        display={imageLoaded ? 'block' : 'none'}
+                    />{' '}
                 </Box>
             </LocalizedClientLink>
             <CardBody
