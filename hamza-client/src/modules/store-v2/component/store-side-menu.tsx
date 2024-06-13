@@ -159,7 +159,6 @@ const SideMenu = () => {
                 >
                     <Flex>
                         <Image
-                            ml="1rem"
                             src={FilterIcon}
                             alt="Filter Button"
                             width={24}
