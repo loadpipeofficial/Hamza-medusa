@@ -2,7 +2,13 @@
 
 import React from 'react';
 import ProductCard from '../product-card';
-import { SimpleGrid, Container } from '@chakra-ui/react';
+import {
+    SimpleGrid,
+    Container,
+    Box,
+    Skeleton,
+    SkeletonText,
+} from '@chakra-ui/react';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { formatCryptoPrice } from '@lib/util/get-product-price';
