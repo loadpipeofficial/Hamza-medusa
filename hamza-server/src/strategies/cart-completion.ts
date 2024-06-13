@@ -13,15 +13,28 @@ import { PaymentService } from '@medusajs/medusa/dist/services';
 import { Payment } from '../models/payment';
 import { Order } from '../models/order';
 import { Product } from '../models/product';
+import { Store } from '../models/store';
 import { LineItem } from '../models/line-item';
 import { PaymentDataInput } from '@medusajs/medusa/dist/services/payment';
 import { RequestContext } from '@medusajs/medusa/dist/types/request';
 import PaymentRepository from '@medusajs/medusa/dist/repositories/payment';
+import {
+    CheckoutOutput,
+    MassMarketClient,
+} from '../massmarket-client/rest-client';
 import { In } from 'typeorm';
 import OrderRepository from '@medusajs/medusa/dist/repositories/order';
 import LineItemRepository from '@medusajs/medusa/dist/repositories/line-item';
 
 type HexString = `0x${string}`;
+
+type CheckoutResult = CheckoutOutput & { medusaOrderId: string };
+type OrderData = {
+    order: Order;
+    lineItems: string[];
+    items?: LineItem[];
+    orders?: Order[];
+};
 
 type InjectedDependencies = {
     idempotencyKeyService: IdempotencyKeyService;
@@ -36,10 +49,10 @@ type InjectedDependencies = {
 };
 
 interface IPaymentGroupData {
-    store_id: string;
-    currency_code: string;
-    items: string[];
+    items: LineItem[];
     total: bigint;
+    currency_code: string;
+    store?: Store;
 }
 
 /**
@@ -115,7 +128,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             });
 
             //group payments by store and currency
-            const groups: IPaymentGroupData[] = this.createPaymentGroups(cart);
+            const groups: IPaymentGroupData[] = this.groupByStore(cart);
 
             //create payments
             const payments: Payment[] = await this.createCartPayments(
@@ -124,14 +137,23 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             );
 
             //create orders
-            const orderData: { order: Order; lineItems: string[] }[] =
-                await this.createOrdersForPayments(cart, payments, groups);
+            const orders = await this.createOrdersForPayments(
+                cart,
+                payments,
+                groups
+            );
+
+            if (orders.length != groups.length)
+                throw new Error(
+                    'inconsistency between payment groups and orders'
+                );
 
             //update payments with order ids
-            await this.updatePaymentFromOrder(
-                payments,
-                orderData.map((o) => o.order)
-            );
+            await this.updatePaymentFromOrder(payments, orders);
+
+            const checkoutResults: CheckoutResult[] =
+                await this.doMassMarketCheckout(groups, orders);
+            await this.updateOrderForMassMarket(checkoutResults);
 
             //create & return the response
             const response: CartCompletionResponse = {
@@ -140,7 +162,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
                     payment_count: payments.length,
                     message: 'payment successful',
                     payments,
-                    orders: orderData.map((o) => o.order),
+                    orders,
                     cartId: cartId,
                 },
             };
@@ -165,12 +187,11 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
 
     private createPaymentInput(
         cart: Cart,
-        store_id: string,
-        currency_code: string
+        group: IPaymentGroupData
     ): PaymentDataInput {
         //divide the cart items
         const itemsFromStore = cart.items.filter(
-            (i: LineItem) => i.currency_code === currency_code
+            (i: LineItem) => i.currency_code === group.currency_code
         );
 
         //get total amount for the items
@@ -181,7 +202,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
 
         //create payment input
         const output: PaymentDataInput = {
-            currency_code: currency_code,
+            currency_code: group.currency_code,
             provider_id: 'crypto',
             amount,
             data: {},
@@ -190,28 +211,28 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         return output;
     }
 
-    private createPaymentGroups(cart: Cart): IPaymentGroupData[] {
+    private groupByStore(cart: Cart): IPaymentGroupData[] {
         //temp holding for groups
         const groups: { [key: string]: IPaymentGroupData } = {};
 
         if (cart && cart.items) {
-            cart.items.forEach((i: LineItem) => {
+            cart.items.forEach(async (i: LineItem) => {
                 //create key from unique store/currency pair
                 const currency: string = i.currency_code;
 
-                const store: string = i.variant?.product?.store?.id;
-                const key = `${store}_${currency}`;
+                const store = i.variant?.product?.store;
+                const key = store.id;
 
                 //create new group, or add item id to existing group
                 if (!groups[key]) {
                     groups[key] = {
-                        store_id: store,
-                        currency_code: currency,
                         items: [],
                         total: BigInt(0),
+                        currency_code: currency,
+                        store: store,
                     };
                 }
-                groups[key].items.push(i.id);
+                groups[key].items.push(i);
                 groups[key].total += BigInt(i.unit_price * i.quantity);
             });
         }
@@ -226,13 +247,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         //for each unique group, make payment input to create a payment
         const paymentInputs: PaymentDataInput[] = [];
         paymentGroups.forEach((group) => {
-            paymentInputs.push(
-                this.createPaymentInput(
-                    cart,
-                    group.store_id,
-                    group.currency_code
-                )
-            );
+            paymentInputs.push(this.createPaymentInput(cart, group));
         });
 
         //create the payments
@@ -249,29 +264,19 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         cart: Cart,
         payments: Payment[],
         paymentGroups: IPaymentGroupData[]
-    ): Promise<{ order: Order; lineItems: string[] }[]> {
+    ): Promise<Order[]> {
         const promises: Promise<Order>[] = [];
         for (let i = 0; i < payments.length; i++) {
             promises.push(
                 this.orderService.createFromPayment(
                     cart,
                     payments[i],
-                    paymentGroups[i].store_id
+                    paymentGroups[i].store?.id
                 )
             );
         }
 
-        const orders = await Promise.all(promises);
-        const output = [];
-
-        for (let i = 0; i < payments.length; i++) {
-            output.push({
-                order: orders[i],
-                lineItems: paymentGroups[i].items,
-            });
-        }
-
-        return output;
+        return await Promise.all(promises);
     }
 
     private async updatePaymentFromOrder(
@@ -298,10 +303,93 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             fullOrder.store?.owner?.wallet_address ?? 'NA';
         return await this.paymentRepository.save(payment);
     }
+
+    /*
+    To test: 
+    - checkout with token currency
+    - validation failures (rest server) 
+    - 
+    */
+    private async doMassMarketCheckout(
+        groups: IPaymentGroupData[],
+        orders: Order[]
+    ): Promise<CheckoutResult[]> {
+        let storeId;
+
+        try {
+            for (let n = 0; n < orders.length; n++) {
+                const order = orders[n];
+                let lineItems = groups[n].items;
+
+                storeId = order.store_id;
+                this.logger.debug('storeId: ' + storeId);
+
+                //TODO: is this necessary?
+                lineItems = await this.lineItemRepository.find({
+                    where: { id: In(lineItems.map((i) => i.id)) },
+                    relations: ['variant.product', 'order'],
+                });
+
+                //TODO: is this necessary?
+                orders = await this.orderRepository.find({
+                    where: { id: In([order.id]) },
+                    relations: ['store'],
+                });
+            }
+        } catch (e) {
+            this.logger.error(`Error ${e}`);
+        }
+
+        //call checkout for each store
+        const client = new MassMarketClient();
+        const output: CheckoutResult[] = [];
+        for (let n = 0; n < groups.length; n++) {
+            const group = groups[n];
+
+            const checkoutInputs = [];
+            for (const item of group.items) {
+                const prod: Product = item.variant.product;
+                checkoutInputs.push({
+                    productId: prod.massmarket_prod_id,
+                    quantity: item.quantity,
+                });
+            }
+
+            //massmarket checkout
+            const checkout = await client.checkout(
+                stringToHex(group.store?.massmarket_store_id),
+                stringToHex(group.store?.massmarket_keycard),
+                checkoutInputs
+            );
+
+            output.push({
+                ...checkout,
+                medusaOrderId: orders[n].id,
+            });
+        }
+
+        return output;
+    }
+
+    private async updateOrderForMassMarket(checkoutResults: CheckoutResult[]) {
+        const promises: Promise<Order>[] = [];
+        for (const r of checkoutResults) {
+            promises.push(
+                this.orderRepository.save({
+                    id: r.medusaOrderId,
+                    massmarket_order_id: r.orderId,
+                    massmarket_ttl: r.ttl,
+                    massmarket_amount: r.amount.toString(),
+                })
+            );
+        }
+
+        await Promise.all(promises);
+    }
 }
 
 function stringToHex(input: string): HexString {
-    const hexString = Buffer.from(input, 'utf8').toString('hex');
+    const hexString = input.startsWith('0x') ? input.substring(2) : input;
     return `0x${hexString}`;
 }
 
