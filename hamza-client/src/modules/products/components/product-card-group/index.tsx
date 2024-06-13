@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { formatCryptoPrice } from '@lib/util/get-product-price';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
+import StoreFilterDisplay from '@modules/store-v2/component/store-filter-display';
 
 type Props = {
     vendorName: string;
@@ -49,7 +50,8 @@ const ProductCardGroup = ({
 
     //TODO: Make product card clickable to product preview
     return (
-        <Container maxW={layoutMaxWidth} py="8" backgroundColor={'transparent'}>
+        <Container maxW={layoutMaxWidth} backgroundColor={'transparent'}>
+            <StoreFilterDisplay />
             <SimpleGrid
                 columns={gridColumns}
                 spacing="1.25rem"

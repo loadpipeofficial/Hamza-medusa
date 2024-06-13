@@ -12,16 +12,16 @@ import {
     SliderMark,
     Flex,
     Divider,
-    Button,
 } from '@chakra-ui/react';
-import Image from 'next/image';
 import CurrencyButton from './currency-button';
 import CategoryButton from './category-button';
-import FilterIcon from '../assets/filter-button.svg';
 import currencies from '../data/crypto-currencies';
 import ReviewButton from './review-button';
+import FilterButton from './filter-button';
+import DualSlider from './dual-slider';
 
 const SideMenu = () => {
+    const ratings = [1, 2, 3, 4, 5];
     const [minValue, setMinValue] = useState(0);
     const [maxValue, setMaxValue] = useState(100);
 
@@ -44,58 +44,7 @@ const SideMenu = () => {
             </Text>
 
             {/* Slider  */}
-            <Box my="2rem">
-                <Slider aria-label="slider-ex-1" defaultValue={0}>
-                    <SliderTrack>
-                        <SliderFilledTrack />
-                    </SliderTrack>
-                    <SliderThumb />
-                </Slider>
-
-                <Flex mt="1rem" justifyContent={'center'}>
-                    <Flex
-                        borderColor={'secondary.davy.900'}
-                        flexDirection={'column'}
-                        alignItems={'center'}
-                        justifyContent={'center'}
-                        mr="auto"
-                        borderRadius={'12px'}
-                        borderWidth={'1px'}
-                        h="56px"
-                        w="124px"
-                    >
-                        <Text color="secondary.davy.900" lineHeight="1">
-                            Minimum
-                        </Text>
-                        <Text fontSize={'18px'} lineHeight="1">
-                            USD {minValue}
-                        </Text>
-                    </Flex>
-                    <Divider
-                        borderColor="secondary.davy.900"
-                        w="15.87px"
-                        alignSelf={'center'}
-                    />
-                    <Flex
-                        borderColor={'secondary.davy.900'}
-                        flexDirection={'column'}
-                        alignItems={'center'}
-                        justifyContent={'center'}
-                        ml="auto"
-                        borderRadius={'12px'}
-                        borderWidth={'1px'}
-                        h="56px"
-                        w="124px"
-                    >
-                        <Text color="secondary.davy.900" lineHeight="1">
-                            Maximum
-                        </Text>
-                        <Text fontSize={'18px'} lineHeight="1">
-                            USD {maxValue}
-                        </Text>
-                    </Flex>
-                </Flex>
-            </Box>
+            <DualSlider />
             {/* Slider end */}
 
             {/* Crypto Currencies */}
@@ -133,43 +82,20 @@ const SideMenu = () => {
             </Box>
 
             {/* Rating */}
-
             <Box mt="2rem">
                 <Heading as="h2" size="h2">
                     Rating
                 </Heading>
 
                 <Flex mt="1rem" flexDirection={'column'} gap="16px">
-                    <ReviewButton rating="1" />
-                    <ReviewButton rating="2" />
-                    <ReviewButton rating="3" />
-                    <ReviewButton rating="4" />
-                    <ReviewButton rating="5" />
+                    {ratings.map((rating) => (
+                        <ReviewButton key={rating} rating={rating.toString()} />
+                    ))}
                 </Flex>
             </Box>
 
             <Box mt="2rem">
-                <Button
-                    backgroundColor={'secondary.onyx.900'}
-                    borderRadius={'56px'}
-                    borderWidth={'1px'}
-                    borderColor={'white'}
-                    width="100%"
-                    h={'3.5rem'}
-                >
-                    <Flex>
-                        <Image
-                            src={FilterIcon}
-                            alt="Filter Button"
-                            width={24}
-                            height={24}
-                        />
-
-                        <Text ml="1rem" color={'white'} fontSize={'18px'}>
-                            Apply Filter
-                        </Text>
-                    </Flex>
-                </Button>
+                <FilterButton />
             </Box>
         </Box>
     );

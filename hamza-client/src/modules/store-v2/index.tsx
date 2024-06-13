@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Flex, Box, Container, Text } from '@chakra-ui/react';
+import { Flex, Box, Container, Text, Heading } from '@chakra-ui/react';
 import ProductCardGroup from '@modules/products/components/product-card-group';
 import SideMenu from './component/store-side-menu';
 
