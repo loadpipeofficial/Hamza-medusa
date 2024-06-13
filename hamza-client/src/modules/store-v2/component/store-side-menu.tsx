@@ -14,8 +14,10 @@ import {
     Divider,
     Button,
 } from '@chakra-ui/react';
+import Image from 'next/image';
 import CurrencyButton from './currency-button';
 import CategoryButton from './category-button';
+import FilterIcon from '../assets/filter-button.svg';
 
 const SideMenu = () => {
     const [minValue, setMinValue] = useState(0);
@@ -29,7 +31,8 @@ const SideMenu = () => {
             borderRadius={'20px'}
             maxWidth={'348.74px'}
             width={'100%'}
-            backgroundColor={'#121212'}
+            height={'100%'}
+            backgroundColor={'secondary.onyx.900'}
         >
             <Heading as="h2" size="h2">
                 Price Range
@@ -125,6 +128,49 @@ const SideMenu = () => {
                     <CategoryButton name="Arts" />
                     <CategoryButton name="Arts" />
                 </Flex>
+            </Box>
+
+            {/* Rating */}
+
+            {/* <Box mt="2rem">
+                <Heading as="h2" size="h2">
+                    Rating
+                </Heading>
+
+                <Flex mt="1rem" flexDirection={'column'} gap="16px">
+                    <CategoryButton name="Arts" />
+                    <CategoryButton name="Arts" />
+                    <CategoryButton name="Arts" />
+                    <CategoryButton name="Arts" />
+                    <CategoryButton name="Arts" />
+                    <CategoryButton name="Arts" />
+                    <CategoryButton name="Arts" />
+                    <CategoryButton name="Arts" />
+                </Flex>
+            </Box> */}
+            <Box mt="2rem">
+                <Button
+                    backgroundColor={'secondary.onyx.900'}
+                    borderRadius={'56px'}
+                    borderWidth={'1px'}
+                    borderColor={'white'}
+                    width="100%"
+                    h={'3.5rem'}
+                >
+                    <Flex>
+                        <Image
+                            ml="1rem"
+                            src={FilterIcon}
+                            alt="Filter Button"
+                            width={24}
+                            height={24}
+                        />
+
+                        <Text ml="1rem" color={'white'} fontSize={'18px'}>
+                            Apply Filter
+                        </Text>
+                    </Flex>
+                </Button>
             </Box>
         </Box>
     );
