@@ -16,7 +16,7 @@ const ReviewButton: React.FC<ReviewButtonProps> = ({
     name,
     filter,
 }) => {
-    const { setReviewStarsSelect } = useStorePage();
+    const { setReviewStarsSelect, reviewStarsSelect } = useStorePage();
 
     const [title, setTitle] = useState('1 Star');
     const [ratingAlt, setRatingAlt] = useState('1 Star');
@@ -57,7 +57,10 @@ const ReviewButton: React.FC<ReviewButtonProps> = ({
         <Flex>
             <Flex
                 onClick={() => handleSelectItem(rating)}
-                borderColor={'secondary.davy.900'}
+                backgroundColor={filter ? '#020202' : 'transparent'}
+                borderColor={
+                    filter ? 'secondary.onyx.900' : 'secondary.davy.900'
+                }
                 display={'flex'}
                 flexDirection={'row'}
                 alignItems={'center'}
@@ -70,7 +73,9 @@ const ReviewButton: React.FC<ReviewButtonProps> = ({
                 }}
             >
                 <Image src={ReviewStar} alt={ratingAlt} />
-                <Text ml="10px">{filter ? name : title}</Text>
+                <Text ml="10px" color="white">
+                    {filter ? name : title}
+                </Text>
             </Flex>
         </Flex>
     );
