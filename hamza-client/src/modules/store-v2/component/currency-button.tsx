@@ -45,7 +45,7 @@ const CurrencyButton = (props: any) => {
                 }}
             >
                 <Image src={currency} alt={currencyAlt} />
-                <Text ml="10px">{props.name}</Text>
+                <Text ml="1rem">{props.name}</Text>
             </Flex>
         </Flex>
     );

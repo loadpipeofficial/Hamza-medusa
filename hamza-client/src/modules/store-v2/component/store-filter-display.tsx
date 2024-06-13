@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, Flex } from '@chakra-ui/react';
-import CategoryButton from './category-button';
+import CategoryTopButton from './category-top-button';
 
 const StoreFilterDisplay = () => {
     return (
@@ -8,12 +8,12 @@ const StoreFilterDisplay = () => {
             <Flex flexDirection={'column'} gap="1.5rem">
                 <Text color="White">Home</Text>
                 <Flex gap="20px">
-                    <CategoryButton name="Goblin Store" />
-                    <CategoryButton name="Quality Store" />
-                    <CategoryButton name="Headphones Store" />
+                    <CategoryTopButton name="Goblin Store" />
+                    <CategoryTopButton name="Quality Store" />
+                    <CategoryTopButton name="Headphones Store" />
                 </Flex>
                 <Text color="primary.indigo.900">Filters Applied</Text>
-                <CategoryButton />
+                <CategoryTopButton name="Goblin Store" />
             </Flex>
         </Flex>
     );

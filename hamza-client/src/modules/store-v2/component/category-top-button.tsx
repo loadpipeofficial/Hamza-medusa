@@ -2,19 +2,22 @@ import React, { useState } from 'react';
 import { Text, Flex } from '@chakra-ui/react';
 import useStorePage from '@store/store-page/store-page';
 
-const CategoryButton = (props: any) => {
+const CategoryTopButton = (props: any) => {
     const { categorySelect, setCategorySelect } = useStorePage();
+
+    const handleSelectItem = (itemName: string) => {
+        setCategorySelect(itemName);
+    };
 
     return (
         <Flex>
             <Flex
-                borderColor={
-                    props.view === 'filter-display'
-                        ? 'transparent'
-                        : 'secondary.davy.900'
-                }
+                onClick={() => handleSelectItem(props.name)}
+                borderColor={'transparent'}
                 backgroundColor={
-                    props.view === 'filter-display' ? '#020202' : 'transparent'
+                    categorySelect !== null && categorySelect === props.name
+                        ? 'white'
+                        : 'black'
                 }
                 display={'flex'}
                 flexDirection={'row'}
@@ -26,11 +29,14 @@ const CategoryButton = (props: any) => {
                 _hover={{
                     background: 'white',
                 }}
-                onClick={() => setSelected(true)}
             >
                 {/* <Text marginRight={'8px'}>icon</Text> */}
                 <Text
-                    color="white"
+                    color={
+                        categorySelect !== null && categorySelect === props.name
+                            ? 'black'
+                            : 'white'
+                    }
                     _hover={{
                         color: 'black',
                     }}
@@ -42,4 +48,4 @@ const CategoryButton = (props: any) => {
     );
 };
 
-export default CategoryButton;
+export default CategoryTopButton;
