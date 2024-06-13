@@ -22,7 +22,6 @@ export default async function Footer() {
     );
     return (
         <Flex
-            fontFamily={'Sora'}
             width="full"
             bgColor={'black'}
             py="4rem"
