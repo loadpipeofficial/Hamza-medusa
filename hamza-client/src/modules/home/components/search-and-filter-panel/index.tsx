@@ -8,6 +8,7 @@ import vendors from './data/data';
 import { RiMenu2Fill } from 'react-icons/ri';
 import Reputation from '../reputation';
 import SearchBar from './components/SearchBar';
+import SearchModalWrapper from '@modules/search/templates/search-wrapper';
 
 const SearchAndFilterPanel = () => {
     const [vendorName, setVendorName] = useState('Goblin Store');
