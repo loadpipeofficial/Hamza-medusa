@@ -1,6 +1,6 @@
 'use client';
 
-import React, from 'react';
+import React from 'react';
 import { Box, Text, Heading, Flex } from '@chakra-ui/react';
 import CurrencyButton from './currency-button';
 import CategoryButton from './category-button';
@@ -57,14 +57,9 @@ const SideMenu = () => {
                 </Heading>
 
                 <Flex mt="1rem" flexDirection={'column'} gap="16px">
-                    <CategoryButton name="Arts" />
-                    <CategoryButton name="Arts" />
-                    <CategoryButton name="Arts" />
-                    <CategoryButton name="Arts" />
-                    <CategoryButton name="Arts" />
-                    <CategoryButton name="Arts" />
-                    <CategoryButton name="Arts" />
-                    <CategoryButton name="Arts" />
+                    <CategoryButton name="Goblin Store" />
+                    <CategoryButton name="Quality Store" />
+                    <CategoryButton name="Headphones Store" />
                 </Flex>
             </Box>
 
