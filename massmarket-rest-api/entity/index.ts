@@ -100,4 +100,5 @@ export interface ICheckoutOutput {
     amount: string;
     chainId: number;
     ttl: number;
+    currency: string;
 }

@@ -93,6 +93,8 @@ export const testController = {
 
                 const commitId = await rc.commitCart(cartId);
                 console.log('COMMIT: ', commitId);
+
+                await rc.pullEvents();
                 // 0x6e29512af3215eea503f568441ac050c700bcf918bd11a239db20e2995df3ed2
 
                 return {

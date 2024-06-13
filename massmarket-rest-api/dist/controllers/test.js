@@ -66,6 +66,7 @@ exports.testController = {
             yield rc.addToCart(cartId, '0xa3438104c764746a3d67c761e154ad26a958153743e97db10747121d4c68d642');
             const commitId = yield rc.commitCart(cartId);
             console.log('COMMIT: ', commitId);
+            yield rc.pullEvents();
             // 0x6e29512af3215eea503f568441ac050c700bcf918bd11a239db20e2995df3ed2
             return {
                 success: true,

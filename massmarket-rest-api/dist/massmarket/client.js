@@ -177,15 +177,16 @@ class RelayClientWrapper {
     }
     pullEvents() {
         return __awaiter(this, void 0, void 0, function* () {
-            var _a, _b, _c;
+            var _a, _b, _c, _d;
             yield this._client.connect();
             if (!this.eventStream)
                 this.eventStream = yield this._client.createEventStream();
             console.log('reading');
             const events = yield this.eventStream.getReader().read();
+            return (_a = events.value) === null || _a === void 0 ? void 0 : _a.events;
             console.log('read: ', events);
-            console.log((_a = events.value) === null || _a === void 0 ? void 0 : _a.events.length);
-            console.log((_b = events.value) === null || _b === void 0 ? void 0 : _b.events[((_c = events.value) === null || _c === void 0 ? void 0 : _c.events.length) - 1]);
+            console.log((_b = events.value) === null || _b === void 0 ? void 0 : _b.events.length);
+            console.log((_c = events.value) === null || _c === void 0 ? void 0 : _c.events[((_d = events.value) === null || _d === void 0 ? void 0 : _d.events.length) - 1]);
         });
     }
     keyCardToString() {
@@ -259,7 +260,7 @@ class RelayClientWrapper {
     }
     commitCart(cartId) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this._client.commitCart(cartId);
+            yield this._client.commitCart(cartId, null, '0x74b7284836F753101bD683C3843e95813b381f18');
         });
     }
     abandonCart(cartId) {

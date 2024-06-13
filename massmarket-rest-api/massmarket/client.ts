@@ -229,12 +229,13 @@ export class RelayClientWrapper {
         return rc;
     }
 
-    async pullEvents() {
+    async pullEvents(): Promise<any> {
         await this._client.connect();
         if (!this.eventStream)
             this.eventStream = await this._client.createEventStream();
         console.log('reading');
         const events = await this.eventStream.getReader().read();
+        return events.value?.events;
         console.log('read: ', events);
         console.log(events.value?.events.length);
         console.log(events.value?.events[events.value?.events.length - 1]);
@@ -310,7 +311,11 @@ export class RelayClientWrapper {
     }
 
     async commitCart(cartId: HexString) {
-        await this._client.commitCart(cartId);
+        await this._client.commitCart(
+            cartId,
+            null,
+            '0x74b7284836F753101bD683C3843e95813b381f18'
+        );
     }
 
     async abandonCart(cartId: HexString) {

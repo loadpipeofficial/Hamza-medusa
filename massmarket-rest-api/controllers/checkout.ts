@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { ENDPOINT, serveRequest, validateStoreIdAndKeycard } from './util';
 import { ICheckoutInput, ICheckoutOutput } from '../entity';
 import { RelayClientWrapper } from '../massmarket/client';
+import { keccak256 } from 'viem';
 
 export const checkoutController = {
     //checkout
@@ -15,16 +16,16 @@ export const checkoutController = {
 
                 //TODO: REMOVE (dummy checkout)
                 const output: ICheckoutOutput = {
-                    success: true,
+                    success: false,
                     contractAddress:
                         '0x0DcA1518DB5A058F29EBfDab76739faf8Fb4544c',
-                    amount: '1100000',
-                    orderId: '0x3DcA1518DB5A058F29EBfDab76739faf8Fb4511a',
+                    amount: '0',
+                    orderId: '0x',
                     chainId: 11155111,
-                    ttl: 1,
+                    ttl: 0,
+                    currency: '',
                 };
 
-                /*
                 if (!validateCheckoutInput(res, input)) {
                     console.log('validation failed');
                     return null;
@@ -39,26 +40,34 @@ export const checkoutController = {
 
                 //do the full checkout
                 if (rc) {
-                    //create the cart
-                    output.cartId = await rc.createCart();
+                    const cartId = await rc.createCart();
+                    console.log('CART ID: ', cartId);
 
-                    //add items to cart
-                    for (let item of input.items) {
-                        await rc.addToCart(
-                            output.cartId,
-                            item.productId,
-                            item.quantity
-                        );
+                    //add a product to cart
+                    await rc.addToCart(
+                        cartId,
+                        '0xa3438104c764746a3d67c761e154ad26a958153743e97db10747121d4c68d642'
+                    );
+
+                    const commitId = await rc.commitCart(cartId);
+                    console.log('COMMIT: ', commitId);
+
+                    const events = await rc.pullEvents();
+
+                    //parse the events
+                    for (let n = events.length - 1; n >= 0; n--) {
+                        const event = events[n];
+                        if (event?.cartFinalized?.cartId) {
+                            output.orderId = keccak256(
+                                event.cartFinalized.cartId
+                            );
+                            output.ttl = 1718372232; //event.cartFinalized.ttl;
+                            output.amount = '21000000000000000';
+                            output.currency = '';
+                            output.success = true;
+                        }
                     }
-
-                    //commit the cart
-                    await rc.commitCart(output.cartId);
-
-                    output.paymentAddress =
-                        '0x0DcA1518DB5A058F29EBfDab76739faf8Fb4544c';
-                    output.success = true;
                 }
-                */
 
                 console.log('returning output');
                 return output;

@@ -8,7 +8,7 @@ import { enrollController } from '../controllers/enroll';
 
 const router = Router();
 
-router.get('/test', testController.connectNewKC);
+router.get('/test', testController.checkout);
 
 //createStore: POST /store
 router.get('/store', storeController.createStore);
