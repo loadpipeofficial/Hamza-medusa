@@ -6,6 +6,7 @@ import { sepolia } from 'viem/chains';
 import { privateKeyStringToBytes, bufferToString, sleep } from './utils';
 import { HexString } from '../entity';
 import { ENDPOINT } from '../controllers/util';
+import { BlockchainClient } from './lib/blockchainClient';
 
 /**
  * Wrapper for the massmarket relay client, exposing those functions and properties
@@ -162,7 +163,7 @@ export class RelayClientWrapper {
         console.log('create store');
         console.log('storeId', storeId);
         console.log('keycard', keycard.string);
-        await client.createStore(storeId, storeWallet);
+        await new BlockchainClient(storeId).createStore(storeWallet);
 
         await sleep(90);
 

@@ -17,6 +17,7 @@ const accounts_1 = require("viem/accounts");
 const chains_1 = require("viem/chains");
 const utils_1 = require("./utils");
 const util_1 = require("../controllers/util");
+const blockchainClient_1 = require("./lib/blockchainClient");
 /**
  * Wrapper for the massmarket relay client, exposing those functions and properties
  * that we need for our specific use cases.
@@ -127,7 +128,7 @@ class RelayClientWrapper {
             console.log('create store');
             console.log('storeId', storeId);
             console.log('keycard', keycard.string);
-            yield client.createStore(storeId, storeWallet);
+            yield new blockchainClient_1.BlockchainClient(storeId).createStore(storeWallet);
             yield (0, utils_1.sleep)(90);
             //enroll keycard
             console.log('enrolling KC');
