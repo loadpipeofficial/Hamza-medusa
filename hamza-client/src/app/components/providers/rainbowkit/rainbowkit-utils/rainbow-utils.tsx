@@ -71,7 +71,7 @@ export const SwitchNetwork = () => {
             <ModalContent>
                 <ModalHeader>Switch Network</ModalHeader>
                 <ModalBody>
-                    <p>The currently selected chain is {chain.name}</p>
+                    <p>The currently selected chain is not supported!</p>
                     <Button
                         disabled={!switchNetwork || isLoading}
                         onClick={() => switchNetwork(11155111)}
