@@ -13,16 +13,16 @@ const CategoryTopButton: React.FC<CategoryButtonProps> = ({
     categoryName,
     categoryType,
 }) => {
-    const { categorySelect, setCategorySelect } = useStorePage();
-
-    const handleSelectItem = (itemName: string) => {
-        setCategorySelect(itemName);
-    };
+    const { categorySelect, setCategorySelect, setCategoryTypeSelect } =
+        useStorePage();
 
     return (
         <Flex>
             <Flex
-                onClick={() => handleSelectItem(categoryName)}
+                onClick={() => {
+                    setCategorySelect(categoryName),
+                        setCategoryTypeSelect(categoryType);
+                }}
                 borderColor={'transparent'}
                 backgroundColor={
                     categorySelect !== null && categorySelect === categoryName
