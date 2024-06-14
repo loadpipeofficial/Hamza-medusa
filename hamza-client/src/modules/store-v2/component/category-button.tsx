@@ -19,23 +19,16 @@ const CategoryButton = (props: any) => {
                 borderWidth={'1px'}
                 borderRadius={'49px'}
                 cursor="pointer"
+                color={categoryFilterSelect === props.name ? 'black' : 'white'}
                 style={{ padding: '10px 24px' }}
                 _hover={{
                     background: 'white',
+                    color: 'black',
                 }}
                 onClick={() => setCategoryFilterSelect(props.name)}
             >
                 {/* <Text marginRight={'8px'}>icon</Text> */}
-                <Text
-                    color={
-                        categoryFilterSelect === props.name ? 'black' : 'white'
-                    }
-                    _hover={{
-                        color: 'black',
-                    }}
-                >
-                    {props.name}
-                </Text>
+                <Text>{props.name}</Text>
             </Flex>
         </Flex>
     );

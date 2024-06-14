@@ -10,12 +10,7 @@ import useSideFilter from '@store/store-page/side-filter';
 const CurrencyButton = (props: any) => {
     const [currency, setCurrency] = useState(EthIcon);
     const [currencyAlt, setCurrencyAlt] = useState('Ethereum');
-
-    const { setCurrencyFilterSelect } = useSideFilter();
-
-    const handleSelectItem = (itemName: string) => {
-        setCurrencyFilterSelect(itemName);
-    };
+    const { currencyFilterSelect, setCurrencyFilterSelect } = useSideFilter();
 
     useEffect(() => {
         switch (props.name) {
@@ -39,18 +34,25 @@ const CurrencyButton = (props: any) => {
     return (
         <Flex>
             <Flex
-                onClick={() => handleSelectItem(props.name)}
                 borderColor={'secondary.davy.900'}
+                backgroundColor={
+                    currencyFilterSelect === props.name
+                        ? 'white'
+                        : 'transparent'
+                }
                 display={'flex'}
                 flexDirection={'row'}
                 alignItems={'center'}
                 borderWidth={'1px'}
                 borderRadius={'49px'}
-                style={{ padding: '10px 24px', cursor: 'pointer' }}
+                cursor="pointer"
+                color={currencyFilterSelect === props.name ? 'black' : 'white'}
+                style={{ padding: '10px 24px' }}
                 _hover={{
                     background: 'white',
-                    color: 'secondary.onyx.900',
+                    color: 'black',
                 }}
+                onClick={() => setCurrencyFilterSelect(props.name)}
             >
                 <Image src={currency} alt={currencyAlt} />
                 <Text ml="1rem">{props.name}</Text>

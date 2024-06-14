@@ -8,17 +8,10 @@ import useSideFilter from '@store/store-page/side-filter';
 // Define the props type with TypeScript
 interface ReviewButtonProps {
     rating: string;
-    name?: string;
-    filter: boolean; // Now filter is explicitly a boolean
 }
 
-const ReviewButton: React.FC<ReviewButtonProps> = ({
-    rating,
-    name,
-    filter,
-}) => {
+const ReviewButton: React.FC<ReviewButtonProps> = ({ rating }) => {
     const { reviewFilterSelect, setReviewFilterSelect } = useSideFilter();
-
     const [title, setTitle] = useState('1 Star');
     const [ratingAlt, setRatingAlt] = useState('1 Star');
 
@@ -50,33 +43,28 @@ const ReviewButton: React.FC<ReviewButtonProps> = ({
         }
     }, [rating]);
 
-    const handleSelectItem = (itemName: string) => {
-        setReviewFilterSelect(itemName);
-    };
-
     return (
         <Flex>
             <Flex
-                onClick={() => handleSelectItem(rating)}
-                backgroundColor={filter ? '#020202' : 'transparent'}
-                borderColor={
-                    filter ? 'secondary.onyx.900' : 'secondary.davy.900'
+                onClick={() => setReviewFilterSelect(title)}
+                backgroundColor={
+                    reviewFilterSelect === title ? 'white' : 'transparent'
                 }
+                borderColor={'secondary.davy.900'}
                 display={'flex'}
                 flexDirection={'row'}
                 alignItems={'center'}
                 borderWidth={'1px'}
                 borderRadius={'49px'}
                 style={{ padding: '10px 24px', cursor: 'pointer' }}
+                color={reviewFilterSelect === title ? 'black' : 'white'}
                 _hover={{
                     background: 'white',
-                    color: 'secondary.onyx.900',
+                    color: 'black',
                 }}
             >
                 <Image src={ReviewStar} alt={ratingAlt} />
-                <Text ml="10px" color="white">
-                    {filter ? name : title}
-                </Text>
+                <Text ml="10px">{title}</Text>
             </Flex>
         </Flex>
     );
