@@ -8,12 +8,9 @@ import currencies from '../data/crypto-currencies';
 import ReviewButton from './review-button';
 import FilterButton from './filter-button';
 import RangeSlider from './range-slider';
-import useStorePage from '@store/store-page/store-page';
 
 const SideMenu = () => {
     const ratings = ['1', '2', '3', '4', '5'];
-    const { setCurrencySelect, setReviewStarsSelect, setCategorySelect } =
-        useStorePage();
 
     return (
         <Box

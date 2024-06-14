@@ -1,20 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Text, Flex } from '@chakra-ui/react';
-import useStorePage from '@store/store-page/store-page';
+import useSideFilter from '@store/store-page/side-filter';
 
 const CategoryButton = (props: any) => {
-    const { categorySelect, setCategorySelect } = useStorePage();
-
+    const { categoryFilterSelect, setCategoryFilterSelect } = useSideFilter();
     return (
         <Flex>
             <Flex
-                borderColor={
-                    props.view === 'filter-display'
-                        ? 'transparent'
-                        : 'secondary.davy.900'
-                }
+                borderColor={'secondary.davy.900'}
                 backgroundColor={
-                    props.view === 'filter-display' ? '#020202' : 'transparent'
+                    categoryFilterSelect === props.name
+                        ? 'white'
+                        : 'transparent'
                 }
                 display={'flex'}
                 flexDirection={'row'}
@@ -26,11 +23,13 @@ const CategoryButton = (props: any) => {
                 _hover={{
                     background: 'white',
                 }}
-                onClick={() => setSelected(true)}
+                onClick={() => setCategoryFilterSelect(props.name)}
             >
                 {/* <Text marginRight={'8px'}>icon</Text> */}
                 <Text
-                    color="white"
+                    color={
+                        categoryFilterSelect === props.name ? 'black' : 'white'
+                    }
                     _hover={{
                         color: 'black',
                     }}

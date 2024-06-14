@@ -17,10 +17,12 @@ const FilterButton: React.FC<FilterButtonProps> = ({ category }) => {
     const { setCurrencySelect, setReviewStarsSelect, setCategorySelect } =
         useStorePage();
     const {
+        categoryFilterSelect,
         reviewFilterSelect,
         currencyFilterSelect,
         setReviewFilterSelect,
         setCurrencyFilterSelect,
+        setCategoryFilterSelect,
     } = useSideFilter();
 
     return (
@@ -30,14 +32,14 @@ const FilterButton: React.FC<FilterButtonProps> = ({ category }) => {
                     setCurrencySelect(currencyFilterSelect);
                 }
                 if (reviewFilterSelect) {
-                    // Check for undefined to allow review 0
                     setReviewStarsSelect(reviewFilterSelect);
                 }
-                if (category) {
-                    setCategorySelect(category);
+                if (categoryFilterSelect) {
+                    setCategorySelect(categoryFilterSelect);
                 }
                 setReviewFilterSelect(null);
                 setCurrencyFilterSelect(null);
+                setCategoryFilterSelect(null);
                 // Scroll to the top of the page
                 window.scrollTo({
                     top: 0,
