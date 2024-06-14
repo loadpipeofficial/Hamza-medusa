@@ -64,6 +64,7 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
                             imageSrc={product.thumbnail}
                             hasDiscount={product.is_giftcard}
                             discountValue={product.discountValue}
+                            productId={product.id}
                         />
                     );
                 })}
