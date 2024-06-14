@@ -62,14 +62,14 @@ export const checkoutController = {
                                 event.cartFinalized.cartId
                             );
                             output.ttl = 1718372232; //event.cartFinalized.ttl;
-                            output.amount = '21000000000000000';
+                            output.amount = event.cartFinalized.totalInCrypto;
                             output.currency = '';
                             output.success = true;
                         }
                     }
                 }
 
-                console.log('returning output');
+                console.log('returning output', output);
                 return output;
             },
             200

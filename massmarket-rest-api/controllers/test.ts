@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { keccak256 } from 'viem';
 import { RelayClientWrapper } from '../massmarket/client';
 import { ENDPOINT, serveRequest } from './util';
 
@@ -94,12 +95,32 @@ export const testController = {
                 const commitId = await rc.commitCart(cartId);
                 console.log('COMMIT: ', commitId);
 
-                await rc.pullEvents();
-                // 0x6e29512af3215eea503f568441ac050c700bcf918bd11a239db20e2995df3ed2
+                const events = await rc.pullEvents();
 
-                return {
-                    success: true,
+                const output = {
+                    orderId: '',
+                    ttl: 0,
+                    currency: '',
+                    success: false,
+                    amount: '',
                 };
+
+                //parse the events
+                for (let n = events.length - 1; n >= 0; n--) {
+                    const event = events[n];
+                    if (event?.cartFinalized?.cartId) {
+                        output.orderId = keccak256(event.cartFinalized.cartId);
+                        output.ttl = 1718372232; //event.cartFinalized.ttl;
+                        output.amount = event.cartFinalized.totalInCrypto;
+                        output.currency = '';
+                        output.success = true;
+
+                        console.log(event.cartFinalized);
+                    }
+                }
+
+                console.log('returning output', output);
+                return output;
             },
             200
         );

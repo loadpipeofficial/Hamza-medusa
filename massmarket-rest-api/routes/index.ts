@@ -35,6 +35,6 @@ router.delete('/cart', cartController.abandonCart);
 router.post('/cart:id', cartController.commitCart);
 
 //checkout: POST /checkout
-router.post('/checkout', checkoutController.doCheckout);
+router.get('/checkout', checkoutController.doCheckout);
 
 export default router;
