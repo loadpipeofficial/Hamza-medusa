@@ -38,6 +38,11 @@ const FilterButton: React.FC<FilterButtonProps> = ({ category }) => {
                 }
                 setReviewFilterSelect(null);
                 setCurrencyFilterSelect(null);
+                // Scroll to the top of the page
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth',
+                });
             }}
             backgroundColor={'secondary.onyx.900'}
             borderRadius={'56px'}

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Text, Flex, Button } from '@chakra-ui/react';
-import CategoryTopButton from './category-top-button';
 import useStorePage from '@store/store-page/store-page';
 import FilterTag from './filter-tag';
 import ReviewStar from '../../../../public/images/products/review-star.svg';
