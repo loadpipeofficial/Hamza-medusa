@@ -6,7 +6,6 @@ import ReviewStar from '../../../../public/images/products/review-star.svg';
 import { IoCloseOutline } from 'react-icons/io5';
 import categoryIcons from '../data/category-icons';
 import currencyIcons from '../data/crypto-currencies';
-import useSideFilter from '@store/store-page/side-filter';
 
 const FilterTags = () => {
     const {
