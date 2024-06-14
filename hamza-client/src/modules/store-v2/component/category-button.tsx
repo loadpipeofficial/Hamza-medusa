@@ -13,7 +13,11 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({
     categoryName,
     categoryType,
 }) => {
-    const { categoryFilterSelect, setCategoryFilterSelect } = useSideFilter();
+    const {
+        categoryFilterSelect,
+        setCategoryFilterSelect,
+        setCategoryTypeFilterSelect,
+    } = useSideFilter();
 
     return (
         <Flex>
@@ -38,7 +42,10 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({
                     background: 'white',
                     color: 'black',
                 }}
-                onClick={() => setCategoryFilterSelect(categoryName)}
+                onClick={() => {
+                    setCategoryFilterSelect(categoryName),
+                        setCategoryTypeFilterSelect(categoryType);
+                }}
             >
                 <Image src={categoryIcons[categoryType]} alt={categoryName} />
                 <Text ml="10px">{categoryName}</Text>

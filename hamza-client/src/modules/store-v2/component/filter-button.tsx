@@ -14,15 +14,21 @@ interface FilterButtonProps {
 
 const FilterButton: React.FC<FilterButtonProps> = ({ category }) => {
     // Use Zustand store to handle filter object
-    const { setCurrencySelect, setReviewStarsSelect, setCategorySelect } =
-        useStorePage();
+    const {
+        setCurrencySelect,
+        setReviewStarsSelect,
+        setCategorySelect,
+        setCategoryTypeSelect,
+    } = useStorePage();
     const {
         categoryFilterSelect,
+        categoryTypeFilterSelect,
         reviewFilterSelect,
         currencyFilterSelect,
         setReviewFilterSelect,
         setCurrencyFilterSelect,
         setCategoryFilterSelect,
+        setCategoryTypeFilterSelect,
     } = useSideFilter();
 
     return (
@@ -36,10 +42,12 @@ const FilterButton: React.FC<FilterButtonProps> = ({ category }) => {
                 }
                 if (categoryFilterSelect) {
                     setCategorySelect(categoryFilterSelect);
+                    setCategoryTypeSelect(categoryTypeFilterSelect);
                 }
                 setReviewFilterSelect(null);
                 setCurrencyFilterSelect(null);
                 setCategoryFilterSelect(null);
+                setCategoryTypeFilterSelect(null);
                 // Scroll to the top of the page
                 window.scrollTo({
                     top: 0,
