@@ -1,8 +1,9 @@
 import React from 'react';
 import { Text, Flex, Button } from '@chakra-ui/react';
 import CategoryTopButton from './category-top-button';
-import ReviewButton from './review-button';
 import useStorePage from '@store/store-page/store-page';
+import FilterTag from './filter-tag';
+import ReviewStar from '../../../../public/images/products/review-star.svg';
 
 const FilterTags = () => {
     const {
@@ -17,21 +18,16 @@ const FilterTags = () => {
     const filterTags = () => {
         const tags = [];
         if (categorySelect) {
-            tags.push(
-                <CategoryTopButton key="category" name={`${categorySelect}`} />
-            );
+            tags.push(<FilterTag key="category" name={`${categorySelect}`} />);
         }
-        if (currencySelect) {
-            tags.push(
-                <CategoryTopButton key="currency" name={`${currencySelect}`} />
-            );
+        if (currencySelect !== null) {
+            tags.push(<FilterTag key="currency" name={`${currencySelect}`} />);
         }
         if (reviewStarsSelect) {
             // Check for non-null explicitly for numbers
             tags.push(
-                <ReviewButton
-                    key="reviewStars"
-                    filter={true}
+                <FilterTag
+                    img={ReviewStar}
                     name={`${reviewStarsSelect} Stars`}
                 />
             );

@@ -4,10 +4,17 @@ import { Text, Flex, Divider, Button } from '@chakra-ui/react';
 import EthIcon from '../../../../public/images/currencies/eth-icon.svg';
 import USDCIcon from '../../../../public/images/currencies/usdc-icon.svg';
 import USDTIcon from '../../../../public/images/currencies/usdt-icon.svg';
+import useStorePage from '@store/store-page/store-page';
 
 const CurrencyButton = (props: any) => {
     const [currency, setCurrency] = useState(EthIcon);
     const [currencyAlt, setCurrencyAlt] = useState('Ethereum');
+
+    const { currencySelect, setCurrencySelect } = useStorePage();
+
+    const handleSelectItem = (itemName: string) => {
+        setCurrencySelect(itemName);
+    };
 
     useEffect(() => {
         switch (props.name) {
@@ -31,7 +38,7 @@ const CurrencyButton = (props: any) => {
     return (
         <Flex>
             <Flex
-                onClick={() => {}}
+                onClick={() => handleSelectItem(props.name)}
                 borderColor={'secondary.davy.900'}
                 display={'flex'}
                 flexDirection={'row'}

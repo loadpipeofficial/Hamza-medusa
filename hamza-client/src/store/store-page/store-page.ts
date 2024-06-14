@@ -15,7 +15,7 @@ const useStorePage = create<StoreState>((set) => ({
     categorySelect: null,
     currencySelect: null,
     reviewStarsSelect: null,
-    setCurrencySelect: (item: string | null) => set({ categorySelect: item }),
+    setCurrencySelect: (item: string | null) => set({ currencySelect: item }),
     setCategorySelect: (item: string | null) => set({ categorySelect: item }),
     setReviewStarsSelect: (stars: string | null) =>
         set({ reviewStarsSelect: stars }),
