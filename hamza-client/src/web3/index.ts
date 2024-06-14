@@ -13,7 +13,6 @@ export interface IPaymentInput_MM {
     orderId: HexString; //massmarket order id
     storeId: HexString; //massmarket store id
     chainId: number;
-    ttl: number;
 }
 
 export interface IPaymentInput {
@@ -23,6 +22,9 @@ export interface IPaymentInput {
     amount: BigNumberish;
     currency?: string; //token address, or ethers.ZeroAddress for native
     chainId: number;
+    massmarketTtl: number;
+    massmarketOrderId: string;
+    massmarketAmount: string;
 }
 
 /**

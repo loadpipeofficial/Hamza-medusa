@@ -42,9 +42,10 @@ export type CheckoutOutput = {
     success: boolean;
     contractAddress: HexString;
     orderId: HexString;
-    amount: BigInt;
+    amount: string;
     chainId: number;
     ttl: number;
+    currency: string;
 };
 
 /**

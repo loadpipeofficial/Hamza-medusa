@@ -110,7 +110,7 @@ export const testController = {
                     const event = events[n];
                     if (event?.cartFinalized?.cartId) {
                         output.orderId = keccak256(event.cartFinalized.cartId);
-                        output.ttl = 1718372232; //event.cartFinalized.ttl;
+                        output.ttl = event.cartFinalized.paymentTtl;
                         output.amount = event.cartFinalized.totalInCrypto;
                         output.currency = '';
                         output.success = true;

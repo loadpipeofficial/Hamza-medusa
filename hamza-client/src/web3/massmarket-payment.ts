@@ -104,17 +104,17 @@ export class MassmarketPaymentClient {
             for (const payment of input.payments) {
                 const request: IPaymentRequest = {
                     chainId: payment.chainId,
-                    ttl: payment.ttl,
+                    ttl: payment.massmarketTtl,
                     currency: input.currency, //payment.currency ?? '0x0',
-                    amount: 1,
-                    order: '0x0000000000000000000000003DcA1518DB5A058F29EBfDab76739faf8Fb4511a', //payment.orderId,
+                    amount: payment.massmarketAmount,
+                    order: payment.massmarketOrderId,
                     payeeAddress: this.escrowAddress, //switch address, or store owner address
                     isPaymentEndpoint: true, //true if using switch
                     shopId: 1,
-                    shopSignature: [
+                    shopSignature: new Uint8Array([
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    ],
+                    ]),
                 };
                 output.push(request);
             }
