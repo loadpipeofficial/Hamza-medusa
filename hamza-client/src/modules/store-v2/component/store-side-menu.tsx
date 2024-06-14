@@ -4,7 +4,7 @@ import React from 'react';
 import { Box, Text, Heading, Flex } from '@chakra-ui/react';
 import CurrencyButton from './currency-button';
 import CategoryButton from './category-button';
-import currencies from '../data/crypto-currencies';
+import currencies from '../data/currency-category';
 import ReviewButton from './review-button';
 import FilterButton from './filter-button';
 import RangeSlider from './range-slider';
@@ -58,9 +58,18 @@ const SideMenu = () => {
                 </Heading>
 
                 <Flex mt="1rem" flexDirection={'column'} gap="16px">
-                    <CategoryButton name="Goblin Store" />
-                    <CategoryButton name="Quality Store" />
-                    <CategoryButton name="Headphones Store" />
+                    <CategoryButton
+                        categoryType="clothes"
+                        categoryName="Goblin Store"
+                    />
+                    <CategoryButton
+                        categoryType="games"
+                        categoryName="Quality Store"
+                    />
+                    <CategoryButton
+                        categoryType="gadgets"
+                        categoryName="Headphones Store"
+                    />
                 </Flex>
             </Box>
 

@@ -1,9 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Text, Flex } from '@chakra-ui/react';
-import ETH from '../../../../public/images/currencies/eth-icon.svg';
-import USDC from '../../../../public/images/currencies/usdc-icon.svg';
-import USDT from '../../../../public/images/currencies/usdt-icon.svg';
+import currencyIcons from '../data/crypto-currencies';
 import useSideFilter from '@store/store-page/side-filter';
 
 interface CurrencyButtonProps {
@@ -12,14 +10,6 @@ interface CurrencyButtonProps {
 
 const CurrencyButton: React.FC<CurrencyButtonProps> = ({ currencyName }) => {
     const { currencyFilterSelect, setCurrencyFilterSelect } = useSideFilter();
-
-    const currencyIcons: {
-        [key in CurrencyButtonProps['currencyName']]: string;
-    } = {
-        ETH: ETH,
-        USDC: USDC,
-        USDT: USDT,
-    };
 
     return (
         <Flex>

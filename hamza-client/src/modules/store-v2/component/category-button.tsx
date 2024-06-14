@@ -1,15 +1,26 @@
 import React from 'react';
 import { Text, Flex } from '@chakra-ui/react';
+import Image from 'next/image';
 import useSideFilter from '@store/store-page/side-filter';
+import categoryIcons from '../data/category-icons';
 
-const CategoryButton = (props: any) => {
+interface CategoryButtonProps {
+    categoryName: string;
+    categoryType: 'clothes' | 'games' | 'gadgets';
+}
+
+const CategoryButton: React.FC<CategoryButtonProps> = ({
+    categoryName,
+    categoryType,
+}) => {
     const { categoryFilterSelect, setCategoryFilterSelect } = useSideFilter();
+
     return (
         <Flex>
             <Flex
                 borderColor={'secondary.davy.900'}
                 backgroundColor={
-                    categoryFilterSelect === props.name
+                    categoryFilterSelect === categoryName
                         ? 'white'
                         : 'transparent'
                 }
@@ -19,16 +30,18 @@ const CategoryButton = (props: any) => {
                 borderWidth={'1px'}
                 borderRadius={'49px'}
                 cursor="pointer"
-                color={categoryFilterSelect === props.name ? 'black' : 'white'}
-                style={{ padding: '10px 24px' }}
+                color={
+                    categoryFilterSelect === categoryName ? 'black' : 'white'
+                }
+                padding="10px 24px"
                 _hover={{
                     background: 'white',
                     color: 'black',
                 }}
-                onClick={() => setCategoryFilterSelect(props.name)}
+                onClick={() => setCategoryFilterSelect(categoryName)}
             >
-                {/* <Text marginRight={'8px'}>icon</Text> */}
-                <Text>{props.name}</Text>
+                <Image src={categoryIcons[categoryType]} alt={categoryName} />
+                <Text ml="10px">{categoryName}</Text>
             </Flex>
         </Flex>
     );
