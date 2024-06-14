@@ -12,7 +12,6 @@ import {
     chains,
     config,
     darkThemeConfig,
-    SwitchNetwork,
 } from '@/components/providers/rainbowkit/rainbowkit-utils/rainbow-utils';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 const queryClient = new QueryClient();
@@ -61,16 +60,6 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
     }, [status, customer_id]); // Dependency array includes any state variables that trigger a reload
 
     useEffect(() => {
-        // getCustomer()
-        //     .then((customer) => {
-        //         setStatus(
-        //             customer?.has_account ? 'authenticated' : 'unauthenticated'
-        //         );
-        //     })
-        //     .catch(() => {
-        //         console.log('rainbow-provider: customer not found');
-        //     });
-
         getCustomer().then((customer) => {
             if (!customer) {
                 setStatus('unauthenticated');
@@ -198,7 +187,6 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
                             chains={chains}
                             modalSize="compact"
                         >
-                            {/*<SwitchNetwork />*/}
                             {children}
                         </RainbowKitProvider>
                     </RainbowKitAuthenticationProvider>
