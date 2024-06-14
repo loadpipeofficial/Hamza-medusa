@@ -16,7 +16,7 @@ const FilterTag = (props: any) => {
                 style={{ padding: '10px 24px', cursor: 'pointer' }}
             >
                 <Image src={props.img} alt={props.name} />
-                <Text ml="10px" color="white">
+                <Text ml="10px" fontSize="18px" color="white">
                     {props.name}
                 </Text>
             </Flex>

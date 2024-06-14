@@ -24,6 +24,7 @@ const CategoryTopButton = (props: any) => {
                 alignItems={'center'}
                 borderWidth={'1px'}
                 borderRadius={'49px'}
+                height={'63px'}
                 cursor="pointer"
                 style={{ padding: '10px 24px' }}
                 _hover={{
@@ -32,6 +33,7 @@ const CategoryTopButton = (props: any) => {
             >
                 {/* <Text marginRight={'8px'}>icon</Text> */}
                 <Text
+                    fontSize={'18px'}
                     color={
                         categorySelect !== null && categorySelect === props.name
                             ? 'black'

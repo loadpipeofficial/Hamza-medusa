@@ -6,6 +6,7 @@ import ReviewStar from '../../../../public/images/products/review-star.svg';
 import ETH from '../../../../public/images/currencies/eth-icon.svg';
 import USDC from '../../../../public/images/currencies/usdc-icon.svg';
 import USDT from '../../../../public/images/currencies/usdt-icon.svg';
+import { IoCloseOutline } from 'react-icons/io5';
 
 const FilterTags = () => {
     const {
@@ -47,21 +48,37 @@ const FilterTags = () => {
                 />
             );
         }
-        return tags.length > 0 ? tags : <Text>No filters applied.</Text>;
+        return tags.length > 0 ? (
+            tags
+        ) : (
+            <Text color={'white'}>No filters applied.</Text>
+        );
     };
 
     return (
         <Flex gap="20px">
             {filterTags()}
-            <Button
+            <Flex
+                height="63px"
+                ml="auto"
+                cursor={'pointer'}
                 onClick={() => {
                     setCategorySelect(null);
                     setCurrencySelect(null);
                     setReviewStarsSelect(null);
                 }}
             >
-                Clear
-            </Button>
+                <Text fontSize="16px" alignSelf={'center'} color={'white'}>
+                    Clear All
+                </Text>
+                <Flex>
+                    <IoCloseOutline
+                        size={19}
+                        color="white"
+                        style={{ alignSelf: 'center', marginLeft: '5px' }}
+                    />
+                </Flex>
+            </Flex>
         </Flex>
     );
 };
