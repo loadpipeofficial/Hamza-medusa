@@ -198,8 +198,7 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
                             chains={chains}
                             modalSize="compact"
                         >
-                            <SwitchNetwork />
-
+                            {/*<SwitchNetwork />*/}
                             {children}
                         </RainbowKitProvider>
                     </RainbowKitAuthenticationProvider>

@@ -6,6 +6,15 @@ import { useNetwork, useSwitchNetwork } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
+import {
+    Button,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    useDisclosure,
+} from '@chakra-ui/react';
 
 const PROJECT_ID = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || '';
 const ALCHEMY_API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY || '';
@@ -38,32 +47,52 @@ export const SwitchNetwork = () => {
     const { chain } = useNetwork();
     const { error, isLoading, pendingChainId, switchNetwork } =
         useSwitchNetwork();
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const requiredChains = [11155111, 11155420]; // Sepolia and Optimism Sepolia
+
+    useEffect(() => {
+        onOpen(); // Automatically open the modal on mount
+    }, [onOpen]);
+
+    useEffect(() => {
+        if (chain && requiredChains.includes(chain.id)) {
+            onClose(); // Close the modal if the network is properly set
+        } else {
+            onOpen(); // Reopen the modal if the network is not set
+        }
+    }, [chain, onClose, onOpen, requiredChains]);
 
     if (!chain) return <div>Loading...</div>;
 
     return (
-        <div>
-            <p>The currently selected chain is {chain.name}</p>
-            <button
-                disabled={!switchNetwork || isLoading}
-                onClick={() => switchNetwork(11155111)}
-            >
-                Switch to Sepolia testnet or{' '}
-            </button>
-            <button
-                disabled={!switchNetwork || isLoading}
-                onClick={() => switchNetwork(11155420)}
-            >
-                Switch to Optimism Sepolia testnet
-            </button>
-            {error && <p>Error: {error.message}</p>}
-            {isLoading && pendingChainId && (
-                <p>Switching to chain ID {pendingChainId}...</p>
-            )}
-        </div>
+        <Modal isOpen={isOpen} onClose={() => {}}>
+            <ModalOverlay />
+            <ModalContent>
+                <ModalHeader>Switch Network</ModalHeader>
+                <ModalBody>
+                    <p>The currently selected chain is {chain.name}</p>
+                    <Button
+                        disabled={!switchNetwork || isLoading}
+                        onClick={() => switchNetwork(11155111)}
+                    >
+                        Switch to Sepolia testnet
+                    </Button>
+                    <Button
+                        disabled={!switchNetwork || isLoading}
+                        onClick={() => switchNetwork(11155420)}
+                    >
+                        Switch to Optimism Sepolia testnet
+                    </Button>
+                    {error && <p>Error: {error.message}</p>}
+                    {isLoading && pendingChainId && (
+                        <p>Switching to chain ID {pendingChainId}...</p>
+                    )}
+                </ModalBody>
+            </ModalContent>
+        </Modal>
     );
 };
-
 const { connectors } = getDefaultWallets({
     appName: 'op_sep',
     projectId: PROJECT_ID,
