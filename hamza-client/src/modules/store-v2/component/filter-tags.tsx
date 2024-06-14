@@ -42,10 +42,7 @@ const FilterTags = () => {
         if (reviewStarsSelect) {
             // Check for non-null explicitly for numbers
             tags.push(
-                <FilterTag
-                    img={ReviewStar}
-                    name={`${reviewStarsSelect} Stars`}
-                />
+                <FilterTag img={ReviewStar} name={`${reviewStarsSelect}`} />
             );
         }
         return tags.length > 0 ? (

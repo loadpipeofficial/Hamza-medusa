@@ -1,42 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
-import { Text, Flex, Divider, Button } from '@chakra-ui/react';
-import EthIcon from '../../../../public/images/currencies/eth-icon.svg';
-import USDCIcon from '../../../../public/images/currencies/usdc-icon.svg';
-import USDTIcon from '../../../../public/images/currencies/usdt-icon.svg';
-import useStorePage from '@store/store-page/store-page';
+import { Text, Flex } from '@chakra-ui/react';
+import ETH from '../../../../public/images/currencies/eth-icon.svg';
+import USDC from '../../../../public/images/currencies/usdc-icon.svg';
+import USDT from '../../../../public/images/currencies/usdt-icon.svg';
 import useSideFilter from '@store/store-page/side-filter';
 
-const CurrencyButton = (props: any) => {
-    const [currency, setCurrency] = useState(EthIcon);
-    const [currencyAlt, setCurrencyAlt] = useState('Ethereum');
+interface CurrencyButtonProps {
+    currencyName: 'ETH' | 'USDC' | 'USDT';
+}
+
+const CurrencyButton: React.FC<CurrencyButtonProps> = ({ currencyName }) => {
     const { currencyFilterSelect, setCurrencyFilterSelect } = useSideFilter();
 
-    useEffect(() => {
-        switch (props.name) {
-            case 'ETH':
-                setCurrency(EthIcon);
-                setCurrencyAlt('Ethereum');
-                break;
-            case 'USDC':
-                setCurrency(USDCIcon);
-                setCurrencyAlt('USD Coin');
-                break;
-            case 'USDT':
-                setCurrency(USDTIcon);
-                setCurrencyAlt('Tether');
-                break;
-            default:
-                setCurrency(EthIcon);
-                setCurrencyAlt('Ethereum');
-        }
-    }, [props.name]);
+    const currencyIcons: {
+        [key in CurrencyButtonProps['currencyName']]: string;
+    } = {
+        ETH: ETH,
+        USDC: USDC,
+        USDT: USDT,
+    };
+
     return (
         <Flex>
             <Flex
                 borderColor={'secondary.davy.900'}
                 backgroundColor={
-                    currencyFilterSelect === props.name
+                    currencyFilterSelect === currencyName
                         ? 'white'
                         : 'transparent'
                 }
@@ -46,16 +36,18 @@ const CurrencyButton = (props: any) => {
                 borderWidth={'1px'}
                 borderRadius={'49px'}
                 cursor="pointer"
-                color={currencyFilterSelect === props.name ? 'black' : 'white'}
+                color={
+                    currencyFilterSelect === currencyName ? 'black' : 'white'
+                }
                 style={{ padding: '10px 24px' }}
                 _hover={{
                     background: 'white',
                     color: 'black',
                 }}
-                onClick={() => setCurrencyFilterSelect(props.name)}
+                onClick={() => setCurrencyFilterSelect(currencyName)}
             >
-                <Image src={currency} alt={currencyAlt} />
-                <Text ml="1rem">{props.name}</Text>
+                <Image src={currencyIcons[currencyName]} alt={currencyName} />
+                <Text ml="1rem">{currencyName}</Text>
             </Flex>
         </Flex>
     );

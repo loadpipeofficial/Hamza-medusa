@@ -10,8 +10,6 @@ import FilterButton from './filter-button';
 import RangeSlider from './range-slider';
 
 const SideMenu = () => {
-    const ratings = ['1', '2', '3', '4', '5'];
-
     return (
         <Box
             px="2rem"
@@ -45,7 +43,10 @@ const SideMenu = () => {
 
                 <Flex mt="1rem" flexDirection={'column'} gap="16px">
                     {Object.keys(currencies).map((key) => (
-                        <CurrencyButton key={key} name={currencies[key]} />
+                        <CurrencyButton
+                            key={key}
+                            currencyName={currencies[key]}
+                        />
                     ))}
                 </Flex>
             </Box>
@@ -70,9 +71,11 @@ const SideMenu = () => {
                 </Heading>
 
                 <Flex mt="1rem" flexDirection={'column'} gap="16px">
-                    {ratings.map((rating) => (
-                        <ReviewButton key={rating} rating={rating} />
-                    ))}
+                    <ReviewButton title={'1 Star'} />
+                    <ReviewButton title={'2 Stars'} />
+                    <ReviewButton title={'3 Stars'} />
+                    <ReviewButton title={'4 Stars'} />
+                    <ReviewButton title={'5 Stars'} />
                 </Flex>
             </Box>
 

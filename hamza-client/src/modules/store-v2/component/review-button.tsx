@@ -7,41 +7,11 @@ import useSideFilter from '@store/store-page/side-filter';
 
 // Define the props type with TypeScript
 interface ReviewButtonProps {
-    rating: string;
+    title: string;
 }
 
-const ReviewButton: React.FC<ReviewButtonProps> = ({ rating }) => {
+const ReviewButton: React.FC<ReviewButtonProps> = ({ title }) => {
     const { reviewFilterSelect, setReviewFilterSelect } = useSideFilter();
-    const [title, setTitle] = useState('1 Star');
-    const [ratingAlt, setRatingAlt] = useState('1 Star');
-
-    useEffect(() => {
-        switch (rating) {
-            case '1':
-                setTitle('1 Star');
-                setRatingAlt('1 Star');
-                break;
-            case '2':
-                setTitle('2 Stars');
-                setRatingAlt('2 Stars');
-                break;
-            case '3':
-                setTitle('3 Stars');
-                setRatingAlt('3 Stars');
-                break;
-            case '4':
-                setTitle('4 Stars');
-                setRatingAlt('4 Stars');
-                break;
-            case '5':
-                setTitle('5 Stars');
-                setRatingAlt('5 Stars');
-                break;
-            default:
-                setTitle('1 Star');
-                setRatingAlt('1 Star');
-        }
-    }, [rating]);
 
     return (
         <Flex>
@@ -63,7 +33,7 @@ const ReviewButton: React.FC<ReviewButtonProps> = ({ rating }) => {
                     color: 'black',
                 }}
             >
-                <Image src={ReviewStar} alt={ratingAlt} />
+                <Image src={ReviewStar} alt={title} />
                 <Text ml="10px">{title}</Text>
             </Flex>
         </Flex>
