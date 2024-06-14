@@ -16,6 +16,7 @@ const StoreTemplate = () => {
 
     const { categorySelect } = useStorePage();
 
+    //TODO: make zustand state for default vendor "all"
     const [vendorName, setVendorName] = useState('Goblin Store');
     useEffect(() => {
         if (categorySelect) {
