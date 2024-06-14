@@ -13,6 +13,9 @@ export interface IPaymentInput {
     orderId: HexString; //massmarket order id
     storeId: HexString; //massmarket store id
     chainId: number;
+    massmarketOrderId: string;
+    massmarketAmount: string;
+    massmarketTtl: number;
 }
 
 /**
