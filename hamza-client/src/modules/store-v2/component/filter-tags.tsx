@@ -51,7 +51,7 @@ const FilterTags = () => {
     };
 
     return (
-        <Flex gap="26px">
+        <Flex gap="20px">
             {filterTags()}
             <Button
                 onClick={() => {
