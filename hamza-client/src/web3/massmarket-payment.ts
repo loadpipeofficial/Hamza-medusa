@@ -97,6 +97,60 @@ export class MassmarketPaymentClient {
         };
     }
 
+    async pay(inputs: IMultiPaymentInput[]) {
+        //prepare the inputs
+        for (let n = 0; n < inputs.length; n++) {
+            const input: IMultiPaymentInput = inputs[n];
+            if (!input.currency || input.currency === 'eth') {
+                input.currency = ethers.ZeroAddress;
+            } else {
+                if (!ethers.isAddress(input.currency)) {
+                    input.currency = getCurrencyAddress(
+                        input.currency,
+                        parseInt(
+                            (
+                                await this.provider.getNetwork()
+                            ).chainId.toString()
+                        )
+                    );
+                }
+            }
+        }
+
+        //make any necessary token approvals
+        await this.approveAllTokens(this.contractAddress, inputs);
+
+        //get total native amount
+        const nativeTotal: BigNumberish = this.getNativeTotal(inputs);
+        console.log('native amount:', nativeTotal);
+
+        const requests: IPaymentRequest[] = this.convertInputs(inputs);
+
+        console.log('sending requests: ', requests, nativeTotal);
+        //const tx: any = await this.paymentContract.multiPay(requests, {
+        //    value: nativeTotal,
+        //});
+        const tx = await window.ethereum.request({
+            method: 'eth_sendTransaction',
+            params: [
+                {
+                    to: '0x8bA35513C3F5ac659907D222e3DaB38b20f8F52A',
+                    from: await this.signer.getAddress(),
+                    value: '10000000',
+                },
+            ],
+        });
+
+        const receipt = await tx.wait();
+        const transaction_id = tx.hash;
+
+        return {
+            transaction_id,
+            tx,
+            receipt,
+        };
+    }
+
     private convertInputs(inputs: IMultiPaymentInput[]): IPaymentRequest[] {
         const output: IPaymentRequest[] = [];
 

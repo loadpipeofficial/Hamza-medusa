@@ -4,7 +4,7 @@ import { HexString } from 'ethers/lib.commonjs/utils/data';
 /**
  * Input params to a single payment to the Switch.
  */
-export interface IPaymentInput_MM {
+export interface IPaymentInput {
     id: BigNumberish;
     receiver: HexString; //contract address
     payer: HexString;
@@ -13,18 +13,6 @@ export interface IPaymentInput_MM {
     orderId: HexString; //massmarket order id
     storeId: HexString; //massmarket store id
     chainId: number;
-}
-
-export interface IPaymentInput {
-    id: BigNumberish;
-    receiver: HexString; //contract address
-    payer: HexString;
-    amount: BigNumberish;
-    currency?: string; //token address, or ethers.ZeroAddress for native
-    chainId: number;
-    massmarketTtl: number;
-    massmarketOrderId: string;
-    massmarketAmount: string;
 }
 
 /**
@@ -43,9 +31,4 @@ export interface IMultiPaymentInput {
     receiver: string;
     currency: string; //token address, or ethers.ZeroAddress for native
     payments: IPaymentInput[];
-}
-export interface IMultiPaymentInput_MM {
-    receiver: string;
-    currency: string; //token address, or ethers.ZeroAddress for native
-    payments: IPaymentInput_MM[];
 }
