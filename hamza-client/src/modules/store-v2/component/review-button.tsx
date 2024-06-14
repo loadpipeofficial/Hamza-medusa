@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Text, Flex } from '@chakra-ui/react';
 import ReviewStar from '../../../../public/images/products/review-star.svg';
 import useStorePage from '@store/store-page/store-page';
+import useSideFilter from '@store/store-page/side-filter';
 
 // Define the props type with TypeScript
 interface ReviewButtonProps {
@@ -16,7 +17,7 @@ const ReviewButton: React.FC<ReviewButtonProps> = ({
     name,
     filter,
 }) => {
-    const { setReviewStarsSelect, reviewStarsSelect } = useStorePage();
+    const { reviewFilterSelect, setReviewFilterSelect } = useSideFilter();
 
     const [title, setTitle] = useState('1 Star');
     const [ratingAlt, setRatingAlt] = useState('1 Star');
@@ -50,7 +51,7 @@ const ReviewButton: React.FC<ReviewButtonProps> = ({
     }, [rating]);
 
     const handleSelectItem = (itemName: string) => {
-        setReviewStarsSelect(itemName);
+        setReviewFilterSelect(itemName);
     };
 
     return (

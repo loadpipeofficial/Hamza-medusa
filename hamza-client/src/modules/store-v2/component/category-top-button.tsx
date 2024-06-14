@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Text, Flex } from '@chakra-ui/react';
 import useStorePage from '@store/store-page/store-page';
 

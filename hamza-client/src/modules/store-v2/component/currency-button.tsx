@@ -5,15 +5,16 @@ import EthIcon from '../../../../public/images/currencies/eth-icon.svg';
 import USDCIcon from '../../../../public/images/currencies/usdc-icon.svg';
 import USDTIcon from '../../../../public/images/currencies/usdt-icon.svg';
 import useStorePage from '@store/store-page/store-page';
+import useSideFilter from '@store/store-page/side-filter';
 
 const CurrencyButton = (props: any) => {
     const [currency, setCurrency] = useState(EthIcon);
     const [currencyAlt, setCurrencyAlt] = useState('Ethereum');
 
-    const { currencySelect, setCurrencySelect } = useStorePage();
+    const { setCurrencyFilterSelect } = useSideFilter();
 
     const handleSelectItem = (itemName: string) => {
-        setCurrencySelect(itemName);
+        setCurrencyFilterSelect(itemName);
     };
 
     useEffect(() => {
