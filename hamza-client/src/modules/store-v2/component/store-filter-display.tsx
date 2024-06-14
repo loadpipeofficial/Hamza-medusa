@@ -23,9 +23,18 @@ const StoreFilterDisplay = () => {
                     </Text>
                 </Flex>
                 <Flex gap="20px">
-                    <CategoryTopButton name="Goblin Store" />
-                    <CategoryTopButton name="Quality Store" />
-                    <CategoryTopButton name="Headphones Store" />
+                    <CategoryTopButton
+                        categoryType="clothes"
+                        categoryName="Goblin Store"
+                    />
+                    <CategoryTopButton
+                        categoryType="games"
+                        categoryName="Quality Store"
+                    />
+                    <CategoryTopButton
+                        categoryType="gadgets"
+                        categoryName="Headphones Store"
+                    />
                 </Flex>
                 <Text fontSize={'18px'} color="primary.indigo.900">
                     Filters Applied

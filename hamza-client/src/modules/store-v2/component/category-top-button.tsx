@@ -1,8 +1,18 @@
 import React from 'react';
 import { Text, Flex } from '@chakra-ui/react';
 import useStorePage from '@store/store-page/store-page';
+import categoryIcons from '../data/category-icons';
+import Image from 'next/image';
 
-const CategoryTopButton = (props: any) => {
+interface CategoryButtonProps {
+    categoryName: string;
+    categoryType: 'clothes' | 'games' | 'gadgets';
+}
+
+const CategoryTopButton: React.FC<CategoryButtonProps> = ({
+    categoryName,
+    categoryType,
+}) => {
     const { categorySelect, setCategorySelect } = useStorePage();
 
     const handleSelectItem = (itemName: string) => {
@@ -12,10 +22,10 @@ const CategoryTopButton = (props: any) => {
     return (
         <Flex>
             <Flex
-                onClick={() => handleSelectItem(props.name)}
+                onClick={() => handleSelectItem(categoryName)}
                 borderColor={'transparent'}
                 backgroundColor={
-                    categorySelect !== null && categorySelect === props.name
+                    categorySelect !== null && categorySelect === categoryName
                         ? 'white'
                         : 'black'
                 }
@@ -31,11 +41,13 @@ const CategoryTopButton = (props: any) => {
                     background: 'white',
                 }}
             >
-                {/* <Text marginRight={'8px'}>icon</Text> */}
+                <Image src={categoryIcons[categoryType]} alt={categoryName} />
                 <Text
+                    ml="10px"
                     fontSize={'18px'}
                     color={
-                        categorySelect !== null && categorySelect === props.name
+                        categorySelect !== null &&
+                        categorySelect === categoryName
                             ? 'black'
                             : 'white'
                     }
@@ -43,7 +55,7 @@ const CategoryTopButton = (props: any) => {
                         color: 'black',
                     }}
                 >
-                    {props.name}
+                    {categoryName}
                 </Text>
             </Flex>
         </Flex>
