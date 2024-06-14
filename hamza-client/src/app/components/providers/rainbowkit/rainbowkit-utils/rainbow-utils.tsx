@@ -52,14 +52,14 @@ export const SwitchNetwork = () => {
     const requiredChains = [11155111, 11155420]; // Sepolia and Optimism Sepolia
 
     useEffect(() => {
-        onOpen(); // Automatically open the modal on mount
+        onOpen();
     }, [onOpen]);
 
     useEffect(() => {
         if (chain && requiredChains.includes(chain.id)) {
-            onClose(); // Close the modal if the network is properly set
+            onClose();
         } else {
-            onOpen(); // Reopen the modal if the network is not set
+            onOpen();
         }
     }, [chain, onClose, onOpen, requiredChains]);
 
