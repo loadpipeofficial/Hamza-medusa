@@ -12,6 +12,7 @@ import {
     chains,
     config,
     darkThemeConfig,
+    SwitchNetwork,
 } from '@/components/providers/rainbowkit/rainbowkit-utils/rainbow-utils';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 const queryClient = new QueryClient();
@@ -197,6 +198,8 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
                             chains={chains}
                             modalSize="compact"
                         >
+                            <SwitchNetwork />
+
                             {children}
                         </RainbowKitProvider>
                     </RainbowKitAuthenticationProvider>
