@@ -36,11 +36,8 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
         //create customer input data
         const customerInputData = {
             email: `${checkCustomerWithWalletAddress && checkCustomerWithWalletAddress.customer ? checkCustomerWithWalletAddress.customer.email : `${wallet_address}@evm.blockchain`}`,
-            first_name:
-                wallet_address.length >= 10
-                    ? wallet_address.substring(0, 10)
-                    : wallet_address,
-            last_name: '',
+            first_name: 'Anonymous',
+            last_name: 'Gigachad',
             password: 'password', //TODO: (JK) store the default password someplace
             wallet_address: wallet_address,
         };
