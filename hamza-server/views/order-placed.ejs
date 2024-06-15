@@ -1,14 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Order {$ORDER_ID} Placed</title>
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-
-<body>
-    Thanks for the order. Your order has been confirmed!.
-</body>
-
+    <body>
+        <p>Your order placement was successful! Your order will be processed in the order
+        in which it was received.
+        </p>
+        <br />
+        <p>Order ID: <%-data.orderId%></p>
+        <p>Date/Time: <%-data.dateTimeString%></p>
+        <p>
+        Price: <%-data.orderAmount%>
+        </p>
+        <br />
+        <p>
+        Items: <%-data.orderItems$>
+        </p>
+        <br />
+        <p>
+        If you have any questions, please email us at support@hamza.biz. 
+        </p>
+        <br />
+        <p>
+        Thanks, 
+        <br />
+        Hamza Team
+        </p>
+    </body>
 </html>
