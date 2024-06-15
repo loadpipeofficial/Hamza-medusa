@@ -37,4 +37,7 @@ router.post('/cart:id', cartController.commitCart);
 //checkout: POST /checkout
 router.get('/checkout', checkoutController.doCheckout);
 
+//checkout: POST /checkout
+router.post('/checkout', checkoutController.doCheckout);
+
 export default router;

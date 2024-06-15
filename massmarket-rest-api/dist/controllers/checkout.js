@@ -11,45 +11,73 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkoutController = void 0;
 const util_1 = require("./util");
-const client_1 = require("../massmarket/client");
 const viem_1 = require("viem");
+const crypto_1 = require("crypto");
 exports.checkoutController = {
     //checkout
     //creates cart, adds items to it, and commits it
     doCheckout: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         (0, util_1.serveRequest)(req, res, (id, body) => __awaiter(void 0, void 0, void 0, function* () {
-            var _a;
             const input = body;
             //TODO: REMOVE (dummy checkout)
             const output = {
-                success: false,
+                success: true,
                 contractAddress: '0x0DcA1518DB5A058F29EBfDab76739faf8Fb4544c',
+                amount: '21000000000',
+                orderId: (0, viem_1.bytesToHex)((0, crypto_1.randomBytes)(32)),
+                chainId: 11155111,
+                ttl: 0,
+                currency: '',
+            };
+            /*
+            const output: ICheckoutOutput = {
+                success: false,
+                contractAddress:
+                    '0x0DcA1518DB5A058F29EBfDab76739faf8Fb4544c',
                 amount: '0',
                 orderId: '0x',
                 chainId: 11155111,
                 ttl: 0,
                 currency: '',
             };
+
             if (!validateCheckoutInput(res, input)) {
                 console.log('validation failed');
                 return null;
             }
+
             //get the client
-            const rc = yield client_1.RelayClientWrapper.get(util_1.ENDPOINT, input.storeId, input.keycard);
+            const rc = await RelayClientWrapper.get(
+                ENDPOINT,
+                input.storeId,
+                input.keycard
+            );
+
             //do the full checkout
             if (rc) {
-                const cartId = yield rc.createCart();
+                const cartId = await rc.createCart();
                 console.log('CART ID: ', cartId);
-                //add a product to cart
-                yield rc.addToCart(cartId, '0xa3438104c764746a3d67c761e154ad26a958153743e97db10747121d4c68d642');
-                const commitId = yield rc.commitCart(cartId);
-                console.log('COMMIT: ', commitId);
-                const events = yield rc.pullEvents();
+
+                //add products to cart
+                for(const item of input.items) {
+                    await rc.addToCart(
+                        cartId,
+                        item.productId, //'0xa3438104c764746a3d67c761e154ad26a958153743e97db10747121d4c68d642'
+                        item.quantity
+                    );
+                }
+
+                //commit cart
+                await rc.commitCart(cartId);
+                const events = await rc.pullEvents();
+
                 //parse the events
                 for (let n = events.length - 1; n >= 0; n--) {
                     const event = events[n];
-                    if ((_a = event === null || event === void 0 ? void 0 : event.cartFinalized) === null || _a === void 0 ? void 0 : _a.cartId) {
-                        output.orderId = (0, viem_1.keccak256)(event.cartFinalized.cartId);
+                    if (event?.cartFinalized?.cartId) {
+                        output.orderId = keccak256(
+                            event.cartFinalized.cartId
+                        );
                         output.ttl = event.cartFinalized.paymentTtl;
                         output.amount = event.cartFinalized.totalInCrypto;
                         output.currency = '';
@@ -57,15 +85,16 @@ exports.checkoutController = {
                     }
                 }
             }
+            */
             console.log('returning output', output);
             return output;
         }), 200);
     }),
 };
 function validateCheckoutInput(res, input) {
-    if (!(0, util_1.validateStoreIdAndKeycard)(res, input))
-        return false;
+    //if (!validateStoreIdAndKeycard(res, input)) return false;
     if (!input.items || !input.items.length) {
+        console.log('items missing');
         res.status(400).json({
             msg: 'Required: items',
         });

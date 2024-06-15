@@ -1,5 +1,6 @@
 import { Buffer } from "buffer";
 import { bytesToHex, toBytes } from "viem";
+import crypto from "crypto"
 
 export function requestId() {
   return randomBytes(16);

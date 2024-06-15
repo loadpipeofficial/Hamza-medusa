@@ -27,5 +27,7 @@ router.delete('/cart', cart_1.cartController.abandonCart);
 router.post('/cart:id', cart_1.cartController.commitCart);
 //checkout: POST /checkout
 router.get('/checkout', checkout_1.checkoutController.doCheckout);
+//checkout: POST /checkout
+router.post('/checkout', checkout_1.checkoutController.doCheckout);
 exports.default = router;
 //# sourceMappingURL=index.js.map

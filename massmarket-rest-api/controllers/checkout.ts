@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import { ENDPOINT, serveRequest, validateStoreIdAndKeycard } from './util';
-import { ICheckoutInput, ICheckoutOutput } from '../entity';
+import { IAddItemInput, ICheckoutInput, ICheckoutOutput } from '../entity';
 import { RelayClientWrapper } from '../massmarket/client';
-import { keccak256 } from 'viem';
+import { bytesToHex, keccak256 } from 'viem';
+import { randomBytes } from 'crypto';
 
 export const checkoutController = {
     //checkout
@@ -15,6 +16,19 @@ export const checkoutController = {
                 const input: ICheckoutInput = body;
 
                 //TODO: REMOVE (dummy checkout)
+
+                const output: ICheckoutOutput = {
+                    success: true,
+                    contractAddress:
+                        '0x0DcA1518DB5A058F29EBfDab76739faf8Fb4544c',
+                    amount: '21000000000',
+                    orderId: bytesToHex(randomBytes(32)),
+                    chainId: 11155111,
+                    ttl: 0,
+                    currency: '',
+                };
+
+                /*
                 const output: ICheckoutOutput = {
                     success: false,
                     contractAddress:
@@ -43,15 +57,17 @@ export const checkoutController = {
                     const cartId = await rc.createCart();
                     console.log('CART ID: ', cartId);
 
-                    //add a product to cart
-                    await rc.addToCart(
-                        cartId,
-                        '0xa3438104c764746a3d67c761e154ad26a958153743e97db10747121d4c68d642'
-                    );
+                    //add products to cart
+                    for(const item of input.items) {
+                        await rc.addToCart(
+                            cartId,
+                            item.productId, //'0xa3438104c764746a3d67c761e154ad26a958153743e97db10747121d4c68d642'
+                            item.quantity
+                        );
+                    }
 
-                    const commitId = await rc.commitCart(cartId);
-                    console.log('COMMIT: ', commitId);
-
+                    //commit cart
+                    await rc.commitCart(cartId);
                     const events = await rc.pullEvents();
 
                     //parse the events
@@ -68,6 +84,7 @@ export const checkoutController = {
                         }
                     }
                 }
+                */
 
                 console.log('returning output', output);
                 return output;
@@ -78,9 +95,10 @@ export const checkoutController = {
 };
 
 function validateCheckoutInput(res: Response, input: ICheckoutInput): boolean {
-    if (!validateStoreIdAndKeycard(res, input)) return false;
+    //if (!validateStoreIdAndKeycard(res, input)) return false;
 
     if (!input.items || !input.items.length) {
+        console.log('items missing');
         res.status(400).json({
             msg: 'Required: items',
         });

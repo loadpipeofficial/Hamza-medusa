@@ -78,7 +78,6 @@ class RelayClient extends events_1.EventEmitter {
         }
         const id = object.requestId;
         const payload = encoder.encode(object).finish();
-        console.log(payload);
         const typed = new Uint8Array(payload.length + 1);
         typed[0] = constants_1.MESSAGE_TYPES.get(encoder);
         typed.set(payload, 1);
