@@ -1,19 +1,44 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, Flex } from '@chakra-ui/react';
-import CategoryButton from './category-button';
+import CategoryTopButton from './category-top-button';
+import useStorePage from '@store/store-page/store-page';
+import FilterTags from './filter-tags';
+import { FaGreaterThan } from 'react-icons/fa';
 
 const StoreFilterDisplay = () => {
+    const { categorySelect } = useStorePage();
     return (
         <Flex flexDirection={'column'} mb="2rem">
             <Flex flexDirection={'column'} gap="1.5rem">
-                <Text color="White">Home</Text>
-                <Flex gap="20px">
-                    <CategoryButton name="Goblin Store" />
-                    <CategoryButton name="Quality Store" />
-                    <CategoryButton name="Headphones Store" />
+                <Flex gap="10px">
+                    <Text color="White" fontSize={'18px'}>
+                        Home
+                    </Text>
+                    <Flex alignSelf={'center'}>
+                        <FaGreaterThan size={12} color="white" />
+                    </Flex>
+                    <Text fontSize={'18px'} color="primary.indigo.900">
+                        {categorySelect}
+                    </Text>
                 </Flex>
-                <Text color="primary.indigo.900">Filters Applied</Text>
-                <CategoryButton />
+                <Flex gap="20px">
+                    <CategoryTopButton
+                        categoryType="clothes"
+                        categoryName="Goblin Store"
+                    />
+                    <CategoryTopButton
+                        categoryType="games"
+                        categoryName="Quality Store"
+                    />
+                    <CategoryTopButton
+                        categoryType="gadgets"
+                        categoryName="Headphones Store"
+                    />
+                </Flex>
+                <Text fontSize={'18px'} color="primary.indigo.900">
+                    Filters Applied
+                </Text>
+                <FilterTags />
             </Flex>
         </Flex>
     );
