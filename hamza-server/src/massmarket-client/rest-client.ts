@@ -3,7 +3,7 @@ import { BigNumberish } from 'ethers';
 
 export type HexString = `0x${string}`;
 
-const REST_URL = process.env.REST_SERVER_URL || 'http://localhost:3001';
+const REST_URL = process.env.MASSMARKET_REST_SERVER_URL || 'http://localhost:3001';
 try {
     new URL(REST_URL);
 } catch (error) {
@@ -60,7 +60,7 @@ export class MassMarketClient {
     constructor() {
         this.client = axios.create({
             baseURL: REST_URL,
-            timeout: 3000,
+            timeout: 13000,
         });
     }
 
@@ -198,6 +198,7 @@ export class MassMarketClient {
             });
 
             console.log('Checking out');
+            console.log('response:', JSON.stringify(response.data));
             return response.data;
         } catch (error) {
             console.error('Error checking out:', error.message);
