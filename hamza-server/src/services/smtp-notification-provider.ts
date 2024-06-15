@@ -23,10 +23,10 @@ class SmtpNotificationService extends AbstractNotificationService {
         switch (event) {
             case 'order.placed':
                 if (!data.email.includes('@evm.blockchain')) {
-                    await this.smtpMailService.mailSender({
+                    await this.smtpMailService.sendMail({
                         from: process.env.SMTP_FROM,
                         subject: 'Order Placed',
-                        mailData: {},
+                        mailData: data,
                         to: data.email,
                         templateName: 'order-placed',
                     });
