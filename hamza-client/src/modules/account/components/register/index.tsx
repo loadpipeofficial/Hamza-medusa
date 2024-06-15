@@ -86,7 +86,7 @@ const Register = ({ setCurrentView }: Props) => {
         //     .
         //   </span>
         // </div>
-        <div>Use connect wallet to sign in</div>
+        <div>Connect your wallet to sign in</div>
     );
 };
 
