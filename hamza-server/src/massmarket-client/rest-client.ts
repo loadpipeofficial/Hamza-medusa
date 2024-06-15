@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import { BigNumberish } from 'ethers';
 
+//TODO: re-create this as a service 
 export type HexString = `0x${string}`;
 
 const REST_URL = process.env.MASSMARKET_REST_SERVER_URL || 'http://localhost:3001';
