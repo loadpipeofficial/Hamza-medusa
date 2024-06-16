@@ -36,11 +36,13 @@ export function validateRequiredHexString(
     name: string
 ): boolean {
     //TODO: check also for zero address
-    if (!str || !str.trim().length || str.trim() === '0x0')
+    if (!str || !str.trim().length || str.trim() === '0x0') {
         res.status(400).json({
             msg: `Required: ${name}`,
         });
-    return false;
+        return false;
+    }
+    return true;
 }
 
 export function validateRequiredString(
@@ -49,11 +51,13 @@ export function validateRequiredString(
     name: string
 ): boolean {
     //TODO: check also for zero address
-    if (!str || !str.trim().length)
+    if (!str || !str.trim().length) {
         res.status(400).json({
             msg: `Required: ${name}`,
         });
-    return false;
+        return false;
+    }
+    return true;
 }
 
 export function validateStoreIdAndKeycard(

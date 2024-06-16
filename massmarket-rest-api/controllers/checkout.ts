@@ -14,6 +14,8 @@ export const checkoutController = {
             res,
             async (id, body) => {
                 const input: ICheckoutInput = body;
+                console.log(JSON.stringify(body));
+                console.log(JSON.stringify(input));
 
                 //TODO: REMOVE (dummy checkout)
 
@@ -28,6 +30,10 @@ export const checkoutController = {
                     currency: '',
                 };
 
+                if (!validateCheckoutInput(res, input)) {
+                    console.log('validation failed');
+                    return null;
+                }
                 /*
                 const output: ICheckoutOutput = {
                     success: false,
@@ -40,10 +46,6 @@ export const checkoutController = {
                     currency: '',
                 };
 
-                if (!validateCheckoutInput(res, input)) {
-                    console.log('validation failed');
-                    return null;
-                }
 
                 //get the client
                 const rc = await RelayClientWrapper.get(
@@ -95,13 +97,13 @@ export const checkoutController = {
 };
 
 function validateCheckoutInput(res: Response, input: ICheckoutInput): boolean {
-    //if (!validateStoreIdAndKeycard(res, input)) return false;
+    if (!validateStoreIdAndKeycard(res, input)) return false;
 
     if (!input.items || !input.items.length) {
         console.log('items missing');
-        res.status(400).json({
-            msg: 'Required: items',
-        });
+        //res.status(400).json({
+        //    msg: 'Required: items',
+        //});
         return false;
     }
     return true;
