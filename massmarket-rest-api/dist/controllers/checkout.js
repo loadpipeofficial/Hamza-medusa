@@ -19,6 +19,8 @@ exports.checkoutController = {
     doCheckout: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         (0, util_1.serveRequest)(req, res, (id, body) => __awaiter(void 0, void 0, void 0, function* () {
             const input = body;
+            console.log(JSON.stringify(body));
+            console.log(JSON.stringify(input));
             //TODO: REMOVE (dummy checkout)
             const output = {
                 success: true,
@@ -29,6 +31,10 @@ exports.checkoutController = {
                 ttl: 0,
                 currency: '',
             };
+            if (!validateCheckoutInput(res, input)) {
+                console.log('validation failed');
+                return null;
+            }
             /*
             const output: ICheckoutOutput = {
                 success: false,
@@ -41,10 +47,6 @@ exports.checkoutController = {
                 currency: '',
             };
 
-            if (!validateCheckoutInput(res, input)) {
-                console.log('validation failed');
-                return null;
-            }
 
             //get the client
             const rc = await RelayClientWrapper.get(
@@ -92,12 +94,13 @@ exports.checkoutController = {
     }),
 };
 function validateCheckoutInput(res, input) {
-    //if (!validateStoreIdAndKeycard(res, input)) return false;
+    if (!(0, util_1.validateStoreIdAndKeycard)(res, input))
+        return false;
     if (!input.items || !input.items.length) {
         console.log('items missing');
-        res.status(400).json({
-            msg: 'Required: items',
-        });
+        //res.status(400).json({
+        //    msg: 'Required: items',
+        //});
         return false;
     }
     return true;
