@@ -50,7 +50,7 @@ export default class OrderService extends MedusaOrderService {
             order.discount_total = 0; //TODO: get proper discount
             order.store_id = storeId;
             order.email = cart.email;
-            order.payment_status = PaymentStatus.AWAITING;
+            order.payment_status = PaymentStatus.NOT_PAID;
             order.shipping_address_id = cart.shipping_address_id;
             order.paid_total = payment.amount;
             order.region_id = cart.region_id;
