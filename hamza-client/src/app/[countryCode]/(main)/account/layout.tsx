@@ -12,7 +12,7 @@ export default async function AccountPageLayout({
 
     return (
         <AccountLayout customer={customer}>
-            {customer && !customer.email.includes('@evm.blockchain') ? (
+            {customer ? (
                 dashboard
             ) : (
                 <>
