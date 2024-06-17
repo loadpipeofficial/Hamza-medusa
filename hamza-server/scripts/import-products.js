@@ -29,6 +29,60 @@
  massmarket_prod_id | character varying        |           |          | 
  */
 
+const fs = require('fs');
+
+[{
+    'store_id': 'store_01J0KCE5SZ31QQA4QAQ2R2Y2DP',
+    'title': 'Fast Drone',
+    'subtitle': 'ZK-ss93',
+    'description': 'A fast drone that does stuff',
+    'handle': '',
+    'is_giftcard': 'f',
+    'thumbnail': '',
+    'collection_id': 'pcol_01HRVF8HCVY8B00RF5S54THTPC',
+    'discountable': 't',
+    'status': 'published',
+}]
+function readProductsFromCsv() {
+    const file = './data/products.csv';
+    const fullText = fs.readFileSync(envPath, 'utf-8');
+    const lines = fullText.split('\n');
+    let ignored = false;
+    const output = [];
+
+    //read each line
+    for (let line of lines) {
+        line = line.trim();
+        if (line.length > 0) {
+
+            //ignore headers on top
+            if (!ignored) {
+                ignored = true;
+                continue;
+            }
+
+            //split into fields 
+            const fields = line.split(',');
+            if (fields.length == 10) {
+                output.push({
+                    store_id: fields[0].trim(),
+                    title: fields[0].trim(),
+                    subtitle: fields[0].trim(),
+                    description: fields[0].trim(),
+                    handle: fields[0].trim(),
+                    is_giftcard: fields[0].trim(),
+                    thumbnail: fields[0].trim(),
+                    collection_id: fields[0].trim(),
+                    discountable: fields[0].trim(),
+                    status: fields[0].trim(),
+                })
+            }
+        }
+    }
+
+    return output;
+}
+
 async function main() {
     try {
         const authResponse = await fetch('http://localhost:9000/admin/auth', {
@@ -42,39 +96,16 @@ async function main() {
         const authData = await authResponse.json();
         const authCookie = authResponse.headers.get('set-cookie');
 
-        const response1 = await fetch(
+        const response = await fetch(
             'http://localhost:9000/admin/custom/product',
             {
                 method: 'POST',
                 headers: {
                     Cookie: authCookie.substring(0, authCookie.indexOf(';')),
+                    'Content-type': 'application/json; charset=UTF-8'
                 },
                 body: JSON.stringify({
-                    title: '',
-                    subtitle: '',
-                    description: '',
-                    handle: '',
-                    is_giftcard: '',
-                    thumbnail: '',
-                    collection_id: '',
-                    discountable: '',
-                    status: '',
-                    store_id: '',
-                }),
-            }
-        );
-        const response2 = await fetch(
-            'http://localhost:9000/admin/custom/store',
-            {
-                method: 'POST',
-                headers: {
-                    Cookie: authCookie.substring(0, authCookie.indexOf(';')),
-                },
-                body: JSON.stringify({
-                    name: '',
-                    default_currency_code: '',
-                    owner_id: '',
-                    icon: '',
+                    'products': readProductsFromCsv()
                 }),
             }
         );
