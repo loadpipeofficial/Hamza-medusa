@@ -1,5 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { getDefaultWallets, darkTheme } from '@rainbow-me/rainbowkit';
+import {
+    getDefaultWallets,
+    darkTheme,
+    connectorsForWallets,
+} from '@rainbow-me/rainbowkit';
+import {
+    injectedWallet,
+    rainbowWallet,
+    coinbaseWallet,
+    metaMaskWallet,
+    walletConnectWallet,
+} from '@rainbow-me/rainbowkit/wallets';
 import { configureChains, createConfig } from 'wagmi';
 import { mainnet, optimismSepolia, sepolia } from 'wagmi/chains';
 import { useNetwork, useSwitchNetwork } from 'wagmi';
@@ -93,11 +104,34 @@ export const SwitchNetwork = () => {
         </Modal>
     );
 };
-const { connectors } = getDefaultWallets({
-    appName: 'op_sep',
-    projectId: PROJECT_ID,
-    chains,
-});
+// const { connectors } = getDefaultWallets({
+//     appName: 'op_sep',
+//     projectId: PROJECT_ID,
+//     chains,
+// });
+
+const connectors = connectorsForWallets([
+    {
+        groupName: 'Recommended',
+        wallets: [
+            rainbowWallet({ projectId: PROJECT_ID, chains }),
+            coinbaseWallet({ projectId: PROJECT_ID, chains }),
+            metaMaskWallet({
+                projectId: PROJECT_ID,
+                chains,
+            }),
+        ],
+    },
+]);
+
+// Metamask, Rainbow, Coinbase Wallet, remove `WalletConnect`
+// const connector = connectorsForWallets({
+//     appName: 'op_sep',
+//     projectId: PROJECT_ID,
+//     chains,
+//     wallets: [],
+// });
+
 // Config in v1.x.wagmi Client in 2.x.wagmi?
 export const config = createConfig({
     autoConnect: true,
