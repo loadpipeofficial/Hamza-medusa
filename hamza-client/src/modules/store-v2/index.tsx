@@ -32,6 +32,7 @@ const StoreTemplate = () => {
                     layoutMaxWidth={'941px'}
                     vendorName={vendorName}
                     gridColumns={gridLayout}
+                    category=''
                 />
             </Flex>
         </Container>
