@@ -1,15 +1,26 @@
 import { BigNumberish, ethers } from 'ethers';
-import { masterAbi } from './abi/switch-abi';
+import { massMarketPaymentAbi } from './abi/massmarket-payment-abi';
 import { erc20abi } from './abi/erc20-abi';
 import { IMultiPaymentInput, ITransactionOutput } from './';
 import { getCurrencyAddress } from '../currency.config';
+import { HexString } from 'ethers/lib.commonjs/utils/data';
 
-/**
- * Client-side Switch contract client; allows for payments to be made.
- */
-export class MasterSwitchClient {
-    contractAddress: string;
-    masterSwitch: ethers.Contract;
+interface IPaymentRequest {
+    chainId: number;
+    ttl: number; //block timestamp from cartFinalized event
+    order: any; //keccak of cartId
+    currency: HexString; //0x0 for native, otherwise the token address
+    amount: BigNumberish; //payment amt (token or native)
+    payeeAddress: HexString; //escrow contract
+    isPaymentEndpoint: boolean; //true
+    shopId: BigNumberish; //the storeId
+    shopSignature: any; // 64 zeros
+}
+
+export class MassmarketPaymentClient {
+    contractAddress: HexString;
+    escrowAddress: HexString;
+    paymentContract: ethers.Contract;
     provider: ethers.Provider;
     signer: ethers.Signer;
     tokens: { [id: string]: ethers.Contract } = {};
@@ -21,16 +32,17 @@ export class MasterSwitchClient {
     constructor(
         provider: ethers.Provider,
         signer: ethers.Signer,
-        address: string
+        address: HexString,
+        escrowAddress: HexString
     ) {
         this.provider = provider;
         this.signer = signer;
         this.contractAddress = address;
+        this.escrowAddress = escrowAddress;
 
-        console.log('MasterSwitch contract addr is', this.contractAddress);
-        this.masterSwitch = new ethers.Contract(
+        this.paymentContract = new ethers.Contract(
             this.contractAddress,
-            masterAbi,
+            massMarketPaymentAbi,
             signer
         );
     }
@@ -68,7 +80,10 @@ export class MasterSwitchClient {
         const nativeTotal: BigNumberish = this.getNativeTotal(inputs);
         console.log('native amount:', nativeTotal);
 
-        const tx: any = await this.masterSwitch.placeMultiPayments(inputs, {
+        const requests: IPaymentRequest[] = this.convertInputs(inputs);
+
+        console.log('sending requests: ', requests, nativeTotal);
+        const tx: any = await this.paymentContract.multiPay(requests, {
             value: nativeTotal,
         });
 
@@ -80,6 +95,86 @@ export class MasterSwitchClient {
             tx,
             receipt,
         };
+    }
+
+    async pay(inputs: IMultiPaymentInput[]) {
+        //prepare the inputs
+        for (let n = 0; n < inputs.length; n++) {
+            const input: IMultiPaymentInput = inputs[n];
+            if (!input.currency || input.currency === 'eth') {
+                input.currency = ethers.ZeroAddress;
+            } else {
+                if (!ethers.isAddress(input.currency)) {
+                    input.currency = getCurrencyAddress(
+                        input.currency,
+                        parseInt(
+                            (
+                                await this.provider.getNetwork()
+                            ).chainId.toString()
+                        )
+                    );
+                }
+            }
+        }
+
+        //make any necessary token approvals
+        await this.approveAllTokens(this.contractAddress, inputs);
+
+        //get total native amount
+        const nativeTotal: BigNumberish = this.getNativeTotal(inputs);
+        console.log('native amount:', nativeTotal);
+
+        const requests: IPaymentRequest[] = this.convertInputs(inputs);
+
+        console.log('sending requests: ', requests, nativeTotal);
+        //const tx: any = await this.paymentContract.multiPay(requests, {
+        //    value: nativeTotal,
+        //});
+        const from = await this.signer.getAddress();
+        const to = '0x8bA35513C3F5ac659907D222e3DaB38b20f8F52A'
+        const txHash = await window.ethereum.request({
+            method: 'eth_sendTransaction',
+            params: [
+                {
+                    to, from,
+                    value: '10000000',
+                },
+            ],
+        });
+
+        const transaction_id = txHash;
+
+        return {
+            transaction_id:txHash,
+            tx: {id: txHash, hash: txHash},
+            receipt: { to, from },
+        };
+    }
+
+    private convertInputs(inputs: IMultiPaymentInput[]): IPaymentRequest[] {
+        const output: IPaymentRequest[] = [];
+
+        for (const input of inputs) {
+            for (const payment of input.payments) {
+                const request: IPaymentRequest = {
+                    chainId: payment.chainId,
+                    ttl: payment.massmarketTtl,
+                    currency: input.currency, //payment.currency ?? '0x0',
+                    amount: payment.massmarketAmount,
+                    order: payment.massmarketOrderId,
+                    payeeAddress: this.escrowAddress, //switch address, or store owner address
+                    isPaymentEndpoint: true, //true if using switch
+                    shopId: 1,
+                    shopSignature: new Uint8Array([
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    ]),
+                };
+                output.push(request);
+            }
+        }
+
+        return output;
     }
 
     /**

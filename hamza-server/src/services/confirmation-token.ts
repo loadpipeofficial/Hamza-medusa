@@ -43,7 +43,7 @@ export default class ConfirmationTokenService extends TransactionBaseService {
         });
         //sending email
         let smtpService = new SmtpMailService();
-        await smtpService.mailSender({
+        await smtpService.sendMail({
             from: process.env.SMTP_FROM,
             subject: 'Email Verification',
             templateName: 'verify-email',

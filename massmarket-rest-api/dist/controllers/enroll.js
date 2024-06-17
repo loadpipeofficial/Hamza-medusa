@@ -9,34 +9,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.storeController = void 0;
+exports.enrollController = void 0;
 const client_1 = require("../massmarket/client");
 const util_1 = require("./util");
-/*
-{
-    "success":true,
-    "storeId":"0xb3196680cda22f98635bbc104e1f5e829ee8e71db27b5d6c9241d0e20c64e109",
-    "keyCard":"0x7e683da67b0079c20a4856bfbd92b3c90b63f51bd57f7a9d2643aaba5c6b659b"
-}
-*/
-exports.storeController = {
+exports.enrollController = {
     //create store
-    createStore: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    enrollKeycard: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         (0, util_1.serveRequest)(req, res, (id, body) => __awaiter(void 0, void 0, void 0, function* () {
-            const input = body;
-            const output = {
-                success: false,
-                storeId: '0x0',
-                keyCard: '0x0',
-            };
-            const data = yield client_1.RelayClientWrapper.createAndInitializeStore();
-            output.storeId = data.storeId;
-            output.keyCard = data.keyCard;
-            //TODO: check for zeroAddress
-            output.success =
-                output.storeId.length > 0 && output.keyCard.length > 0;
-            return output;
+            const rc = new client_1.RelayClientWrapper(util_1.ENDPOINT, '0xa954adaed3d8454349846fd7e32db1053c398a8929dce968400cc4ee9bf299a8', '0x38e01876865a58376858c1f975e09f025c09c929b6bfd3b7de14c87c66a93f10', false);
+            yield rc.enrollKeycard();
         }), 201);
     }),
 };
-//# sourceMappingURL=store.js.map
+//# sourceMappingURL=enroll.js.map

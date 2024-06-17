@@ -97,8 +97,6 @@ const Payment = ({
         setError(null);
     }, [isOpen]);
 
-    console.log(`Is it connected ${isConnected}`);
-
     return (
         <div className="bg-black">
             <div className="flex flex-row items-center justify-between mb-6">

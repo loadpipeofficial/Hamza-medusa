@@ -16,7 +16,6 @@ const ProfileCurrency: React.FC<MyInformationProps> = ({ customer }) => {
     // State to store the current currency
     const { preferred_currency_code, setCustomerPreferredCurrency } =
         useCustomerAuthStore();
-    const [currency, setCurrency] = useState(preferred_currency_code);
 
     // Simulate updating the currency in customer profile
     const updateCurrency = async (newCurrency: string) => {
@@ -41,7 +40,7 @@ const ProfileCurrency: React.FC<MyInformationProps> = ({ customer }) => {
     // Handler for currency change from dropdown
     const handleCurrencyChange = (event) => {
         const newCurrency = event.target.value;
-        setCurrency(newCurrency);
+        setCustomerPreferredCurrency(newCurrency);
         updateCurrency(newCurrency);
     };
 
@@ -50,7 +49,7 @@ const ProfileCurrency: React.FC<MyInformationProps> = ({ customer }) => {
             <label htmlFor="currency-select">Choose a currency:</label>
             <Select
                 id="currency-select"
-                value={currency}
+                value={preferred_currency_code!}
                 onChange={handleCurrencyChange}
             >
                 <option value="usdc">USDC</option>

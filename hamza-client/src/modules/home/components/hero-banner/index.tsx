@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Flex, Link, Text, Heading } from '@chakra-ui/react';
 import { FaArrowRightLong } from 'react-icons/fa6';
+import { SwitchNetwork } from '@/components/providers/rainbowkit/rainbowkit-utils/rainbow-utils';
 
 const HeroBanner = () => {
     const [opacity, setOpacity] = useState(1);
@@ -39,6 +40,7 @@ const HeroBanner = () => {
                     </Text>
                 </Link>
             </Flex>
+            <SwitchNetwork />
             <Flex
                 px={6}
                 pt={8}
