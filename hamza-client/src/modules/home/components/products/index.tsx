@@ -15,7 +15,7 @@ import { InjectedConnector } from 'wagmi/connectors/injected';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 
 const RecommendedItems = () => {
-    const [vendorName, setVendorName] = useState('Goblin Store');
+    const [vendorName, setVendorName] = useState('Medusa Merch');
     const { openConnectModal } = useConnectModal();
     const { connector: activeConnector, isConnected } = useAccount();
     const { connect } = useConnect({
@@ -31,9 +31,10 @@ const RecommendedItems = () => {
     };
 
     // Dynamic button color change
+    //TODO: get these from database
     const VENDOR_NAMES = {
         quality: 'Quality Store',
-        goblin: 'Goblin Store',
+        medusa: 'Medusa Merch',
         headphones: 'Headphones Store',
     } as const;
 
@@ -181,21 +182,21 @@ const RecommendedItems = () => {
                     <Button
                         fontWeight="italic"
                         bg={
-                            VENDOR_NAMES.goblin === vendorName
+                            VENDOR_NAMES.medusa === vendorName
                                 ? 'white'
                                 : 'black'
                         }
                         color={
-                            VENDOR_NAMES.goblin === vendorName
+                            VENDOR_NAMES.medusa === vendorName
                                 ? 'black'
                                 : 'white'
                         }
                         size="lg"
-                        name={'Goblin Store'}
+                        name={'Medusa Merch'}
                         width="250px"
                         borderRadius="full"
                         onClick={() => {
-                            setVendorName('Goblin Store');
+                            setVendorName('Medusa Merch');
                         }}
                     >
                         <Image
@@ -205,7 +206,7 @@ const RecommendedItems = () => {
                             width={22}
                             height={22}
                         />
-                        Goblin Vendor
+                        medusa Vendor
                     </Button>
 
                     <Button

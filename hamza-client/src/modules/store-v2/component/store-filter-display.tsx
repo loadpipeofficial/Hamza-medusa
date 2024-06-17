@@ -24,7 +24,7 @@ const StoreFilterDisplay = () => {
                 <Flex gap="20px">
                     <CategoryTopButton
                         categoryType="clothes"
-                        categoryName="Goblin Store"
+                        categoryName="Medusa Merch"
                     />
                     <CategoryTopButton
                         categoryType="games"

@@ -45,7 +45,9 @@ const SideMenu = () => {
                     {Object.keys(currencies).map((key) => (
                         <CurrencyButton
                             key={key}
-                            currencyName={(currencies as { [key: string]: any })[key]}
+                            currencyName={
+                                (currencies as { [key: string]: any })[key]
+                            }
                         />
                     ))}
                 </Flex>
@@ -60,7 +62,7 @@ const SideMenu = () => {
                 <Flex mt="1rem" flexDirection={'column'} gap="16px">
                     <CategoryButton
                         categoryType="clothes"
-                        categoryName="Goblin Store"
+                        categoryName="Medusa Merch"
                     />
                     <CategoryButton
                         categoryType="games"

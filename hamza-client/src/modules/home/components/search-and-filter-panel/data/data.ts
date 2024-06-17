@@ -1,7 +1,7 @@
 const vendors = [
     {
         id: 1,
-        vendorName: 'Goblin Store',
+        vendorName: 'Medusa Merch',
     },
     {
         id: 2,
