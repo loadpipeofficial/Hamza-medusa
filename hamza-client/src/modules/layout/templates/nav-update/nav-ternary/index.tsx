@@ -14,7 +14,7 @@ const NavTernary = () => {
             ) : (
                 <React.Fragment>
                     <NavLink href="/account" title="Account" />
-                    <NavLink href="/verify-email" title="Verify" />
+                    <NavLink href="/verify-email" title="Verify Account" />
                 </React.Fragment>
             )}
         </React.Fragment>
