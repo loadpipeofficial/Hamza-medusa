@@ -16,7 +16,7 @@ interface ProductCardProps {
     varientID: string;
     countryCode: string;
     productName: string;
-    productPrice: number;
+    productPrice: number | string;
     imageSrc: string;
     hasDiscount: boolean;
     discountValue: string;

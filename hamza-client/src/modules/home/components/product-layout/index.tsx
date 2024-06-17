@@ -53,6 +53,10 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
                         .flat();
 
                     const varientID = product.variants[0].id;
+                    const productPricing = formatCryptoPrice(
+                        variantPrices[0].amount,
+                        preferred_currency_code as string
+                    );
                     return (
                         <ProductCard
                             key={index}
@@ -60,7 +64,7 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
                             varientID={varientID}
                             countryCode={product.countryCode}
                             productName={product.title}
-                            productPrice={variantPrices[0].amount}
+                            productPrice={productPricing}
                             imageSrc={product.thumbnail}
                             hasDiscount={product.is_giftcard}
                             discountValue={product.discountValue}
