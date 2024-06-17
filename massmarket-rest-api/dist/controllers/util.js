@@ -26,20 +26,24 @@ function serveRequest(req, res, runFunction, successReturnCode = 200, defaultRet
 exports.serveRequest = serveRequest;
 function validateRequiredHexString(res, str, name) {
     //TODO: check also for zero address
-    if (!str || !str.trim().length || str.trim() === '0x0')
+    if (!str || !str.trim().length || str.trim() === '0x0') {
         res.status(400).json({
             msg: `Required: ${name}`,
         });
-    return false;
+        return false;
+    }
+    return true;
 }
 exports.validateRequiredHexString = validateRequiredHexString;
 function validateRequiredString(res, str, name) {
     //TODO: check also for zero address
-    if (!str || !str.trim().length)
+    if (!str || !str.trim().length) {
         res.status(400).json({
             msg: `Required: ${name}`,
         });
-    return false;
+        return false;
+    }
+    return true;
 }
 exports.validateRequiredString = validateRequiredString;
 function validateStoreIdAndKeycard(res, input) {

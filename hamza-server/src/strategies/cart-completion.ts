@@ -149,6 +149,8 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             //TODO: be able to handle one store checkout failure, while the other succeed
             const checkoutResults: CheckoutResult[] =
                 await this.doMassMarketCheckouts(storeGroups, orders);
+
+            this.logger.debug(`Got checkout results ${JSON.stringify(checkoutResults)}`);
             await this.updateOrderForMassMarket(checkoutResults);
 
             //create & return the response
@@ -305,6 +307,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         storeGroups: IPaymentGroupData[],
         orders: Order[]
     ): Promise<CheckoutResult[]> {
+        this.logger.debug(`prepping ${orders.length} orders for checkout`);
         try {
             //prepare each order for checkout
             for (let n = 0; n < orders.length; n++) {
@@ -319,13 +322,14 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
 
                 //TODO: is this necessary?
                 orders = await this.orderRepository.find({
-                    where: { id: In([order.id]) },
+                    where: { id: In(orders.map(o => o.id)) },
                     relations: ['store'],
                 });
             }
         } catch (e) {
             this.logger.error(`Error ${e}`);
         }
+        this.logger.debug('prepped orders for checkout');
 
         //call checkout for each store
         const client = new MassMarketClient();
@@ -350,6 +354,9 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
                 checkoutInputs
             );
 
+            this.logger.debug('got checkout results:' + JSON.stringify(checkout));
+            this.logger.debug(orders.length);
+
             //save the output
             output.push({
                 ...checkout,
@@ -363,6 +370,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
     private async updateOrderForMassMarket(checkoutResults: CheckoutResult[]) {
         const promises: Promise<Order>[] = [];
         for (const r of checkoutResults) {
+            this.logger.debug('saving order ' + r.orderId + ', ' + r.medusaOrderId);
             promises.push(
                 this.orderRepository.save({
                     id: r.medusaOrderId,
@@ -373,7 +381,9 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             );
         }
 
+        this.logger.debug('saving the orders from checkout...');
         await Promise.all(promises);
+        this.logger.debug('...saved the orders from checkout');
     }
 }
 
