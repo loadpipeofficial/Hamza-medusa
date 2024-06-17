@@ -1,7 +1,14 @@
 import { Box, Flex, Grid, GridItem, Image } from '@chakra-ui/react';
-import React from 'react';
+import useProductPreview from '@store/product-preview/product-preview';
+import React, { useEffect } from 'react';
 
 const PreviewGallery = () => {
+    const { productData } = useProductPreview();
+
+    useEffect(() => {
+        console.log(productData);
+    }, []);
+
     return (
         <Flex maxWidth={'1280px'} width={'100%'} flexDirection={'column'}>
             <Grid templateColumns="2fr 1fr" gap={4}>
@@ -15,7 +22,7 @@ const PreviewGallery = () => {
                         borderLeftRadius={'16px'}
                     >
                         <Image
-                            src="path/to/your/image1.jpg"
+                            src={productData.images[0].url}
                             alt="Left Image"
                             width="100%"
                             height="100%"
