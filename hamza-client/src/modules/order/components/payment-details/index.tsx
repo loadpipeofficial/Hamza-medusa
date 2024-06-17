@@ -42,6 +42,7 @@ const PaymentDetails = ({ order }: PaymentDetailsProps) => {
                                               amount: payment.amount,
                                               region: order.region,
                                               includeTaxes: false,
+                                              currency_code: '',
                                           })} paid at ${new Date(payment.created_at).toString()}`}
                                 </Text>
                             </div>

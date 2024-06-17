@@ -164,7 +164,7 @@ class ProductReviewService extends TransactionBaseService {
         }
 
         const averageRating =
-            reviews.reduce((acc, review) => acc + review.rating, 0) /
+            reviews.reduce((acc: any, review: any) => acc + review.rating, 0) /
             reviews.length;
 
         this.logger.debug(`The average rating is: ${averageRating.toFixed(2)}`);

@@ -45,7 +45,7 @@ const SideMenu = () => {
                     {Object.keys(currencies).map((key) => (
                         <CurrencyButton
                             key={key}
-                            currencyName={currencies[key]}
+                            currencyName={(currencies as { [key: string]: any })[key]}
                         />
                     ))}
                 </Flex>

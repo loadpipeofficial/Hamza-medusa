@@ -69,7 +69,9 @@ const SideMenu = ({ regions }: { regions: Region[] | null }) => {
                                                     return (
                                                         <li key={name}>
                                                             <LocalizedClientLink
-                                                                href={href}
+                                                                href={
+                                                                    href as string
+                                                                }
                                                                 className="text-3xl leading-10 hover:text-ui-fg-disabled"
                                                                 onClick={close}
                                                             >

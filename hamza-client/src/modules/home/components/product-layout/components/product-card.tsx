@@ -15,7 +15,7 @@ import { FaRegHeart, FaHeart } from 'react-icons/fa6';
 import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 interface ProductCardProps {
-    varientID: string;
+    variantID: string;
     countryCode: string;
     productName: string;
     productPrice: number;
@@ -26,7 +26,7 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
-    varientID,
+    variantID,
     countryCode,
     productName,
     productPrice,
@@ -54,9 +54,9 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
     const handleAddToCart = async () => {
         setLoadingAddToCard(true);
         await addToCart({
-            variantId: varientID,
+            variantId: variantID ?? '',
             quantity: 1,
-            countryCode: countryCode,
+            countryCode: countryCode ?? '',
             currencyCode: 'eth',
         });
         setLoadingAddToCard(false);
@@ -65,9 +65,9 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
     const handleBuyNow = async () => {
         setLoadingBuy(true);
         await addToCart({
-            variantId: varientID,
+            variantId: variantID ?? '',
             quantity: 1,
-            countryCode: countryCode,
+            countryCode: countryCode ?? '',
             currencyCode: 'eth',
         });
         setLoadingBuy(false);
