@@ -5,11 +5,11 @@ const vendors = [
     },
     {
         id: 2,
-        vendorName: 'Quality Store',
+        vendorName: 'Echo Rift',
     },
     {
         id: 3,
-        vendorName: 'Headphones Store',
+        vendorName: 'Dauntless',
     },
 ];
 

@@ -33,9 +33,9 @@ const RecommendedItems = () => {
     // Dynamic button color change
     //TODO: get these from database
     const VENDOR_NAMES = {
-        quality: 'Quality Store',
+        quality: 'Echo Rift',
         medusa: 'Medusa Merch',
-        headphones: 'Headphones Store',
+        headphones: 'Dauntless',
     } as const;
 
     return (
@@ -222,11 +222,11 @@ const RecommendedItems = () => {
                                 : 'white'
                         }
                         size="lg"
-                        name={'Quality Store'}
+                        name={'Echo Rift'}
                         width="250px"
                         borderRadius="full"
                         onClick={() => {
-                            setVendorName('Quality Store');
+                            setVendorName('Echo Rift');
                         }}
                     >
                         <Image
@@ -240,7 +240,7 @@ const RecommendedItems = () => {
                     </Button>
                     <Button
                         fontWeight="italic"
-                        name="Headphones Store"
+                        name="Dauntless"
                         bg={
                             VENDOR_NAMES.headphones === vendorName
                                 ? 'white'
@@ -255,7 +255,7 @@ const RecommendedItems = () => {
                         width="250px"
                         borderRadius="full"
                         onClick={() => {
-                            setVendorName('Headphones Store');
+                            setVendorName('Dauntless');
                         }}
                     >
                         <Image

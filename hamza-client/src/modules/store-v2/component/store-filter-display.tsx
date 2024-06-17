@@ -28,11 +28,11 @@ const StoreFilterDisplay = () => {
                     />
                     <CategoryTopButton
                         categoryType="games"
-                        categoryName="Quality Store"
+                        categoryName="Echo Rift"
                     />
                     <CategoryTopButton
                         categoryType="gadgets"
-                        categoryName="Headphones Store"
+                        categoryName="Dauntless"
                     />
                 </Flex>
                 <Text fontSize={'18px'} color="primary.indigo.900">

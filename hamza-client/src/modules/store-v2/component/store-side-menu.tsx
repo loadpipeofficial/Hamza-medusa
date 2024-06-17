@@ -66,11 +66,11 @@ const SideMenu = () => {
                     />
                     <CategoryButton
                         categoryType="games"
-                        categoryName="Quality Store"
+                        categoryName="Echo Rift"
                     />
                     <CategoryButton
                         categoryType="gadgets"
-                        categoryName="Headphones Store"
+                        categoryName="Dauntless"
                     />
                 </Flex>
             </Box>
