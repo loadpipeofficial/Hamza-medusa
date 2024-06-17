@@ -33,7 +33,6 @@ export function useWishlistMutations() {
         {
             onSuccess: (data, product) => {
                 console.log('Adding Wish list item in DB!');
-                console.log('FAILING TO ADD ', product);
                 addWishlistProduct(product);
             },
             onError: (error) => {

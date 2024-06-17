@@ -124,7 +124,7 @@ export const formatVariantPrice = ({
 
     return convertToLocale({
         amount,
-        currency_code: currency_code,
+        currency_code,
         ...rest,
     });
 };
@@ -228,9 +228,10 @@ export const formatAmount = ({
         includeTaxes,
     });
 
+    return `${amount.toFixed(2)} ${currency_code.toUpperCase()}`
     return convertToLocale({
         amount: taxAwareAmount,
-        currency_code: currency_code,
+        currency_code,
         ...rest,
     });
 };
@@ -258,6 +259,8 @@ const convertToLocale = ({
     locale = 'en-US',
 }): ConvertToLocaleParams => {
     if (typeof currency_code !== 'string' || !currency_code) {
+        currency_code = 'eth';
+        /*
         console.error('Invalid or missing currency code', currency_code);
         return {
             amount,
@@ -265,6 +268,7 @@ const convertToLocale = ({
             minimumFractionDigits,
             maximumFractionDigits
         }
+        */
     }
 
     let formattedAmount;
