@@ -72,7 +72,13 @@ class CustomerNotificationSerivce extends TransactionBaseService {
                     where: { customer_id: customerId },
                 });
 
-            return notification.notification_type;
+            if (notification && notification.notification_type) {
+                return notification.notification_type
+                    .split(',')
+                    .map((type) => type.trim());
+            } else {
+                return [];
+            }
         } catch (e) {
             this.logger.error(`Error getting notification: ${e}`);
             throw e;

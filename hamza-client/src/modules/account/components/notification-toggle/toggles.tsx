@@ -39,7 +39,7 @@ const ToggleNotifications = ({ region }: { region: Region }) => {
                         }
                     );
                     console.log('Notification Data:', response.data.types);
-                    const notifications = response.data.types.split(', ');
+                    const notifications = response.data.types;
                     setSelectedNotifications(notifications);
                 } catch (error) {
                     console.error(
