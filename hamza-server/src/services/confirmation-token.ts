@@ -1,4 +1,8 @@
-import { TransactionBaseService, Logger } from '@medusajs/medusa';
+import {
+    TransactionBaseService,
+    Logger,
+    EventBusService,
+} from '@medusajs/medusa';
 import ConfirmationTokenRepository from '../repositories/confirmation-token';
 import CustomerRepository from '../repositories/customer';
 import moment from 'moment';
@@ -11,12 +15,14 @@ export default class ConfirmationTokenService extends TransactionBaseService {
     protected readonly confirmationTokenRepository_: typeof ConfirmationTokenRepository;
     protected readonly customerRepository_: typeof CustomerRepository;
     protected readonly logger: Logger;
+    protected readonly eventBus_: EventBusService;
 
     constructor(container) {
         super(container);
         this.confirmationTokenRepository_ = ConfirmationTokenRepository;
         this.customerRepository_ = CustomerRepository;
         this.logger = container.logger;
+        this.eventBus_ = container.eventBusService;
     }
 
     async createConfirmationToken({
@@ -97,6 +103,14 @@ export default class ConfirmationTokenService extends TransactionBaseService {
             { token: tokenCheck.token },
             { redeemed: true }
         );
+
+        //sending email for the confirmation
+        await this.eventBus_.emit([
+            {
+                data: { email: tokenCheck.email_address },
+                eventName: 'customer.verified',
+            },
+        ]);
         return;
     }
 }

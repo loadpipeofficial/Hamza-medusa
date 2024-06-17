@@ -1,4 +1,8 @@
-import type { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
+import type {
+    EventBusService,
+    MedusaRequest,
+    MedusaResponse,
+} from '@medusajs/medusa';
 import jwt from 'jsonwebtoken';
 import axios from 'axios';
 import CustomerRepository from '../../../repositories/customer';
@@ -88,6 +92,8 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
             access_token: tokens.access_token,
         });
 
+        let eventBus_: EventBusService = req.scope.resolve('eventBusService');
+
         await CustomerRepository.update(
             { id: decoded.customer_id },
             {
@@ -97,6 +103,13 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
                 last_name: user.family_name,
             }
         );
+
+        await eventBus_.emit([
+            {
+                data: { email: user.email },
+                eventName: 'customer.verified',
+            },
+        ]);
 
         return res.redirect(`${process.env.STORE_URL}/account?verify=true`);
     } catch (err) {
