@@ -17,7 +17,7 @@ export default async function AccountPageLayout({
             ) : (
                 <>
                     <div>
-                        Use connect wallet to sign in and verify your account.
+                        Connect your wallet to sign in and verify your account.
                     </div>
                 </>
             )}
