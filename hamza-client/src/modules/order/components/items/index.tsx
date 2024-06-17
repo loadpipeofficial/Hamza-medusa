@@ -58,7 +58,7 @@ const Items: React.FC<Props> = ({ items }) => {
     const setItem = itemStore((state) => state.setItem);
     const router = useRouter();
 
-    const handleItemClick = async (item: ItemsProps) => {
+    const handleItemClick = async (item: any) => {
         // console.log(`Checking review existence for order: ${item?.order_id}`);
         try {
             const response = await axios.post(
@@ -76,8 +76,8 @@ const Items: React.FC<Props> = ({ items }) => {
                 // console.log('User has not reviewed yet');
                 router.push(`/account/reviews/${item.id}`);
             }
-        } catch (error) {
-            alert('Failed to check review existence: ' + error);
+        } catch (error: any) {
+            alert('Failed to check review existence: ' + error.message);
         }
         setItem(item);
     };

@@ -1,6 +1,15 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.bufferToString = exports.privateKeyStringToBytes = void 0;
+exports.sleep = exports.bufferToString = exports.privateKeyStringToBytes = void 0;
 /**
  * Utility function; convert private key in the form 0x{string} to a Uint8Array (the
  * '0x' is optional)
@@ -32,4 +41,10 @@ function bufferToString(buffer) {
     return `0x${output}`;
 }
 exports.bufferToString = bufferToString;
+function sleep(seconds) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
+    });
+}
+exports.sleep = sleep;
 //# sourceMappingURL=utils.js.map

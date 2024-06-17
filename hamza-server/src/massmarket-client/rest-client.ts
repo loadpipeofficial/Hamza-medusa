@@ -1,8 +1,10 @@
 import axios, { AxiosInstance } from 'axios';
+import { BigNumberish } from 'ethers';
 
+//TODO: re-create this as a service 
 export type HexString = `0x${string}`;
 
-const REST_URL = process.env.REST_SERVER_URL || 'http://localhost:3000';
+const REST_URL = process.env.MASSMARKET_REST_SERVER_URL || 'http://localhost:3001';
 try {
     new URL(REST_URL);
 } catch (error) {
@@ -39,8 +41,12 @@ export type CreateStoreOutput = {
 
 export type CheckoutOutput = {
     success: boolean;
-    cartId: HexString;
-    paymentAddress: HexString;
+    contractAddress: HexString;
+    orderId: HexString;
+    amount: string;
+    chainId: number;
+    ttl: number;
+    currency: string;
 };
 
 /**
@@ -55,7 +61,7 @@ export class MassMarketClient {
     constructor() {
         this.client = axios.create({
             baseURL: REST_URL,
-            timeout: 3000,
+            timeout: 13000,
         });
     }
 
@@ -193,6 +199,7 @@ export class MassMarketClient {
             });
 
             console.log('Checking out');
+            console.log('response:', JSON.stringify(response.data));
             return response.data;
         } catch (error) {
             console.error('Error checking out:', error.message);
