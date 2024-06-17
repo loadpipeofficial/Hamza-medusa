@@ -25,7 +25,7 @@ const WishlistDropdown: React.FC<WishlistPopoverItemProps> = () => {
         wishlist: state.wishlist,
     }));
     const totalItems =
-        wishlist?.products?.reduce((acc, item) => {
+        wishlist?.products?.reduce((acc: any, item: any) => {
             return acc + 1;
         }, 0) || 0;
     const itemRef = useRef<number>(totalItems || 0);
@@ -112,7 +112,7 @@ const WishlistDropdown: React.FC<WishlistPopoverItemProps> = () => {
                                             key={product.id}
                                         >
                                             <Popover.Button>
-                                                {({}) =>
+                                                {({ }) =>
                                                     product ? ( // Check if the product exists
                                                         <LocalizedClientLink
                                                             href={`/products/${product.handle}`}

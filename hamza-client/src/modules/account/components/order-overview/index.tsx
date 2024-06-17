@@ -94,7 +94,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
         fetchOrders();
     }, [orders]);
 
-    const groupedByCartId = detailedOrders.reduce((acc, item) => {
+    const groupedByCartId = detailedOrders.reduce((acc: any, item: any) => {
         if (!acc[item.cart_id]) {
             acc[item.cart_id] = [];
         }
@@ -135,7 +135,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                 })
             );
 
-            const statusMap = {};
+            const statusMap: { [key: string]: any } = {};
             statuses.forEach((result) => {
                 if (result.status === 'fulfilled') {
                     const { orderId, status } = result.value;
@@ -206,7 +206,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                         >
                             <div className="p-4 bg-gray-700">
                                 Order {orders[index] ? orders[index].id : 'N/A'}{' '}
-                                - Total Items: {items.length}
+                                - Total Items: {(items as any).length}
                                 <span
                                     className="pl-2 text-blue-400 underline underline-offset-1 cursor-pointer"
                                     onClick={() => {
@@ -217,7 +217,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                                 </span>
                             </div>
 
-                            {items.map((item: WishlistProps) => (
+                            {(items as any).map((item: WishlistProps) => (
                                 <>
                                     <OrderCard key={item.id} order={item} />
                                     <div className="flex justify-end items-center">
@@ -230,7 +230,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                                             </Button>
                                         </LocalizedClientLink>
                                         {orderStatuses[orders[index].id] ===
-                                        'canceled' ? (
+                                            'canceled' ? (
                                             <Button
                                                 colorScheme="red"
                                                 ml={4}
