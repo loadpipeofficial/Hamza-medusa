@@ -6,15 +6,22 @@ import ErrorMessage from '../error-message';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { useAccount, useConnect } from 'wagmi';
 import { InjectedConnector } from 'wagmi/connectors/injected';
-import { ITransactionOutput, IMultiPaymentInput } from 'web3';
-import { MasterSwitchClient } from 'web3/master-switch-client';
+import {
+    ITransactionOutput,
+    IMultiPaymentInput,
+    IMultiPaymentInput_MM,
+} from 'web3';
+import { MassmarketPaymentClient } from 'web3/massmarket-payment';
 import { ethers, BigNumberish } from 'ethers';
 import { useCompleteCart, useUpdateCart } from 'medusa-react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { clearCart } from '@lib/data';
 import { getCurrencyPrecision } from 'currency.config';
-import { getMasterSwitchAddress } from 'contracts.config';
+import {
+    getMassmarketPaymentAddress,
+    getMasterSwitchAddress,
+} from 'contracts.config';
 
 //TODO: we need a global common function to replace this
 const MEDUSA_SERVER_URL =
@@ -22,6 +29,18 @@ const MEDUSA_SERVER_URL =
 
 type PaymentButtonProps = {
     cart: Omit<Cart, 'refundable_amount' | 'refunded_total'>;
+};
+
+type CheckoutData = {
+    order_id: string; //medusa order id
+    cart_id: string; //medusa cart id
+    wallet_address: string; //wallet address of store owner
+    currency_code: string; //currency code
+    amount: string; //medusa amount
+    massmarket_amount: string; //massmarket amount
+    massmarket_order_id: string; //keccak256 of cartId (massmarket)
+    massmarket_ttl: number;
+    orders: any[]; //medusa orders
 };
 
 // Extend the Window interface
@@ -40,9 +59,6 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({ cart }) => {
         cart.shipping_methods.length < 1
             ? true
             : false;
-
-    //TODO: what we need this fo?
-    const paymentSession = cart.payment_session as PaymentSession;
 
     return <CryptoPaymentButton notReady={notReady} cart={cart} />;
 };
@@ -83,35 +99,39 @@ const CryptoPaymentButton = ({
         return ethers.toBigInt(nativeAmount);
     };
 
-    const createSwitchInput = async (
+    const createPaymentInput = async (
         data: any,
         payer: string,
         chainId: number
     ) => {
-        //TODO: typeSafety of the data
         if (data.orders) {
-            const switchInput: IMultiPaymentInput[] = [];
+            const paymentInput: IMultiPaymentInput_MM[] = [];
             data.orders.forEach((o: any) => {
-                o.amount = translateToNativeAmount(o, chainId);
-                const input: IMultiPaymentInput = {
+                //o.amount = o.massmarket_amount; // translateToNativeAmount(o, chainId);
+                const input: IMultiPaymentInput_MM = {
                     currency: o.currency_code,
                     receiver: o.wallet_address,
                     payments: [
                         {
-                            id: ethers.toBigInt(
-                                ethers.keccak256(ethers.toUtf8Bytes(o.order_id))
-                            ),
+                            //id: ethers.toBigInt(
+                            //    ethers.keccak256(ethers.toUtf8Bytes(o.order_id))
+                            //),
+                            id: o.massmarket_order_id,
                             payer: payer,
-                            amount: o.amount,
+                            amount: o.massmarket_amount,
                             currency: o.currency_code,
-                            receiver: o.wallet_address,
+                            receiver: data.wallet_address,
+                            orderId: o.massmarket_order_id,
+                            storeId: o.orders[0].store.massmarket_store_id,
+                            chainId,
+                            ttl: o.massmarket_ttl,
                         },
                     ],
                 };
-                switchInput.push(input);
+                paymentInput.push(input);
             });
 
-            return switchInput;
+            return paymentInput;
         }
         return [];
     };
@@ -124,51 +144,6 @@ const CryptoPaymentButton = ({
             reduction_quantity: item.quantity, // or any logic to determine the reduction quantity
         }))
     );
-
-    /**
-     * Sends the given payment data to the Switch by way of the user's connnected
-     * wallet.
-     * @param data
-     * @returns {transaction_id, payer_address, escrow_contract_address, success }
-     */
-    const doWalletPayment_mm = async (data: any) => {
-        try {
-            //get provider and such
-            const rawchainId = await window.ethereum.request({
-                method: 'eth_chainId',
-            });
-
-            console.log(data);
-
-            //get chain id
-            const chainId = parseInt(rawchainId, 16);
-            const provider = new ethers.BrowserProvider(
-                window.ethereum,
-                chainId
-            );
-            const signer: ethers.Signer = await provider.getSigner();
-
-            const tx = await signer.sendTransaction({
-                to: data.mm_payment_address,
-                value: 1,
-            });
-
-            const receipt = await tx.wait();
-
-            return {
-                transaction_id: tx?.hash,
-                payer_address: receipt?.from,
-                escrow_contract_address: data.mm_payment_address,
-                success: tx?.hash && tx?.hash.length ? true : false,
-            };
-        } catch (e) {
-            console.error('error has occured during transaction', e);
-            setErrorMessage('Checkout was not completed.');
-            setSubmitting(false);
-        }
-
-        return {};
-    };
 
     /**
      * Sends the given payment data to the Switch by way of the user's connnected
@@ -193,23 +168,30 @@ const CryptoPaymentButton = ({
 
             //create the contract client
             const escrow_contract_address = getMasterSwitchAddress(chainId);
-            const switchClient: MasterSwitchClient = new MasterSwitchClient(
-                provider,
-                signer,
-                escrow_contract_address
-            );
+            const paymentContractAddr = getMassmarketPaymentAddress(chainId);
+            const paymentClient: MassmarketPaymentClient =
+                new MassmarketPaymentClient(
+                    provider,
+                    signer,
+                    paymentContractAddr,
+                    escrow_contract_address
+                );
+
+            console.log('payment address:', paymentContractAddr);
+            console.log('escrow address:', escrow_contract_address);
 
             //create the inputs
-            const switchInput: IMultiPaymentInput[] = await createSwitchInput(
+            const paymentInput: IMultiPaymentInput[] = await createPaymentInput(
                 data,
                 await signer.getAddress(),
                 chainId
             );
 
-            //send payment to switch
-            console.log(switchInput);
+            console.log('payment input: ', paymentInput);
+
+            //send payment to contract
             const output: ITransactionOutput =
-                await switchClient.placeMultiplePayments(switchInput);
+                await paymentClient.pay(paymentInput);
 
             console.log(output);
             const transaction_id = output.transaction_id;
@@ -269,7 +251,7 @@ const CryptoPaymentButton = ({
      */
     const completeCheckout = async (cartId: string) => {
         //retrieve data (cart id, currencies, amounts etc.) that will be needed for wallet checkout
-        const data = await retrieveCheckoutData(cartId);
+        const data: CheckoutData = await retrieveCheckoutData(cartId);
         console.log('got checkout data', data);
 
         if (data) {
@@ -285,9 +267,9 @@ const CryptoPaymentButton = ({
                     {
                         cartProducts: JSON.stringify(cartRef.current),
                         cart_id: data.cart_id,
-                        transaction_id: data.transaction_id,
-                        payer_address: data.payer_address,
-                        escrow_contract_address: data.escrow_contract_address,
+                        transaction_id: output.transaction_id,
+                        payer_address: output.payer_address,
+                        escrow_contract_address: output.escrow_contract_address,
                     }
                 );
 

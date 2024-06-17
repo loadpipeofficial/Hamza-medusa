@@ -43,9 +43,9 @@ async function updateStoreForMM(
     storeRepository.save({
         id: storeId,
         massmarket_store_id:
-            '0x1300000000000000000000000000000000000000000000000000000000000006',
+            '0xe8b3a2a736a13a35c3329e772a1e5bfd7c0ebde8e4cb38889ecfce8b1e3db0b6',
         massmarket_keycard:
-            '0x618f7c831ec88ca06505306a5047b8d0f515fb58cc33d75decd698c759b98284',
+            '0xfc5f10e06f7a6c7c26c2930f7dde591f37470677c3fde258b39df6043741fc2b',
     });
 
     const products =

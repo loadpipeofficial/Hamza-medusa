@@ -11,6 +11,15 @@ export class MassMarket2849489248924 implements MigrationInterface {
         await queryRunner.query(
             `ALTER TABLE "product" ADD COLUMN "massmarket_prod_id" VARCHAR NULL`
         );
+        await queryRunner.query(
+            `ALTER TABLE "order" ADD COLUMN "massmarket_order_id" VARCHAR NULL`
+        );
+        await queryRunner.query(
+            `ALTER TABLE "order" ADD COLUMN "massmarket_amount" VARCHAR NULL`
+        );
+        await queryRunner.query(
+            `ALTER TABLE "order" ADD COLUMN "massmarket_ttl" BIGINT NULL`
+        );
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
@@ -22,6 +31,15 @@ export class MassMarket2849489248924 implements MigrationInterface {
         );
         await queryRunner.query(
             `ALTER TABLE "product" DROP COLUMN "massmarket_prod_id"`
+        );
+        await queryRunner.query(
+            `ALTER TABLE "order" DROP COLUMN "massmarket_order_id"`
+        );
+        await queryRunner.query(
+            `ALTER TABLE "order" DROP COLUMN "massmarket_amount"`
+        );
+        await queryRunner.query(
+            `ALTER TABLE "order" DROP COLUMN "massmarket_ttl"`
         );
     }
 }

@@ -13,7 +13,7 @@ import { serveRequest } from './util';
 
 export const storeController = {
     //create store
-    post: async (req: Request, res: Response) => {
+    createStore: async (req: Request, res: Response) => {
         serveRequest(
             req,
             res,

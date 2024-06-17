@@ -14,7 +14,7 @@ const util_1 = require("./util");
 const client_1 = require("../massmarket/client");
 exports.cartController = {
     //create cart
-    post: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    createCart: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         (0, util_1.serveRequest)(req, res, (id, body) => __awaiter(void 0, void 0, void 0, function* () {
             const input = body;
             const output = {
@@ -34,7 +34,7 @@ exports.cartController = {
         }), 201);
     }),
     //add item to cart
-    put: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    addToCart: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         (0, util_1.serveRequest)(req, res, (id, body) => __awaiter(void 0, void 0, void 0, function* () {
             const cartId = id;
             const input = body;
@@ -54,7 +54,7 @@ exports.cartController = {
         }), 201);
     }),
     //commit cart
-    postId: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    commitCart: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         (0, util_1.serveRequest)(req, res, (id, body) => __awaiter(void 0, void 0, void 0, function* () {
             const cartId = id;
             const input = body;
@@ -74,7 +74,7 @@ exports.cartController = {
         }));
     }),
     //abandon cart
-    delete: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    abandonCart: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         (0, util_1.serveRequest)(req, res, (id, body) => __awaiter(void 0, void 0, void 0, function* () {
             const cartId = id;
             const input = body;
