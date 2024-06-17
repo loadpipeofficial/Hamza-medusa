@@ -14,6 +14,7 @@ import {
 import { Region } from '@medusajs/medusa';
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
+import axios from 'axios';
 
 const ToggleNotifications = ({ region }: { region: Region }) => {
     const [selectedNotifications, setSelectedNotifications] = useState([]);
@@ -21,17 +22,47 @@ const ToggleNotifications = ({ region }: { region: Region }) => {
 
     const { customer_id } = useCustomerAuthStore();
 
-    const handleCheckboxChange = (event: any) => {
+    useEffect(() => {
+        if (customer_id) {
+            const fetchNotifications = async () => {
+                console.log(
+                    `Customer ID in notification toggle: ${customer_id}`
+                );
+                try {
+                    const response = await axios.post(
+                        `${BACKEND_URL}/custom/notification/get-notification`,
+                        { customer_id },
+                        {
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        }
+                    );
+                    console.log('Notification Data:', response.data.types);
+                    const notifications = response.data.types;
+                    setSelectedNotifications(notifications);
+                } catch (error) {
+                    console.error(
+                        'Error fetching notification preferences:',
+                        error
+                    );
+                }
+            };
+            fetchNotifications();
+        }
+    }, [customer_id]);
+
+    const handleCheckboxChange = (event) => {
         const value = event.target.value;
         if (value === 'none') {
-            setSelectedNotifications(['none' as never]);
+            setSelectedNotifications(['none']);
         } else {
-            setSelectedNotifications((prevSelected: any) => {
+            setSelectedNotifications((prevSelected) => {
                 if (prevSelected.includes(value)) {
-                    return prevSelected.filter((item: any) => item !== value);
+                    return prevSelected.filter((item) => item !== value);
                 } else {
                     return [
-                        ...prevSelected.filter((item: any) => item !== 'none'),
+                        ...prevSelected.filter((item) => item !== 'none'),
                         value,
                     ];
                 }
@@ -41,7 +72,7 @@ const ToggleNotifications = ({ region }: { region: Region }) => {
 
     const handleSave = async () => {
         try {
-            if (selectedNotifications.includes('none' as never)) {
+            if (selectedNotifications.includes('none')) {
                 // Call the delete route if 'none' is selected
                 await fetch(
                     `${BACKEND_URL}/custom/notification/remove-notification`,
@@ -86,14 +117,14 @@ const ToggleNotifications = ({ region }: { region: Region }) => {
             <Stack spacing={3}>
                 <Checkbox
                     value="orderShipped"
-                    isChecked={selectedNotifications.includes('orderShipped' as never)}
+                    isChecked={selectedNotifications.includes('orderShipped')}
                     onChange={handleCheckboxChange}
                 >
                     Notify when order shipped
                 </Checkbox>
                 <Checkbox
                     value="newProduct"
-                    isChecked={selectedNotifications.includes('newProduct' as never)}
+                    isChecked={selectedNotifications.includes('newProduct')}
                     onChange={handleCheckboxChange}
                 >
                     Notify when followed sellers post a new product
@@ -101,7 +132,7 @@ const ToggleNotifications = ({ region }: { region: Region }) => {
                 <Checkbox
                     value="orderStatusChanged"
                     isChecked={selectedNotifications.includes(
-                        'orderStatusChanged' as never
+                        'orderStatusChanged'
                     )}
                     onChange={handleCheckboxChange}
                 >
@@ -109,21 +140,21 @@ const ToggleNotifications = ({ region }: { region: Region }) => {
                 </Checkbox>
                 <Checkbox
                     value="promotions"
-                    isChecked={selectedNotifications.includes('promotions' as never)}
+                    isChecked={selectedNotifications.includes('promotions')}
                     onChange={handleCheckboxChange}
                 >
                     Notify for promotions/discounts
                 </Checkbox>
                 <Checkbox
                     value="surveys"
-                    isChecked={selectedNotifications.includes('surveys' as never)}
+                    isChecked={selectedNotifications.includes('surveys')}
                     onChange={handleCheckboxChange}
                 >
                     Notify for surveys
                 </Checkbox>
                 <Checkbox
                     value="none"
-                    isChecked={selectedNotifications.includes('none' as never)}
+                    isChecked={selectedNotifications.includes('none')}
                     onChange={handleCheckboxChange}
                 >
                     No notifications (when this is checked, other checkboxes are

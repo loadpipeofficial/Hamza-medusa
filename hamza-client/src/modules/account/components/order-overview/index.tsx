@@ -236,7 +236,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                                                 ml={4}
                                                 isDisabled
                                             >
-                                                Order Cancelled
+                                                Cancellation Requested
                                             </Button>
                                         ) : (
                                             <Button
