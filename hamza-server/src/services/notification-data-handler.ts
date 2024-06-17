@@ -132,8 +132,8 @@ class NotificationDataService extends TransactionBaseService {
         const shipment =
             verb == 'shipment_created'
                 ? await this.fulfillmentService_.retrieve(data.fulfillment_id, {
-                      relations: ['tracking_links'],
-                  })
+                    relations: ['tracking_links'],
+                })
                 : null;
         return {
             locale,
@@ -328,11 +328,10 @@ class NotificationDataService extends TransactionBaseService {
                         return {
                             is_giftcard: false,
                             code: discount.code,
-                            descriptor: `${discount.rule.value}${
-                                discount.rule.type === 'percentage'
+                            descriptor: `${discount.rule.value}${discount.rule.type === 'percentage'
                                     ? '%'
                                     : ` ${currencyCode}`
-                            }`,
+                                }`,
                         };
                     });
                 }
@@ -472,7 +471,7 @@ class NotificationDataService extends TransactionBaseService {
             })
         );
 
-        const returnTotal = decoratedItems.reduce((acc, next) => {
+        const returnTotal = decoratedItems.reduce((acc: any, next: any) => {
             const { total } = next.totals;
             if (next.is_return && next.variant_id) {
                 return acc + -1 * total;
@@ -480,7 +479,7 @@ class NotificationDataService extends TransactionBaseService {
             return acc;
         }, 0);
 
-        const additionalTotal = decoratedItems.reduce((acc, next) => {
+        const additionalTotal = decoratedItems.reduce((acc: any, next: any) => {
             const { total } = next.totals;
             if (!next.is_return) {
                 return acc + total;

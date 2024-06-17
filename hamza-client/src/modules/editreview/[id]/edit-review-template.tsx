@@ -30,7 +30,7 @@ const EditReviewTemplate = () => {
                 setReview(content || ''); // If content is null or undefined, set it to an empty string
                 setRating(rating || 0); // If rating is null or undefined, set it to 0
             } catch (error) {
-                alert('Failed to check review existence: ' + error.message);
+                alert('Failed to check review existence: ' + error);
             }
         };
 
@@ -56,7 +56,7 @@ const EditReviewTemplate = () => {
             setRating(0);
             setSubmissionSuccess(true); // Update the state to indicate success
         } catch (error) {
-            alert('Failed to submit review: ' + error.message);
+            alert('Failed to submit review: ' + error);
         }
     };
 
@@ -108,7 +108,7 @@ const EditReviewTemplate = () => {
                         <p className="text-black">Review Detail</p>
                         <textarea
                             className="w-full p-2 border rounded text-black"
-                            rows="4"
+                            rows={4}
                             placeholder="What do you think of this product?"
                             value={review}
                             onChange={(e) => setReview(e.target.value)}

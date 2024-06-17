@@ -20,7 +20,7 @@ import { RelayClientWrapper } from '../massmarket/client';
 
 export const cartController = {
     //create cart
-    post: async (req: Request, res: Response) => {
+    createCart: async (req: Request, res: Response) => {
         serveRequest(
             req,
             res,
@@ -53,7 +53,7 @@ export const cartController = {
     },
 
     //add item to cart
-    put: async (req: Request, res: Response) => {
+    addToCart: async (req: Request, res: Response) => {
         serveRequest(
             req,
             res,
@@ -90,7 +90,7 @@ export const cartController = {
     },
 
     //commit cart
-    postId: async (req: Request, res: Response) => {
+    commitCart: async (req: Request, res: Response) => {
         serveRequest(req, res, async (id, body) => {
             const cartId = id;
             const input: ICommitCartInput = body;
@@ -119,7 +119,7 @@ export const cartController = {
     },
 
     //abandon cart
-    delete: async (req: Request, res: Response) => {
+    abandonCart: async (req: Request, res: Response) => {
         serveRequest(
             req,
             res,

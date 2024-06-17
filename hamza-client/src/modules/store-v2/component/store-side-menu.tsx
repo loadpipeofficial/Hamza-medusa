@@ -4,14 +4,12 @@ import React from 'react';
 import { Box, Text, Heading, Flex } from '@chakra-ui/react';
 import CurrencyButton from './currency-button';
 import CategoryButton from './category-button';
-import currencies from '../data/crypto-currencies';
+import currencies from '../data/currency-category';
 import ReviewButton from './review-button';
 import FilterButton from './filter-button';
 import RangeSlider from './range-slider';
 
 const SideMenu = () => {
-    const ratings = [1, 2, 3, 4, 5];
-
     return (
         <Box
             px="2rem"
@@ -45,7 +43,10 @@ const SideMenu = () => {
 
                 <Flex mt="1rem" flexDirection={'column'} gap="16px">
                     {Object.keys(currencies).map((key) => (
-                        <CurrencyButton key={key} name={currencies[key]} />
+                        <CurrencyButton
+                            key={key}
+                            currencyName={(currencies as { [key: string]: any })[key]}
+                        />
                     ))}
                 </Flex>
             </Box>
@@ -57,9 +58,18 @@ const SideMenu = () => {
                 </Heading>
 
                 <Flex mt="1rem" flexDirection={'column'} gap="16px">
-                    <CategoryButton name="Goblin Store" />
-                    <CategoryButton name="Quality Store" />
-                    <CategoryButton name="Headphones Store" />
+                    <CategoryButton
+                        categoryType="clothes"
+                        categoryName="Goblin Store"
+                    />
+                    <CategoryButton
+                        categoryType="games"
+                        categoryName="Quality Store"
+                    />
+                    <CategoryButton
+                        categoryType="gadgets"
+                        categoryName="Headphones Store"
+                    />
                 </Flex>
             </Box>
 
@@ -70,9 +80,11 @@ const SideMenu = () => {
                 </Heading>
 
                 <Flex mt="1rem" flexDirection={'column'} gap="16px">
-                    {ratings.map((rating) => (
-                        <ReviewButton key={rating} rating={rating.toString()} />
-                    ))}
+                    <ReviewButton title={'1 Star'} />
+                    <ReviewButton title={'2 Stars'} />
+                    <ReviewButton title={'3 Stars'} />
+                    <ReviewButton title={'4 Stars'} />
+                    <ReviewButton title={'5 Stars'} />
                 </Flex>
             </Box>
 

@@ -33,7 +33,7 @@ const ReviewTemplate = () => {
             // console.log(`Can submit? ${response.data}`);
             setCanSubmit(response.data); // Assuming API returns { exists: true/false }
         } catch (error) {
-            alert('Failed to check review existence: ' + error.message);
+            alert('Failed to check review existence: ' + error);
         }
     };
 
@@ -57,7 +57,7 @@ const ReviewTemplate = () => {
             setRating(0);
             setSubmissionSuccess(true); // Update the state to indicate success
         } catch (error) {
-            alert('Failed to submit review: ' + error.message);
+            alert('Failed to submit review: ' + error);
         }
     };
 
@@ -109,7 +109,7 @@ const ReviewTemplate = () => {
                         <p className="text-black">Review Detail</p>
                         <textarea
                             className="w-full p-2 border rounded text-black"
-                            rows="4"
+                            rows={4}
                             placeholder="What do you think of this product?"
                             value={review}
                             onChange={(e) => setReview(e.target.value)}

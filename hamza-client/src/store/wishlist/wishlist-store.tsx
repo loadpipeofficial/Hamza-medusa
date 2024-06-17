@@ -19,7 +19,7 @@ type WishlistType = {
     wishlist: Wishlist;
     loadWishlist: (customer_id: string) => Promise<void>;
     addWishlistProduct: (product: WishlistProduct) => Promise<void>;
-    removeWishlistProduct: (product: WishlistProduct) => Promise<void>;
+    removeWishlistProduct: (product_id: string) => Promise<void>; // Change here
     updateAuthentication: (status: boolean) => void;
     isCustomerAuthenticated: boolean;
 };
@@ -81,7 +81,7 @@ const useWishlistStore = create<WishlistType>()(
                         `${BACKEND_URL}/custom/wishlist?customer_id=${customer_id}`
                     );
                     const items = response.data.items;
-                    const products = items.map((item) => item.product);
+                    const products = items.map((item: any) => item.product);
                     // console.log('Wishlist products:', products);
                     if (Array.isArray(items)) {
                         set({ wishlist: { products } });
@@ -109,37 +109,41 @@ const useWishlistStore = create<WishlistType>()(
                 //     'Rehydration successful, checking for customer data...'
                 // );
                 const customerData = localStorage.getItem('__hamza_customer');
-                if (JSON.parse(customerData).state.status === 'authenticated') {
-                    console.log('Customer now authenticated');
-                    try {
-                        state?.updateAuthentication(true);
-                        const parsedData = JSON.parse(customerData);
-                        const customer_id = parsedData.state.customer_id;
-                        if (customer_id) {
-                            console.log(
-                                'Customer ID found:',
-                                customer_id,
-                                'Loading wishlist...'
+                if (customerData) {
+                    const parsedData = JSON.parse(customerData);
+                    if (parsedData.state.status === 'authenticated') {
+                        console.log('Customer now authenticated');
+                        try {
+                            state?.updateAuthentication(true);
+                            const customer_id = parsedData.state.customer_id;
+                            if (customer_id) {
+                                console.log(
+                                    'Customer ID found:',
+                                    customer_id,
+                                    'Loading wishlist...'
+                                );
+                                state?.loadWishlist(customer_id);
+                            }
+                        } catch (parseError) {
+                            console.error(
+                                'Error parsing customer data:',
+                                parseError
                             );
-                            state?.loadWishlist(customer_id);
                         }
-                    } catch (parseError) {
-                        console.error(
-                            'Error parsing customer data:',
-                            parseError
+                    } else if (parsedData.state.status === 'unauthenticated') {
+                        try {
+                            state?.updateAuthentication(false);
+                        } catch (e) {
+                            console.log(`Couldn't unauthenticate, ${e}`);
+                        }
+                        console.log(`Customer is now unauthenticated`);
+                    } else {
+                        console.log(
+                            'No customer data found, possibly new session'
                         );
                     }
-                } else if (
-                    JSON.parse(customerData).state.status === 'unauthenticated'
-                ) {
-                    try {
-                        state?.updateAuthentication(false);
-                    } catch (e) {
-                        console.log(`Couldnt unauthenticate, ${e}`);
-                    }
-                    console.log(`Customer is now unauthenticated`);
                 } else {
-                    console.log('No customer data found, possibly new session');
+                    console.log('No customer data found in local storage.');
                 }
             },
         }

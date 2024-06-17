@@ -20,6 +20,10 @@ type Order = {
     details: OrderDetails;
     paid_total: number;
     currency_code: string;
+    unit_price: number;
+    thumbnail: string;
+    title: string;
+    description: string;
     region: {
         id: string;
         name: string;

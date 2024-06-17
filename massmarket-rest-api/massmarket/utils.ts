@@ -29,3 +29,7 @@ export function bufferToString(buffer: Uint8Array): `0x${string}` {
         : ''.padEnd(16, '0');
     return `0x${output}`;
 }
+
+export async function sleep(seconds: number) {
+    return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
+}
