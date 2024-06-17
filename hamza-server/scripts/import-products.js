@@ -45,7 +45,7 @@ const fs = require('fs');
 }]
 function readProductsFromCsv() {
     const file = './data/products.csv';
-    const fullText = fs.readFileSync(envPath, 'utf-8');
+    const fullText = fs.readFileSync(file, 'utf-8');
     const lines = fullText.split('\n');
     let ignored = false;
     const output = [];
@@ -63,18 +63,19 @@ function readProductsFromCsv() {
 
             //split into fields 
             const fields = line.split(',');
+            console.log(fields.length);
             if (fields.length == 10) {
                 output.push({
                     store_id: fields[0].trim(),
-                    title: fields[0].trim(),
-                    subtitle: fields[0].trim(),
-                    description: fields[0].trim(),
-                    handle: fields[0].trim(),
-                    is_giftcard: fields[0].trim(),
-                    thumbnail: fields[0].trim(),
-                    collection_id: fields[0].trim(),
-                    discountable: fields[0].trim(),
-                    status: fields[0].trim(),
+                    title: fields[1].trim(),
+                    subtitle: fields[2].trim(),
+                    description: fields[3].trim(),
+                    handle: fields[4].trim(),
+                    is_giftcard: fields[5].trim(),
+                    thumbnail: fields[6].trim(),
+                    collection_id: fields[7].trim(),
+                    discountable: fields[8].trim(),
+                    status: fields[9].trim(),
                 })
             }
         }
