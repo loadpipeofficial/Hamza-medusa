@@ -5,6 +5,7 @@ import {
     OrderStatus,
     PaymentStatus,
     Logger,
+    ProductVariant,
 } from '@medusajs/medusa';
 import OrderRepository from '@medusajs/medusa/dist/repositories/order';
 import PaymentRepository from '@medusajs/medusa/dist/repositories/payment';
@@ -50,7 +51,7 @@ export default class OrderService extends MedusaOrderService {
             order.discount_total = 0; //TODO: get proper discount
             order.store_id = storeId;
             order.email = cart.email;
-            order.payment_status = PaymentStatus.AWAITING;
+            order.payment_status = PaymentStatus.NOT_PAID;
             order.shipping_address_id = cart.shipping_address_id;
             order.paid_total = payment.amount;
             order.region_id = cart.region_id;
@@ -143,33 +144,18 @@ export default class OrderService extends MedusaOrderService {
     }
 
     async finalizeCheckout(
-        cartProducts: string,
-        cart_id: string,
-        transaction_id: string,
-        payer_address,
-        escrow_contract_address
+        cartProductsJson: string, //TODO: what in the actual fuck is this
+        cartId: string,
+        transactionId: string,
+        payerAddress,
+        escrowContractAddress
     ): Promise<Order[]> {
-        //get orders
+        this.logger.debug(`Cart Products ${cartProductsJson}`);
+
+        //get orders & order ids
         const orders: Order[] = await this.orderRepository_.find({
-            where: { cart_id, status: OrderStatus.PENDING },
+            where: { cart_id: cartId, status: OrderStatus.PENDING },
         });
-
-        this.logger.debug(`Cart Products ${cartProducts}`);
-
-        const cartObject = JSON.parse(cartProducts);
-
-        const inventoryPromises = cartObject.map((item) => {
-            return this.updateInventory(
-                item.variant_id,
-                item.reduction_quantity
-            );
-        });
-
-        await Promise.all(inventoryPromises);
-
-        // this.logger.debug(`Output products ${output}`);
-
-        //get payments
         const orderIds = orders.map((order) => order.id);
 
         //get payments associated with orders
@@ -177,23 +163,28 @@ export default class OrderService extends MedusaOrderService {
             where: { order_id: In(orderIds) },
         });
 
-        const promises: Promise<Order | Payment>[] = [];
+        //calls to update inventory
+        const inventoryPromises =
+            this.getPostCheckoutUpdateInventoryPromises(cartProductsJson);
 
-        //update payments with transaction info
-        payments.forEach((p, i) => {
-            promises.push(
-                this.updatePaymentAfterTransaction(p.id, {
-                    transaction_id,
-                    payer_address,
-                    escrow_contract_address,
-                })
-            );
-        });
+        //calls to update payments
+        const paymentPromises = this.getPostCheckoutUpdatePaymentPromises(
+            payments,
+            transactionId,
+            payerAddress,
+            escrowContractAddress
+        );
 
-        const allPromises = [...inventoryPromises, ...promises];
+        //calls to update orders
+        const orderPromises = this.getPostCheckoutUpdateOrderPromises(orders);
 
+        //execute all promises
         try {
-            await Promise.all(allPromises);
+            await Promise.all([
+                ...inventoryPromises,
+                ...paymentPromises,
+                ...orderPromises,
+            ]);
         } catch (e) {
             this.logger.error(`Error updating orders/payments: ${e}`);
         }
@@ -224,5 +215,50 @@ export default class OrderService extends MedusaOrderService {
             { status: OrderStatus.PENDING, cart: { id: cart_id } },
             { status: OrderStatus.ARCHIVED }
         );
+    }
+
+    private getPostCheckoutUpdateInventoryPromises(
+        cartProductsJson: string
+    ): Promise<ProductVariant>[] {
+        const cartObject = JSON.parse(cartProductsJson);
+        return cartObject.map((item) => {
+            return this.updateInventory(
+                item.variant_id,
+                item.reduction_quantity
+            );
+        });
+    }
+
+    private getPostCheckoutUpdatePaymentPromises(
+        payments: Payment[],
+        transactionId: string,
+        payerAddress: string,
+        escrowContractAddress: string
+    ): Promise<Order | Payment>[] {
+        const promises: Promise<Order | Payment>[] = [];
+
+        //update payments with transaction info
+        payments.forEach((p, i) => {
+            promises.push(
+                this.updatePaymentAfterTransaction(p.id, {
+                    transaction_id: transactionId,
+                    payer_address: payerAddress,
+                    escrow_contract_address: escrowContractAddress,
+                })
+            );
+        });
+
+        return promises;
+    }
+
+    private getPostCheckoutUpdateOrderPromises(
+        orders: Order[]
+    ): Promise<Order>[] {
+        return orders.map((o) => {
+            return this.orderRepository_.save({
+                id: o.id,
+                payment_status: PaymentStatus.AWAITING,
+            });
+        });
     }
 }

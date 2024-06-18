@@ -1,43 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { Text, Flex, Divider, Button } from '@chakra-ui/react';
+import { Text, Flex } from '@chakra-ui/react';
 import ReviewStar from '../../../../public/images/products/review-star.svg';
+import useStorePage from '@store/store-page/store-page';
+import useSideFilter from '@store/store-page/side-filter';
 
-const ReviewButton = (props: any) => {
-    const [rating, setRating] = useState('1 Star');
-    const [ratingAlt, setRatingAlt] = useState('1 Star');
+// Define the props type with TypeScript
+interface ReviewButtonProps {
+    title: string;
+}
 
-    useEffect(() => {
-        switch (props.rating) {
-            case '1':
-                setRating('1 Star');
-                setRatingAlt('1 Star');
-                break;
-            case '2':
-                setRating('2 Stars');
-                setRatingAlt('2 Stars');
-                break;
-            case '3':
-                setRating('3 Stars');
-                setRatingAlt('3 Stars');
-                break;
-            case '4':
-                setRating('4 Stars');
-                setRatingAlt('4 Stars');
-                break;
-            case '5':
-                setRating('5 Star');
-                setRatingAlt('5 Stars');
-                break;
-            default:
-                setRating('1 Star');
-                setRatingAlt('1 Star');
-        }
-    }, [props.rating]);
+const ReviewButton: React.FC<ReviewButtonProps> = ({ title }) => {
+    const { reviewFilterSelect, setReviewFilterSelect } = useSideFilter();
+
     return (
         <Flex>
             <Flex
-                onClick={() => {}}
+                onClick={() => setReviewFilterSelect(title)}
+                backgroundColor={
+                    reviewFilterSelect === title ? 'white' : 'transparent'
+                }
                 borderColor={'secondary.davy.900'}
                 display={'flex'}
                 flexDirection={'row'}
@@ -45,13 +27,14 @@ const ReviewButton = (props: any) => {
                 borderWidth={'1px'}
                 borderRadius={'49px'}
                 style={{ padding: '10px 24px', cursor: 'pointer' }}
+                color={reviewFilterSelect === title ? 'black' : 'white'}
                 _hover={{
                     background: 'white',
-                    color: 'secondary.onyx.900',
+                    color: 'black',
                 }}
             >
-                <Image src={ReviewStar} alt={ratingAlt} />
-                <Text ml="10px">{rating}</Text>
+                <Image src={ReviewStar} alt={title} />
+                <Text ml="10px">{title}</Text>
             </Flex>
         </Flex>
     );

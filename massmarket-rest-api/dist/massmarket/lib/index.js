@@ -44,61 +44,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RelayClient = exports.ManifestField = void 0;
 const isows_1 = require("isows");
 const viem_1 = require("viem");
-const accounts_1 = require("viem/accounts");
 const chains_1 = require("viem/chains");
 const events_1 = require("events");
 const compiled_1 = require("./protobuf/compiled");
 var mmproto = compiled_1.market.mass;
 const constants_1 = require("./protobuf/constants");
+const blockchainClient_1 = require("./blockchainClient");
+const utils_1 = require("./utils");
 const abi = __importStar(require("../abi/index"));
 exports.ManifestField = mmproto.UpdateManifest.ManifestField;
 const UpdateItemField = mmproto.UpdateItem.ItemField;
-function randomBytes(n) {
-    const b = new Uint8Array(n);
-    crypto.getRandomValues(b);
-    return b;
-}
-function convertFirstCharToLowerCase(str) {
-    return str.charAt(0).toLowerCase() + str.slice(1);
-}
-function snakeToCamel(str) {
-    return str.replace(/_([a-z])/g, (match, letter) => `${letter.toUpperCase()}`);
-}
-function camelToSnake(str) {
-    return str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
-}
-function formatArray(array) {
-    if (typeof array[0] === 'number') {
-        return array.map((num) => BigInt(num));
-    }
-    else {
-        return array.map((m) => (0, viem_1.bytesToHex)(m));
-    }
-}
-// TODO: there are a lot of assumptions backed in here that should be commented
-function formatMessageForSigning(obj) {
-    const snakeCase = {};
-    for (const [key, value] of Object.entries(obj)) {
-        // TODO: Refactor this. Nested ternary operators are hard to read and a nightmare to change.
-        snakeCase[camelToSnake(key)] = Array.isArray(value)
-            ? formatArray(value)
-            : typeof value === 'string'
-                ? value
-                : typeof value === 'number'
-                    ? BigInt(value)
-                    : (0, viem_1.bytesToHex)(value);
-    }
-    return snakeCase;
-}
 class RelayClient extends events_1.EventEmitter {
-    constructor({ relayEndpoint, keyCardWallet, chain = chains_1.hardhat, storeId, keyCardEnrolled, }) {
+    constructor({ relayEndpoint, keyCardWallet, chain = chains_1.hardhat, keyCardEnrolled, storeId, }) {
         super();
         _RelayClient_instances.add(this);
+        this.blockchain = new blockchainClient_1.BlockchainClient(storeId);
         this.keyCardWallet = keyCardWallet;
         this.endpoint = relayEndpoint;
         this.useTLS = relayEndpoint.startsWith('wss');
         this.chain = chain;
-        this.storeId = storeId;
         this.DOMAIN_SEPARATOR = {
             name: 'MassMarket',
             version: '1',
@@ -110,7 +74,7 @@ class RelayClient extends events_1.EventEmitter {
     }
     encodeAndSend(encoder, object = {}) {
         if (!object.requestId) {
-            object.requestId = RelayClient.requestId();
+            object.requestId = (0, utils_1.requestId)();
         }
         const id = object.requestId;
         const payload = encoder.encode(object).finish();
@@ -241,14 +205,12 @@ class RelayClient extends events_1.EventEmitter {
     enrollKeycard(wallet) {
         return __awaiter(this, void 0, void 0, function* () {
             const publicKey = (0, viem_1.toBytes)(this.keyCardWallet.publicKey).slice(1);
-            console.log('1');
             const types = {
                 Enrollment: [{ name: 'keyCard', type: 'string' }],
             };
             const message = {
                 keyCard: Buffer.from(publicKey).toString('hex'),
             };
-            console.log('2');
             // formatMessageForSigning(message); will turn keyCard into key_card
             // const sig = await this.#signTypedDataMessage(types, message);
             const signature = yield wallet.signTypedData({
@@ -257,14 +219,11 @@ class RelayClient extends events_1.EventEmitter {
                 primaryType: 'Enrollment',
                 message,
             });
-            console.log('3');
             const body = JSON.stringify({
                 key_card: Buffer.from(publicKey).toString('base64'),
-                signature: RelayClient.hexToBase64(signature),
-                store_token_id: RelayClient.hexToBase64(this.storeId),
+                signature: (0, utils_1.hexToBase64)(signature),
+                store_token_id: (0, utils_1.hexToBase64)(this.blockchain.storeId),
             });
-            console.log('4');
-            console.log('enroll url:', this.endpoint);
             const endpointURL = new URL(this.endpoint);
             endpointURL.protocol = this.useTLS ? 'https' : 'http';
             endpointURL.pathname += '/enroll_key_card';
@@ -273,60 +232,10 @@ class RelayClient extends events_1.EventEmitter {
                 method: 'POST',
                 body,
             });
-            console.log(response);
             if (response.ok) {
                 this.keyCardEnrolled = true;
             }
             return response;
-        });
-    }
-    createStore() {
-        return __awaiter(this, arguments, void 0, function* (id = (0, viem_1.bytesToHex)(RelayClient.eventId()), wallet) {
-            const r = yield wallet.writeContract({
-                address: abi.addresses.StoreReg,
-                abi: abi.StoreReg,
-                functionName: 'mint',
-                args: [BigInt(id), wallet.account.address],
-            });
-            this.storeId = id;
-            return r;
-        });
-    }
-    createInviteSecret(wallet) {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (!this.storeId)
-                throw new Error('A store ID is needed before creating an invite');
-            const privateKey = (0, viem_1.bytesToHex)(randomBytes(32));
-            const token = (0, accounts_1.privateKeyToAccount)(privateKey);
-            // Save the public key onchain
-            yield wallet.writeContract({
-                address: abi.addresses.StoreReg,
-                abi: abi.StoreReg,
-                functionName: 'publishInviteVerifier',
-                args: [BigInt(this.storeId), token.address],
-            });
-            return privateKey;
-        });
-    }
-    redeemInviteSecret(secret, wallet) {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (!this.storeId)
-                throw new Error('A store ID is need before creating an invite');
-            const message = 'enrolling:' + wallet.account.address.toLowerCase();
-            const tokenAccount = (0, accounts_1.privateKeyToAccount)(secret);
-            const sig = yield tokenAccount.signMessage({
-                message,
-            });
-            const sigBytes = (0, viem_1.hexToBytes)(sig);
-            const v = sigBytes[64];
-            const r = (0, viem_1.bytesToHex)(sigBytes.slice(0, 32));
-            const s = (0, viem_1.bytesToHex)(sigBytes.slice(32, 64));
-            return wallet.writeContract({
-                address: abi.addresses.StoreReg,
-                abi: abi.StoreReg,
-                functionName: 'redeemInvite',
-                args: [BigInt(this.storeId), v, r, s, wallet.account.address],
-            });
         });
     }
     uploadBlob(blob) {
@@ -343,13 +252,13 @@ class RelayClient extends events_1.EventEmitter {
     writeStoreManifest() {
         return __awaiter(this, arguments, void 0, function* (publishedTagId = null) {
             yield this.connect();
-            let pId = RelayClient.eventId();
+            let pId = (0, utils_1.eventId)();
             if (publishedTagId) {
                 pId = (0, viem_1.hexToBytes)(publishedTagId);
             }
             const storeManifest = {
-                eventId: RelayClient.eventId(),
-                storeTokenId: (0, viem_1.hexToBytes)(this.storeId),
+                eventId: (0, utils_1.eventId)(),
+                storeTokenId: (0, viem_1.hexToBytes)(this.blockchain.storeId),
                 domain: 'socks.mass.market',
                 publishedTagId: pId,
             };
@@ -382,7 +291,7 @@ class RelayClient extends events_1.EventEmitter {
             const jsonString = JSON.stringify(metadata);
             const encoder = new TextEncoder();
             const utf8Encoded = encoder.encode(jsonString);
-            const iid = RelayClient.eventId();
+            const iid = (0, utils_1.eventId)();
             const item = {
                 eventId: iid,
                 price: price,
@@ -435,7 +344,7 @@ class RelayClient extends events_1.EventEmitter {
                 }
             };
             const update = {
-                eventId: RelayClient.eventId(),
+                eventId: (0, utils_1.eventId)(),
                 itemId: (0, viem_1.hexToBytes)(itemId),
                 field: field,
                 [fieldType]: getValue(),
@@ -496,9 +405,9 @@ class RelayClient extends events_1.EventEmitter {
             ]);
             const fieldType = (_a = fieldMap.get(field)) === null || _a === void 0 ? void 0 : _a.name;
             const manifest = {
-                eventId: RelayClient.eventId(),
+                eventId: (0, utils_1.eventId)(),
                 field: field,
-                [snakeToCamel(fieldType)]: field === exports.ManifestField.MANIFEST_FIELD_DOMAIN
+                [(0, utils_1.snakeToCamel)(fieldType)]: field === exports.ManifestField.MANIFEST_FIELD_DOMAIN
                     ? value
                     : (0, viem_1.hexToBytes)(value),
             };
@@ -521,7 +430,7 @@ class RelayClient extends events_1.EventEmitter {
     createTag(name) {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.connect();
-            const tagId = RelayClient.eventId();
+            const tagId = (0, utils_1.eventId)();
             const tag = {
                 eventId: tagId,
                 name: name,
@@ -546,7 +455,7 @@ class RelayClient extends events_1.EventEmitter {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.connect();
             const tag = {
-                eventId: RelayClient.eventId(),
+                eventId: (0, utils_1.eventId)(),
                 tagId: (0, viem_1.hexToBytes)(tagId),
                 itemId: (0, viem_1.hexToBytes)(itemId),
             };
@@ -573,7 +482,7 @@ class RelayClient extends events_1.EventEmitter {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.connect();
             const tag = {
-                eventId: RelayClient.eventId(),
+                eventId: (0, utils_1.eventId)(),
                 tagId: (0, viem_1.hexToBytes)(tagId),
                 itemId: (0, viem_1.hexToBytes)(itemId),
             };
@@ -600,7 +509,7 @@ class RelayClient extends events_1.EventEmitter {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.connect();
             const cart = {
-                eventId: RelayClient.eventId(),
+                eventId: (0, utils_1.eventId)(),
                 cartId: (0, viem_1.hexToBytes)(cartId),
             };
             const types = {
@@ -618,7 +527,7 @@ class RelayClient extends events_1.EventEmitter {
     createCart() {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.connect();
-            const reqId = RelayClient.eventId();
+            const reqId = (0, utils_1.eventId)();
             const cart = {
                 eventId: reqId,
             };
@@ -638,7 +547,7 @@ class RelayClient extends events_1.EventEmitter {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.connect();
             const cart = {
-                eventId: RelayClient.eventId(),
+                eventId: (0, utils_1.eventId)(),
                 cartId: (0, viem_1.hexToBytes)(cartId),
                 itemId: (0, viem_1.hexToBytes)(itemId),
                 quantity,
@@ -695,7 +604,7 @@ class RelayClient extends events_1.EventEmitter {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.connect();
             const stock = {
-                eventId: RelayClient.eventId(),
+                eventId: (0, utils_1.eventId)(),
                 itemIds: itemIds.map((d) => (0, viem_1.hexToBytes)(d)),
                 diffs: diffs,
             };
@@ -717,22 +626,6 @@ class RelayClient extends events_1.EventEmitter {
             };
             return __classPrivateFieldGet(this, _RelayClient_instances, "m", _RelayClient_signAndSendEvent).call(this, types, stock);
         });
-    }
-    getRandomStoreId() {
-        return (0, viem_1.bytesToHex)(randomBytes(32));
-    }
-    static generatePk() {
-        return (0, viem_1.bytesToHex)(randomBytes(32));
-    }
-    static hexToBase64(hex) {
-        const u8 = new Uint8Array((0, viem_1.toBytes)(hex));
-        return Buffer.from(u8).toString('base64');
-    }
-    static requestId() {
-        return randomBytes(16);
-    }
-    static eventId() {
-        return randomBytes(32);
     }
 }
 exports.RelayClient = RelayClient;
@@ -759,7 +652,6 @@ _RelayClient_instances = new WeakSet(), _RelayClient_handlePingRequest = functio
         const payload = data.slice(1);
         const message = pbMessage.decode(payload);
         console.log(`[recv] reqId=${(0, viem_1.bytesToHex)(message.requestId)} typeCode=${prefix}`);
-        console.log(message);
         switch (pbMessage) {
             case mmproto.PingRequest:
                 __classPrivateFieldGet(this, _RelayClient_instances, "m", _RelayClient_handlePingRequest).call(this, message);
@@ -777,12 +669,12 @@ _RelayClient_instances = new WeakSet(), _RelayClient_handlePingRequest = functio
         types,
         primaryType: Object.keys(types)[0],
         domain: this.DOMAIN_SEPARATOR,
-        message: formatMessageForSigning(message),
+        message: (0, utils_1.formatMessageForSigning)(message),
     });
 }, _RelayClient_signAndSendEvent = function _RelayClient_signAndSendEvent(types, message) {
     return __awaiter(this, void 0, void 0, function* () {
         const sig = yield __classPrivateFieldGet(this, _RelayClient_instances, "m", _RelayClient_signTypedDataMessage).call(this, types, message);
-        let key = convertFirstCharToLowerCase(Object.keys(types)[0]);
+        let key = (0, utils_1.convertFirstCharToLowerCase)(Object.keys(types)[0]);
         const eventRequest = {
             event: {
                 signature: (0, viem_1.hexToBytes)(sig),

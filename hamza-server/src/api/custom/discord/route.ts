@@ -1,4 +1,8 @@
-import { MedusaRequest, MedusaResponse } from '@medusajs/medusa';
+import {
+    EventBusService,
+    MedusaRequest,
+    MedusaResponse,
+} from '@medusajs/medusa';
 import jwt from 'jsonwebtoken';
 import axios from 'axios';
 import CustomerRepository from '../../../repositories/customer';
@@ -6,6 +10,7 @@ import CustomerRepository from '../../../repositories/customer';
 export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     try {
         let decoded: any = jwt.decode(req.cookies['_medusa_jwt']);
+        let eventBus_: EventBusService = req.scope.resolve('eventBusService');
 
         const tokenResponse = await axios.post(
             'https://discord.com/api/oauth2/token',
@@ -42,6 +47,12 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
                     is_verified: true,
                 }
             );
+            await eventBus_.emit([
+                {
+                    data: { email: userResponse.data.email },
+                    eventName: 'customer.verified',
+                },
+            ]);
             return res.redirect(`${process.env.STORE_URL}/account`);
         }
 

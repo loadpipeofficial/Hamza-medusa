@@ -60,24 +60,26 @@ export const SwitchNetwork = () => {
         useSwitchNetwork();
     const { isOpen, onOpen, onClose } = useDisclosure();
 
+    const voidFunction = () => { };
+
     const requiredChains = [11155111, 11155420]; // Sepolia and Optimism Sepolia
 
     useEffect(() => {
-        onOpen(); // Automatically open the modal on mount
+        onOpen();
     }, [onOpen]);
 
     useEffect(() => {
         if (chain && requiredChains.includes(chain.id)) {
-            onClose(); // Close the modal if the network is properly set
+            onClose();
         } else {
-            onOpen(); // Reopen the modal if the network is not set
+            onOpen();
         }
     }, [chain, onClose, onOpen, requiredChains]);
 
     if (!chain) return <div>Loading...</div>;
 
     return (
-        <Modal isOpen={isOpen} onClose={() => {}}>
+        <Modal isOpen={isOpen} onClose={() => { }}>
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader>Switch Network</ModalHeader>
@@ -85,13 +87,13 @@ export const SwitchNetwork = () => {
                     <p>The currently selected chain is not supported!</p>
                     <Button
                         disabled={!switchNetwork || isLoading}
-                        onClick={() => switchNetwork(11155111)}
+                        onClick={() => switchNetwork ? switchNetwork(11155111) : voidFunction()}
                     >
                         Switch to Sepolia testnet
                     </Button>
                     <Button
                         disabled={!switchNetwork || isLoading}
-                        onClick={() => switchNetwork(11155420)}
+                        onClick={() => switchNetwork ? switchNetwork(11155420) : voidFunction()}
                     >
                         Switch to Optimism Sepolia testnet
                     </Button>

@@ -105,20 +105,23 @@ const AccountNav = ({
                                         </>
                                     </LocalizedClientLink>
                                 </li>
-                                <li>
-                                    <LocalizedClientLink
-                                        href="/account/addresses"
-                                        className="flex items-center justify-between py-4 border-b border-gray-200 px-8"
-                                    >
-                                        <>
-                                            <div className="flex items-center gap-x-2">
-                                                <MapPin size={20} />
-                                                <span>Addresses</span>
-                                            </div>
-                                            <ChevronDown className="transform -rotate-90" />
-                                        </>
-                                    </LocalizedClientLink>
-                                </li>
+
+                                {is_verified && (
+                                    <li>
+                                        <LocalizedClientLink
+                                            href="/account/addresses"
+                                            className="flex items-center justify-between py-4 border-b border-gray-200 px-8"
+                                        >
+                                            <>
+                                                <div className="flex items-center gap-x-2">
+                                                    <MapPin size={20} />
+                                                    <span>Addresses</span>
+                                                </div>
+                                                <ChevronDown className="transform -rotate-90" />
+                                            </>
+                                        </LocalizedClientLink>
+                                    </li>
+                                )}
                                 <li>
                                     <LocalizedClientLink
                                         href="/account/orders"
@@ -131,18 +134,21 @@ const AccountNav = ({
                                         <ChevronDown className="transform -rotate-90" />
                                     </LocalizedClientLink>
                                 </li>
-                                <li>
-                                    <LocalizedClientLink
-                                        href="/account/notifications"
-                                        className="flex items-center justify-between py-4 border-b border-gray-200 px-8"
-                                    >
-                                        <div className="flex items-center gap-x-2">
-                                            <Package size={20} />
-                                            <span>Notifications</span>
-                                        </div>
-                                        <ChevronDown className="transform -rotate-90" />
-                                    </LocalizedClientLink>
-                                </li>
+
+                                {is_verified && (
+                                    <li>
+                                        <LocalizedClientLink
+                                            href="/account/notifications"
+                                            className="flex items-center justify-between py-4 border-b border-gray-200 px-8"
+                                        >
+                                            <div className="flex items-center gap-x-2">
+                                                <Package size={20} />
+                                                <span>Notifications</span>
+                                            </div>
+                                            <ChevronDown className="transform -rotate-90" />
+                                        </LocalizedClientLink>
+                                    </li>
+                                )}
                                 <li>
                                     <button
                                         type="button"
@@ -206,14 +212,17 @@ const AccountNav = ({
                                     Orders
                                 </AccountNavLink>
                             </li>
-                            <li>
-                                <AccountNavLink
-                                    href="/account/notifications"
-                                    route={route!}
-                                >
-                                    Notifications
-                                </AccountNavLink>
-                            </li>
+                            {is_verified && (
+                                <li>
+                                    <AccountNavLink
+                                        href="/account/notifications"
+                                        route={route!}
+                                    >
+                                        Notifications
+                                    </AccountNavLink>
+                                </li>
+                            )}
+
                             <li className="text-grey-700">
                                 <button type="button" onClick={handleLogout}>
                                     Log out
