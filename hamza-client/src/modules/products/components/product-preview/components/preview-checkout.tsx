@@ -1,18 +1,19 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import {
-    Text,
-    Card,
-    Button,
-    Flex,
-    Select,
-    Box,
-    Heading,
-} from '@chakra-ui/react';
+import { Text, Card, Button, Flex, Box, Heading } from '@chakra-ui/react';
 import useProductPreview from '@store/product-preview/product-preview';
+import Image from 'next/image';
+import currencyIcons from '../../../../../../public/images/currencies/crypto-currencies';
+import CurrencyButtonPreview from './currency-buttons';
 
 const PreviewCheckout = () => {
+    const currencies = {
+        ETH: 'ETH',
+        USDT: 'USDT',
+        USDC: 'USDC',
+    };
+
     const [sizes, setSizes] = useState<string[]>([]);
     const [colors, setColors] = useState<string[]>([]);
     const [selectedColor, setSelectedColor] = useState('');
@@ -63,6 +64,14 @@ const PreviewCheckout = () => {
             <Heading as="h4" fontSize="16px" color="white">
                 Also available in other currencies
             </Heading>
+            <Flex mt="5px" gap="16px">
+                {Object.keys(currencies).map((key) => (
+                    <CurrencyButtonPreview
+                        key={key}
+                        currencyName={currencies[key]}
+                    />
+                ))}
+            </Flex>
             <Flex width={'100%'} flexDirection={'column'} mt="auto">
                 <Flex flexDirection="column" mt="2rem">
                     <Heading as="h3" fontSize={'18px'} color="white">
