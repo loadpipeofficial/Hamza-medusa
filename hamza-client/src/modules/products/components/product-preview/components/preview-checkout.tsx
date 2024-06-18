@@ -1,12 +1,13 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Text, Card, Button, Flex, Select } from '@chakra-ui/react';
+import { Text, Card, Button, Flex, Select, Box } from '@chakra-ui/react';
 import useProductPreview from '@store/product-preview/product-preview';
 
 const PreviewCheckout = () => {
     const [sizes, setSizes] = useState<string[]>([]);
     const [colors, setColors] = useState<string[]>([]);
+    const [selectedColor, setSelectedColor] = useState('');
 
     const { productData } = useProductPreview();
 
@@ -27,6 +28,10 @@ const PreviewCheckout = () => {
         }
     }, [productData]);
 
+    const handleColorSelect = (color) => {
+        setSelectedColor(color);
+    };
+
     return (
         <Card
             padding="2rem"
@@ -37,7 +42,7 @@ const PreviewCheckout = () => {
             backgroundColor={'#121212'}
         >
             <Text color="primary.green.900">Listing Price</Text>
-            <Text color="primary.green.900">Listing Price</Text>
+
             <Flex flexDirection="column" my="2rem">
                 <Text color="white">Size:</Text>
                 <Select placeholder="Select size">
@@ -54,18 +59,44 @@ const PreviewCheckout = () => {
             </Flex>
 
             <Flex flexDirection="column" my="2rem">
-                <Text color="white">Color:</Text>
-                <Select placeholder="Select color">
+                <Text color="white">Color :</Text>
+
+                <Flex mt="1rem" gap="14px">
                     {colors.length > 0 ? (
-                        colors.map((color) => (
-                            <option key={color} value={color}>
-                                {color}
-                            </option>
+                        colors.map((color, index) => (
+                            <Flex
+                                key={index}
+                                p="2px" // Padding creates the space for the ring
+                                borderRadius="full"
+                                borderWidth={'2px'}
+                                width="44px"
+                                height="44px"
+                                borderColor={
+                                    color === selectedColor
+                                        ? 'white'
+                                        : 'transparent'
+                                }
+                                backgroundColor={'transparent'} // Change the background color to show selection
+                                cursor="pointer"
+                                justifyContent={'center'}
+                                onClick={() => handleColorSelect(color)}
+                            >
+                                <Box
+                                    alignSelf={'center'}
+                                    width="36px"
+                                    height="36px"
+                                    borderRadius="full"
+                                    backgroundColor={color}
+                                    display="flex"
+                                    alignItems="center"
+                                    justifyContent="center"
+                                />
+                            </Flex>
                         ))
                     ) : (
                         <option>No colors available</option>
                     )}
-                </Select>
+                </Flex>
             </Flex>
             <Flex width={'100%'} flexDirection={'column'} mt="auto">
                 <Button
