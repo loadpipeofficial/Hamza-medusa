@@ -47,8 +47,12 @@ async function sendVerifyRequest(message: any, signature: any) {
 }
 
 export function RainbowWrapper({ children }: { children: React.ReactNode }) {
-    const { authData, setCustomerAuthData, setCustomerPreferredCurrency } =
-        useCustomerAuthStore();
+    const {
+        authData,
+        setCustomerAuthData,
+        setCustomerPreferredCurrency,
+        setWhitelistConfig,
+    } = useCustomerAuthStore();
     const router = useRouter();
     const [customer_id, setCustomerId] = useState('');
     const { loadWishlist } = useWishlistStore((state) => state);
@@ -148,6 +152,9 @@ export function RainbowWrapper({ children }: { children: React.ReactNode }) {
                     setCustomerPreferredCurrency(
                         data.data.preferred_currency.code
                     );
+
+                    setWhitelistConfig(data.data.whitelist_config);
+
                     return true;
                 } else {
                     console.log('running verify unauthenticated');

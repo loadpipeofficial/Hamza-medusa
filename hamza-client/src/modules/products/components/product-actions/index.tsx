@@ -19,6 +19,7 @@ import WishlistIcon from '@/components/wishlist-dropdown/icon/wishlist-icon';
 import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
 import Medusa from '@medusajs/medusa-js';
 import useWishlistStore from '@store/wishlist/wishlist-store';
+import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 
 type ProductActionsProps = {
     product: PricedProduct;
@@ -45,6 +46,8 @@ export default function ProductActions({
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const countryCode = useParams().countryCode as string;
+    const { whitelist_config, authData } = useCustomerAuthStore();
+    const [isWhitelisted, setIsWhitelisted] = useState(false);
 
     const variants = product.variants;
     const variant_id = variants[0].id;
@@ -176,6 +179,35 @@ export default function ProductActions({
         addWishlistItemMutation.mutate(product);
     };
 
+    const whitelistedProductHandler = async () => {
+        let res = await axios.get(
+            `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/custom/product/get-store?product_id=${product.id}`
+        );
+        let data = res.data;
+        console.log(data);
+
+        if (data.status == true) {
+            const whitelistedProduct =
+                whitelist_config.is_whitelisted &&
+                whitelist_config.whitelisted_stores.includes(data.data)
+                    ? true
+                    : false;
+
+            setIsWhitelisted(whitelistedProduct);
+            console.log('white listed product ', whitelistedProduct);
+        }
+        return;
+    };
+
+    useEffect(() => {
+        if (
+            authData.status == 'authenticated' &&
+            product.variants[0].allow_backorder
+        ) {
+            whitelistedProductHandler();
+        }
+    }, [authData.status]);
+
     return (
         <>
             <div
@@ -215,19 +247,27 @@ export default function ProductActions({
                         ? 'Loading...'
                         : `Inventory Count: ${inventoryCount !== null ? inventoryCount : '0'}`}
                 </Button>
+
                 <Button
                     onClick={handleAddToCart}
-                    disabled={!inStock || !variant}
+                    disabled={(!inStock || !variant) && !isWhitelisted}
                     variant="primary"
                     className="w-full h-10 text-white"
                     isLoading={isAdding}
                 >
                     {!variant
                         ? 'Select variant'
-                        : !inStock
-                          ? 'Out of stock'
-                          : 'Add to cart'}
+                        : !inStock && isWhitelisted
+                          ? 'Add to cart'
+                          : inStock
+                            ? 'Add to Cart'
+                            : 'Out of Stock'}
                 </Button>
+                {!inStock && isWhitelisted && (
+                    <span className="text-xs">
+                        You can add it as you are whitelisted customer
+                    </span>
+                )}
                 {/* TODO: wishlist-dropdown add ternary for fill IF item already in wishlist-dropdown maybe we can have a variant ternary for 'Remove from Wishlist' || 'Add to Wishlist'    */}
                 {isCustomerAuthenticated && (
                     <Button
@@ -251,6 +291,7 @@ export default function ProductActions({
                         handleBuyNow={handleBuyNow}
                         loader={buyNowLoader}
                         outOfStock={!inStock || !variant}
+                        isWhitelisted={isWhitelisted}
                     />
                 </LocalizedClientLink>
                 <MobileActions

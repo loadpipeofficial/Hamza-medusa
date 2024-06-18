@@ -48,7 +48,9 @@ export const findCheapestCurrencyPrice = (
             return acc;
         }
 
-        const price = v.prices.find((p: any) => p.currency_code === currencyCode);
+        const price = v.prices.find(
+            (p: any) => p.currency_code === currencyCode
+        );
         if (price) {
             acc.push(price);
         }
@@ -119,7 +121,7 @@ export const formatVariantPrice = ({
         variant,
         region,
         includeTaxes,
-        currency_code
+        currency_code,
     });
 
     return convertToLocale({
@@ -228,7 +230,7 @@ export const formatAmount = ({
         includeTaxes,
     });
 
-    return `${amount.toFixed(2)} ${currency_code.toUpperCase()}`
+    return `${amount} ${currency_code.toUpperCase()}`;
     return convertToLocale({
         amount: taxAwareAmount,
         currency_code,
@@ -289,8 +291,8 @@ const convertToLocale = ({
         amount: amount,
         currency_code: currency_code.toUpperCase(),
         minimumFractionDigits,
-        maximumFractionDigits
-    }
+        maximumFractionDigits,
+    };
 };
 
 type ConvertToLocaleParams = {
