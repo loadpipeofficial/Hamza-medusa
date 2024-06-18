@@ -8,12 +8,11 @@ import { useQuery } from '@tanstack/react-query';
 import { formatCryptoPrice } from '@lib/util/get-product-price';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import { addToCart } from '@modules/cart/actions';
-import { ProductPreview } from '@modules/products/components/product-preview';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 
 type Props = {
     vendorName: string;
-    category: string;
+    category?: string;
 };
 
 const ProductCardGroup = ({ vendorName, category }: Props) => {
@@ -34,7 +33,8 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
         return null; // Suspense will handle the loading fallback.
     }
 
-    if (error) return <div>Error: {error?.message}</div>;
+    const err: any = error ? error : null;
+    if (err) return <div>Error: {err?.message}</div>;
 
     const products = data?.data;
 
@@ -57,17 +57,19 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
                         variantPrices[0].amount,
                         preferred_currency_code as string
                     );
+                    const variantID = product.variants[0].id;
                     return (
                         <ProductCard
                             key={index}
                             productHandle={products[index].handle}
-                            varientID={varientID}
+                            variantID={variantID}
                             countryCode={product.countryCode}
                             productName={product.title}
                             productPrice={productPricing}
                             imageSrc={product.thumbnail}
                             hasDiscount={product.is_giftcard}
                             discountValue={product.discountValue}
+                            productId={product.id}
                         />
                     );
                 })}

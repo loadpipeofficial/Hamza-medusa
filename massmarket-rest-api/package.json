@@ -52,6 +52,7 @@
         "@babel/runtime": "^7.24.7",
         "abitype": "^1.0.1",
         "cors": "^2.8.5",
+        "crypto": "^1.0.1",
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
         "isows": "^1.0.3",

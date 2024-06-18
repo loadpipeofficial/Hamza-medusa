@@ -148,7 +148,8 @@ const Shipping: React.FC<ShippingProps> = ({
                                                     amount: option.amount!,
                                                     region: cart?.region,
                                                     includeTaxes: false,
-                                                })}
+                                                    currency_code: '',
+                                                }).toString()}
                                             </span>
                                         </RadioGroup.Option>
                                     );
@@ -196,9 +197,8 @@ const Shipping: React.FC<ShippingProps> = ({
                                             : 0,
                                         region: cart.region,
                                         includeTaxes: false,
-                                    })
-                                        .replace(/,/g, '')
-                                        .replace(/\./g, ',')}
+                                        currency_code: '',
+                                    })}
                                     )
                                 </Text>
                             </div>
