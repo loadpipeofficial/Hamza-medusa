@@ -92,21 +92,27 @@ const ProductCardGroup = ({
                             .map((variant: any) => variant.prices)
                             .flat();
 
-                        const variantID = product.variants[0].id;
-                        return (
-                            <ProductCard
-                                key={index}
-                                productHandle={products[index].handle}
-                                variantID={variantID}
-                                countryCode={product.countryCode}
-                                productName={product.title}
-                                productPrice={variantPrices[0].amount}
-                                imageSrc={product.thumbnail}
-                                hasDiscount={product.is_giftcard}
-                                discountValue={product.discountValue}
-                            />
-                        );
-                    })}
+                          const productPricing = formatCryptoPrice(
+                              variantPrices[0].amount,
+                              preferred_currency_code as string
+                          );
+
+                          const varientID = product.variants[0].id;
+                          return (
+                              <ProductCard
+                                  key={index}
+                                  productHandle={products[index].handle}
+                                  varientID={varientID}
+                                  countryCode={product.countryCode}
+                                  productName={product.title}
+                                  productPrice={productPricing}
+                                  imageSrc={product.thumbnail}
+                                  hasDiscount={product.is_giftcard}
+                                  discountValue={product.discountValue}
+                              />
+                          );
+                      })}
+
             </SimpleGrid>
         </Container>
     );
