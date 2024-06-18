@@ -67,10 +67,10 @@ function readProductsFromCsv() {
             if (fields.length == 10) {
                 output.push({
                     store_id: fields[0].trim(),
-                    title: fields[1].trim(),
-                    subtitle: fields[2].trim(),
-                    description: fields[3].trim(),
-                    handle: fields[4].trim(),
+                    title: fields[1].trim().replace('&comma;', ','),
+                    subtitle: fields[2].trim().replace('&comma;', ','),
+                    description: fields[3].trim().replace('&comma;', ','),
+                    handle: fields[4].trim().replace('&comma;', ','),
                     is_giftcard: fields[5].trim(),
                     thumbnail: fields[6].trim(),
                     collection_id: fields[7].trim(),

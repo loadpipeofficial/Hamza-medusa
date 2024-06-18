@@ -8,10 +8,13 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
         const productService = req.scope.resolve('productService');
         const productRepository = req.scope.resolve('productRepository');
         const productCollectionRepository = req.scope.resolve('productCollectionRepository');
+        const storeRepository = req.scope.resolve('storeRepository');
 
         const { products } = readRequestBody(req.body, [
             'products',
         ]);
+
+        logger.debug(`got ${products.length} products: ${products}`)
 
         if (!products) {
             return res
@@ -21,6 +24,9 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
 
         const promises: Promise<Product>[] = [];
         for (let prod of products) {
+            prod.store_id = (await storeRepository.findOne({ where: { name: prod.store_id } })).id;
+            prod.collection_id = (await productCollectionRepository.findOne({ where: { title: prod.collection_id } })).id;
+
             promises.push(productService.create(prod));
         }
 
