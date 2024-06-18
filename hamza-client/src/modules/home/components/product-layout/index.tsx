@@ -37,6 +37,7 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
     if (err) return <div>Error: {err?.message}</div>;
 
     const products = data?.data;
+    console.log(`Products ${JSON.stringify(products)}`);
 
     //TODO: Make product card clickable to product preview
     return (
@@ -53,6 +54,12 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
                         .flat();
 
                     const varientID = product.variants[0].id;
+                    const reviewCounter = product.reviews.length;
+                    const totalRating = product.reviews.reduce(
+                        (acc: number, review: any) => acc + review.rating,
+                        0
+                    );
+                    const avgRating = totalRating / reviewCounter;
                     const productPricing = formatCryptoPrice(
                         variantPrices[0].amount,
                         preferred_currency_code as string
@@ -62,6 +69,8 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
                         <ProductCard
                             key={index}
                             productHandle={products[index].handle}
+                            reviewCount={reviewCounter}
+                            totalRating={avgRating}
                             variantID={variantID}
                             countryCode={product.countryCode}
                             productName={product.title}
