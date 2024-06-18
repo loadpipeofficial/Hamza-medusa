@@ -222,10 +222,10 @@ export default class OrderService extends MedusaOrderService {
 
     async getVendorFromOrder(orderId: string) {
         try {
-            const order = await this.orderRepository_.findOne({
+            const order = (await this.orderRepository_.findOne({
                 where: { id: orderId },
                 relations: ['store'],
-            });
+            })) as Order;
             const store_id = order.store_id;
             const storeRepo = this.manager_.withRepository(
                 this.storeRepository_
@@ -235,6 +235,7 @@ export default class OrderService extends MedusaOrderService {
         } catch (e) {
             this.logger.error(`Error fetching store from order: ${e}`);
         }
+    }
     private getPostCheckoutUpdateInventoryPromises(
         cartProductsJson: string
     ): Promise<ProductVariant>[] {
