@@ -6,6 +6,7 @@ import CustomerService from '../../../../src/services/customer';
 import { readRequestBody } from '../../../utils/request-body';
 import CustomerWalletAddressRepository from '../../../repositories/customer-wallet-address';
 import { Customer } from 'src/models/customer';
+import { WhiteListRepository } from '../../../repositories/whitelist';
 // Using Auth from SIWE example: https://github.com/spruceid/siwe-quickstart/blob/main/02_backend/src/index.js
 
 // TODO: So once the user has been verified, we can use the CustomerService.create() method to create/login the user.
@@ -74,6 +75,11 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
             }
         }
 
+        let whitelistStatus = await WhiteListRepository.find({
+            where: { wallet_address: customerInputData.wallet_address },
+        });
+        logger.debug('whitelist status is ' + whitelistStatus);
+
         let body = {
             customer_id:
                 checkCustomerWithWalletAddress &&
@@ -89,6 +95,10 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
                 checkCustomerWithWalletAddress &&
                 checkCustomerWithWalletAddress.customer &&
                 checkCustomerWithWalletAddress.customer.is_verified,
+            whitelist_config: {
+                is_whitelisted: whitelistStatus.length > 0 ? true : false,
+                whitelisted_stores: whitelistStatus.map((a) => a.store_id),
+            },
         };
         res.send({ status: true, data: body });
     } catch (e) {

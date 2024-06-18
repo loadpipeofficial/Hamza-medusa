@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardBody, Image, Text, Flex, Box } from '@chakra-ui/react';
 import { TiStarFullOutline } from 'react-icons/ti';
 import { FaBitcoin, FaEthereum } from 'react-icons/fa';
@@ -14,7 +14,7 @@ import { IoStar } from 'react-icons/io5';
 import { FaRegHeart, FaHeart } from 'react-icons/fa6';
 import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
-
+import axios from 'axios';
 interface ProductCardProps {
     variantID: string;
     countryCode: string;
@@ -26,6 +26,9 @@ interface ProductCardProps {
     hasDiscount: boolean;
     discountValue: string;
     productHandle: string;
+    allow_backorder: boolean;
+    inventory: number;
+    storeId: string;
 }
 
 const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
@@ -40,14 +43,21 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
     discountValue,
     productHandle,
     productId,
+    allow_backorder,
+    inventory,
+    storeId,
 }) => {
     const [loadingBuy, setLoadingBuy] = useState(false);
     const [loadingAddToCart, setLoadingAddToCard] = useState(false);
     const [selectWL, setSelectWL] = useState(false);
-    const { authData } = useCustomerAuthStore();
+    const { authData, whitelist_config, setWhitelistConfig } =
+        useCustomerAuthStore();
     const [selectHeart, setSelectedHeart] = useState('black');
     const { addWishlistItemMutation, removeWishlistItemMutation } =
         useWishlistMutations();
+
+    const [isWhitelisted, setIsWhitelisted] = useState(false);
+
     const toggleWishlist = async () => {
         // console.log('toggle wishlist-dropdown item', product);
         addWishlistItemMutation.mutate({ id: productId });
@@ -77,6 +87,23 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
         });
         setLoadingBuy(false);
     };
+
+    const whitelistedProductHandler = async () => {
+        const whitelistedProduct =
+            whitelist_config.is_whitelisted &&
+            whitelist_config.whitelisted_stores.includes(storeId)
+                ? true
+                : false;
+
+        setIsWhitelisted(whitelistedProduct);
+        return;
+    };
+
+    useEffect(() => {
+        if (authData.status == 'authenticated' && allow_backorder == true) {
+            whitelistedProductHandler();
+        }
+    }, [authData.status]);
 
     return (
         <Card
@@ -227,7 +254,7 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
                                 handleBuyNow={() => handleAddToCart()}
                                 loader={loadingAddToCart}
                                 styles={'w-full'}
-                                outOfStock={false}
+                                outOfStock={inventory == 0 && !isWhitelisted}
                                 title={'Add to Cart'}
                             />
                             <LocalizedClientLink href="/checkout?step=address">
@@ -235,7 +262,9 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
                                     handleBuyNow={() => handleBuyNow()}
                                     loader={loadingBuy}
                                     styles={'w-full'}
-                                    outOfStock={false}
+                                    outOfStock={
+                                        inventory == 0 && !isWhitelisted
+                                    }
                                     title="Buy Now"
                                 />
                             </LocalizedClientLink>

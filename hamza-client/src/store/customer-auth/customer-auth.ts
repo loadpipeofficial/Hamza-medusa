@@ -10,12 +10,17 @@ type State = {
         status: AuthenticationStatus;
         is_verified: boolean;
     };
+    whitelist_config: {
+        is_whitelisted: boolean;
+        whitelisted_stores: string[];
+    };
     preferred_currency_code: string | null;
 };
 
 type Actions = {
     setCustomerAuthData: (authData: State['authData']) => void;
     setCustomerPreferredCurrency: (currency: string) => void;
+    setWhitelistConfig: (configData: State['whitelist_config']) => void;
 };
 
 export const useCustomerAuthStore = create<State & Actions>()(
@@ -29,6 +34,10 @@ export const useCustomerAuthStore = create<State & Actions>()(
                 wallet_address: 'empty',
             },
             preferred_currency_code: null,
+            whitelist_config: {
+                is_whitelisted: false,
+                whitelisted_stores: [],
+            },
             setCustomerAuthData: (authData) => {
                 set({
                     authData: authData,
@@ -36,6 +45,12 @@ export const useCustomerAuthStore = create<State & Actions>()(
             },
             setCustomerPreferredCurrency: (currency) => {
                 set({ preferred_currency_code: currency });
+            },
+
+            setWhitelistConfig: (configData) => {
+                set({
+                    whitelist_config: configData,
+                });
             },
         }),
 
