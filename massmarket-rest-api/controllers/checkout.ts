@@ -5,6 +5,17 @@ import { RelayClientWrapper } from '../massmarket/client';
 import { bytesToHex, keccak256 } from 'viem';
 import { randomBytes } from 'crypto';
 
+function isZeroAddress(value: any): boolean {
+    if (!value) return true;
+
+    value = value.trim();
+    if (value.length < 1) return true;
+
+    if (value.replace('0', '') === 'x') return true;
+
+    return false;
+}
+
 export const checkoutController = {
     //checkout
     //creates cart, adds items to it, and commits it
@@ -19,6 +30,7 @@ export const checkoutController = {
 
                 //TODO: REMOVE (dummy checkout)
 
+                /*
                 const output: ICheckoutOutput = {
                     success: true,
                     contractAddress:
@@ -29,12 +41,15 @@ export const checkoutController = {
                     ttl: 0,
                     currency: '',
                 };
+                */
 
+                //validate input
                 if (!validateCheckoutInput(res, input)) {
                     console.log('validation failed');
                     return null;
                 }
-                /*
+
+                //create default output
                 const output: ICheckoutOutput = {
                     success: false,
                     contractAddress:
@@ -45,7 +60,6 @@ export const checkoutController = {
                     ttl: 0,
                     currency: '',
                 };
-
 
                 //get the client
                 const rc = await RelayClientWrapper.get(
@@ -60,7 +74,7 @@ export const checkoutController = {
                     console.log('CART ID: ', cartId);
 
                     //add products to cart
-                    for(const item of input.items) {
+                    for (const item of input.items) {
                         await rc.addToCart(
                             cartId,
                             item.productId, //'0xa3438104c764746a3d67c761e154ad26a958153743e97db10747121d4c68d642'
@@ -69,7 +83,10 @@ export const checkoutController = {
                     }
 
                     //commit cart
-                    await rc.commitCart(cartId);
+                    if (isZeroAddress(input.paymentCurrency))
+                        input.paymentCurrency = undefined;
+
+                    await rc.commitCart(cartId, input.paymentCurrency);
                     const events = await rc.pullEvents();
 
                     //parse the events
@@ -81,12 +98,11 @@ export const checkoutController = {
                             );
                             output.ttl = event.cartFinalized.paymentTtl;
                             output.amount = event.cartFinalized.totalInCrypto;
-                            output.currency = '';
+                            output.currency = input.paymentCurrency ?? '';
                             output.success = true;
                         }
                     }
                 }
-                */
 
                 console.log('returning output', output);
                 return output;

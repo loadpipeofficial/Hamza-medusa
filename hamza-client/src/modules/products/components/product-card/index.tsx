@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Card,
     CardBody,
@@ -17,6 +17,9 @@ import CartButton from '@modules/home/components/product-layout/components/cart-
 import { addToCart } from '@modules/cart/actions';
 import { IoStar } from 'react-icons/io5';
 import { FaRegHeart, FaHeart } from 'react-icons/fa6';
+import useWishlistStore from '@store/wishlist/wishlist-store';
+import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
+import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 
 interface ProductCardProps {
     reviewCount?: number;
@@ -29,6 +32,7 @@ interface ProductCardProps {
     hasDiscount?: boolean;
     discountValue?: string;
     productHandle?: string;
+    productId: string;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -42,15 +46,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
     hasDiscount,
     discountValue,
     productHandle,
+    productId,
 }) => {
     const [loadingBuy, setLoadingBuy] = useState(false);
     const [loadingAddToCart, setLoadingAddToCard] = useState(false);
-    const [selectWL, setSelectWL] = useState(false);
     const [imageLoaded, setImageLoaded] = useState(false);
+    const { wishlist } = useWishlistStore();
+    const { addWishlistItemMutation, removeWishlistItemMutation } =
+        useWishlistMutations();
+    const { authData } = useCustomerAuthStore();
 
-    const toggleHeart = () => {
-        setSelectWL((prev) => !prev);
-    };
     const handleAddToCart = async () => {
         setLoadingAddToCard(true);
         await addToCart({
@@ -122,31 +127,53 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             {productName}
                         </Text>
                         {/* wish list heart code */}
-                        <Box pl="1rem" ml="auto">
-                            <Box
-                                display="flex"
-                                justifyContent="center"
-                                alignItems="center"
-                                minWidth="40px"
-                                minHeight="40px"
-                                borderRadius="50%"
-                                border="1px"
-                                borderColor="#7B61FF"
-                                cursor="pointer"
-                                onClick={() => toggleHeart()}
-                                sx={{
-                                    userSelect: 'none',
-                                }}
-                            >
-                                <Box alignSelf="center">
-                                    {selectWL === false ? (
-                                        <FaRegHeart color="#7B61FF" size={23} />
-                                    ) : (
-                                        <FaHeart color="#7B61FF" size={23} />
-                                    )}
+
+                        {authData.status == 'authenticated' && (
+                            <Box pl="1rem" ml="auto">
+                                <Box
+                                    display="flex"
+                                    justifyContent="center"
+                                    alignItems="center"
+                                    minWidth="40px"
+                                    minHeight="40px"
+                                    borderRadius="50%"
+                                    border="1px"
+                                    borderColor="#7B61FF"
+                                    cursor="pointer"
+                                    onClick={() => {
+                                        console.log('adding ', productId);
+                                        !wishlist.products.find(
+                                            (a) => a.id == productId
+                                        )
+                                            ? addWishlistItemMutation.mutate({
+                                                  id: productId,
+                                              })
+                                            : removeWishlistItemMutation.mutate(
+                                                  { id: productId }
+                                              );
+                                    }}
+                                    sx={{
+                                        userSelect: 'none',
+                                    }}
+                                >
+                                    <Box alignSelf="center">
+                                        {!wishlist.products.find(
+                                            (a) => a.id == productId
+                                        ) ? (
+                                            <FaRegHeart
+                                                color="#7B61FF"
+                                                size={23}
+                                            />
+                                        ) : (
+                                            <FaHeart
+                                                color="#7B61FF"
+                                                size={23}
+                                            />
+                                        )}
+                                    </Box>
                                 </Box>
                             </Box>
-                        </Box>
+                        )}
                     </Flex>
 
                     <Box mt="auto">

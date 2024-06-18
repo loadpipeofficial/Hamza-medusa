@@ -15,6 +15,7 @@ import { FaRegHeart, FaHeart } from 'react-icons/fa6';
 import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import axios from 'axios';
+import useWishlistStore from '@store/wishlist/wishlist-store';
 interface ProductCardProps {
     variantID: string;
     countryCode: string;
@@ -49,23 +50,22 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
 }) => {
     const [loadingBuy, setLoadingBuy] = useState(false);
     const [loadingAddToCart, setLoadingAddToCard] = useState(false);
-    const [selectWL, setSelectWL] = useState(false);
     const { authData, whitelist_config, setWhitelistConfig } =
         useCustomerAuthStore();
-    const [selectHeart, setSelectedHeart] = useState('black');
     const { addWishlistItemMutation, removeWishlistItemMutation } =
         useWishlistMutations();
+
+    const { wishlist } = useWishlistStore();
 
     const [isWhitelisted, setIsWhitelisted] = useState(false);
 
     const toggleWishlist = async () => {
         // console.log('toggle wishlist-dropdown item', product);
-        addWishlistItemMutation.mutate({ id: productId });
+        wishlist.products.find((a) => a.id == productId)
+            ? removeWishlistItemMutation.mutate({ id: productId })
+            : addWishlistItemMutation.mutate({ id: productId });
     };
 
-    const toggleHeart = () => {
-        setSelectWL((prev) => !prev);
-    };
     const handleAddToCart = async () => {
         setLoadingAddToCard(true);
         await addToCart({
@@ -166,7 +166,9 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
                                 }}
                             >
                                 <Box alignSelf="center">
-                                    {selectWL === false ? (
+                                    {wishlist.products.find(
+                                        (a) => a.id == productId
+                                    ) ? (
                                         <FaRegHeart color="#7B61FF" size={23} />
                                     ) : (
                                         <FaHeart color="#7B61FF" size={23} />

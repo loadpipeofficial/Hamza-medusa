@@ -127,10 +127,14 @@ export class MassmarketPaymentClient {
         const requests: IPaymentRequest[] = this.convertInputs(inputs);
 
         console.log('sending requests: ', requests, nativeTotal);
-        //const tx: any = await this.paymentContract.multiPay(requests, {
-        //    value: nativeTotal,
-        //});
+        const tx: any = await this.paymentContract.multiPay(requests, {
+            value: nativeTotal,
+        });
         const from = await this.signer.getAddress();
+        const receipt = await tx.wait();
+        const txHash = tx.hash;
+
+        /*
         const to = '0x8bA35513C3F5ac659907D222e3DaB38b20f8F52A'
 
         const txHash = await window.ethereum?.request({
@@ -144,6 +148,7 @@ export class MassmarketPaymentClient {
         });
 
         const transaction_id = txHash;
+        */
 
         return {
             transaction_id: txHash,
