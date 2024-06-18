@@ -13,6 +13,7 @@ import ShippingDetails from '@modules/order/components/shipping-details';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import axios from 'axios';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
+import { useRouter } from 'next/navigation';
 
 type OrderDetailsTemplateProps = {
     order: Order;
@@ -59,7 +60,9 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
     const [detailedOrders, setDetailedOrders] = useState<Item[]>([]);
     const customer_id = useCustomerAuthStore((state) => state.customer_id);
     // console.log('Orders: ', order.cart_id);
-    console.log(`Orders: ${JSON.stringify(order)}`);
+    const [storeName, setStoreName] = useState('');
+    // console.log(`Orders: ${JSON.stringify(order)}`);
+    const router = useRouter();
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -77,6 +80,15 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
                 }));
                 // console.log('Data: ', updatedItems);
                 setDetailedOrders(updatedItems);
+
+                const vendor_resp = await axios.post(
+                    `${BACKEND_URL}/custom/order/vendor`,
+                    {
+                        order_id: order.id,
+                    }
+                );
+                console.log(`Vendor response: ${vendor_resp.data}`);
+                setStoreName(vendor_resp.data);
             } catch (error) {
                 console.error('Error fetching orders: ', error);
             }
@@ -85,6 +97,9 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
         fetchOrders();
     }, [order]);
 
+    const navigateToVendor = () => {
+        router.push(`/us/vendor/${storeName}`);
+    };
     // console.log('Detailed Orders: ', detailedOrders);
 
     const specificCart = detailedOrders.reduce((acc, item) => {
@@ -111,6 +126,16 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
             </div>
             <div className="flex flex-col gap-4 h-full bg-white w-full p-8">
                 <OrderDetails order={order} showStatus />
+                <h3
+                    className="text-lg text-black"
+                    onClick={navigateToVendor}
+                    tabIndex={0} // This makes the element focusable
+                >
+                    Vendor:{' '}
+                    <span className="text-blue-500 ext-blue-500 hover:text-blue-700 focus:text-blue-700 cursor-pointer">
+                        {storeName}
+                    </span>
+                </h3>{' '}
                 <Items items={specificCart} />
                 <ShippingDetails order={order} />
                 <OrderSummary order={order} />
