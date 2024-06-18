@@ -113,7 +113,7 @@ POST http://localhost:9000/custom/update-currency
 Content-Type: application/json
 
 {
-"customer_id": "cus_01HYAAZB62RNRTXXY9TC20DK8E",
+  "customer_id": "cus_01HYAAZB62RNRTXXY9TC20DK8E",
   "preferred_currency": "eth"
 }
 
@@ -275,16 +275,26 @@ POST http://localhost:9000/custom/notification/add-notification
 Content-Type: application/json
 
 {
-  "customer_id": "cus_01J05FKX1EPSEXJ3XH5KZ3F3CM",
-    "notification_type": "order, review, wishlist"
+  "customer_id": "cus_01J0JA3R9P1T1182517BPS48DM",
+    "notification_type": "orderShipped, newProduct, orderStatusChanged"
 }
+
+
+### GET All Notifications for Customer
+POST http://localhost:9000/custom/notification/get-notification
+Content-Type: application/json
+
+{
+  "customer_id": "cus_01J0JA3R9P1T1182517BPS48DM"
+}
+
 
 ### Remove All Notifications for Customer
 DELETE http://localhost:9000/custom/notification/remove-notification
 Content-Type: application/json
 
 {
-  "customer_id": "cus_01J05FKX1EPSEXJ3XH5KZ3F3CM"
+  "customer_id": "cus_01J0JA3R9P1T1182517BPS48DM"
 }
 
 

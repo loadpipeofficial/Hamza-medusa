@@ -65,6 +65,26 @@ class CustomerNotificationSerivce extends TransactionBaseService {
     //     return createdNotificationTypes;
     // }
 
+    async getNotifications(customerId: string) {
+        try {
+            const notification =
+                await this.customerNotificationRepository.findOne({
+                    where: { customer_id: customerId },
+                });
+
+            if (notification && notification.notification_type) {
+                return notification.notification_type
+                    .split(',')
+                    .map((type) => type.trim());
+            } else {
+                return [];
+            }
+        } catch (e) {
+            this.logger.error(`Error getting notification: ${e}`);
+            throw e;
+        }
+    }
+
     async addOrUpdateNotification(
         customerId: string,
         notificationType: string
