@@ -230,7 +230,7 @@ export const formatAmount = ({
         includeTaxes,
     });
 
-    return `${amount} ${currency_code.toUpperCase()}`;
+    return `${parseInt(amount.toString()).toFixed(2)} ${currency_code.toUpperCase()}`;
     return convertToLocale({
         amount: taxAwareAmount,
         currency_code,
