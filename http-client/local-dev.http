@@ -313,3 +313,11 @@ Content-Type: application/json
 {
   "order_id": "order_01J05M54MDN9AC5E5JNMYHFKB8"
 }
+
+### Get Vendor Name by Order_id
+POST http://localhost:9000/custom/order/vendor
+Content-Type: application/json
+
+{
+  "order_id": "order_01J0N1CPD866R0TF9RVDZFZ125"
+}

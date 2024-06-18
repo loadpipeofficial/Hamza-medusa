@@ -59,7 +59,7 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
     const [detailedOrders, setDetailedOrders] = useState<Item[]>([]);
     const customer_id = useCustomerAuthStore((state) => state.customer_id);
     // console.log('Orders: ', order.cart_id);
-    // console.log(`Orders: ${JSON.stringify(order)}`);
+    console.log(`Orders: ${JSON.stringify(order)}`);
 
     useEffect(() => {
         const fetchOrders = async () => {
