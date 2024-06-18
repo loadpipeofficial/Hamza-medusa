@@ -26,6 +26,7 @@ interface ProductCardProps {
     productHandle: string;
     allow_backorder: boolean;
     inventory: number;
+    storeId: string;
 }
 
 const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
@@ -40,6 +41,7 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
     productId,
     allow_backorder,
     inventory,
+    storeId,
 }) => {
     const [loadingBuy, setLoadingBuy] = useState(false);
     const [loadingAddToCart, setLoadingAddToCard] = useState(false);
@@ -83,21 +85,13 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
     };
 
     const whitelistedProductHandler = async () => {
-        let res = await axios.get(
-            `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/custom/product/get-store?product_id=${productId}`
-        );
-        let data = res.data;
-        console.log(data);
+        const whitelistedProduct =
+            whitelist_config.is_whitelisted &&
+            whitelist_config.whitelisted_stores.includes(storeId)
+                ? true
+                : false;
 
-        if (data.status == true) {
-            const whitelistedProduct =
-                whitelist_config.is_whitelisted &&
-                whitelist_config.whitelisted_stores.includes(data.data)
-                    ? true
-                    : false;
-
-            setIsWhitelisted(whitelistedProduct);
-        }
+        setIsWhitelisted(whitelistedProduct);
         return;
     };
 

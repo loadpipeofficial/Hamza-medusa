@@ -74,6 +74,7 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
                             allow_backorder={
                                 product.variants[0].allow_backorder
                             }
+                            storeId={product.store_id}
                         />
                     );
                 })}
