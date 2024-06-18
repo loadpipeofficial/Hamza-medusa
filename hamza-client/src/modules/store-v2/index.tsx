@@ -17,7 +17,7 @@ const StoreTemplate = () => {
     const { categorySelect } = useStorePage();
 
     //TODO: make zustand state for default vendor "all"
-    const [vendorName, setVendorName] = useState('Goblin Store');
+    const [vendorName, setVendorName] = useState('Medusa Merch');
     useEffect(() => {
         if (categorySelect) {
             setVendorName(categorySelect);
@@ -32,6 +32,7 @@ const StoreTemplate = () => {
                     layoutMaxWidth={'941px'}
                     vendorName={vendorName}
                     gridColumns={gridLayout}
+                    category=""
                 />
             </Flex>
         </Container>

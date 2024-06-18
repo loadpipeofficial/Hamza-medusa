@@ -13,8 +13,8 @@ import SearchModalWrapper from '@modules/search/templates/search-wrapper';
 import dynamic from 'next/dynamic';
 import { Container, Box, Flex, Text } from '@chakra-ui/react';
 import NavLink from './nav-link/nav-link';
+import NavTernary from './nav-ternary/index';
 import { CgProfile, CgBell } from 'react-icons/cg';
-
 export default async function Nav() {
     const regions = await listRegions().then((regions) => regions);
     return (
@@ -53,8 +53,7 @@ export default async function Nav() {
                     <Flex display={{ base: 'none', md: 'flex' }}>
                         <NavLink href="/" title={'Home'} />
                         <NavLink href="/store" title={'Store'} />
-                        <NavLink href="/account" title={'Account'} />
-                        <NavLink href="/verify-email" title={'Verify'} />
+                        <NavTernary />
                     </Flex>
 
                     <Flex marginLeft="auto" gap={'15px'}>

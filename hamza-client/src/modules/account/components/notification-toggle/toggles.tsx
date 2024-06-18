@@ -14,12 +14,43 @@ import {
 import { Region } from '@medusajs/medusa';
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
+import axios from 'axios';
 
 const ToggleNotifications = ({ region }: { region: Region }) => {
     const [selectedNotifications, setSelectedNotifications] = useState([]);
     const [notificationMethod, setNotificationMethod] = useState('');
 
-    const { customer_id } = useCustomerAuthStore();
+    const { authData } = useCustomerAuthStore();
+
+    useEffect(() => {
+        if (authData.customer_id) {
+            const fetchNotifications = async () => {
+                console.log(
+                    `Customer ID in notification toggle: ${authData.customer_id}`
+                );
+                try {
+                    const response = await axios.post(
+                        `${BACKEND_URL}/custom/notification/get-notification`,
+                        { customer_id: authData.customer_id },
+                        {
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        }
+                    );
+                    console.log('Notification Data:', response.data.types);
+                    const notifications = response.data.types;
+                    setSelectedNotifications(notifications);
+                } catch (error) {
+                    console.error(
+                        'Error fetching notification preferences:',
+                        error
+                    );
+                }
+            };
+            fetchNotifications();
+        }
+    }, [authData.customer_id]);
 
     const handleCheckboxChange = (event) => {
         const value = event.target.value;
@@ -51,7 +82,7 @@ const ToggleNotifications = ({ region }: { region: Region }) => {
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify({
-                            customer_id: customer_id,
+                            customer_id: authData.customer_id,
                             notification_type: 'none',
                         }),
                     }
@@ -67,7 +98,7 @@ const ToggleNotifications = ({ region }: { region: Region }) => {
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify({
-                            customer_id: customer_id,
+                            customer_id: authData.customer_id,
                             notification_type: notificationsString,
                         }),
                     }

@@ -12,16 +12,20 @@ import { Button } from '@medusajs/ui';
 import Thumbnail from '@modules/products/components/thumbnail';
 
 interface WishlistPopoverItemProps {
-    item: WishlistType;
+    item?: WishlistType;
+}
+
+interface PopoverButtonProps {
+    active: boolean;
 }
 
 // TODO: Should we move this component to modules/wishlist/ similar to where cart-dropdown is???
-const WishlistDropdown: React.FC<WishlistPopoverItemProps> = ({ item }) => {
+const WishlistDropdown: React.FC<WishlistPopoverItemProps> = () => {
     const { wishlist } = useWishlistStore((state) => ({
         wishlist: state.wishlist,
     }));
     const totalItems =
-        wishlist?.products?.reduce((acc, item) => {
+        wishlist?.products?.reduce((acc: any, item: any) => {
             return acc + 1;
         }, 0) || 0;
     const itemRef = useRef<number>(totalItems || 0);
@@ -102,13 +106,13 @@ const WishlistDropdown: React.FC<WishlistPopoverItemProps> = ({ item }) => {
                         {wishlist && wishlist.products?.length ? (
                             <>
                                 <>
-                                    {wishlist.products?.map((product) => (
+                                    {wishlist.products?.map((product: any) => (
                                         <div
                                             className="py-2 first:pt-0 text-white"
                                             key={product.id}
                                         >
                                             <Popover.Button>
-                                                {({ active }) =>
+                                                {({ }) =>
                                                     product ? ( // Check if the product exists
                                                         <LocalizedClientLink
                                                             href={`/products/${product.handle}`}

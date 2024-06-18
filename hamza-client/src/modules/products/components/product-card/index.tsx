@@ -19,20 +19,24 @@ import { IoStar } from 'react-icons/io5';
 import { FaRegHeart, FaHeart } from 'react-icons/fa6';
 
 interface ProductCardProps {
-    varientID: string;
-    countryCode: string;
-    productName: string;
-    productPrice: number;
-    imageSrc: string;
-    hasDiscount: boolean;
-    discountValue: string;
-    productHandle: string;
+    reviewCount?: number;
+    totalRating?: number;
+    variantID?: string;
+    countryCode?: string;
+    productName?: string;
+    productPrice?: number | string;
+    imageSrc?: string;
+    hasDiscount?: boolean;
+    discountValue?: string;
+    productHandle?: string;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
-    varientID,
+    variantID,
     countryCode,
     productName,
+    reviewCount,
+    totalRating,
     productPrice,
     imageSrc,
     hasDiscount,
@@ -50,9 +54,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
     const handleAddToCart = async () => {
         setLoadingAddToCard(true);
         await addToCart({
-            variantId: varientID,
+            variantId: variantID ?? '',
             quantity: 1,
-            countryCode: countryCode,
+            countryCode: countryCode ?? '',
             currencyCode: 'eth',
         });
         setLoadingAddToCard(false);
@@ -61,9 +65,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
     const handleBuyNow = async () => {
         setLoadingBuy(true);
         await addToCart({
-            variantId: varientID,
+            variantId: variantID ?? '',
             quantity: 1,
-            countryCode: countryCode,
+            countryCode: countryCode ?? '',
             currencyCode: 'eth',
         });
         setLoadingBuy(false);
@@ -156,24 +160,30 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                     }}
                                 />
                             </Box>
-                            <Text
-                                color={'white'}
-                                alignSelf={'center'}
-                                fontWeight="700"
-                                fontSize="14px"
-                                ml="1"
-                            >
-                                4.97
-                            </Text>
-                            <Text
-                                alignSelf={'center'}
-                                fontWeight="700"
-                                fontSize="14px"
-                                color="#555555"
-                                ml="1"
-                            >
-                                (0 reviews)
-                            </Text>
+                            {reviewCount > 0 ? (
+                                <>
+                                    <Text
+                                        color={'white'}
+                                        alignSelf={'center'}
+                                        fontWeight="700"
+                                        fontSize="14px"
+                                        ml="1"
+                                    >
+                                        {totalRating}
+                                    </Text>
+                                    <Text
+                                        alignSelf={'center'}
+                                        fontWeight="700"
+                                        fontSize="14px"
+                                        color="#555555"
+                                        ml="1"
+                                    >
+                                        ({reviewCount} reviews)
+                                    </Text>
+                                </>
+                            ) : (
+                                <Text color={'white'}> No Reviews Yet </Text>
+                            )}
                         </Flex>
                         <Flex>
                             <Box alignSelf={'center'}>

@@ -5,7 +5,7 @@ type BuyButtonProps = {
     handleBuyNow: () => void;
     loader: boolean;
     outOfStock: boolean;
-    title: string;
+    title?: string;
 };
 
 const BuyButton: React.FC<BuyButtonProps> = ({

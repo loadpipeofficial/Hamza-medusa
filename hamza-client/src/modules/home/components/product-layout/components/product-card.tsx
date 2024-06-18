@@ -14,11 +14,14 @@ import { IoStar } from 'react-icons/io5';
 import { FaRegHeart, FaHeart } from 'react-icons/fa6';
 import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
+
 interface ProductCardProps {
-    varientID: string;
+    variantID: string;
     countryCode: string;
     productName: string;
-    productPrice: number;
+    reviewCount: number;
+    totalRating: number;
+    productPrice: number | string;
     imageSrc: string;
     hasDiscount: boolean;
     discountValue: string;
@@ -26,9 +29,11 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
-    varientID,
+    variantID,
     countryCode,
     productName,
+    reviewCount,
+    totalRating,
     productPrice,
     imageSrc,
     hasDiscount,
@@ -39,7 +44,7 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
     const [loadingBuy, setLoadingBuy] = useState(false);
     const [loadingAddToCart, setLoadingAddToCard] = useState(false);
     const [selectWL, setSelectWL] = useState(false);
-    const { status } = useCustomerAuthStore();
+    const { authData } = useCustomerAuthStore();
     const [selectHeart, setSelectedHeart] = useState('black');
     const { addWishlistItemMutation, removeWishlistItemMutation } =
         useWishlistMutations();
@@ -54,9 +59,9 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
     const handleAddToCart = async () => {
         setLoadingAddToCard(true);
         await addToCart({
-            variantId: varientID,
+            variantId: variantID ?? '',
             quantity: 1,
-            countryCode: countryCode,
+            countryCode: countryCode ?? '',
             currencyCode: 'eth',
         });
         setLoadingAddToCard(false);
@@ -65,9 +70,9 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
     const handleBuyNow = async () => {
         setLoadingBuy(true);
         await addToCart({
-            variantId: varientID,
+            variantId: variantID ?? '',
             quantity: 1,
-            countryCode: countryCode,
+            countryCode: countryCode ?? '',
             currencyCode: 'eth',
         });
         setLoadingBuy(false);
@@ -116,7 +121,7 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
                         >
                             {productName}
                         </Text>
-                        {status == 'authenticated' && (
+                        {authData.status == 'authenticated' && (
                             <Box
                                 ml="auto"
                                 display="flex"
@@ -155,24 +160,30 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
                                     }}
                                 />
                             </Box>
-                            <Text
-                                color={'white'}
-                                alignSelf={'center'}
-                                fontWeight="700"
-                                fontSize="14px"
-                                ml="1"
-                            >
-                                4.97
-                            </Text>
-                            <Text
-                                alignSelf={'center'}
-                                fontWeight="700"
-                                fontSize="14px"
-                                color="#555555"
-                                ml="1"
-                            >
-                                (0 reviews)
-                            </Text>
+                            {reviewCount > 0 ? (
+                                <>
+                                    <Text
+                                        color={'white'}
+                                        alignSelf={'center'}
+                                        fontWeight="700"
+                                        fontSize="14px"
+                                        ml="1"
+                                    >
+                                        {totalRating}
+                                    </Text>
+                                    <Text
+                                        alignSelf={'center'}
+                                        fontWeight="700"
+                                        fontSize="14px"
+                                        color="#555555"
+                                        ml="1"
+                                    >
+                                        ({reviewCount} reviews)
+                                    </Text>
+                                </>
+                            ) : (
+                                <Text color={'white'}> No Reviews Yet </Text>
+                            )}
                         </Flex>
                         <Flex>
                             <Box alignSelf={'center'}>

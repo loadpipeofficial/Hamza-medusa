@@ -251,9 +251,11 @@ export class RelayClient extends EventEmitter {
         const types = {
             Challenge: [{ name: 'challenge', type: 'string' }],
         };
+        console.log('signTypedDataMessage  ');
         const sig = await this.#signTypedDataMessage(types, {
             challenge: bytesToHex(response.challenge).slice(2),
         });
+        console.log('encodeAndSend  ');
         return this.encodeAndSend(mmproto.ChallengeSolvedRequest, {
             signature: toBytes(sig),
         });
@@ -268,7 +270,7 @@ export class RelayClient extends EventEmitter {
         ) {
             this.connection = new WebSocket(this.endpoint + '/sessions');
             this.connection.addEventListener('error', (error: Event) => {
-                console.error(`WebSocket error: ${error}`);
+                console.error(`WebSocket error: ${JSON.stringify(error)}`);
             });
             this.connection.addEventListener(
                 'message',
@@ -277,14 +279,16 @@ export class RelayClient extends EventEmitter {
         }
         return new Promise((resolve, reject) => {
             if (this.connection.readyState === WebSocket.OPEN) {
+                console.log('this.connection.readyState === WebSocket.OPEN');
                 resolve();
             } else {
+                console.log('this.connection.readyState !== WebSocket.OPEN');
                 this.connection.addEventListener('open', async () => {
                     console.log('ws open');
                     if (this.keyCardEnrolled) {
                         let res = null;
                         try {
-                            res = await this.#authenticate();
+                            await this.#authenticate();
                         } catch (e) {
                             console.error(e);
                         }
@@ -684,7 +688,13 @@ export class RelayClient extends EventEmitter {
     }
 
     async createCart() {
-        await this.connect();
+        try {
+            console.log('connecting');
+            await this.connect();
+            console.log('connected');
+        } catch (e) {
+            console.error(e);
+        }
         const reqId = eventId();
         const cart = {
             eventId: reqId,
@@ -699,7 +709,11 @@ export class RelayClient extends EventEmitter {
             ],
         };
 
-        await this.#signAndSendEvent(types, cart);
+        try {
+            await this.#signAndSendEvent(types, cart);
+        } catch (e) {
+            console.error(e);
+        }
         return bytesToHex(reqId);
     }
 

@@ -51,3 +51,10 @@ export declare module '@medusajs/medusa/dist/models/product' {
         reviews: ProductReview[];
     }
 }
+
+export declare module '@medusajs/medusa/dist/model/order' {
+    declare interface Order {
+        store?: Store;
+        store_id: string;
+    }
+}

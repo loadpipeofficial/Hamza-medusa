@@ -67,7 +67,7 @@ class ProductService extends MedusaProductService {
     async getProductsFromStoreWithPrices(storeId: string): Promise<Product[]> {
         return this.productRepository_.find({
             where: { store_id: storeId },
-            relations: ['variants.prices'],
+            relations: ['variants.prices', 'reviews'],
         });
     }
 
@@ -146,10 +146,18 @@ class ProductService extends MedusaProductService {
             let thumbnail = store.icon;
             let productCount = products.length;
             let createdAt = store.created_at;
+            let reviews = [];
 
             products.forEach((product) => {
                 product.reviews.forEach((review) => {
                     totalRating += review.rating;
+                    reviews.push({
+                        id: review.id,
+                        title: review.title,
+                        rating: review.rating,
+                        review: review.content,
+                        createdAt: review.created_at,
+                    });
                 });
                 totalReviews += product.reviews.length;
             });
@@ -158,6 +166,7 @@ class ProductService extends MedusaProductService {
 
             const reviewStats = {
                 reviewCount: totalReviews,
+                reviews: reviews,
                 avgRating,
                 productCount,
                 createdAt,

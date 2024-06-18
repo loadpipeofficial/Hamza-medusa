@@ -28,6 +28,7 @@ export interface Item {
     returned_quantity: number | null;
     shipped_quantity: number | null;
     metadata: Record<string, unknown>;
+    customer_id: string;
 }
 
 // Define a new interface for your store state

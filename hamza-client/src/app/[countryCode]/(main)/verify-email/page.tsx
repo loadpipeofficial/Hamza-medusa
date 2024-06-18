@@ -10,19 +10,19 @@ import getGoogleOAuthURL from '@lib/util/google-url';
 import getTwitterOauthUrl from '@lib/util/twitter-url';
 
 const VerifyEmail = () => {
-    const { status, customer_id } = useCustomerAuthStore();
+    const { authData, setCustomerAuthData } = useCustomerAuthStore();
 
     const [email, setEmail] = useState('');
     const router = useRouter();
 
-    if (status == 'unauthenticated') {
+    if (authData.status == 'unauthenticated') {
         return <div>Please connect wallet before adding email address.</div>;
     }
 
     const emailVerificationHandler = async () => {
         let res = await axios.post(
             `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/custom/confirmation-token/generate`,
-            { customer_id: customer_id, email: email },
+            { customer_id: authData.customer_id, email: email },
             {}
         );
 

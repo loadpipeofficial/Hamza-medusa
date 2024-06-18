@@ -1,5 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { getDefaultWallets, darkTheme } from '@rainbow-me/rainbowkit';
+import {
+    getDefaultWallets,
+    darkTheme,
+    connectorsForWallets,
+} from '@rainbow-me/rainbowkit';
+import {
+    injectedWallet,
+    rainbowWallet,
+    coinbaseWallet,
+    metaMaskWallet,
+    walletConnectWallet,
+} from '@rainbow-me/rainbowkit/wallets';
 import { configureChains, createConfig } from 'wagmi';
 import { mainnet, optimismSepolia, sepolia } from 'wagmi/chains';
 import { useNetwork, useSwitchNetwork } from 'wagmi';
@@ -49,6 +60,8 @@ export const SwitchNetwork = () => {
         useSwitchNetwork();
     const { isOpen, onOpen, onClose } = useDisclosure();
 
+    const voidFunction = () => { };
+
     const requiredChains = [11155111, 11155420]; // Sepolia and Optimism Sepolia
 
     useEffect(() => {
@@ -66,7 +79,7 @@ export const SwitchNetwork = () => {
     if (!chain) return <div>Loading...</div>;
 
     return (
-        <Modal isOpen={isOpen} onClose={() => {}}>
+        <Modal isOpen={isOpen} onClose={() => { }}>
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader>Switch Network</ModalHeader>
@@ -74,13 +87,13 @@ export const SwitchNetwork = () => {
                     <p>The currently selected chain is not supported!</p>
                     <Button
                         disabled={!switchNetwork || isLoading}
-                        onClick={() => switchNetwork(11155111)}
+                        onClick={() => switchNetwork ? switchNetwork(11155111) : voidFunction()}
                     >
                         Switch to Sepolia testnet
                     </Button>
                     <Button
                         disabled={!switchNetwork || isLoading}
-                        onClick={() => switchNetwork(11155420)}
+                        onClick={() => switchNetwork ? switchNetwork(11155420) : voidFunction()}
                     >
                         Switch to Optimism Sepolia testnet
                     </Button>
@@ -93,11 +106,34 @@ export const SwitchNetwork = () => {
         </Modal>
     );
 };
-const { connectors } = getDefaultWallets({
-    appName: 'op_sep',
-    projectId: PROJECT_ID,
-    chains,
-});
+// const { connectors } = getDefaultWallets({
+//     appName: 'op_sep',
+//     projectId: PROJECT_ID,
+//     chains,
+// });
+
+const connectors = connectorsForWallets([
+    {
+        groupName: 'Recommended',
+        wallets: [
+            rainbowWallet({ projectId: PROJECT_ID, chains }),
+            coinbaseWallet({ projectId: PROJECT_ID, chains }),
+            metaMaskWallet({
+                projectId: PROJECT_ID,
+                chains,
+            }),
+        ],
+    },
+]);
+
+// Metamask, Rainbow, Coinbase Wallet, remove `WalletConnect`
+// const connector = connectorsForWallets({
+//     appName: 'op_sep',
+//     projectId: PROJECT_ID,
+//     chains,
+//     wallets: [],
+// });
+
 // Config in v1.x.wagmi Client in 2.x.wagmi?
 export const config = createConfig({
     autoConnect: true,

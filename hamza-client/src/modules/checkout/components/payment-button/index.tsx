@@ -9,7 +9,6 @@ import { InjectedConnector } from 'wagmi/connectors/injected';
 import {
     ITransactionOutput,
     IMultiPaymentInput,
-    IMultiPaymentInput_MM,
 } from 'web3';
 import { MassmarketPaymentClient } from 'web3/massmarket-payment';
 import { ethers, BigNumberish } from 'ethers';
@@ -53,10 +52,10 @@ declare global {
 const PaymentButton: React.FC<PaymentButtonProps> = ({ cart }) => {
     const notReady =
         !cart ||
-        !cart.shipping_address ||
-        !cart.billing_address ||
-        !cart.email ||
-        cart.shipping_methods.length < 1
+            !cart.shipping_address ||
+            !cart.billing_address ||
+            !cart.email ||
+            cart.shipping_methods.length < 1
             ? true
             : false;
 
@@ -105,10 +104,10 @@ const CryptoPaymentButton = ({
         chainId: number
     ) => {
         if (data.orders) {
-            const paymentInput: IMultiPaymentInput_MM[] = [];
+            const paymentInput: IMultiPaymentInput[] = [];
             data.orders.forEach((o: any) => {
                 //o.amount = o.massmarket_amount; // translateToNativeAmount(o, chainId);
-                const input: IMultiPaymentInput_MM = {
+                const input: IMultiPaymentInput = {
                     currency: o.currency_code,
                     receiver: o.wallet_address,
                     payments: [
@@ -118,13 +117,15 @@ const CryptoPaymentButton = ({
                             //),
                             id: o.massmarket_order_id,
                             payer: payer,
-                            amount: o.massmarket_amount,
+                            massmarketAmount: o.massmarket_amount,
                             currency: o.currency_code,
                             receiver: data.wallet_address,
-                            orderId: o.massmarket_order_id,
+                            massmarketOrderId: o.massmarket_order_id,
                             storeId: o.orders[0].store.massmarket_store_id,
                             chainId,
-                            ttl: o.massmarket_ttl,
+                            amount: o.amount,
+                            orderId: o.id,
+                            massmarketTtl: o.massmarket_ttl,
                         },
                     ],
                 };
@@ -326,7 +327,7 @@ const CryptoPaymentButton = ({
             updateCart.mutate(
                 { context: {} },
                 {
-                    onSuccess: ({}) => {
+                    onSuccess: ({ }) => {
                         //this calls the CartCompletion routine
                         completeCart.mutate(void 0, {
                             onSuccess: async ({ data, type }) => {
@@ -343,7 +344,7 @@ const CryptoPaymentButton = ({
                                     await cancelOrderFromCart();
                                 }
                             },
-                            onError: async ({}) => {
+                            onError: async ({ }) => {
                                 setSubmitting(false);
                                 setErrorMessage('Checkout was not completed');
                                 await cancelOrderFromCart();

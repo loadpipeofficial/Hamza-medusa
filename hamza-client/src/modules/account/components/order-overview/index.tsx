@@ -28,6 +28,33 @@ const MEDUSA_SERVER_URL =
 interface DetailedOrder extends Order {
     details?: any; // Further specify if you have the structure of the details
 }
+type OrderDetails = {
+    thumbnail: string;
+    title: string;
+    description: string;
+};
+type OrderProps = {
+    id: string;
+    display_id: string;
+    created_at: string;
+    details: OrderDetails;
+    paid_total: number;
+    currency_code: string;
+    unit_price: number;
+    thumbnail: string;
+    title: string;
+    description: string;
+    region: {
+        id: string;
+        name: string;
+    };
+};
+
+type WishlistProps = OrderProps & {
+    item: any;
+    order: any;
+    id: string;
+};
 
 const OrderOverview = ({ orders }: { orders: Order[] }) => {
     // Initialize state with the correct type
@@ -67,7 +94,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
         fetchOrders();
     }, [orders]);
 
-    const groupedByCartId = detailedOrders.reduce((acc, item) => {
+    const groupedByCartId = detailedOrders.reduce((acc: any, item: any) => {
         if (!acc[item.cart_id]) {
             acc[item.cart_id] = [];
         }
@@ -108,7 +135,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                 })
             );
 
-            const statusMap = {};
+            const statusMap: { [key: string]: any } = {};
             statuses.forEach((result) => {
                 if (result.status === 'fulfilled') {
                     const { orderId, status } = result.value;
@@ -179,7 +206,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                         >
                             <div className="p-4 bg-gray-700">
                                 Order {orders[index] ? orders[index].id : 'N/A'}{' '}
-                                - Total Items: {items.length}
+                                - Total Items: {(items as any).length}
                                 <span
                                     className="pl-2 text-blue-400 underline underline-offset-1 cursor-pointer"
                                     onClick={() => {
@@ -190,7 +217,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                                 </span>
                             </div>
 
-                            {items.map((item) => (
+                            {(items as any).map((item: WishlistProps) => (
                                 <>
                                     <OrderCard key={item.id} order={item} />
                                     <div className="flex justify-end items-center">
@@ -203,13 +230,13 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                                             </Button>
                                         </LocalizedClientLink>
                                         {orderStatuses[orders[index].id] ===
-                                        'canceled' ? (
+                                            'canceled' ? (
                                             <Button
                                                 colorScheme="red"
                                                 ml={4}
                                                 isDisabled
                                             >
-                                                Order Cancelled
+                                                Cancellation Requested
                                             </Button>
                                         ) : (
                                             <Button

@@ -23,7 +23,7 @@ const FilterTags = () => {
         if (categorySelect) {
             tags.push(
                 <FilterTag
-                    img={categoryIcons[categoryTypeSelect]}
+                    img={categoryTypeSelect ? categoryIcons[categoryTypeSelect] : ''}
                     key="category"
                     name={`${categorySelect}`}
                 />
