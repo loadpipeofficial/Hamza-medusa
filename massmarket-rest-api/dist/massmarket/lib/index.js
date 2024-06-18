@@ -139,21 +139,23 @@ class RelayClient extends events_1.EventEmitter {
                 this.connection.readyState === isows_1.WebSocket.CLOSED) {
                 this.connection = new isows_1.WebSocket(this.endpoint + '/sessions');
                 this.connection.addEventListener('error', (error) => {
-                    console.error(`WebSocket error: ${error}`);
+                    console.error(`WebSocket error: ${JSON.stringify(error)}`);
                 });
                 this.connection.addEventListener('message', __classPrivateFieldGet(this, _RelayClient_instances, "m", _RelayClient_decodeMessage).bind(this));
             }
             return new Promise((resolve, reject) => {
                 if (this.connection.readyState === isows_1.WebSocket.OPEN) {
+                    console.log('this.connection.readyState === WebSocket.OPEN');
                     resolve();
                 }
                 else {
+                    console.log('this.connection.readyState !== WebSocket.OPEN');
                     this.connection.addEventListener('open', () => __awaiter(this, void 0, void 0, function* () {
                         console.log('ws open');
                         if (this.keyCardEnrolled) {
                             let res = null;
                             try {
-                                res = yield __classPrivateFieldGet(this, _RelayClient_instances, "m", _RelayClient_authenticate).call(this);
+                                yield __classPrivateFieldGet(this, _RelayClient_instances, "m", _RelayClient_authenticate).call(this);
                             }
                             catch (e) {
                                 console.error(e);
@@ -532,7 +534,14 @@ class RelayClient extends events_1.EventEmitter {
     }
     createCart() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.connect();
+            try {
+                console.log('connecting');
+                yield this.connect();
+                console.log('connected');
+            }
+            catch (e) {
+                console.error(e);
+            }
             const reqId = (0, utils_1.eventId)();
             const cart = {
                 eventId: reqId,
@@ -545,7 +554,12 @@ class RelayClient extends events_1.EventEmitter {
                     },
                 ],
             };
-            yield __classPrivateFieldGet(this, _RelayClient_instances, "m", _RelayClient_signAndSendEvent).call(this, types, cart);
+            try {
+                yield __classPrivateFieldGet(this, _RelayClient_instances, "m", _RelayClient_signAndSendEvent).call(this, types, cart);
+            }
+            catch (e) {
+                console.error(e);
+            }
             return (0, viem_1.bytesToHex)(reqId);
         });
     }
@@ -697,9 +711,11 @@ _RelayClient_instances = new WeakSet(), _RelayClient_handlePingRequest = functio
         const types = {
             Challenge: [{ name: 'challenge', type: 'string' }],
         };
+        console.log('signTypedDataMessage  ');
         const sig = yield __classPrivateFieldGet(this, _RelayClient_instances, "m", _RelayClient_signTypedDataMessage).call(this, types, {
             challenge: (0, viem_1.bytesToHex)(response.challenge).slice(2),
         });
+        console.log('encodeAndSend  ');
         return this.encodeAndSend(mmproto.ChallengeSolvedRequest, {
             signature: (0, viem_1.toBytes)(sig),
         });

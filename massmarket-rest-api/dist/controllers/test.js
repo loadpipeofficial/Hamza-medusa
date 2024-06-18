@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.testController = void 0;
+const viem_1 = require("viem");
 const client_1 = require("../massmarket/client");
 const util_1 = require("./util");
 exports.testController = {
@@ -58,26 +59,16 @@ exports.testController = {
     }),
     checkout: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         (0, util_1.serveRequest)(req, res, () => __awaiter(void 0, void 0, void 0, function* () {
-            console.log('noice');
-            const rc = new client_1.RelayClientWrapper(util_1.ENDPOINT, '0xe8b3a2a736a13a35c3329e772a1e5bfd7c0ebde8e4cb38889ecfce8b1e3db0b6', '0x1c5f10e06f7a6c7c26c2930f7dde591f37470677c3fde258b39df6043741fc2b');
-            /*
+            var _a;
+            const rc = new client_1.RelayClientWrapper(util_1.ENDPOINT, '0xe8b3a2a736a13a35c3329e772a1e5bfd7c0ebde8e4cb38889ecfce8b1e3db0b6', '0xfc5f10e06f7a6c7c26c2930f7dde591f37470677c3fde258b39df6043741fc2b');
             //await rc.writeManifest();
-            */
             const cartId = yield rc.createCart();
             console.log('CART ID: ', cartId);
-            return { cats: 'noice' };
-            /*
             //add a product to cart
-            await rc.addToCart(
-                cartId,
-                '0xa3438104c764746a3d67c761e154ad26a958153743e97db10747121d4c68d642'
-            );
-
-            const commitId = await rc.commitCart(cartId);
+            yield rc.addToCart(cartId, '0xa3438104c764746a3d67c761e154ad26a958153743e97db10747121d4c68d642');
+            const commitId = yield rc.commitCart(cartId);
             console.log('COMMIT: ', commitId);
-
-            const events = await rc.pullEvents();
-
+            const events = yield rc.pullEvents();
             const output = {
                 orderId: '',
                 ttl: 0,
@@ -85,24 +76,20 @@ exports.testController = {
                 success: false,
                 amount: '',
             };
-
             //parse the events
             for (let n = events.length - 1; n >= 0; n--) {
                 const event = events[n];
-                if (event?.cartFinalized?.cartId) {
-                    output.orderId = keccak256(event.cartFinalized.cartId);
+                if ((_a = event === null || event === void 0 ? void 0 : event.cartFinalized) === null || _a === void 0 ? void 0 : _a.cartId) {
+                    output.orderId = (0, viem_1.keccak256)(event.cartFinalized.cartId);
                     output.ttl = event.cartFinalized.paymentTtl;
                     output.amount = event.cartFinalized.totalInCrypto;
                     output.currency = '';
                     output.success = true;
-
                     console.log(event.cartFinalized);
                 }
             }
-
             console.log('returning output', output);
             return output;
-            */
         }), 200);
     }),
     checkout2: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
