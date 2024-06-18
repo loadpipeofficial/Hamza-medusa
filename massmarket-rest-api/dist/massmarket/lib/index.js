@@ -151,7 +151,13 @@ class RelayClient extends events_1.EventEmitter {
                     this.connection.addEventListener('open', () => __awaiter(this, void 0, void 0, function* () {
                         console.log('ws open');
                         if (this.keyCardEnrolled) {
-                            const res = yield __classPrivateFieldGet(this, _RelayClient_instances, "m", _RelayClient_authenticate).call(this);
+                            let res = null;
+                            try {
+                                res = yield __classPrivateFieldGet(this, _RelayClient_instances, "m", _RelayClient_authenticate).call(this);
+                            }
+                            catch (e) {
+                                console.error(e);
+                            }
                             if (res) {
                                 console.log('authentication success');
                                 resolve(res);

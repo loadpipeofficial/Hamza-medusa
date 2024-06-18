@@ -232,7 +232,12 @@ class RelayClientWrapper {
     }
     createCart() {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this._client.createCart();
+            try {
+                return yield this._client.createCart();
+            }
+            catch (e) {
+                throw e;
+            }
         });
     }
     createProduct(product) {
