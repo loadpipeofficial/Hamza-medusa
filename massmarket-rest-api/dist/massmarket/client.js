@@ -258,9 +258,9 @@ class RelayClientWrapper {
             console.log(yield this._client.changeCart(cartId, productId, quantity));
         });
     }
-    commitCart(cartId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this._client.commitCart(cartId, null, '0x74b7284836F753101bD683C3843e95813b381f18');
+    commitCart(cartId_1) {
+        return __awaiter(this, arguments, void 0, function* (cartId, tokenAddress = null) {
+            yield this._client.commitCart(cartId, tokenAddress, '0x74b7284836F753101bD683C3843e95813b381f18');
         });
     }
     abandonCart(cartId) {

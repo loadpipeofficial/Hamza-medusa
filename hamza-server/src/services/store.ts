@@ -39,6 +39,7 @@ class StoreService extends MedusaStoreService {
         newStore.name = store_name; // Set the store name
         newStore.owner_id = owner_id; // Set the owner_id
         newStore.icon = icon;
+        newStore.default_currency_code = 'eth';
         newStore = await storeRepo.save(newStore);
         this.logger.debug('New Store Saved:' + newStore);
         await this.populateProductsWithStoreId(newStore, collection);

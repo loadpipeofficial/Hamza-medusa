@@ -1,10 +1,10 @@
 import axios, { AxiosInstance } from 'axios';
-import { BigNumberish } from 'ethers';
 
-//TODO: re-create this as a service 
+//TODO: re-create this as a service
 export type HexString = `0x${string}`;
 
-const REST_URL = process.env.MASSMARKET_REST_SERVER_URL || 'http://localhost:3001';
+const REST_URL =
+    process.env.MASSMARKET_REST_SERVER_URL || 'http://localhost:3001';
 try {
     new URL(REST_URL);
 } catch (error) {
@@ -185,12 +185,14 @@ export class MassMarketClient {
     async checkout(
         storeId: HexString,
         keycard: HexString,
+        paymentCurrency: HexString | null | undefined,
         items: CheckoutInput[]
     ): Promise<CheckoutOutput> {
         try {
             const body = {
                 storeId,
                 keycard,
+                paymentCurrency,
                 items,
             };
 
