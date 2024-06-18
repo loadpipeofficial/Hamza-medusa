@@ -88,38 +88,38 @@ const ProductCardGroup = ({
                 {isLoading
                     ? renderSkeletons(8) // Render 8 skeletons while loading
                     : products.map((product: any, index: number) => {
-                          const variantPrices = product.variants
-                              .map((variant: any) => variant.prices)
-                              .flat();
+                        const variantPrices = product.variants
+                            .map((variant: any) => variant.prices)
+                            .flat();
 
-                          const productPricing = formatCryptoPrice(
-                              variantPrices[0].amount,
-                              preferred_currency_code as string
-                          );
-                          const reviewCounter = product.reviews.length;
-                          const totalRating = product.reviews.reduce(
-                              (acc: number, review: any) => acc + review.rating,
-                              0
-                          );
-                          const avgRating = totalRating / reviewCounter;
+                        const productPricing = formatCryptoPrice(
+                            variantPrices[0].amount,
+                            preferred_currency_code as string
+                        );
+                        const reviewCounter = product.reviews.length;
+                        const totalRating = product.reviews.reduce(
+                            (acc: number, review: any) => acc + review.rating,
+                            0
+                        );
+                        const avgRating = totalRating / reviewCounter;
 
-                          const varientID = product.variants[0].id;
-                          return (
-                              <ProductCard
-                                  key={index}
-                                  productHandle={products[index].handle}
-                                  varientID={varientID}
-                                  reviewCount={reviewCounter}
-                                  totalRating={avgRating}
-                                  countryCode={product.countryCode}
-                                  productName={product.title}
-                                  productPrice={productPricing}
-                                  imageSrc={product.thumbnail}
-                                  hasDiscount={product.is_giftcard}
-                                  discountValue={product.discountValue}
-                              />
-                          );
-                      })}
+                        const variantID = product.variants[0].id;
+                        return (
+                            <ProductCard
+                                key={index}
+                                productHandle={products[index].handle}
+                                variantID={variantID}
+                                reviewCount={reviewCounter}
+                                totalRating={avgRating}
+                                countryCode={product.countryCode}
+                                productName={product.title}
+                                productPrice={productPricing}
+                                imageSrc={product.thumbnail}
+                                hasDiscount={product.is_giftcard}
+                                discountValue={product.discountValue}
+                            />
+                        );
+                    })}
             </SimpleGrid>
         </Container>
     );
