@@ -79,6 +79,11 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
                             hasDiscount={product.is_giftcard}
                             discountValue={product.discountValue}
                             productId={product.id}
+                            inventory={product.variants[0].inventory_quantity}
+                            allow_backorder={
+                                product.variants[0].allow_backorder
+                            }
+                            storeId={product.store_id}
                         />
                     );
                 })}
