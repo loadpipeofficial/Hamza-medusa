@@ -108,7 +108,7 @@ const ProductCardGroup = ({
                               <ProductCard
                                   key={index}
                                   productHandle={products[index].handle}
-                                  varientID={varientID}
+                                  variantID={varientID}
                                   reviewCount={reviewCounter}
                                   totalRating={avgRating}
                                   countryCode={product.countryCode}
@@ -117,6 +117,7 @@ const ProductCardGroup = ({
                                   imageSrc={product.thumbnail}
                                   hasDiscount={product.is_giftcard}
                                   discountValue={product.discountValue}
+                                  productId={product.id}
                               />
                           );
                       })}
