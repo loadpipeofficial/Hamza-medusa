@@ -160,7 +160,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                     }}
                                 />
                             </Box>
-                            {reviewCount > 0 ? (
+                            {(reviewCount ?? 0) > 0 ? (
                                 <>
                                     <Text
                                         color={'white'}
