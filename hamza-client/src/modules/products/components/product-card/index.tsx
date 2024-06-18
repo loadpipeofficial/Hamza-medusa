@@ -22,6 +22,7 @@ interface ProductCardProps {
     varientID: string;
     countryCode: string;
     productName: string;
+    reviewCount: number;
     productPrice: number | string;
     imageSrc: string;
     hasDiscount: boolean;
@@ -33,6 +34,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     varientID,
     countryCode,
     productName,
+    reviewCount: number,
     productPrice,
     imageSrc,
     hasDiscount,
