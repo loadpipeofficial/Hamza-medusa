@@ -12,7 +12,7 @@ export function useWishlistMutations() {
 
     // Accessing state safely
     const customerState = useCustomerAuthStore((state) => ({
-        customer_id: state.customer_id,
+        customer_id: state.authData.customer_id,
     }));
     const customer_id = customerState?.customer_id;
 

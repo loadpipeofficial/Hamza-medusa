@@ -27,25 +27,15 @@ const AccountNav = ({
     const route = usePathname();
     const searchParams = useSearchParams();
     const { countryCode } = useParams();
-    const {
-        setCustomerAuthData,
-        is_verified,
-        customer_id,
-        preferred_currency_code,
-        setStatus,
-        setVerified,
-        status,
-        token,
-        wallet_address,
-    } = useCustomerAuthStore();
+    const { setCustomerAuthData, authData } = useCustomerAuthStore();
     const router = useRouter();
     const handleLogout = async () => {
         setCustomerAuthData({
             customer_id: '',
             is_verified: false,
-            preferred_currency_code: null,
-            token: null,
-            wallet_address: null,
+            token: '',
+            wallet_address: '',
+            status: 'unauthenticated',
         });
         await signOut();
     };
@@ -53,23 +43,20 @@ const AccountNav = ({
     useEffect(() => {
         if (searchParams.get('verify') == 'true') {
             setCustomerAuthData({
-                customer_id: customer_id!,
+                ...authData,
                 is_verified: true,
-                preferred_currency_code,
-                token,
-                wallet_address,
             });
         }
     }, []);
     useEffect(() => {
         if (
             route == `/${countryCode}/account` &&
-            !is_verified &&
+            !authData.is_verified &&
             !searchParams.get('verify')
         ) {
             router.push(`/${countryCode}/account/profile`);
         }
-    }, [is_verified]);
+    }, [authData.is_verified]);
 
     return (
         <div>
@@ -106,7 +93,7 @@ const AccountNav = ({
                                     </LocalizedClientLink>
                                 </li>
 
-                                {is_verified && (
+                                {authData.is_verified && (
                                     <li>
                                         <LocalizedClientLink
                                             href="/account/addresses"
@@ -135,7 +122,7 @@ const AccountNav = ({
                                     </LocalizedClientLink>
                                 </li>
 
-                                {is_verified && (
+                                {authData.is_verified && (
                                     <li>
                                         <LocalizedClientLink
                                             href="/account/notifications"
@@ -174,7 +161,7 @@ const AccountNav = ({
                     </div>
                     <div className="text-base-regular">
                         <ul className="flex mb-0 justify-start items-start flex-col gap-y-4 ">
-                            {is_verified && (
+                            {authData.is_verified && (
                                 <li className="text-white">
                                     <AccountNavLink
                                         href="/account"
@@ -193,7 +180,7 @@ const AccountNav = ({
                                     Profile
                                 </AccountNavLink>
                             </li>
-                            {is_verified && (
+                            {authData.is_verified && (
                                 <li>
                                     <AccountNavLink
                                         href="/account/addresses"
@@ -212,7 +199,7 @@ const AccountNav = ({
                                     Orders
                                 </AccountNavLink>
                             </li>
-                            {is_verified && (
+                            {authData.is_verified && (
                                 <li>
                                     <AccountNavLink
                                         href="/account/notifications"
