@@ -282,7 +282,12 @@ export class RelayClient extends EventEmitter {
                 this.connection.addEventListener('open', async () => {
                     console.log('ws open');
                     if (this.keyCardEnrolled) {
-                        const res = await this.#authenticate();
+                        let res = null;
+                        try {
+                            res = await this.#authenticate();
+                        } catch (e) {
+                            console.error(e);
+                        }
                         if (res) {
                             console.log('authentication success');
                             resolve(res);
