@@ -39,7 +39,7 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
     const [loadingBuy, setLoadingBuy] = useState(false);
     const [loadingAddToCart, setLoadingAddToCard] = useState(false);
     const [selectWL, setSelectWL] = useState(false);
-    const { status } = useCustomerAuthStore();
+    const { authData } = useCustomerAuthStore();
     const [selectHeart, setSelectedHeart] = useState('black');
     const { addWishlistItemMutation, removeWishlistItemMutation } =
         useWishlistMutations();
@@ -116,7 +116,7 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
                         >
                             {productName}
                         </Text>
-                        {status == 'authenticated' && (
+                        {authData.status == 'authenticated' && (
                             <Box
                                 ml="auto"
                                 display="flex"

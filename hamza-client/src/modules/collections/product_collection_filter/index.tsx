@@ -28,7 +28,7 @@ const ProductCollections = ({ vendorName }: Props) => {
             )
     );
 
-    const { status, preferred_currency_code } = useCustomerAuthStore();
+    const { authData, preferred_currency_code } = useCustomerAuthStore();
 
     if (isLoading) {
         return null; // Suspense will handle the loading fallback.
@@ -60,7 +60,7 @@ const ProductCollections = ({ vendorName }: Props) => {
                         >
                             {products.map((product: any) => {
                                 let preferredPrice =
-                                    status == 'authenticated' &&
+                                    authData.status == 'authenticated' &&
                                     preferred_currency_code &&
                                     product.variants[0].prices.find(
                                         (a: any) =>
@@ -83,7 +83,8 @@ const ProductCollections = ({ vendorName }: Props) => {
                                                 {/*    <u>{product.title}</u>*/}
                                                 {/*    <br />*/}
 
-                                                {status == 'authenticated' &&
+                                                {authData.status ==
+                                                    'authenticated' &&
                                                 preferred_currency_code &&
                                                 preferredPrice ? (
                                                     <>

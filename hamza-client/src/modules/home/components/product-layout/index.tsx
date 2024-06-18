@@ -27,7 +27,7 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
 
     console.log(data);
 
-    const { status, preferred_currency_code } = useCustomerAuthStore();
+    const { authData, preferred_currency_code } = useCustomerAuthStore();
 
     if (isLoading) {
         return null; // Suspense will handle the loading fallback.

@@ -30,7 +30,7 @@ export default function ProductPrice({
     variant?: PricedVariant;
     region: RegionInfo;
 }) {
-    const { preferred_currency_code, status } = useCustomerAuthStore();
+    const { preferred_currency_code, authData } = useCustomerAuthStore();
     const selectedPrices = variant
         ? variant.prices
         : product.variants[0].prices;
@@ -99,7 +99,7 @@ export default function ProductPrice({
     };
 
     let preferredPrice =
-        status == 'authenticated' &&
+        authData.status == 'authenticated' &&
         preferred_currency_code &&
         selectedPrices.find((a) => a.currency_code == preferred_currency_code);
 

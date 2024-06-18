@@ -44,7 +44,7 @@ const ProductCardGroup = ({
 
     console.log(data);
 
-    const { status, preferred_currency_code } = useCustomerAuthStore();
+    const { preferred_currency_code } = useCustomerAuthStore();
 
     if (isLoading) {
         return null; // Suspense will handle the loading fallback.
@@ -88,9 +88,9 @@ const ProductCardGroup = ({
                 {isLoading
                     ? renderSkeletons(8) // Render 8 skeletons while loading
                     : products.map((product: any, index: number) => {
-                        const variantPrices = product.variants
-                            .map((variant: any) => variant.prices)
-                            .flat();
+                          const variantPrices = product.variants
+                              .map((variant: any) => variant.prices)
+                              .flat();
 
                           const productPricing = formatCryptoPrice(
                               variantPrices[0].amount,
@@ -112,7 +112,6 @@ const ProductCardGroup = ({
                               />
                           );
                       })}
-
             </SimpleGrid>
         </Container>
     );
