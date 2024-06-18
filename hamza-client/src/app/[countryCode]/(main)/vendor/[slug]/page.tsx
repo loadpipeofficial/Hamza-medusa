@@ -28,14 +28,22 @@ import {
     AlertIcon,
     AlertTitle,
     AlertDescription,
+    Card,
+    CardHeader,
+    CardBody,
+    Stack,
+    StackDivider,
+    CardFooter,
 } from '@chakra-ui/react';
 import axios from 'axios';
+import { format } from 'date-fns';
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 
 export default function Page({ params }: { params: { slug: string } }) {
     const displaySlug = capitalizeSlug(params.slug);
     const [reviewStats, setReviewStats] = useState({
         reviewCount: 0,
+        reviews: [],
         avgRating: 0,
         productCount: 0,
         createdAt: '',
@@ -139,7 +147,51 @@ export default function Page({ params }: { params: { slug: string } }) {
             >
                 {isSubmitted ? 'Report Submitted' : 'Report Abuse'}
             </Button>
-
+            <Box className="bg-black text-white p-4">
+                <Card>
+                    {reviewStats.reviewCount > 0 && (
+                        <>
+                            <CardHeader>
+                                <Heading size="md">
+                                    Vendor Product Reviews
+                                </Heading>
+                            </CardHeader>
+                            <CardBody>
+                                <Stack divider={<StackDivider />} spacing={4}>
+                                    {reviewStats.reviews.map((review) => (
+                                        <Box key={review.id}>
+                                            <Heading
+                                                size="xs"
+                                                textTransform="uppercase"
+                                            >
+                                                {review.title}
+                                            </Heading>
+                                            <Text fontSize="sm">
+                                                Customer ID:{' '}
+                                                {review.customer_id}
+                                            </Text>
+                                            <Text fontSize="sm">
+                                                Rating: {review.rating} / 5
+                                            </Text>
+                                            <Text fontSize="sm">
+                                                {review.review}
+                                            </Text>
+                                            <Text fontSize="sm">
+                                                Date:{' '}
+                                                {format(
+                                                    new Date(review.createdAt),
+                                                    'PPP'
+                                                )}
+                                            </Text>
+                                        </Box>
+                                    ))}
+                                </Stack>
+                            </CardBody>
+                            <CardFooter></CardFooter>
+                        </>
+                    )}
+                </Card>
+            </Box>
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
