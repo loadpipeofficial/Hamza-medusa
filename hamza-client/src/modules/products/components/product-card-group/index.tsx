@@ -50,7 +50,8 @@ const ProductCardGroup = ({
         return null; // Suspense will handle the loading fallback.
     }
 
-    if (error) return <div>Error: {error?.message}</div>;
+    const err: any = error ? error : null;
+    if (err) return <div>Error: {err?.message}</div>;
 
     const products = data?.data;
     const renderSkeletons = (num: number) => {
@@ -87,9 +88,9 @@ const ProductCardGroup = ({
                 {isLoading
                     ? renderSkeletons(8) // Render 8 skeletons while loading
                     : products.map((product: any, index: number) => {
-                          const variantPrices = product.variants
-                              .map((variant: any) => variant.prices)
-                              .flat();
+                        const variantPrices = product.variants
+                            .map((variant: any) => variant.prices)
+                            .flat();
 
                           const productPricing = formatCryptoPrice(
                               variantPrices[0].amount,
@@ -119,6 +120,7 @@ const ProductCardGroup = ({
                               />
                           );
                       })}
+
             </SimpleGrid>
         </Container>
     );

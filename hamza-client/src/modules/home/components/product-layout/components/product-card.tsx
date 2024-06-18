@@ -12,9 +12,10 @@ import { addToCart } from '@modules/cart/actions';
 import { IoHeartCircleOutline, IoHeartCircleSharp } from 'react-icons/io5';
 import { IoStar } from 'react-icons/io5';
 import { FaRegHeart, FaHeart } from 'react-icons/fa6';
-
+import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
+import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 interface ProductCardProps {
-    varientID: string;
+    variantID: string;
     countryCode: string;
     productName: string;
     reviewCount: number;
@@ -26,8 +27,8 @@ interface ProductCardProps {
     productHandle: string;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({
-    varientID,
+const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
+    variantID,
     countryCode,
     productName,
     reviewCount,
@@ -37,11 +38,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
     hasDiscount,
     discountValue,
     productHandle,
+    productId,
 }) => {
     const [loadingBuy, setLoadingBuy] = useState(false);
     const [loadingAddToCart, setLoadingAddToCard] = useState(false);
     const [selectWL, setSelectWL] = useState(false);
+    const { status } = useCustomerAuthStore();
     const [selectHeart, setSelectedHeart] = useState('black');
+    const { addWishlistItemMutation, removeWishlistItemMutation } =
+        useWishlistMutations();
+    const toggleWishlist = async () => {
+        // console.log('toggle wishlist-dropdown item', product);
+        addWishlistItemMutation.mutate({ id: productId });
+    };
 
     const toggleHeart = () => {
         setSelectWL((prev) => !prev);
@@ -49,9 +58,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
     const handleAddToCart = async () => {
         setLoadingAddToCard(true);
         await addToCart({
-            variantId: varientID,
+            variantId: variantID ?? '',
             quantity: 1,
-            countryCode: countryCode,
+            countryCode: countryCode ?? '',
             currencyCode: 'eth',
         });
         setLoadingAddToCard(false);
@@ -60,18 +69,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
     const handleBuyNow = async () => {
         setLoadingBuy(true);
         await addToCart({
-            variantId: varientID,
+            variantId: variantID ?? '',
             quantity: 1,
-            countryCode: countryCode,
+            countryCode: countryCode ?? '',
             currencyCode: 'eth',
         });
         setLoadingBuy(false);
-    };
-
-    const handleHeartClick = () => {
-        setSelectedHeart((prevColor: any) =>
-            prevColor === 'red' ? 'black' : 'red'
-        );
     };
 
     return (
@@ -117,30 +120,32 @@ const ProductCard: React.FC<ProductCardProps> = ({
                         >
                             {productName}
                         </Text>
-                        <Box
-                            ml="auto"
-                            display="flex"
-                            justifyContent="center"
-                            alignItems="center"
-                            minWidth="40px"
-                            minHeight="40px"
-                            borderRadius="50%"
-                            border="1px"
-                            borderColor="#7B61FF"
-                            cursor="pointer"
-                            onClick={() => toggleHeart()}
-                            sx={{
-                                userSelect: 'none', // Prevents text selection on card contents
-                            }}
-                        >
-                            <Box alignSelf="center">
-                                {selectWL === false ? (
-                                    <FaRegHeart color="#7B61FF" size={23} />
-                                ) : (
-                                    <FaHeart color="#7B61FF" size={23} />
-                                )}
+                        {status == 'authenticated' && (
+                            <Box
+                                ml="auto"
+                                display="flex"
+                                justifyContent="center"
+                                alignItems="center"
+                                minWidth="40px"
+                                minHeight="40px"
+                                borderRadius="50%"
+                                border="1px"
+                                borderColor="#7B61FF"
+                                cursor="pointer"
+                                onClick={() => toggleWishlist()} //todo
+                                sx={{
+                                    userSelect: 'none', // Prevents text selection on card contents
+                                }}
+                            >
+                                <Box alignSelf="center">
+                                    {selectWL === false ? (
+                                        <FaRegHeart color="#7B61FF" size={23} />
+                                    ) : (
+                                        <FaHeart color="#7B61FF" size={23} />
+                                    )}
+                                </Box>
                             </Box>
-                        </Box>
+                        )}
                     </Flex>
 
                     <Box mt="auto">

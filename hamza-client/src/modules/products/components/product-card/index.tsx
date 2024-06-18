@@ -19,20 +19,20 @@ import { IoStar } from 'react-icons/io5';
 import { FaRegHeart, FaHeart } from 'react-icons/fa6';
 
 interface ProductCardProps {
-    varientID: string;
-    countryCode: string;
-    productName: string;
-    reviewCount: number;
-    totalRating: number;
-    productPrice: number | string;
-    imageSrc: string;
-    hasDiscount: boolean;
-    discountValue: string;
-    productHandle: string;
+    reviewCount?: number;
+    totalRating?: number;
+    variantID?: string;
+    countryCode?: string;
+    productName?: string;
+    productPrice?: number | string;
+    imageSrc?: string;
+    hasDiscount?: boolean;
+    discountValue?: string;
+    productHandle?: string;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
-    varientID,
+    variantID,
     countryCode,
     productName,
     reviewCount,
@@ -54,9 +54,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
     const handleAddToCart = async () => {
         setLoadingAddToCard(true);
         await addToCart({
-            variantId: varientID,
+            variantId: variantID ?? '',
             quantity: 1,
-            countryCode: countryCode,
+            countryCode: countryCode ?? '',
             currencyCode: 'eth',
         });
         setLoadingAddToCard(false);
@@ -65,9 +65,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
     const handleBuyNow = async () => {
         setLoadingBuy(true);
         await addToCart({
-            variantId: varientID,
+            variantId: variantID ?? '',
             quantity: 1,
-            countryCode: countryCode,
+            countryCode: countryCode ?? '',
             currencyCode: 'eth',
         });
         setLoadingBuy(false);

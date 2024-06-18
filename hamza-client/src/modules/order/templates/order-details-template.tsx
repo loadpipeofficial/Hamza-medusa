@@ -102,16 +102,19 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
     };
     // console.log('Detailed Orders: ', detailedOrders);
 
-    const specificCart = detailedOrders.reduce((acc, item) => {
-        // Check if the item's cart_id matches the order.cart_id
-        if (item.cart_id === order.cart_id) {
-            if (!acc[item.cart_id]) {
-                acc[item.cart_id] = [];
+    const specificCart = detailedOrders.reduce(
+        (acc: { [key: string]: any }, item: any) => {
+            // Check if the item's cart_id matches the order.cart_id
+            if (item.cart_id === order.cart_id) {
+                if (!acc[item.cart_id]) {
+                    acc[item.cart_id] = [];
+                }
+                acc[item.cart_id].push(item);
             }
-            acc[item.cart_id].push(item);
-        }
-        return acc;
-    }, {});
+            return acc;
+        },
+        {}
+    );
 
     return (
         <div className="flex flex-col justify-center gap-y-4 ">

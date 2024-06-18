@@ -34,7 +34,8 @@ const ProductCollections = ({ vendorName }: Props) => {
         return null; // Suspense will handle the loading fallback.
     }
 
-    if (error) return <div>Error: {error?.message}</div>;
+    const err: any = error;
+    if (err) return <div>Error: {err?.message}</div>;
 
     const products = data?.data;
 
@@ -57,7 +58,7 @@ const ProductCollections = ({ vendorName }: Props) => {
                             }}
                             spacing="20px"
                         >
-                            {products.map((product) => {
+                            {products.map((product: any) => {
                                 let preferredPrice =
                                     status == 'authenticated' &&
                                     preferred_currency_code &&
