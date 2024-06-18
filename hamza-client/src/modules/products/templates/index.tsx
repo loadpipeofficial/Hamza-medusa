@@ -40,20 +40,29 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
     region,
     countryCode,
 }) => {
-    const { setProductData } = useProductPreview();
+    const { setProductData, setCountryCode, setRegion } = useProductPreview();
 
     // Only update product data when `product` changes
     useEffect(() => {
         if (product && product.id) {
             setProductData(product);
+            setCountryCode(countryCode);
+            setRegion(region);
         } else {
             notFound();
         }
-    }, [product, setProductData]);
+    }, [
+        product,
+        region,
+        countryCode,
+        setProductData,
+        setCountryCode,
+        setRegion,
+    ]);
 
-    if (!product || !product.id) {
-        return null; // Return null or some error display component
-    }
+    // if (!product || !product.id) {
+    //     return null; // Return null or some error display component
+    // }
 
     return (
         <Flex flexDirection={'column'} alignItems={'center'}>

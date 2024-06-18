@@ -1,14 +1,18 @@
 import { Box, Flex, Grid, GridItem, Image } from '@chakra-ui/react';
 import useProductPreview from '@store/product-preview/product-preview';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const PreviewGallery = () => {
     const { productData } = useProductPreview();
+    const [images, setImages] = useState([]);
 
     useEffect(() => {
-        console.log(productData);
-    }, []);
+        if (productData !== null) {
+            setImages(productData?.images || []);
+        }
+    }, [productData]);
 
+    //TODO: If each product needs 5 images how will we handle blank images?
     return (
         <Flex maxWidth={'1280px'} width={'100%'} flexDirection={'column'}>
             <Grid templateColumns="2fr 1fr" gap={4}>
@@ -21,13 +25,15 @@ const PreviewGallery = () => {
                         overflow="hidden"
                         borderLeftRadius={'16px'}
                     >
-                        <Image
-                            src={productData.images[0].url}
-                            alt="Left Image"
-                            width="100%"
-                            height="100%"
-                            objectFit="cover"
-                        />
+                        {images.length > 0 && (
+                            <Image
+                                src={images[0].url}
+                                alt="Left Image"
+                                width="100%"
+                                height="100%"
+                                objectFit="cover"
+                            />
+                        )}
                     </Box>
                 </GridItem>
                 <GridItem>
