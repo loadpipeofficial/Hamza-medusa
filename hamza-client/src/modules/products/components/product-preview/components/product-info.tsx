@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Text, Heading } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import useProductPreview from '@store/product-preview/product-preview';
 
@@ -32,13 +32,19 @@ const ProductInfo = () => {
                     <Text color="white">Electronics</Text>
                 </Box>
             </Flex>
-            <Text color="white">{productData.title}</Text>
+            <Heading as="h1" color="white">
+                {productData.title}
+            </Heading>
             <Flex flexDirection={'column'}>
-                <Text color="primary.green.900">Product Info</Text>
+                <Heading as="h2" color="primary.green.900">
+                    Product Info
+                </Heading>
                 <Text color="white">{productData.description}</Text>
             </Flex>
             <Flex flexDirection={'column'}>
-                <Text color="primary.green.900">About this item</Text>
+                <Heading as="h2" color="primary.green.900">
+                    About this item
+                </Heading>
                 <Text color="white">{productData.description}</Text>
             </Flex>
         </Flex>
