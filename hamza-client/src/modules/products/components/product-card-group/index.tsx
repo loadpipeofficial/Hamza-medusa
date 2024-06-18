@@ -95,6 +95,12 @@ const ProductCardGroup = ({
                               variantPrices[0].amount,
                               preferred_currency_code as string
                           );
+                          const reviewCounter = product.reviews.length;
+                          const totalRating = product.reviews.reduce(
+                              (acc: number, review: any) => acc + review.rating,
+                              0
+                          );
+                          const avgRating = totalRating / reviewCounter;
 
                           const varientID = product.variants[0].id;
                           return (
@@ -102,6 +108,8 @@ const ProductCardGroup = ({
                                   key={index}
                                   productHandle={products[index].handle}
                                   varientID={varientID}
+                                  reviewCount={reviewCounter}
+                                  totalRating={avgRating}
                                   countryCode={product.countryCode}
                                   productName={product.title}
                                   productPrice={productPricing}

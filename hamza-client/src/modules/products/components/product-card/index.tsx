@@ -23,6 +23,7 @@ interface ProductCardProps {
     countryCode: string;
     productName: string;
     reviewCount: number;
+    totalRating: number;
     productPrice: number | string;
     imageSrc: string;
     hasDiscount: boolean;
@@ -34,7 +35,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
     varientID,
     countryCode,
     productName,
-    reviewCount: number,
+    reviewCount,
+    totalRating,
     productPrice,
     imageSrc,
     hasDiscount,
@@ -158,24 +160,30 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                     }}
                                 />
                             </Box>
-                            <Text
-                                color={'white'}
-                                alignSelf={'center'}
-                                fontWeight="700"
-                                fontSize="14px"
-                                ml="1"
-                            >
-                                4.97
-                            </Text>
-                            <Text
-                                alignSelf={'center'}
-                                fontWeight="700"
-                                fontSize="14px"
-                                color="#555555"
-                                ml="1"
-                            >
-                                (0 reviews)
-                            </Text>
+                            {reviewCount > 0 ? (
+                                <>
+                                    <Text
+                                        color={'white'}
+                                        alignSelf={'center'}
+                                        fontWeight="700"
+                                        fontSize="14px"
+                                        ml="1"
+                                    >
+                                        {totalRating}
+                                    </Text>
+                                    <Text
+                                        alignSelf={'center'}
+                                        fontWeight="700"
+                                        fontSize="14px"
+                                        color="#555555"
+                                        ml="1"
+                                    >
+                                        ({reviewCount} reviews)
+                                    </Text>
+                                </>
+                            ) : (
+                                <Text color={'white'}> No Reviews Yet </Text>
+                            )}
                         </Flex>
                         <Flex>
                             <Box alignSelf={'center'}>
