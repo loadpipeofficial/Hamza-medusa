@@ -91,6 +91,11 @@ const ProductCardGroup = ({
                               .map((variant: any) => variant.prices)
                               .flat();
 
+                          const productPricing = formatCryptoPrice(
+                              variantPrices[0].amount,
+                              preferred_currency_code as string
+                          );
+
                           const varientID = product.variants[0].id;
                           return (
                               <ProductCard
@@ -99,7 +104,7 @@ const ProductCardGroup = ({
                                   varientID={varientID}
                                   countryCode={product.countryCode}
                                   productName={product.title}
-                                  productPrice={variantPrices[0].amount}
+                                  productPrice={productPricing}
                                   imageSrc={product.thumbnail}
                                   hasDiscount={product.is_giftcard}
                                   discountValue={product.discountValue}
