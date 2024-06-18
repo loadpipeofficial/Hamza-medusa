@@ -11,7 +11,7 @@ import SearchBar from './components/SearchBar';
 import SearchModalWrapper from '@modules/search/templates/search-wrapper';
 
 const SearchAndFilterPanel = () => {
-    const [vendorName, setVendorName] = useState('Goblin Store');
+    const [vendorName, setVendorName] = useState('Medusa Merch');
 
     //TODO: reputation causing overflow
     return (
