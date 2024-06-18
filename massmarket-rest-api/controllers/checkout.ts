@@ -98,7 +98,7 @@ export const checkoutController = {
                             );
                             output.ttl = event.cartFinalized.paymentTtl;
                             output.amount = event.cartFinalized.totalInCrypto;
-                            output.currency = '';
+                            output.currency = input.paymentCurrency ?? '';
                             output.success = true;
                         }
                     }
