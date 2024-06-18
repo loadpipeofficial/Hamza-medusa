@@ -48,6 +48,7 @@ export default function ProductActions({
     const countryCode = useParams().countryCode as string;
     const { whitelist_config, authData } = useCustomerAuthStore();
     const [isWhitelisted, setIsWhitelisted] = useState(false);
+    const { wishlist } = useWishlistStore();
 
     const variants = product.variants;
     const variant_id = variants[0].id;
@@ -176,7 +177,9 @@ export default function ProductActions({
     // add product to wishlist-dropdown
     const toggleWishlist = async () => {
         // console.log('toggle wishlist-dropdown item', product);
-        addWishlistItemMutation.mutate(product);
+        wishlist.products.find((a) => a.id == product.id)
+            ? removeWishlistItemMutation.mutate(product)
+            : addWishlistItemMutation.mutate(product);
     };
 
     const whitelistedProductHandler = async () => {
@@ -276,13 +279,21 @@ export default function ProductActions({
                         onClick={toggleWishlist}
                     >
                         <WishlistIcon
-                            fill={false}
+                            fill={
+                                wishlist.products.find(
+                                    (a) => a.id == product.id
+                                )
+                                    ? true
+                                    : false
+                            }
                             props={{
                                 className: 'wishlist-dropdown-icon',
                                 'aria-label': 'wishlist',
                             }}
                         />
-                        Add to Wishlist
+                        {wishlist.products.find((a) => a.id == product.id)
+                            ? 'Remove from Wishlist'
+                            : 'Add to Wishlist'}
                     </Button>
                 )}
                 <LocalizedClientLink href="/checkout?step=address">
