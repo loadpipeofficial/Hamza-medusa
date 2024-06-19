@@ -1,34 +1,96 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Order <%-data.orderId%> Placed</title>
-    </head>
 
-    <body>
-        <p>Your order placement was successful! Your order will be processed in the order
-        in which it was received.
-        </p>
-        <br />
-        <p>Order ID: <%-data.orderId%></p>
-        <p>Date/Time: <%-data.dateTimeString%></p>
-        <p>
-        Price: <%-data.orderAmount%>
-        </p>
-        <br />
-        <p>
-        Items: <%-data.orderItems$>
-        </p>
-        <br />
-        <p>
-        If you have any questions, please email us at support@hamza.biz. 
-        </p>
-        <br />
-        <p>
-        Thanks, 
-        <br />
-        Hamza Team
-        </p>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <style>
+        /* Add your CSS styles for the email here */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        .order {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .order-details {
+            margin-bottom: 10px;
+        }
+
+        .order-items {
+            margin-bottom: 10px;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .item-image {
+            max-width: 100px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <% for (const storeId in data) { %>
+        <% const store=data[storeId]; %>
+            <div class="order">
+                <div class="order-header">
+                    <h2>
+                        <%= store.storeName %>
+                    </h2>
+                    <p>Total Amount: <%= store.totalStoreOrderAmount %>
+                    </p>
+                </div>
+                <% store.orders.forEach(order=> { %>
+                    <div class="order-details">
+                        <p><strong>Order ID:</strong>
+                            <%= order.orderId %>
+                        </p>
+                        <p><strong>Order Date:</strong>
+                            <%= order.orderDate %>
+                        </p>
+                    </div>
+                    <div class="order-items">
+                        <% order.items.forEach(item=> { %>
+                            <div class="item">
+                                <div class="item-image">
+                                    <img style="height: 50px; width: 50px;" src="<%= item.thumbnail %>"
+                                        alt="<%= item.title %>">
+                                </div>
+                                <div class="item-details">
+                                    <p><strong>Title:</strong>
+                                        <%= item.title %>
+                                    </p>
+                                    <p><strong>Quantity:</strong>
+                                        <%= item.quantity %>
+                                    </p>
+                                    <p><strong>Unit Price:</strong>
+                                        <%= item.unit_price %>
+                                    </p>
+                                </div>
+                            </div>
+                            <% }); %>
+                    </div>
+                    <% }); %>
+            </div>
+            <% } %>
+</body>
+
 </html>
