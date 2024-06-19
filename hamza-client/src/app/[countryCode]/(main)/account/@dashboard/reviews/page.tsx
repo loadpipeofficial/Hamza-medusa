@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import Notification from '@modules/account/components/notifications';
+import Review from '@modules/account/components/reviews';
 
 import { getCustomer } from '@lib/data';
 
@@ -29,7 +29,7 @@ export default async function Reviews() {
                 <h1 className="text-2xl-semi">Reviews</h1>
                 <p className="text-base-regular">View your reviews</p>
             </div>
-            <Notification customer={customer} region={region} />
+            <Review customer={customer} region={region} />
         </div>
     );
 }
