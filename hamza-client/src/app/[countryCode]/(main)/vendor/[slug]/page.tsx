@@ -159,27 +159,27 @@ export default function Page({ params }: { params: { slug: string } }) {
                             <CardBody>
                                 <Stack divider={<StackDivider />} spacing={4}>
                                     {reviewStats.reviews.map((review) => (
-                                        <Box key={review.id}>
+                                        <Box key={(review as any).id}>
                                             <Heading
                                                 size="xs"
                                                 textTransform="uppercase"
                                             >
-                                                {review.title}
+                                                {(review as any).title}
                                             </Heading>
                                             <Text fontSize="sm">
                                                 Customer ID:{' '}
-                                                {review.customer_id}
+                                                {(review as any).customer_id}
                                             </Text>
                                             <Text fontSize="sm">
-                                                Rating: {review.rating} / 5
+                                                Rating: {(review as any).rating} / 5
                                             </Text>
                                             <Text fontSize="sm">
-                                                {review.review}
+                                                {(review as any).review}
                                             </Text>
                                             <Text fontSize="sm">
                                                 Date:{' '}
                                                 {format(
-                                                    new Date(review.createdAt),
+                                                    new Date((review as any).createdAt),
                                                     'PPP'
                                                 )}
                                             </Text>
