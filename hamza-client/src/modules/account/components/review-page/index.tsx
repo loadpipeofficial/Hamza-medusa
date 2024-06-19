@@ -11,12 +11,18 @@ import {
     RadioGroup,
     Button,
 } from '@chakra-ui/react';
-import { Region } from '@medusajs/medusa';
+import { Region, Customer } from '@medusajs/medusa';
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import axios from 'axios';
 
-const ReviewPage = ({ region }: { region: Region }) => {
+const ReviewPage = ({
+    region,
+    customer,
+}: {
+    region: Region;
+    customer: Customer;
+}) => {
     const [selectedNotifications, setSelectedNotifications] = useState([]);
     const [notificationMethod, setNotificationMethod] = useState('');
 
