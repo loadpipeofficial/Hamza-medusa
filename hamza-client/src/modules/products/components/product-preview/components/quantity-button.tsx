@@ -4,14 +4,33 @@ import { Flex, Text, Heading } from '@chakra-ui/react';
 import useProductPreview from '@store/product-preview/product-preview';
 
 const QuantityButton = () => {
-    const [quantity, setQuantity] = useState('');
-    const { productData, setProductData } = useProductPreview();
+    const [quantityAvailable, setQuantityAvailable] = useState('');
+    const { productData, setProductData, quantity, setQuantity } =
+        useProductPreview();
 
     useEffect(() => {
-        if (productData !== null) {
-            setQuantity(productData.variants[0].inventory_quantity);
-        }
+        const updateQuantityButton = async () => {
+            if (productData !== null) {
+                setQuantityAvailable(
+                    productData.variants[0].inventory_quantity
+                );
+            }
+        };
+
+        updateQuantityButton();
     }, [productData, setProductData]);
+
+    const incrementQuantity = () => {
+        if (quantity < Number(quantityAvailable)) {
+            setQuantity(quantity + 1);
+        }
+    };
+
+    const decrementQuantity = () => {
+        if (quantity > 1) {
+            setQuantity(quantity - 1);
+        }
+    };
 
     //TODO:Get varient id and update quantity.
     return (
@@ -27,12 +46,13 @@ const QuantityButton = () => {
                     fontSize="16px"
                     color="primary.indigo.900"
                 >
-                    {`${quantity} available`}
+                    {`${quantityAvailable} available`}
                 </Heading>
             </Flex>
 
             <Flex mt="1rem" gap="10px">
                 <Flex
+                    onClick={() => decrementQuantity()}
                     borderWidth={'1px'}
                     padding={'10px'}
                     borderRadius={'8px'}
@@ -51,10 +71,11 @@ const QuantityButton = () => {
                     borderRadius={'8px'}
                     borderColor={'#3E3E3E'}
                 >
-                    <Text color="white">1</Text>
+                    <Text color="white">{quantity}</Text>
                 </Flex>
 
                 <Flex
+                    onClick={() => incrementQuantity()}
                     borderWidth={'1px'}
                     padding={'10px'}
                     borderRadius={'8px'}

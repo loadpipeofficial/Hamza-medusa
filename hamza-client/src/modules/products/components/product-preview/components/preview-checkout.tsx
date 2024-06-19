@@ -3,11 +3,11 @@
 import React, { useEffect, useState } from 'react';
 import { Text, Card, Button, Flex, Box, Heading } from '@chakra-ui/react';
 import useProductPreview from '@store/product-preview/product-preview';
-import Image from 'next/image';
-import currencyIcons from '../../../../../../public/images/currencies/crypto-currencies';
 import CurrencyButtonPreview from './currency-buttons';
 import ReviewStar from '../../../../../../public/images/categories/';
 import QuantityButton from './quantity-button';
+import { addToCart } from '@modules/cart/actions';
+import { useParams } from 'next/navigation';
 
 const PreviewCheckout = () => {
     const currencies = {
@@ -16,12 +16,13 @@ const PreviewCheckout = () => {
         USDC: 'USDC',
     };
 
+    const countryCode = useParams().countryCode as string;
     const [sizes, setSizes] = useState<string[]>([]);
     const [colors, setColors] = useState<string[]>([]);
     const [selectedColor, setSelectedColor] = useState('');
     const [price, setSelectedPrice] = useState('');
 
-    const { productData } = useProductPreview();
+    const { productData, variantId, quantity } = useProductPreview();
 
     const getUniqueOptions = (
         variants: Variant[],
@@ -46,7 +47,14 @@ const PreviewCheckout = () => {
         setSelectedColor(color);
     };
 
-    console.log(productData);
+    const handleAddToCart = async () => {
+        await addToCart({
+            variantId: productData.variants[0].id,
+            quantity: quantity,
+            countryCode: countryCode,
+            currencyCode: 'eth',
+        });
+    };
 
     return (
         <Card
@@ -161,6 +169,7 @@ const PreviewCheckout = () => {
                     Buy Now
                 </Button>
                 <Button
+                    onClick={() => handleAddToCart()}
                     borderRadius={'56px'}
                     height="75px"
                     borderWidth={'1px'}

@@ -14,15 +14,7 @@ import RelatedProducts from '@modules/products/components/related-products';
 import SkeletonRelatedProducts from '@modules/skeletons/templates/skeleton-related-products';
 import { notFound } from 'next/navigation';
 import ProductActionsWrapper from './product-actions-wrapper';
-import {
-    Box,
-    Flex,
-    Text,
-    Image,
-    SimpleGrid,
-    Grid,
-    GridItem,
-} from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import PreviewGallery from '../components/product-preview/components/preview-gallery';
 import ProductInfo from '../components/product-preview/components/product-info';
 import PreviewCheckout from '../components/product-preview/components/preview-checkout';
@@ -41,8 +33,13 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
     region,
     countryCode,
 }) => {
-    const { setProductData, setCountryCode, setRegionId, setProductId } =
-        useProductPreview();
+    const {
+        setProductData,
+        setCountryCode,
+        setRegionId,
+        setProductId,
+        setQuantity,
+    } = useProductPreview();
 
     // Only update product data when `product` changes
     useEffect(() => {
@@ -51,6 +48,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
             setProductId(product.id);
             setRegionId(region.id);
             setCountryCode(countryCode);
+            setQuantity(1);
         } else {
             notFound();
         }
@@ -62,6 +60,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
         setProductId,
         setCountryCode,
         setRegionId,
+        setQuantity,
     ]);
 
     // if (!product || !product.id) {

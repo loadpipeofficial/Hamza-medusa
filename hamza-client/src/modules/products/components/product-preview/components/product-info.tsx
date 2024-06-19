@@ -1,15 +1,11 @@
 'use client';
 
 import { Box, Flex, Text, Heading } from '@chakra-ui/react';
-import React, { useEffect } from 'react';
+import React from 'react';
 import useProductPreview from '@store/product-preview/product-preview';
 
 const ProductInfo = () => {
     const { productData } = useProductPreview();
-
-    useEffect(() => {
-        console.log(productData);
-    }, []);
 
     return (
         <Flex
