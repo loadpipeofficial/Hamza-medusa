@@ -30,7 +30,6 @@ export const checkoutController = {
 
                 //TODO: REMOVE (dummy checkout)
 
-                /*
                 const output: ICheckoutOutput = {
                     success: true,
                     contractAddress:
@@ -41,8 +40,8 @@ export const checkoutController = {
                     ttl: 0,
                     currency: '',
                 };
-                */
 
+                /*
                 //validate input
                 if (!validateCheckoutInput(res, input)) {
                     console.log('validation failed');
@@ -103,6 +102,7 @@ export const checkoutController = {
                         }
                     }
                 }
+                */
 
                 console.log('returning output', output);
                 return output;
