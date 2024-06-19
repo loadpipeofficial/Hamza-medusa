@@ -209,6 +209,14 @@ const AccountNav = ({
                                     </AccountNavLink>
                                 </li>
                             )}
+                            <li>
+                                <AccountNavLink
+                                    href="/account/reviews"
+                                    route={route!}
+                                >
+                                    Reviews
+                                </AccountNavLink>
+                            </li>
 
                             <li className="text-grey-700">
                                 <button type="button" onClick={handleLogout}>
