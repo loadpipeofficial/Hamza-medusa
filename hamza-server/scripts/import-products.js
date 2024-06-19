@@ -31,20 +31,6 @@
 
 const fs = require('fs');
 
-[
-    {
-        store_id: 'store_01J0KCE5SZ31QQA4QAQ2R2Y2DP',
-        title: 'Fast Drone',
-        subtitle: 'ZK-ss93',
-        description: 'A fast drone that does stuff',
-        handle: '',
-        is_giftcard: 'f',
-        thumbnail: '',
-        collection_id: 'pcol_01HRVF8HCVY8B00RF5S54THTPC',
-        discountable: 't',
-        status: 'published',
-    },
-];
 function readProductsFromCsv() {
     const file = './data/products.csv';
     const fullText = fs.readFileSync(file, 'utf-8');
@@ -98,6 +84,7 @@ function readProductsFromCsv() {
 }
 
 async function main() {
+    console.log(readProductsFromCsv());
     try {
         const authResponse = await fetch('http://localhost:9000/admin/auth', {
             method: 'POST',
