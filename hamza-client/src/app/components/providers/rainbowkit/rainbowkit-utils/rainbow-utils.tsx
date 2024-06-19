@@ -117,7 +117,7 @@ const connectors = connectorsForWallets([
         groupName: 'Recommended',
         wallets: [
             rainbowWallet({ projectId: PROJECT_ID, chains }),
-            coinbaseWallet({ projectId: PROJECT_ID, chains }),
+            coinbaseWallet({ appName: PROJECT_ID, chains }),
             metaMaskWallet({
                 projectId: PROJECT_ID,
                 chains,

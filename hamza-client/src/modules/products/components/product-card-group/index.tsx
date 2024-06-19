@@ -103,12 +103,12 @@ const ProductCardGroup = ({
                           );
                           const avgRating = totalRating / reviewCounter;
 
-                          const varientID = product.variants[0].id;
+                          const variantID = product.variants[0].id;
                           return (
                               <ProductCard
                                   key={index}
                                   productHandle={products[index].handle}
-                                  variantID={varientID}
+                                  variantID={variantID}
                                   reviewCount={reviewCounter}
                                   totalRating={avgRating}
                                   countryCode={product.countryCode}

@@ -310,10 +310,10 @@ export class RelayClientWrapper {
         console.log(await this._client.changeCart(cartId, productId, quantity));
     }
 
-    async commitCart(cartId: HexString) {
+    async commitCart(cartId: HexString, tokenAddress: HexString | null = null) {
         await this._client.commitCart(
             cartId,
-            null,
+            tokenAddress,
             '0x74b7284836F753101bD683C3843e95813b381f18'
         );
     }

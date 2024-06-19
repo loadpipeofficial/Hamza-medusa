@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ENDPOINT = exports.validateStoreIdAndKeycard = exports.validateRequiredString = exports.validateRequiredHexString = exports.serveRequest = void 0;
 function serveRequest(req, res, runFunction, successReturnCode = 200, defaultReturnCode = 500) {
-    console.log('request served: ', JSON.stringify(req.body));
+    console.log('request received: ', JSON.stringify(req.body));
     const onError = (e) => {
         console.error(e);
         res.status(defaultReturnCode).json({

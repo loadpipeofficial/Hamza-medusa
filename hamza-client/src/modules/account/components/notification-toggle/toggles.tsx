@@ -52,17 +52,17 @@ const ToggleNotifications = ({ region }: { region: Region }) => {
         }
     }, [authData.customer_id]);
 
-    const handleCheckboxChange = (event) => {
+    const handleCheckboxChange = (event: any) => {
         const value = event.target.value;
         if (value === 'none') {
-            setSelectedNotifications(['none']);
+            setSelectedNotifications(['none' as never]);
         } else {
-            setSelectedNotifications((prevSelected) => {
+            setSelectedNotifications((prevSelected: any) => {
                 if (prevSelected.includes(value)) {
-                    return prevSelected.filter((item) => item !== value);
+                    return prevSelected.filter((item: any) => item !== value);
                 } else {
                     return [
-                        ...prevSelected.filter((item) => item !== 'none'),
+                        ...prevSelected.filter((item: any) => item !== 'none'),
                         value,
                     ];
                 }
@@ -72,7 +72,7 @@ const ToggleNotifications = ({ region }: { region: Region }) => {
 
     const handleSave = async () => {
         try {
-            if (selectedNotifications.includes('none')) {
+            if (selectedNotifications.includes('none' as never)) {
                 // Call the delete route if 'none' is selected
                 await fetch(
                     `${BACKEND_URL}/custom/notification/remove-notification`,
@@ -117,14 +117,14 @@ const ToggleNotifications = ({ region }: { region: Region }) => {
             <Stack spacing={3}>
                 <Checkbox
                     value="orderShipped"
-                    isChecked={selectedNotifications.includes('orderShipped')}
+                    isChecked={selectedNotifications.includes('orderShipped' as never)}
                     onChange={handleCheckboxChange}
                 >
                     Notify when order shipped
                 </Checkbox>
                 <Checkbox
                     value="newProduct"
-                    isChecked={selectedNotifications.includes('newProduct')}
+                    isChecked={selectedNotifications.includes('newProduct' as never)}
                     onChange={handleCheckboxChange}
                 >
                     Notify when followed sellers post a new product
@@ -132,7 +132,7 @@ const ToggleNotifications = ({ region }: { region: Region }) => {
                 <Checkbox
                     value="orderStatusChanged"
                     isChecked={selectedNotifications.includes(
-                        'orderStatusChanged'
+                        'orderStatusChanged' as never
                     )}
                     onChange={handleCheckboxChange}
                 >
@@ -140,21 +140,21 @@ const ToggleNotifications = ({ region }: { region: Region }) => {
                 </Checkbox>
                 <Checkbox
                     value="promotions"
-                    isChecked={selectedNotifications.includes('promotions')}
+                    isChecked={selectedNotifications.includes('promotions' as never)}
                     onChange={handleCheckboxChange}
                 >
                     Notify for promotions/discounts
                 </Checkbox>
                 <Checkbox
                     value="surveys"
-                    isChecked={selectedNotifications.includes('surveys')}
+                    isChecked={selectedNotifications.includes('surveys' as never)}
                     onChange={handleCheckboxChange}
                 >
                     Notify for surveys
                 </Checkbox>
                 <Checkbox
                     value="none"
-                    isChecked={selectedNotifications.includes('none')}
+                    isChecked={selectedNotifications.includes('none' as never)}
                     onChange={handleCheckboxChange}
                 >
                     No notifications (when this is checked, other checkboxes are

@@ -53,7 +53,7 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
                         .map((variant: any) => variant.prices)
                         .flat();
 
-                    const varientID = product.variants[0].id;
+                    let variantID = product.variants[0].id;
                     const reviewCounter = product.reviews.length;
                     const totalRating = product.reviews.reduce(
                         (acc: number, review: any) => acc + review.rating,
@@ -64,7 +64,7 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
                         variantPrices[0].amount,
                         preferred_currency_code as string
                     );
-                    const variantID = product.variants[0].id;
+                    variantID = product.variants[0].id;
                     return (
                         <ProductCard
                             key={index}

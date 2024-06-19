@@ -142,7 +142,7 @@ const ProductReview: React.FC<ProductReviewProps> = ({
                         <CardBody>
                             <Stack divider={<StackDivider />} spacing={4}>
                                 {reviews.map((review) => (
-                                    <Box key={review.id}>
+                                    <Box key={(review as any).id}>
                                         <Heading
                                             size="xs"
                                             textTransform="uppercase"

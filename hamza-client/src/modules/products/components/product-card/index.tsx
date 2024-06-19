@@ -32,7 +32,7 @@ interface ProductCardProps {
     hasDiscount?: boolean;
     discountValue?: string;
     productHandle?: string;
-    productId: string;
+    productId?: string;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -187,7 +187,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                     }}
                                 />
                             </Box>
-                            {reviewCount > 0 ? (
+                            {(reviewCount ?? 0) > 0 ? (
                                 <>
                                     <Text
                                         color={'white'}
