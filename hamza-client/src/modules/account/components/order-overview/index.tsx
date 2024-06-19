@@ -71,7 +71,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
         setIsModalOpen(true);
     };
     const closeModal = () => setIsModalOpen(false);
-    // console.log('Orders: ', orders);
+    console.log('Orders: ', orders);
 
     const countryCode = useParams().countryCode as string;
     const router = useRouter();
@@ -230,7 +230,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                                             </Button>
                                         </LocalizedClientLink>
                                         {orderStatuses[orders[index].id] ===
-                                            'canceled' ? (
+                                        'canceled' ? (
                                             <Button
                                                 colorScheme="red"
                                                 ml={4}
