@@ -12,7 +12,7 @@ import Image from 'next/image';
 import { Variant } from 'types/medusa';
 
 const PreviewCheckout = () => {
-    const currencies = {
+    const currencies: { [key: string]: 'ETH' | 'USDC' | 'USDT' } = {
         ETH: 'ETH',
         USDT: 'USDT',
         USDC: 'USDC',
@@ -122,7 +122,7 @@ const PreviewCheckout = () => {
                 </Heading>
                 <Flex mt="10px" gap="7px">
                     {Object.keys(currencies)
-                        .filter((key) => currencies[key] !== 'USDC')
+                        .filter((key: string) => currencies[key] !== 'USDC')
                         .map((key) => (
                             <CurrencyButtonPreview
                                 width="20px"
