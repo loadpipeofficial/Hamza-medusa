@@ -9,6 +9,7 @@ import { addToCart } from '@modules/cart/actions';
 import { useParams } from 'next/navigation';
 import ReviewStar from '../../../../../../public/images/products/review-star.svg';
 import Image from 'next/image';
+import { Variant } from 'types/medusa';
 
 const PreviewCheckout = () => {
     const currencies = {
@@ -44,7 +45,7 @@ const PreviewCheckout = () => {
         }
     }, [productData]);
 
-    const handleColorSelect = (color) => {
+    const handleColorSelect = (color: any) => {
         setSelectedColor(color);
     };
 
