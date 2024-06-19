@@ -133,7 +133,7 @@ const theme = extendTheme({
                     fontSize: '0.625rem',
                 },
             },
-            variants: {
+            variant: {
                 regular: {
                     fontWeight: 'normal', // 400
                 },
