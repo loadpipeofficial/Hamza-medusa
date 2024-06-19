@@ -12,12 +12,12 @@ export function useWishlistMutations() {
 
     // Accessing state safely
     const customerState = useCustomerAuthStore((state) => ({
-        customer_id: state.customer_id,
+        customer_id: state.authData.customer_id,
     }));
     const customer_id = customerState?.customer_id;
 
     const addWishlistItemMutation = useMutation(
-        (product: ProductType) => {
+        (product: any) => {
             console.log(
                 'PASSING CUSTOMER_ID',
                 customer_id,
@@ -33,7 +33,6 @@ export function useWishlistMutations() {
         {
             onSuccess: (data, product) => {
                 console.log('Adding Wish list item in DB!');
-                console.log('FAILING TO ADD ', product);
                 addWishlistProduct(product);
             },
             onError: (error) => {
@@ -43,7 +42,7 @@ export function useWishlistMutations() {
     );
 
     const removeWishlistItemMutation = useMutation(
-        (product: ProductType) => {
+        (product: any) => {
             console.log(
                 'PASSING CUSTOMER_ID',
                 customer_id,

@@ -44,13 +44,14 @@ const ProductCardGroup = ({
 
     console.log(data);
 
-    const { status, preferred_currency_code } = useCustomerAuthStore();
+    const { preferred_currency_code } = useCustomerAuthStore();
 
     if (isLoading) {
         return null; // Suspense will handle the loading fallback.
     }
 
-    if (error) return <div>Error: {error?.message}</div>;
+    const err: any = error ? error : null;
+    if (err) return <div>Error: {err?.message}</div>;
 
     const products = data?.data;
     const renderSkeletons = (num: number) => {
@@ -91,18 +92,32 @@ const ProductCardGroup = ({
                               .map((variant: any) => variant.prices)
                               .flat();
 
-                          const varientID = product.variants[0].id;
+                          const productPricing = formatCryptoPrice(
+                              variantPrices[0].amount,
+                              preferred_currency_code as string
+                          );
+                          const reviewCounter = product.reviews.length;
+                          const totalRating = product.reviews.reduce(
+                              (acc: number, review: any) => acc + review.rating,
+                              0
+                          );
+                          const avgRating = totalRating / reviewCounter;
+
+                          const variantID = product.variants[0].id;
                           return (
                               <ProductCard
                                   key={index}
                                   productHandle={products[index].handle}
-                                  varientID={varientID}
+                                  variantID={variantID}
+                                  reviewCount={reviewCounter}
+                                  totalRating={avgRating}
                                   countryCode={product.countryCode}
                                   productName={product.title}
-                                  productPrice={variantPrices[0].amount}
+                                  productPrice={productPricing}
                                   imageSrc={product.thumbnail}
                                   hasDiscount={product.is_giftcard}
                                   discountValue={product.discountValue}
+                                  productId={product.id}
                               />
                           );
                       })}

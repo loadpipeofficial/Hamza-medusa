@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardBody, Image, Text, Flex, Box } from '@chakra-ui/react';
 import { TiStarFullOutline } from 'react-icons/ti';
 import { FaBitcoin, FaEthereum } from 'react-icons/fa';
@@ -14,49 +14,64 @@ import { IoStar } from 'react-icons/io5';
 import { FaRegHeart, FaHeart } from 'react-icons/fa6';
 import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
+import axios from 'axios';
+import useWishlistStore from '@store/wishlist/wishlist-store';
 interface ProductCardProps {
-    varientID: string;
+    variantID: string;
     countryCode: string;
     productName: string;
-    productPrice: number;
+    reviewCount: number;
+    totalRating: number;
+    productPrice: number | string;
     imageSrc: string;
     hasDiscount: boolean;
     discountValue: string;
     productHandle: string;
+    allow_backorder: boolean;
+    inventory: number;
+    storeId: string;
 }
 
 const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
-    varientID,
+    variantID,
     countryCode,
     productName,
+    reviewCount,
+    totalRating,
     productPrice,
     imageSrc,
     hasDiscount,
     discountValue,
     productHandle,
     productId,
+    allow_backorder,
+    inventory,
+    storeId,
 }) => {
     const [loadingBuy, setLoadingBuy] = useState(false);
     const [loadingAddToCart, setLoadingAddToCard] = useState(false);
-    const [selectWL, setSelectWL] = useState(false);
-    const { status } = useCustomerAuthStore();
-    const [selectHeart, setSelectedHeart] = useState('black');
+    const { authData, whitelist_config, setWhitelistConfig } =
+        useCustomerAuthStore();
     const { addWishlistItemMutation, removeWishlistItemMutation } =
         useWishlistMutations();
+
+    const { wishlist } = useWishlistStore();
+
+    const [isWhitelisted, setIsWhitelisted] = useState(false);
+
     const toggleWishlist = async () => {
         // console.log('toggle wishlist-dropdown item', product);
-        addWishlistItemMutation.mutate({ id: productId });
+        wishlist.products.find((a) => a.id == productId)
+            ? removeWishlistItemMutation.mutate({ id: productId })
+            : addWishlistItemMutation.mutate({ id: productId });
     };
 
-    const toggleHeart = () => {
-        setSelectWL((prev) => !prev);
-    };
     const handleAddToCart = async () => {
         setLoadingAddToCard(true);
         await addToCart({
-            variantId: varientID,
+            variantId: variantID ?? '',
             quantity: 1,
-            countryCode: countryCode,
+            countryCode: countryCode ?? '',
             currencyCode: 'eth',
         });
         setLoadingAddToCard(false);
@@ -65,13 +80,30 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
     const handleBuyNow = async () => {
         setLoadingBuy(true);
         await addToCart({
-            variantId: varientID,
+            variantId: variantID ?? '',
             quantity: 1,
-            countryCode: countryCode,
+            countryCode: countryCode ?? '',
             currencyCode: 'eth',
         });
         setLoadingBuy(false);
     };
+
+    const whitelistedProductHandler = async () => {
+        const whitelistedProduct =
+            whitelist_config.is_whitelisted &&
+            whitelist_config.whitelisted_stores.includes(storeId)
+                ? true
+                : false;
+
+        setIsWhitelisted(whitelistedProduct);
+        return;
+    };
+
+    useEffect(() => {
+        if (authData.status == 'authenticated' && allow_backorder == true) {
+            whitelistedProductHandler();
+        }
+    }, [authData.status]);
 
     return (
         <Card
@@ -116,7 +148,7 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
                         >
                             {productName}
                         </Text>
-                        {status == 'authenticated' && (
+                        {authData.status == 'authenticated' && (
                             <Box
                                 ml="auto"
                                 display="flex"
@@ -134,7 +166,9 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
                                 }}
                             >
                                 <Box alignSelf="center">
-                                    {selectWL === false ? (
+                                    {wishlist.products.find(
+                                        (a) => a.id == productId
+                                    ) ? (
                                         <FaRegHeart color="#7B61FF" size={23} />
                                     ) : (
                                         <FaHeart color="#7B61FF" size={23} />
@@ -155,24 +189,30 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
                                     }}
                                 />
                             </Box>
-                            <Text
-                                color={'white'}
-                                alignSelf={'center'}
-                                fontWeight="700"
-                                fontSize="14px"
-                                ml="1"
-                            >
-                                4.97
-                            </Text>
-                            <Text
-                                alignSelf={'center'}
-                                fontWeight="700"
-                                fontSize="14px"
-                                color="#555555"
-                                ml="1"
-                            >
-                                (0 reviews)
-                            </Text>
+                            {reviewCount > 0 ? (
+                                <>
+                                    <Text
+                                        color={'white'}
+                                        alignSelf={'center'}
+                                        fontWeight="700"
+                                        fontSize="14px"
+                                        ml="1"
+                                    >
+                                        {totalRating}
+                                    </Text>
+                                    <Text
+                                        alignSelf={'center'}
+                                        fontWeight="700"
+                                        fontSize="14px"
+                                        color="#555555"
+                                        ml="1"
+                                    >
+                                        ({reviewCount} reviews)
+                                    </Text>
+                                </>
+                            ) : (
+                                <Text color={'white'}> No Reviews Yet </Text>
+                            )}
                         </Flex>
                         <Flex>
                             <Box alignSelf={'center'}>
@@ -216,7 +256,7 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
                                 handleBuyNow={() => handleAddToCart()}
                                 loader={loadingAddToCart}
                                 styles={'w-full'}
-                                outOfStock={false}
+                                outOfStock={inventory == 0 && !isWhitelisted}
                                 title={'Add to Cart'}
                             />
                             <LocalizedClientLink href="/checkout?step=address">
@@ -224,7 +264,9 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
                                     handleBuyNow={() => handleBuyNow()}
                                     loader={loadingBuy}
                                     styles={'w-full'}
-                                    outOfStock={false}
+                                    outOfStock={
+                                        inventory == 0 && !isWhitelisted
+                                    }
                                     title="Buy Now"
                                 />
                             </LocalizedClientLink>

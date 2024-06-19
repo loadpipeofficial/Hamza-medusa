@@ -10,6 +10,7 @@ import {
 import OrderRepository from '@medusajs/medusa/dist/repositories/order';
 import PaymentRepository from '@medusajs/medusa/dist/repositories/payment';
 import { ProductVariantRepository } from '../repositories/product-variant';
+import StoreRepository from '../repositories/store';
 
 import { Order } from '../models/order';
 import { Payment } from '../models/payment';
@@ -21,12 +22,14 @@ export default class OrderService extends MedusaOrderService {
 
     protected orderRepository_: typeof OrderRepository;
     protected paymentRepository_: typeof PaymentRepository;
+    protected readonly storeRepository_: typeof StoreRepository;
     protected readonly productVariantRepository_: typeof ProductVariantRepository;
     protected readonly logger: Logger;
 
     constructor(container) {
         super(container);
         this.orderRepository_ = container.orderRepository;
+        this.storeRepository_ = container.storeRepository;
         this.paymentRepository_ = container.paymentRepository;
         this.productVariantRepository_ = container.productVariantRepository;
         this.logger = container.logger;
@@ -217,6 +220,22 @@ export default class OrderService extends MedusaOrderService {
         );
     }
 
+    async getVendorFromOrder(orderId: string) {
+        try {
+            const order = (await this.orderRepository_.findOne({
+                where: { id: orderId },
+                relations: ['store'],
+            })) as Order;
+            const store_id = order.store_id;
+            const storeRepo = this.manager_.withRepository(
+                this.storeRepository_
+            );
+            const store = await storeRepo.findOneBy({ id: store_id });
+            return store.name;
+        } catch (e) {
+            this.logger.error(`Error fetching store from order: ${e}`);
+        }
+    }
     private getPostCheckoutUpdateInventoryPromises(
         cartProductsJson: string
     ): Promise<ProductVariant>[] {

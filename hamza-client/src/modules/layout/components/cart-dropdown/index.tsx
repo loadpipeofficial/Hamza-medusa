@@ -30,7 +30,7 @@ const CartDropdown = ({
     const close = () => setCartDropdownOpen(false);
 
     const totalItems =
-        cartState?.items?.reduce((acc, item) => {
+        cartState?.items?.reduce((acc: any, item: any) => {
             return acc + item.quantity;
         }, 0) || 0;
 
@@ -201,7 +201,8 @@ const CartDropdown = ({
                                                 amount: cartState.subtotal || 0,
                                                 region: cartState.region,
                                                 includeTaxes: false,
-                                            })}
+                                                currency_code: '',
+                                            }).toString()}
                                         </span>
                                     </div>
                                     <LocalizedClientLink href="/cart" passHref>

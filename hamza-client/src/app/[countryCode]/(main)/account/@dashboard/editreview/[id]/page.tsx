@@ -33,7 +33,7 @@ export default async function EditReviewPage({ params }: Props) {
                 </div>
             </div>
             <div>
-                <EditReviewTemplate item={order} />
+                <EditReviewTemplate />
             </div>
         </div>
     );

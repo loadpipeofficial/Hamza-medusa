@@ -9,9 +9,9 @@ export default function PreviewPrice({
 }: {
     prices: { currency_code: string; amount: number }[];
 }) {
-    const { preferred_currency_code, status } = useCustomerAuthStore();
+    const { preferred_currency_code, authData } = useCustomerAuthStore();
     let preferredPrice =
-        (status == 'authenticated' &&
+        (authData.status == 'authenticated' &&
             preferred_currency_code &&
             prices.find((a) => a.currency_code == preferred_currency_code)) ||
         null;

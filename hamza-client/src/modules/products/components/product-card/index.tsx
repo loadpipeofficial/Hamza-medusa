@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Card,
     CardBody,
@@ -17,42 +17,51 @@ import CartButton from '@modules/home/components/product-layout/components/cart-
 import { addToCart } from '@modules/cart/actions';
 import { IoStar } from 'react-icons/io5';
 import { FaRegHeart, FaHeart } from 'react-icons/fa6';
+import useWishlistStore from '@store/wishlist/wishlist-store';
+import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
+import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 
 interface ProductCardProps {
-    varientID: string;
-    countryCode: string;
-    productName: string;
-    productPrice: number;
-    imageSrc: string;
-    hasDiscount: boolean;
-    discountValue: string;
-    productHandle: string;
+    reviewCount?: number;
+    totalRating?: number;
+    variantID?: string;
+    countryCode?: string;
+    productName?: string;
+    productPrice?: number | string;
+    imageSrc?: string;
+    hasDiscount?: boolean;
+    discountValue?: string;
+    productHandle?: string;
+    productId?: string;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
-    varientID,
+    variantID,
     countryCode,
     productName,
+    reviewCount,
+    totalRating,
     productPrice,
     imageSrc,
     hasDiscount,
     discountValue,
     productHandle,
+    productId,
 }) => {
     const [loadingBuy, setLoadingBuy] = useState(false);
     const [loadingAddToCart, setLoadingAddToCard] = useState(false);
-    const [selectWL, setSelectWL] = useState(false);
     const [imageLoaded, setImageLoaded] = useState(false);
+    const { wishlist } = useWishlistStore();
+    const { addWishlistItemMutation, removeWishlistItemMutation } =
+        useWishlistMutations();
+    const { authData } = useCustomerAuthStore();
 
-    const toggleHeart = () => {
-        setSelectWL((prev) => !prev);
-    };
     const handleAddToCart = async () => {
         setLoadingAddToCard(true);
         await addToCart({
-            variantId: varientID,
+            variantId: variantID ?? '',
             quantity: 1,
-            countryCode: countryCode,
+            countryCode: countryCode ?? '',
             currencyCode: 'eth',
         });
         setLoadingAddToCard(false);
@@ -61,9 +70,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
     const handleBuyNow = async () => {
         setLoadingBuy(true);
         await addToCart({
-            variantId: varientID,
+            variantId: variantID ?? '',
             quantity: 1,
-            countryCode: countryCode,
+            countryCode: countryCode ?? '',
             currencyCode: 'eth',
         });
         setLoadingBuy(false);
@@ -118,31 +127,53 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             {productName}
                         </Text>
                         {/* wish list heart code */}
-                        <Box pl="1rem" ml="auto">
-                            <Box
-                                display="flex"
-                                justifyContent="center"
-                                alignItems="center"
-                                minWidth="40px"
-                                minHeight="40px"
-                                borderRadius="50%"
-                                border="1px"
-                                borderColor="#7B61FF"
-                                cursor="pointer"
-                                onClick={() => toggleHeart()}
-                                sx={{
-                                    userSelect: 'none',
-                                }}
-                            >
-                                <Box alignSelf="center">
-                                    {selectWL === false ? (
-                                        <FaRegHeart color="#7B61FF" size={23} />
-                                    ) : (
-                                        <FaHeart color="#7B61FF" size={23} />
-                                    )}
+
+                        {authData.status == 'authenticated' && (
+                            <Box pl="1rem" ml="auto">
+                                <Box
+                                    display="flex"
+                                    justifyContent="center"
+                                    alignItems="center"
+                                    minWidth="40px"
+                                    minHeight="40px"
+                                    borderRadius="50%"
+                                    border="1px"
+                                    borderColor="#7B61FF"
+                                    cursor="pointer"
+                                    onClick={() => {
+                                        console.log('adding ', productId);
+                                        !wishlist.products.find(
+                                            (a) => a.id == productId
+                                        )
+                                            ? addWishlistItemMutation.mutate({
+                                                  id: productId,
+                                              })
+                                            : removeWishlistItemMutation.mutate(
+                                                  { id: productId }
+                                              );
+                                    }}
+                                    sx={{
+                                        userSelect: 'none',
+                                    }}
+                                >
+                                    <Box alignSelf="center">
+                                        {!wishlist.products.find(
+                                            (a) => a.id == productId
+                                        ) ? (
+                                            <FaRegHeart
+                                                color="#7B61FF"
+                                                size={23}
+                                            />
+                                        ) : (
+                                            <FaHeart
+                                                color="#7B61FF"
+                                                size={23}
+                                            />
+                                        )}
+                                    </Box>
                                 </Box>
                             </Box>
-                        </Box>
+                        )}
                     </Flex>
 
                     <Box mt="auto">
@@ -156,24 +187,30 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                     }}
                                 />
                             </Box>
-                            <Text
-                                color={'white'}
-                                alignSelf={'center'}
-                                fontWeight="700"
-                                fontSize="14px"
-                                ml="1"
-                            >
-                                4.97
-                            </Text>
-                            <Text
-                                alignSelf={'center'}
-                                fontWeight="700"
-                                fontSize="14px"
-                                color="#555555"
-                                ml="1"
-                            >
-                                (0 reviews)
-                            </Text>
+                            {(reviewCount ?? 0) > 0 ? (
+                                <>
+                                    <Text
+                                        color={'white'}
+                                        alignSelf={'center'}
+                                        fontWeight="700"
+                                        fontSize="14px"
+                                        ml="1"
+                                    >
+                                        {totalRating}
+                                    </Text>
+                                    <Text
+                                        alignSelf={'center'}
+                                        fontWeight="700"
+                                        fontSize="14px"
+                                        color="#555555"
+                                        ml="1"
+                                    >
+                                        ({reviewCount} reviews)
+                                    </Text>
+                                </>
+                            ) : (
+                                <Text color={'white'}> No Reviews Yet </Text>
+                            )}
                         </Flex>
                         <Flex>
                             <Box alignSelf={'center'}>

@@ -1,15 +1,15 @@
 const vendors = [
     {
         id: 1,
-        vendorName: 'Goblin Store',
+        vendorName: 'Medusa Merch',
     },
     {
         id: 2,
-        vendorName: 'Quality Store',
+        vendorName: 'Echo Rift',
     },
     {
         id: 3,
-        vendorName: 'Headphones Store',
+        vendorName: 'Dauntless',
     },
 ];
 

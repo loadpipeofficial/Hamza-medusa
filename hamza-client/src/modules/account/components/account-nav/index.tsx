@@ -27,25 +27,15 @@ const AccountNav = ({
     const route = usePathname();
     const searchParams = useSearchParams();
     const { countryCode } = useParams();
-    const {
-        setCustomerAuthData,
-        is_verified,
-        customer_id,
-        preferred_currency_code,
-        setStatus,
-        setVerified,
-        status,
-        token,
-        wallet_address,
-    } = useCustomerAuthStore();
+    const { setCustomerAuthData, authData } = useCustomerAuthStore();
     const router = useRouter();
     const handleLogout = async () => {
         setCustomerAuthData({
             customer_id: '',
             is_verified: false,
-            preferred_currency_code: null,
-            token: null,
-            wallet_address: null,
+            token: '',
+            wallet_address: '',
+            status: 'unauthenticated',
         });
         await signOut();
     };
@@ -53,23 +43,20 @@ const AccountNav = ({
     useEffect(() => {
         if (searchParams.get('verify') == 'true') {
             setCustomerAuthData({
-                customer_id: customer_id!,
+                ...authData,
                 is_verified: true,
-                preferred_currency_code,
-                token,
-                wallet_address,
             });
         }
     }, []);
     useEffect(() => {
         if (
             route == `/${countryCode}/account` &&
-            !is_verified &&
+            !authData.is_verified &&
             !searchParams.get('verify')
         ) {
             router.push(`/${countryCode}/account/profile`);
         }
-    }, [is_verified]);
+    }, [authData.is_verified]);
 
     return (
         <div>
@@ -105,20 +92,23 @@ const AccountNav = ({
                                         </>
                                     </LocalizedClientLink>
                                 </li>
-                                <li>
-                                    <LocalizedClientLink
-                                        href="/account/addresses"
-                                        className="flex items-center justify-between py-4 border-b border-gray-200 px-8"
-                                    >
-                                        <>
-                                            <div className="flex items-center gap-x-2">
-                                                <MapPin size={20} />
-                                                <span>Addresses</span>
-                                            </div>
-                                            <ChevronDown className="transform -rotate-90" />
-                                        </>
-                                    </LocalizedClientLink>
-                                </li>
+
+                                {authData.is_verified && (
+                                    <li>
+                                        <LocalizedClientLink
+                                            href="/account/addresses"
+                                            className="flex items-center justify-between py-4 border-b border-gray-200 px-8"
+                                        >
+                                            <>
+                                                <div className="flex items-center gap-x-2">
+                                                    <MapPin size={20} />
+                                                    <span>Addresses</span>
+                                                </div>
+                                                <ChevronDown className="transform -rotate-90" />
+                                            </>
+                                        </LocalizedClientLink>
+                                    </li>
+                                )}
                                 <li>
                                     <LocalizedClientLink
                                         href="/account/orders"
@@ -131,18 +121,21 @@ const AccountNav = ({
                                         <ChevronDown className="transform -rotate-90" />
                                     </LocalizedClientLink>
                                 </li>
-                                <li>
-                                    <LocalizedClientLink
-                                        href="/account/notifications"
-                                        className="flex items-center justify-between py-4 border-b border-gray-200 px-8"
-                                    >
-                                        <div className="flex items-center gap-x-2">
-                                            <Package size={20} />
-                                            <span>Notifications</span>
-                                        </div>
-                                        <ChevronDown className="transform -rotate-90" />
-                                    </LocalizedClientLink>
-                                </li>
+
+                                {authData.is_verified && (
+                                    <li>
+                                        <LocalizedClientLink
+                                            href="/account/notifications"
+                                            className="flex items-center justify-between py-4 border-b border-gray-200 px-8"
+                                        >
+                                            <div className="flex items-center gap-x-2">
+                                                <Package size={20} />
+                                                <span>Notifications</span>
+                                            </div>
+                                            <ChevronDown className="transform -rotate-90" />
+                                        </LocalizedClientLink>
+                                    </li>
+                                )}
                                 <li>
                                     <button
                                         type="button"
@@ -168,7 +161,7 @@ const AccountNav = ({
                     </div>
                     <div className="text-base-regular">
                         <ul className="flex mb-0 justify-start items-start flex-col gap-y-4 ">
-                            {is_verified && (
+                            {authData.is_verified && (
                                 <li className="text-white">
                                     <AccountNavLink
                                         href="/account"
@@ -187,7 +180,7 @@ const AccountNav = ({
                                     Profile
                                 </AccountNavLink>
                             </li>
-                            {is_verified && (
+                            {authData.is_verified && (
                                 <li>
                                     <AccountNavLink
                                         href="/account/addresses"
@@ -206,14 +199,17 @@ const AccountNav = ({
                                     Orders
                                 </AccountNavLink>
                             </li>
-                            <li>
-                                <AccountNavLink
-                                    href="/account/notifications"
-                                    route={route!}
-                                >
-                                    Notifications
-                                </AccountNavLink>
-                            </li>
+                            {authData.is_verified && (
+                                <li>
+                                    <AccountNavLink
+                                        href="/account/notifications"
+                                        route={route!}
+                                    >
+                                        Notifications
+                                    </AccountNavLink>
+                                </li>
+                            )}
+
                             <li className="text-grey-700">
                                 <button type="button" onClick={handleLogout}>
                                     Log out

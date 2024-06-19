@@ -4,12 +4,11 @@ import { Button } from '@medusajs/ui';
 import React, { useState, useEffect, useRef } from 'react';
 import ErrorMessage from '../error-message';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
-import { useAccount, useConnect } from 'wagmi';
+import { useAccount, useConnect, WindowProvider } from 'wagmi';
 import { InjectedConnector } from 'wagmi/connectors/injected';
 import {
     ITransactionOutput,
     IMultiPaymentInput,
-    IMultiPaymentInput_MM,
 } from 'web3';
 import { MassmarketPaymentClient } from 'web3/massmarket-payment';
 import { ethers, BigNumberish } from 'ethers';
@@ -46,17 +45,17 @@ type CheckoutData = {
 // Extend the Window interface
 declare global {
     interface Window {
-        ethereum: ethers.Eip1193Provider;
+        ethereum?: WindowProvider;
     }
 }
 
 const PaymentButton: React.FC<PaymentButtonProps> = ({ cart }) => {
     const notReady =
         !cart ||
-        !cart.shipping_address ||
-        !cart.billing_address ||
-        !cart.email ||
-        cart.shipping_methods.length < 1
+            !cart.shipping_address ||
+            !cart.billing_address ||
+            !cart.email ||
+            cart.shipping_methods.length < 1
             ? true
             : false;
 
@@ -105,10 +104,10 @@ const CryptoPaymentButton = ({
         chainId: number
     ) => {
         if (data.orders) {
-            const paymentInput: IMultiPaymentInput_MM[] = [];
+            const paymentInput: IMultiPaymentInput[] = [];
             data.orders.forEach((o: any) => {
                 //o.amount = o.massmarket_amount; // translateToNativeAmount(o, chainId);
-                const input: IMultiPaymentInput_MM = {
+                const input: IMultiPaymentInput = {
                     currency: o.currency_code,
                     receiver: o.wallet_address,
                     payments: [
@@ -118,13 +117,15 @@ const CryptoPaymentButton = ({
                             //),
                             id: o.massmarket_order_id,
                             payer: payer,
-                            amount: o.massmarket_amount,
+                            massmarketAmount: o.massmarket_amount,
                             currency: o.currency_code,
                             receiver: data.wallet_address,
-                            orderId: o.massmarket_order_id,
+                            massmarketOrderId: o.massmarket_order_id,
                             storeId: o.orders[0].store.massmarket_store_id,
                             chainId,
-                            ttl: o.massmarket_ttl,
+                            amount: o.amount,
+                            orderId: o.id,
+                            massmarketTtl: o.massmarket_ttl,
                         },
                     ],
                 };
@@ -154,55 +155,57 @@ const CryptoPaymentButton = ({
     const doWalletPayment = async (data: any) => {
         try {
             //get provider and such
-            const rawchainId = await window.ethereum.request({
+            const rawchainId = await window.ethereum?.request({
                 method: 'eth_chainId',
             });
 
             //get chain id
-            const chainId = parseInt(rawchainId, 16);
-            const provider = new ethers.BrowserProvider(
-                window.ethereum,
-                chainId
-            );
-            const signer: ethers.Signer = await provider.getSigner();
+            if (window.ethereum) {
+                const chainId = parseInt(rawchainId ?? '', 16);
+                const provider = new ethers.BrowserProvider(
+                    window.ethereum,
+                    chainId
+                );
+                const signer: ethers.Signer = await provider.getSigner();
 
-            //create the contract client
-            const escrow_contract_address = getMasterSwitchAddress(chainId);
-            const paymentContractAddr = getMassmarketPaymentAddress(chainId);
-            const paymentClient: MassmarketPaymentClient =
-                new MassmarketPaymentClient(
-                    provider,
-                    signer,
-                    paymentContractAddr,
-                    escrow_contract_address
+                //create the contract client
+                const escrow_contract_address = getMasterSwitchAddress(chainId);
+                const paymentContractAddr = getMassmarketPaymentAddress(chainId);
+                const paymentClient: MassmarketPaymentClient =
+                    new MassmarketPaymentClient(
+                        provider,
+                        signer,
+                        paymentContractAddr,
+                        escrow_contract_address
+                    );
+
+                console.log('payment address:', paymentContractAddr);
+                console.log('escrow address:', escrow_contract_address);
+
+                //create the inputs
+                const paymentInput: IMultiPaymentInput[] = await createPaymentInput(
+                    data,
+                    await signer.getAddress(),
+                    chainId
                 );
 
-            console.log('payment address:', paymentContractAddr);
-            console.log('escrow address:', escrow_contract_address);
+                console.log('payment input: ', paymentInput);
 
-            //create the inputs
-            const paymentInput: IMultiPaymentInput[] = await createPaymentInput(
-                data,
-                await signer.getAddress(),
-                chainId
-            );
+                //send payment to contract
+                const output =
+                    await paymentClient.pay(paymentInput);
 
-            console.log('payment input: ', paymentInput);
+                console.log(output);
+                const transaction_id = output.transaction_id;
+                const payer_address = output.receipt.from;
 
-            //send payment to contract
-            const output: ITransactionOutput =
-                await paymentClient.pay(paymentInput);
-
-            console.log(output);
-            const transaction_id = output.transaction_id;
-            const payer_address = output.receipt.from;
-
-            return {
-                transaction_id,
-                payer_address,
-                escrow_contract_address,
-                success: transaction_id && transaction_id.length ? true : false,
-            };
+                return {
+                    transaction_id,
+                    payer_address,
+                    escrow_contract_address,
+                    success: transaction_id && transaction_id.length ? true : false,
+                };
+            }
         } catch (e) {
             console.error('error has occured during transaction', e);
             setErrorMessage('Checkout was not completed.');
@@ -326,7 +329,7 @@ const CryptoPaymentButton = ({
             updateCart.mutate(
                 { context: {} },
                 {
-                    onSuccess: ({}) => {
+                    onSuccess: ({ }) => {
                         //this calls the CartCompletion routine
                         completeCart.mutate(void 0, {
                             onSuccess: async ({ data, type }) => {
@@ -343,7 +346,7 @@ const CryptoPaymentButton = ({
                                     await cancelOrderFromCart();
                                 }
                             },
-                            onError: async ({}) => {
+                            onError: async ({ }) => {
                                 setSubmitting(false);
                                 setErrorMessage('Checkout was not completed');
                                 await cancelOrderFromCart();

@@ -30,7 +30,7 @@ export default function ProductPrice({
     variant?: PricedVariant;
     region: RegionInfo;
 }) {
-    const { preferred_currency_code, status } = useCustomerAuthStore();
+    const { preferred_currency_code, authData } = useCustomerAuthStore();
     const selectedPrices = variant
         ? variant.prices
         : product.variants[0].prices;
@@ -99,7 +99,7 @@ export default function ProductPrice({
     };
 
     let preferredPrice =
-        status == 'authenticated' &&
+        authData.status == 'authenticated' &&
         preferred_currency_code &&
         selectedPrices.find((a) => a.currency_code == preferred_currency_code);
 
@@ -107,7 +107,7 @@ export default function ProductPrice({
         return <div className="block w-32 h-9 bg-gray-100 animate-pulse" />;
     }
 
-    const renderStars = (rating) => {
+    const renderStars = (rating: any) => {
         const fullStars = Math.floor(rating);
         const halfStar = rating % 1 >= 0.5;
         const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);

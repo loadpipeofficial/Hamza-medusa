@@ -25,6 +25,7 @@ import {
 import { In } from 'typeorm';
 import OrderRepository from '@medusajs/medusa/dist/repositories/order';
 import LineItemRepository from '@medusajs/medusa/dist/repositories/line-item';
+import { getCurrencyAddress } from '../currency.config';
 
 type HexString = `0x${string}`;
 
@@ -150,7 +151,9 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             const checkoutResults: CheckoutResult[] =
                 await this.doMassMarketCheckouts(storeGroups, orders);
 
-            this.logger.debug(`Got checkout results ${JSON.stringify(checkoutResults)}`);
+            this.logger.debug(
+                `Got checkout results ${JSON.stringify(checkoutResults)}`
+            );
             await this.updateOrderForMassMarket(checkoutResults);
 
             //create & return the response
@@ -322,7 +325,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
 
                 //TODO: is this necessary?
                 orders = await this.orderRepository.find({
-                    where: { id: In(orders.map(o => o.id)) },
+                    where: { id: In(orders.map((o) => o.id)) },
                     relations: ['store'],
                 });
             }
@@ -347,14 +350,23 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
                 });
             }
 
+            //get payment currency address
+            let currencyAddress = getCurrencyAddress(group.currency_code);
+            if (currencyAddress) {
+                if (currencyAddress === '0x0' || currencyAddress === '')
+                    currencyAddress = undefined;
+            }
             //massmarket checkout for a store group
             const checkout = await client.checkout(
                 stringToHex(group.store?.massmarket_store_id),
                 stringToHex(group.store?.massmarket_keycard),
+                currencyAddress,
                 checkoutInputs
             );
 
-            this.logger.debug('got checkout results:' + JSON.stringify(checkout));
+            this.logger.debug(
+                'got checkout results:' + JSON.stringify(checkout)
+            );
             this.logger.debug(orders.length);
 
             //save the output
@@ -370,7 +382,9 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
     private async updateOrderForMassMarket(checkoutResults: CheckoutResult[]) {
         const promises: Promise<Order>[] = [];
         for (const r of checkoutResults) {
-            this.logger.debug('saving order ' + r.orderId + ', ' + r.medusaOrderId);
+            this.logger.debug(
+                'saving order ' + r.orderId + ', ' + r.medusaOrderId
+            );
             promises.push(
                 this.orderRepository.save({
                     id: r.medusaOrderId,
