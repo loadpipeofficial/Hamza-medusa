@@ -6,10 +6,14 @@ import useSideFilter from '@store/store-page/side-filter';
 
 interface CurrencyButtonPreviewProps {
     currencyName: 'ETH' | 'USDC' | 'USDT';
+    width: string;
+    height: string;
 }
 
 const CurrencyButtonPreview: React.FC<CurrencyButtonPreviewProps> = ({
     currencyName,
+    width,
+    height,
 }) => {
     const { currencyFilterSelect, setCurrencyFilterSelect } = useSideFilter();
 
@@ -22,7 +26,11 @@ const CurrencyButtonPreview: React.FC<CurrencyButtonPreviewProps> = ({
                 flexDirection={'row'}
                 alignItems={'center'}
             >
-                <Image src={currencyIcons[currencyName]} alt={currencyName} />
+                <Image
+                    style={{ width: width, height: height }}
+                    src={currencyIcons[currencyName]}
+                    alt={currencyName}
+                />
             </Flex>
         </Flex>
     );

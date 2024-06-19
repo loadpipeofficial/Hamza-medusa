@@ -4,10 +4,11 @@ import React, { useEffect, useState } from 'react';
 import { Text, Card, Button, Flex, Box, Heading } from '@chakra-ui/react';
 import useProductPreview from '@store/product-preview/product-preview';
 import CurrencyButtonPreview from './currency-buttons';
-import ReviewStar from '../../../../../../public/images/categories/';
 import QuantityButton from './quantity-button';
 import { addToCart } from '@modules/cart/actions';
 import { useParams } from 'next/navigation';
+import ReviewStar from '../../../../../../public/images/products/review-star.svg';
+import Image from 'next/image';
 
 const PreviewCheckout = () => {
     const currencies = {
@@ -60,34 +61,78 @@ const PreviewCheckout = () => {
         <Card
             padding="2rem"
             borderRadius={'16px'}
-            height={'739px'}
+            height={'800px'}
             maxW={'504px'}
             width={'100%'}
             backgroundColor={'#121212'}
+            overflow={'hidden'}
         >
             <Text color="primary.green.900">Listing Price</Text>
-            <Flex gap="12px">
-                <CurrencyButtonPreview currencyName={currencies['USDC']} />
-                <Text fontSize={'32px'} color="white">
+
+            <Flex gap="10px" flexDirection={'column'}>
+                <Flex gap="12px">
+                    <CurrencyButtonPreview
+                        width="24px"
+                        height="24px"
+                        currencyName={currencies['USDC']}
+                    />
+                    <Text fontSize={'32px'} color="white">
+                        {price}
+                    </Text>
+                </Flex>
+                <Heading as="h3" color="white">
                     {price}
-                </Text>
+                </Heading>
+
+                <Flex gap="5px">
+                    <Flex flexDirection={'row'}>
+                        <Image src={ReviewStar} alt={'star'} />
+                        <Image src={ReviewStar} alt={'star'} />
+                        <Image src={ReviewStar} alt={'star'} />
+                        <Image src={ReviewStar} alt={'star'} />
+                        <Image src={ReviewStar} alt={'star'} />
+                    </Flex>
+
+                    <Flex flexDirection={'row'}>
+                        <Heading
+                            as="h4"
+                            variant="semibold"
+                            fontSize={'16px'}
+                            color={'white'}
+                            alignSelf={'center'}
+                        >
+                            4.97
+                        </Heading>
+                        <Heading
+                            ml="4px"
+                            as="h4"
+                            variant="semibold"
+                            fontSize={'16px'}
+                            color={'#555555'}
+                            alignSelf={'center'}
+                        >
+                            (0 Reviews)
+                        </Heading>
+                    </Flex>
+                </Flex>
+
+                <Heading as="h4" fontSize="16px" color="white">
+                    Also available in other currencies
+                </Heading>
+                <Flex mt="10px" gap="7px">
+                    {Object.keys(currencies)
+                        .filter((key) => currencies[key] !== 'USDC')
+                        .map((key) => (
+                            <CurrencyButtonPreview
+                                width="20px"
+                                height="20px"
+                                key={key}
+                                currencyName={currencies[key]}
+                            />
+                        ))}
+                </Flex>
             </Flex>
-            <Heading as="h3" color="white">
-                {price}
-            </Heading>
-            <Heading as="h4" fontSize="16px" color="white">
-                Also available in other currencies
-            </Heading>
-            <Flex mt="10px" gap="7px">
-                {Object.keys(currencies)
-                    .filter((key) => currencies[key] !== 'USDC')
-                    .map((key) => (
-                        <CurrencyButtonPreview
-                            key={key}
-                            currencyName={currencies[key]}
-                        />
-                    ))}
-            </Flex>
+
             <Flex width={'100%'} flexDirection={'column'}>
                 <Flex flexDirection="column" mt="2rem">
                     <Heading as="h3" fontSize={'18px'} color="white">
@@ -124,7 +169,7 @@ const PreviewCheckout = () => {
                             colors.map((color, index) => (
                                 <Flex
                                     key={index}
-                                    p="2px" // Padding creates the space for the ring
+                                    p="2px"
                                     borderRadius="full"
                                     borderWidth={'2px'}
                                     width="52px"
@@ -135,7 +180,7 @@ const PreviewCheckout = () => {
                                             ? 'white'
                                             : 'transparent'
                                     }
-                                    backgroundColor={'transparent'} // Change the background color to show selection
+                                    backgroundColor={'transparent'}
                                     cursor="pointer"
                                     justifyContent={'center'}
                                     onClick={() => handleColorSelect(color)}
