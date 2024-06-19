@@ -31,18 +31,20 @@
 
 const fs = require('fs');
 
-[{
-    'store_id': 'store_01J0KCE5SZ31QQA4QAQ2R2Y2DP',
-    'title': 'Fast Drone',
-    'subtitle': 'ZK-ss93',
-    'description': 'A fast drone that does stuff',
-    'handle': '',
-    'is_giftcard': 'f',
-    'thumbnail': '',
-    'collection_id': 'pcol_01HRVF8HCVY8B00RF5S54THTPC',
-    'discountable': 't',
-    'status': 'published',
-}]
+[
+    {
+        store_id: 'store_01J0KCE5SZ31QQA4QAQ2R2Y2DP',
+        title: 'Fast Drone',
+        subtitle: 'ZK-ss93',
+        description: 'A fast drone that does stuff',
+        handle: '',
+        is_giftcard: 'f',
+        thumbnail: '',
+        collection_id: 'pcol_01HRVF8HCVY8B00RF5S54THTPC',
+        discountable: 't',
+        status: 'published',
+    },
+];
 function readProductsFromCsv() {
     const file = './data/products.csv';
     const fullText = fs.readFileSync(file, 'utf-8');
@@ -54,29 +56,40 @@ function readProductsFromCsv() {
     for (let line of lines) {
         line = line.trim();
         if (line.length > 0) {
-
             //ignore headers on top
             if (!ignored) {
                 ignored = true;
                 continue;
             }
 
-            //split into fields 
+            //split into fields
             const fields = line.split(',');
             console.log(fields.length);
             if (fields.length == 10) {
                 output.push({
                     store_id: fields[0].trim(),
-                    title: fields[1].trim().replace('&comma;', ','),
-                    subtitle: fields[2].trim().replace('&comma;', ','),
-                    description: fields[3].trim().replace('&comma;', ','),
-                    handle: fields[4].trim().replace('&comma;', ','),
+                    title: fields[1]
+                        .trim()
+                        .replace('&comma;', ',')
+                        .replace('&crlf;', '\n'),
+                    subtitle: fields[2]
+                        .trim()
+                        .replace('&comma;', ',')
+                        .replace('&crlf;', '\n'),
+                    description: fields[3]
+                        .trim()
+                        .replace('&comma;', ',')
+                        .replace('&crlf;', '\n'),
+                    handle: fields[4]
+                        .trim()
+                        .replace('&comma;', ',')
+                        .replace('&crlf;', '\n'),
                     is_giftcard: fields[5].trim(),
                     thumbnail: fields[6].trim(),
                     collection_id: fields[7].trim(),
                     discountable: fields[8].trim(),
                     status: fields[9].trim(),
-                })
+                });
             }
         }
     }
@@ -103,10 +116,10 @@ async function main() {
                 method: 'POST',
                 headers: {
                     Cookie: authCookie.substring(0, authCookie.indexOf(';')),
-                    'Content-type': 'application/json; charset=UTF-8'
+                    'Content-type': 'application/json; charset=UTF-8',
                 },
                 body: JSON.stringify({
-                    'products': readProductsFromCsv()
+                    products: readProductsFromCsv(),
                 }),
             }
         );
