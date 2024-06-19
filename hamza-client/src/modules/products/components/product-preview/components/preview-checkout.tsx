@@ -9,6 +9,7 @@ import { addToCart } from '@modules/cart/actions';
 import { useParams } from 'next/navigation';
 import ReviewStar from '../../../../../../public/images/products/review-star.svg';
 import Image from 'next/image';
+import LocalizedClientLink from '@modules/common/components/localized-client-link';
 
 const PreviewCheckout = () => {
     const currencies = {
@@ -206,13 +207,16 @@ const PreviewCheckout = () => {
                 </Flex>
 
                 <QuantityButton />
-                <Button
-                    borderRadius={'56px'}
-                    height="75px"
-                    backgroundColor={'primary.yellow.900'}
-                >
-                    Buy Now
-                </Button>
+                <LocalizedClientLink href="/checkout?step=address">
+                    <Button
+                        onClick={() => handleAddToCart()}
+                        borderRadius={'56px'}
+                        height="75px"
+                        backgroundColor={'primary.yellow.900'}
+                    >
+                        Buy Now
+                    </Button>
+                </LocalizedClientLink>
                 <Button
                     onClick={() => handleAddToCart()}
                     borderRadius={'56px'}
