@@ -41,14 +41,16 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
     region,
     countryCode,
 }) => {
-    const { setProductData, setCountryCode, setRegion } = useProductPreview();
+    const { setProductData, setCountryCode, setRegionId, setProductId } =
+        useProductPreview();
 
     // Only update product data when `product` changes
     useEffect(() => {
         if (product && product.id) {
             setProductData(product);
+            setProductId(product.id);
+            setRegionId(region.id);
             setCountryCode(countryCode);
-            setRegion(region);
         } else {
             notFound();
         }
@@ -57,8 +59,9 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
         region,
         countryCode,
         setProductData,
+        setProductId,
         setCountryCode,
-        setRegion,
+        setRegionId,
     ]);
 
     // if (!product || !product.id) {

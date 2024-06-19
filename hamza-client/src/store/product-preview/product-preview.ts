@@ -4,20 +4,28 @@ import { Region } from '@medusajs/medusa'; // Import the Region type
 // Define the state and associated actions in an interface
 interface ProductPreview {
     productData: Record<string, any>;
-    region: Region | null;
+    regionId: string | null;
     countryCode: string | null;
+    productId: string | null;
+    variantId: string | null;
     setProductData: (data: Record<string, any>) => void;
-    setRegion: (region: Region) => void; // Use Region type for setter
+    setProductId: (id: string) => void;
+    setVariantId: (id: string) => void;
+    setRegionId: (region: string) => void; // Use Region type for setter
     setCountryCode: (code: string) => void;
 }
 
 // Create the Zustand store
 const useProductPreview = create<ProductPreview>((set) => ({
     productData: {}, // Initial state as an empty object
-    region: null,
+    productId: null,
+    regionId: null,
     countryCode: null,
+    variantId: null,
     setProductData: (data) => set({ productData: data }), // Method to update the state
-    setRegion: (region) => set({ region }), // Method to update the region
+    setProductId: (id) => set({ productId: id }),
+    setVariantId: (id) => set({ variantId: id }),
+    setRegionId: (id) => set({ regionId: id }), // Method to update the region
     setCountryCode: (code) => set({ countryCode: code }), // Method to update the country code
 }));
 
