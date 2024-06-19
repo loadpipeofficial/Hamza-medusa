@@ -66,6 +66,7 @@ export default async function Nav() {
                                 <CgBell color="white" size={'24px'} />
                             </Box>
                             <CartButton />
+                            <WishListPopover />
                             <Box
                                 alignSelf={'center'}
                                 display={{ base: 'none', md: 'block' }}

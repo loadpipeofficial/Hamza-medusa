@@ -166,7 +166,7 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
                                 }}
                             >
                                 <Box alignSelf="center">
-                                    {wishlist.products.find(
+                                    {!wishlist.products.find(
                                         (a) => a.id == productId
                                     ) ? (
                                         <FaRegHeart color="#7B61FF" size={23} />
