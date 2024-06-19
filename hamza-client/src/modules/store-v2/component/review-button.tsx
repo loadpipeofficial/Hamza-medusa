@@ -8,15 +8,16 @@ import useSideFilter from '@store/store-page/side-filter';
 // Define the props type with TypeScript
 interface ReviewButtonProps {
     title: string;
+    value: string;
 }
 
-const ReviewButton: React.FC<ReviewButtonProps> = ({ title }) => {
+const ReviewButton: React.FC<ReviewButtonProps> = ({ title, value }) => {
     const { reviewFilterSelect, setReviewFilterSelect } = useSideFilter();
 
     return (
         <Flex>
             <Flex
-                onClick={() => setReviewFilterSelect(title)}
+                onClick={() => setReviewFilterSelect(value)}
                 backgroundColor={
                     reviewFilterSelect === title ? 'white' : 'transparent'
                 }
