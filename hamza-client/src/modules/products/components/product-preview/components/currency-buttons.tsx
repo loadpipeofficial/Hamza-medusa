@@ -17,23 +17,10 @@ const CurrencyButtonPreview: React.FC<CurrencyButtonPreviewProps> = ({
         <Flex>
             <Flex
                 borderColor={'secondary.davy.900'}
-                backgroundColor={
-                    currencyFilterSelect === currencyName
-                        ? 'white'
-                        : 'transparent'
-                }
+                backgroundColor={'transparent'}
                 display={'flex'}
                 flexDirection={'row'}
                 alignItems={'center'}
-                cursor="pointer"
-                color={
-                    currencyFilterSelect === currencyName ? 'black' : 'white'
-                }
-                _hover={{
-                    background: 'white',
-                    color: 'black',
-                }}
-                onClick={() => setCurrencyFilterSelect(currencyName)}
             >
                 <Image src={currencyIcons[currencyName]} alt={currencyName} />
             </Flex>
