@@ -46,48 +46,44 @@ const ReviewPage = ({ region }: { region: Region }) => {
     }, [authData.customer_id]);
 
     return (
-        <Box className="bg-black text-white p-4">
-            <Card>
-                {reviews.length > 0 && (
-                    <>
-                        <CardHeader>
-                            <Heading size="md">Vendor Product Reviews</Heading>
-                        </CardHeader>
-                        <CardBody>
-                            <Stack divider={<StackDivider />} spacing={4}>
-                                {reviews.map((review: any) => (
-                                    <Box key={review.id}>
-                                        <Heading
-                                            size="xs"
-                                            textTransform="uppercase"
-                                        >
-                                            {review.title}
-                                        </Heading>
-                                        <Text fontSize="sm">
-                                            Customer ID: {review.customer_id}
-                                        </Text>
-                                        <Text fontSize="sm">
-                                            Rating: {review.rating} / 5
-                                        </Text>
-                                        <Text fontSize="sm">
-                                            {review.review}
-                                        </Text>
-                                        {/*<Text fontSize="sm">*/}
-                                        {/*    Date:{' '}*/}
-                                        {/*    {format(*/}
-                                        {/*        new Date(review.createdAt),*/}
-                                        {/*        'PPP'*/}
-                                        {/*    )}*/}
-                                        {/*</Text>*/}
-                                    </Box>
-                                ))}
-                            </Stack>
-                        </CardBody>
-                        <CardFooter />
-                    </>
-                )}
-            </Card>
-        </Box>
+        <Card>
+            {reviews.length > 0 && (
+                <>
+                    <CardHeader>
+                        <Heading size="md">My Product Reviews</Heading>
+                    </CardHeader>
+                    <CardBody>
+                        <Stack divider={<StackDivider />} spacing={4}>
+                            {reviews.map((review: any) => (
+                                <Box key={review.id}>
+                                    <Heading
+                                        size="xs"
+                                        textTransform="uppercase"
+                                    >
+                                        {review.title}
+                                    </Heading>
+                                    <Text fontSize="sm">
+                                        Customer ID: {review.customer_id}
+                                    </Text>
+                                    <Text fontSize="sm">
+                                        Rating: {review.rating} / 5
+                                    </Text>
+                                    <Text fontSize="sm">{review.review}</Text>
+                                    <Text fontSize="sm">
+                                        Date:{' '}
+                                        {format(
+                                            new Date(review.created_at),
+                                            'PPP'
+                                        )}
+                                    </Text>
+                                </Box>
+                            ))}
+                        </Stack>
+                    </CardBody>
+                    <CardFooter />
+                </>
+            )}
+        </Card>
     );
 };
 
