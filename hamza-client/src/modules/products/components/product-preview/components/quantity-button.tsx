@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Flex, Text, Heading } from '@chakra-ui/react';
 import useProductPreview from '@store/product-preview/product-preview';
+import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 
 const QuantityButton = () => {
     const [quantityAvailable, setQuantityAvailable] = useState('');
@@ -60,7 +61,9 @@ const QuantityButton = () => {
                     borderColor={'#3E3E3E'}
                     cursor={'pointer'}
                 >
-                    <Text color="white">{`<-`}</Text>
+                    <Flex alignSelf="center">
+                        <AiOutlineMinus color="white" />
+                    </Flex>
                 </Flex>
 
                 <Flex
@@ -83,7 +86,9 @@ const QuantityButton = () => {
                     borderColor={'#3E3E3E'}
                     cursor={'pointer'}
                 >
-                    <Text color="white">{`->`}</Text>
+                    <Flex alignSelf="center">
+                        <AiOutlinePlus color="white" />
+                    </Flex>
                 </Flex>
             </Flex>
         </Flex>
