@@ -28,6 +28,7 @@ import ProductInfo from '../components/product-preview/components/product-info';
 import PreviewCheckout from '../components/product-preview/components/preview-checkout';
 import ProductReview from '../components/product-preview/components/product-review';
 import useProductPreview from '@store/product-preview/product-preview';
+import VendorBanner from '../components/product-preview/components/vendor-banner';
 
 type ProductTemplateProps = {
     product: PricedProduct;
@@ -65,7 +66,11 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
     // }
 
     return (
-        <Flex flexDirection={'column'} alignItems={'center'}>
+        <Flex
+            flexDirection={'column'}
+            alignItems={'center'}
+            justifyContent={'center'}
+        >
             <Box mt="2rem">
                 <PreviewGallery />
             </Box>
@@ -81,7 +86,9 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
                 <PreviewCheckout />
             </Flex>
 
-            <Box mb="2rem">
+            <VendorBanner />
+
+            <Box my="2rem">
                 <ProductReview />
             </Box>
         </Flex>

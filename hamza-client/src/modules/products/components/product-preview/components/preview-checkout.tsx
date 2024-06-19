@@ -6,6 +6,8 @@ import useProductPreview from '@store/product-preview/product-preview';
 import Image from 'next/image';
 import currencyIcons from '../../../../../../public/images/currencies/crypto-currencies';
 import CurrencyButtonPreview from './currency-buttons';
+import ReviewStar from '../../../../../../public/images/categories/';
+import QuantityButton from './quantity-button';
 
 const PreviewCheckout = () => {
     const currencies = {
@@ -36,6 +38,7 @@ const PreviewCheckout = () => {
             setSizes(getUniqueOptions(productData.variants, 0));
             setColors(getUniqueOptions(productData.variants, 1));
             setSelectedPrice(productData.variants[0].prices[0].amount);
+            console.log(productData);
         }
     }, [productData]);
 
@@ -55,24 +58,29 @@ const PreviewCheckout = () => {
             backgroundColor={'#121212'}
         >
             <Text color="primary.green.900">Listing Price</Text>
-            <Text fontSize={'32px'} color="white">
-                {price}
-            </Text>
+            <Flex gap="12px">
+                <CurrencyButtonPreview currencyName={currencies['USDC']} />
+                <Text fontSize={'32px'} color="white">
+                    {price}
+                </Text>
+            </Flex>
             <Heading as="h3" color="white">
                 {price}
             </Heading>
             <Heading as="h4" fontSize="16px" color="white">
                 Also available in other currencies
             </Heading>
-            <Flex mt="5px" gap="16px">
-                {Object.keys(currencies).map((key) => (
-                    <CurrencyButtonPreview
-                        key={key}
-                        currencyName={currencies[key]}
-                    />
-                ))}
+            <Flex mt="10px" gap="7px">
+                {Object.keys(currencies)
+                    .filter((key) => currencies[key] !== 'USDC')
+                    .map((key) => (
+                        <CurrencyButtonPreview
+                            key={key}
+                            currencyName={currencies[key]}
+                        />
+                    ))}
             </Flex>
-            <Flex width={'100%'} flexDirection={'column'} mt="auto">
+            <Flex width={'100%'} flexDirection={'column'}>
                 <Flex flexDirection="column" mt="2rem">
                     <Heading as="h3" fontSize={'18px'} color="white">
                         Size:
@@ -99,7 +107,7 @@ const PreviewCheckout = () => {
                         )}
                     </Flex>
                 </Flex>
-                <Flex flexDirection="column" my="2rem">
+                <Flex flexDirection="column" my="1rem">
                     <Heading as="h3" fontSize={'18px'} color="white">
                         Color :
                     </Heading>
@@ -114,7 +122,8 @@ const PreviewCheckout = () => {
                                     width="52px"
                                     height="52px"
                                     borderColor={
-                                        color === selectedColor
+                                        color === selectedColor ||
+                                        (selectedColor === '' && index === 0)
                                             ? 'white'
                                             : 'transparent'
                                     }
@@ -142,6 +151,8 @@ const PreviewCheckout = () => {
                         )}
                     </Flex>
                 </Flex>
+
+                <QuantityButton />
                 <Button
                     borderRadius={'56px'}
                     height="75px"
