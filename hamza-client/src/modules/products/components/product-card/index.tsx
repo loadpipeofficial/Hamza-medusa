@@ -32,7 +32,7 @@ interface ProductCardProps {
     hasDiscount?: boolean;
     discountValue?: string;
     productHandle?: string;
-    productId: string;
+    productId?: string;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
