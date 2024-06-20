@@ -14,11 +14,12 @@ import RelatedProducts from '@modules/products/components/related-products';
 import SkeletonRelatedProducts from '@modules/skeletons/templates/skeleton-related-products';
 import { notFound } from 'next/navigation';
 import ProductActionsWrapper from './product-actions-wrapper';
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Flex, Divider } from '@chakra-ui/react';
 import PreviewGallery from '../components/product-preview/components/preview-gallery';
 import ProductInfo from '../components/product-preview/components/product-info';
 import PreviewCheckout from '../components/product-preview/components/preview-checkout';
 import ProductReview from '../components/product-preview/components/product-review';
+import ProductReviewMobile from '../components/product-preview/components/product-review-mobile';
 import useProductPreview from '@store/product-preview/product-preview';
 import VendorBanner from '../components/product-preview/components/vendor-banner';
 
@@ -70,29 +71,40 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
     return (
         <Flex
             flexDirection={'column'}
-            alignItems={'center'}
             justifyContent={'center'}
+            alignItems={'center'}
+            mx="1rem"
         >
             <Box mt="2rem">
                 <PreviewGallery />
             </Box>
 
             <Flex
-                maxWidth={'1280px'}
+                maxWidth="1280px"
+                width={'100%'}
                 my="2rem"
                 gap={'26px'}
-                width={'100%'}
                 justifyContent={'center'}
+                flexDirection={{ base: 'column', md: 'row' }}
             >
-                <ProductInfo />
-                <PreviewCheckout />
+                <Flex flex="1" order={{ base: 2, md: 1 }}>
+                    <ProductInfo />
+                </Flex>
+                <Flex
+                    maxW={{ base: '100%', md: '504px' }}
+                    width={'100%'}
+                    flex="0 0 auto"
+                    justifyContent={'center'}
+                    order={{ base: 1, md: 2 }}
+                    alignSelf="flex-start"
+                >
+                    <PreviewCheckout />
+                </Flex>
             </Flex>
 
             <VendorBanner />
-
-            <Box my="2rem">
-                <ProductReview />
-            </Box>
+            <ProductReview />
+            <ProductReviewMobile />
         </Flex>
     );
 };
