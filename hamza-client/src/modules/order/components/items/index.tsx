@@ -83,8 +83,6 @@ const Items: React.FC<Props> = ({ items, handles }) => {
         setItem(item);
     };
 
-    // console.log(`Order Items are ${JSON.stringify(items)}`);
-    console.log(`Handles are ${JSON.stringify(handles)}`);
     return (
         <div className="flex flex-col">
             <Divider className="!mb-0" />
