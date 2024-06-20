@@ -45,6 +45,9 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
                 {
                     email: userResponse.data.email,
                     is_verified: true,
+                    first_name: userResponse.data.global_name.split(' ')[0],
+                    last_name:
+                        userResponse.data.global_name.split(' ')[1] || '',
                 }
             );
             await eventBus_.emit([
