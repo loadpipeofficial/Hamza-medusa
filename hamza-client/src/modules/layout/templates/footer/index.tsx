@@ -2,6 +2,9 @@ import { clx } from '@medusajs/ui';
 import { Flex, Container, Text, Box, Divider, Image } from '@chakra-ui/react';
 import { getCategoriesList, getCollectionsList } from '@lib/data';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
+import { FaTwitter } from 'react-icons/fa6';
+import { FaDiscord } from 'react-icons/fa6';
+import Link from 'next/link';
 
 const fetchCollections = async () => {
     const { collections } = await getCollectionsList();
@@ -112,10 +115,21 @@ export default async function Footer() {
                     </Flex>
 
                     <Flex flexDir={'row'} color={'white'} gap={'8px'}>
-                        <Text className="text-base font-bold">Coinbase</Text>
-                        <Text className="text-base font-bold">Metmask</Text>
-                        <Text className="text-base font-bold">Coinbase</Text>
-                        <Text className="text-base font-bold">Metmask</Text>
+                        <Text className="text-base font-bold">
+                            Follow us on:{' '}
+                        </Text>
+                        <Link
+                            href="https://x.com/loadpipe?t=mrR1xycvffxf-4MoBAhFJA&s=09"
+                            target="_blank"
+                        >
+                            <FaTwitter size={24} />
+                        </Link>
+                        <Link
+                            href="https://discord.gg/Js2EmJ9k"
+                            target="_blank"
+                        >
+                            <FaDiscord size={24} />
+                        </Link>
                     </Flex>
 
                     <Flex flexDir={'column'} color={'white'} gap={'8px'}>
