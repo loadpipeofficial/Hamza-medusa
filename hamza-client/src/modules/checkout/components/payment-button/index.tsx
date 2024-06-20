@@ -269,7 +269,7 @@ const CryptoPaymentButton = ({
                     `${MEDUSA_SERVER_URL}/custom/checkout`,
                     {
                         cartProducts: JSON.stringify(cartRef.current),
-                        cart_id: data.cart_id,
+                        cart_id: cartId,
                         transaction_id: output.transaction_id,
                         payer_address: output.payer_address,
                         escrow_contract_address: output.escrow_contract_address,
