@@ -144,7 +144,7 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
     }
 
     redirect(
-        `/${formData.get('shipping_address.country_code')}/checkout?step=delivery`
+        `/${process.env.FORCE_US_COUNTRY ? 'us' : formData.get('shipping_address.country_code')}/checkout?step=delivery`
     );
 }
 
