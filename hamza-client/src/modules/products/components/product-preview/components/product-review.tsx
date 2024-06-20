@@ -9,19 +9,19 @@ const reviews = [
         id: 1,
         name: 'John Doe',
         location: 'New York',
-        review: 'Review 1 content',
+        review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
     },
     {
         id: 2,
         name: 'Jane Smith',
         location: 'California',
-        review: 'Review 2 content',
+        review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
     },
     {
         id: 3,
         name: 'Alice Johnson',
         location: 'Texas',
-        review: 'Review 3 content',
+        review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
     },
 ];
 
@@ -44,7 +44,7 @@ const ProductReview = () => {
         reviews[(startIndex + 1) % reviews.length],
     ];
     return (
-        <Flex width="1280px" height="450.57px">
+        <Flex maxW="1280px" my="2rem" width={'100%'} height="450.57px">
             <Flex
                 background="linear-gradient(317.5deg, #53594A 42.03%, #2C272D 117.46%, #2C272D 117.46%)"
                 width="100%"
@@ -65,8 +65,9 @@ const ProductReview = () => {
                     </Flex>
                 </Flex>
 
-                <Flex>
-                    <Flex gap="26px">
+                <Flex flexDirection={'column'} my="auto">
+                    <Text>4.96 - 312 Reviews</Text>
+                    <Flex flexDirection="row" gap="26px">
                         {displayedReviews.map((review) => (
                             <ReviewCard
                                 key={review.id}

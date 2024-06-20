@@ -70,29 +70,39 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
     return (
         <Flex
             flexDirection={'column'}
-            alignItems={'center'}
             justifyContent={'center'}
+            alignItems={'center'}
+            mx="1rem"
         >
             <Box mt="2rem">
                 <PreviewGallery />
             </Box>
 
             <Flex
-                maxWidth={'1280px'}
+                maxWidth="1280px"
+                width={'100%'}
                 my="2rem"
                 gap={'26px'}
-                width={'100%'}
                 justifyContent={'center'}
+                flexDirection={{ base: 'column', md: 'row' }}
             >
-                <ProductInfo />
-                <PreviewCheckout />
+                <Flex flex="1" order={{ base: 2, md: 1 }}>
+                    <ProductInfo />
+                </Flex>
+                <Flex
+                    maxWidth={'504px'}
+                    width={'100%'}
+                    flex="0 0 auto"
+                    justifyContent={'center'}
+                    order={{ base: 1, md: 2 }}
+                    alignSelf="flex-start"
+                >
+                    <PreviewCheckout />
+                </Flex>
             </Flex>
 
             <VendorBanner />
-
-            <Box my="2rem">
-                <ProductReview />
-            </Box>
+            <ProductReview />
         </Flex>
     );
 };

@@ -75,6 +75,7 @@ const PreviewCheckout = () => {
             borderRadius={'16px'}
             // height={'800px'}
             maxW={'504px'}
+            minW="375px"
             width={'100%'}
             backgroundColor={'#121212'}
             overflow={'hidden'}
