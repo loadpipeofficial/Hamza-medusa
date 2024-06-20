@@ -23,7 +23,7 @@ import Link from 'next/link';
 import { Variant } from 'types/medusa';
 
 const PreviewCheckout = () => {
-    const currencies = {
+    const currencies: { [key: string]: 'ETH' | 'USDC' | 'USDT' } = {
         ETH: 'ETH',
         USDT: 'USDT',
         USDC: 'USDC',
@@ -58,7 +58,7 @@ const PreviewCheckout = () => {
         }
     }, [productData]);
 
-    const handleColorSelect = (color) => {
+    const handleColorSelect = (color: any) => {
         setSelectedColor(color);
     };
 
@@ -171,7 +171,7 @@ const PreviewCheckout = () => {
                 </Heading>
                 <Flex display={{ base: 'none', md: 'flex' }} gap="10px">
                     {Object.keys(currencies)
-                        .filter((key) => currencies[key] !== 'USDC')
+                        .filter((key: string) => currencies[key] !== 'USDC')
                         .map((key) => (
                             <CurrencyButtonPreview
                                 width="20px"

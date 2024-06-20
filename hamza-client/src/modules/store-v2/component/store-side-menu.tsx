@@ -82,11 +82,11 @@ const SideMenu = () => {
                 </Heading>
 
                 <Flex mt="1rem" flexDirection={'column'} gap="16px">
-                    <ReviewButton title={'1 Star'} />
-                    <ReviewButton title={'2 Stars'} />
-                    <ReviewButton title={'3 Stars'} />
-                    <ReviewButton title={'4 Stars'} />
-                    <ReviewButton title={'5 Stars'} />
+                    <ReviewButton title={'All'} value={'All'} />
+                    <ReviewButton title={'4 Stars'} value={'4'} />
+                    <ReviewButton title={'3 Stars'} value={'3'} />
+                    <ReviewButton title={'2 Stars'} value={'2'} />
+                    <ReviewButton title={'1 Star'} value={'1'} />
                 </Flex>
             </Box>
 

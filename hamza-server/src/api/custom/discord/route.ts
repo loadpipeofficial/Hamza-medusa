@@ -37,7 +37,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
             }
         );
 
-        console.log('user resposne ', userResponse.data);
+        console.log('user response ', userResponse.data);
 
         if (userResponse.data.email) {
             await CustomerRepository.update(
@@ -45,6 +45,9 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
                 {
                     email: userResponse.data.email,
                     is_verified: true,
+                    first_name: userResponse.data.global_name.split(' ')[0],
+                    last_name:
+                        userResponse.data.global_name.split(' ')[1] || '',
                 }
             );
             await eventBus_.emit([
