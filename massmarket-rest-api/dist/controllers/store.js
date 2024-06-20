@@ -29,14 +29,12 @@ exports.storeController = {
                 storeId: '0x0',
                 keyCard: '0x0',
             };
-            for (let n = 0; n < 7; n++) {
-                const data = yield client_1.RelayClientWrapper.createAndInitializeStore();
-                output.storeId = data.storeId;
-                output.keyCard = data.keyCard;
-                //TODO: check for zeroAddress
-                output.success =
-                    output.storeId.length > 0 && output.keyCard.length > 0;
-            }
+            const data = yield client_1.RelayClientWrapper.createAndInitializeStore();
+            output.storeId = data.storeId;
+            output.keyCard = data.keyCard;
+            //TODO: check for zeroAddress
+            output.success =
+                output.storeId.length > 0 && output.keyCard.length > 0;
             return output;
         }), 201);
     }),
