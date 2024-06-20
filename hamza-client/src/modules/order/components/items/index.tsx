@@ -50,11 +50,12 @@ interface Items {
 
 interface Props {
     items: Items;
+    handles: any;
 }
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 
-const Items: React.FC<Props> = ({ items }) => {
+const Items: React.FC<Props> = ({ items, handles }) => {
     const setItem = itemStore((state) => state.setItem);
     const router = useRouter();
 
@@ -82,14 +83,13 @@ const Items: React.FC<Props> = ({ items }) => {
         setItem(item);
     };
 
-    // console.log(`Order Items are ${JSON.stringify(items)}`);
     return (
         <div className="flex flex-col">
             <Divider className="!mb-0" />
             <Table className="m-4">
                 <Table.Body>
-                    {Object.entries(items).map(([id, cartItems]) =>
-                        cartItems.map((item: any) => (
+                    {Object.entries(items).map(([id, cartItems], cartIndex) =>
+                        cartItems.map((item: any, itemIndex) => (
                             <Table.Row key={item.id}>
                                 <Button
                                     className="m-2"
@@ -109,17 +109,20 @@ const Items: React.FC<Props> = ({ items }) => {
                                     <div className="flex items-center">
                                         <p className="text-sm font-semibold">
                                             Quantity: {item.quantity}
-                                            {/* If you need item quantity, use {item.quantity} */}
                                         </p>
                                     </div>
                                 </Table.Cell>
                                 <Table.Cell>
-                                    <Thumbnail
-                                        thumbnail={item.thumbnail}
-                                        images={[]}
-                                        size="small"
-                                    />
-                                    {item.title}
+                                    <LocalizedClientLink
+                                        href={`/products/${handles.order[itemIndex]}`} // Use handles array to index handle
+                                    >
+                                        <Thumbnail
+                                            thumbnail={item.thumbnail}
+                                            images={[]}
+                                            size="small"
+                                        />
+                                        {item.title}
+                                    </LocalizedClientLink>
                                 </Table.Cell>
                             </Table.Row>
                         ))
