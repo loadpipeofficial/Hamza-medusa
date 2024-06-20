@@ -75,6 +75,7 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
                             countryCode={product.countryCode}
                             productName={product.title}
                             productPrice={productPricing}
+                            currencyCode={preferred_currency_code ?? 'usdc'}
                             imageSrc={product.thumbnail}
                             hasDiscount={product.is_giftcard}
                             discountValue={product.discountValue}
