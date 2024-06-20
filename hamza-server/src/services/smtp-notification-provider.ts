@@ -70,20 +70,28 @@ class SmtpNotificationService extends AbstractNotificationService {
 
                 let parsedOrdersData = ordersDataParser(ordersData);
                 console.dir(parsedOrdersData, { depth: null });
+                if (
+                    ordersData[0].customer &&
+                    ordersData[0].customer.is_verified == true
+                ) {
+                    await this.smtpMailService.sendMail({
+                        from: process.env.SMTP_FROM,
+                        subject: 'Order Placed',
+                        mailData: parsedOrdersData,
+                        to:
+                            ordersData[0].customer &&
+                            ordersData[0].customer.email,
+                        templateName: 'order-placed',
+                    });
+                    return {
+                        to: ordersData[0].customer.email,
+                        status: 'success',
+                        data: data,
+                    };
+                }
 
-                await this.smtpMailService.sendMail({
-                    from: process.env.SMTP_FROM,
-                    subject: 'Order Placed',
-                    mailData: parsedOrdersData,
-                    to: 'karanchugh02@gmail.com',
-                    templateName: 'order-placed',
-                });
+                return null;
 
-                return {
-                    to: 'karanchugh02@gmail.com',
-                    status: 'success',
-                    data: data,
-                };
             default:
                 return null;
         }
