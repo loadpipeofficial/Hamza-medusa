@@ -337,3 +337,12 @@ Content-Type: application/json
 {
   "customer_id": "cus_01J0QK65HY311HDHQKN5W042GZ"
 }
+
+
+### Get Specific Order Details
+POST http://localhost:9000/custom/order/order-details
+Content-Type: application/json
+
+{
+  "cart_id": "cart_01J0QQPZH14GZ5YBT54YYNDFHS"
+}

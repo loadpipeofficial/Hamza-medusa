@@ -213,9 +213,9 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
     };
 
     // console.log('groupedByCartId: ', groupedByCartId);
-    customerOrder?.map((order: any) => {
-        console.log('Customer Order: ', order);
-    });
+    // customerOrder?.map((order: any) => {
+    //     console.log('Customer Order: ', order);
+    // });
 
     return (
         <div className="flex flex-col gap-y-8 w-full bg-black text-white p-8">

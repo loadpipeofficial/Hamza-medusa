@@ -301,4 +301,16 @@ export default class OrderService extends MedusaOrderService {
 
         return uniqueOrders;
     }
+
+    async orderDetails(cartId: string) {
+        const orderHandle = await this.orderRepository_.findOne({
+            where: { cart_id: cartId },
+            relations: ['cart.items', 'cart.items.variant.product'],
+        });
+        let product_handles = [];
+        orderHandle.cart.items.forEach((item) => {
+            product_handles.push(item.variant.product.handle);
+        });
+        return product_handles;
+    }
 }
