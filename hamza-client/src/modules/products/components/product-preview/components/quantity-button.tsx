@@ -60,6 +60,7 @@ const QuantityButton = () => {
                     width={'40px'}
                     borderColor={'#3E3E3E'}
                     cursor={'pointer'}
+                    justifyContent={'center'}
                 >
                     <Flex alignSelf="center">
                         <AiOutlineMinus color="white" />
@@ -85,6 +86,7 @@ const QuantityButton = () => {
                     width={'40px'}
                     borderColor={'#3E3E3E'}
                     cursor={'pointer'}
+                    justifyContent={'center'}
                 >
                     <Flex alignSelf="center">
                         <AiOutlinePlus color="white" />

@@ -132,43 +132,43 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
         const store3 = await storeService.createStore(
             user3,
             'Indiana Drones',
-            'pcol_01HRVF8HCVY8B00RF5S54THTPC',
+            'pcol_01HRVF8HCVY8B00RF5S54THTPCD',
             'http://54.253.186.85/headphones.webp'
         );
         const store4 = await storeService.createStore(
             user4,
             'SB Sound',
-            'pcol_01HRVF8HCVY8B00RF5S54THTPC',
+            'pcol_01HRVF8HCVY8B00RF5S54THTPCD',
             'http://54.253.186.85/headphones.webp'
         );
         const store5 = await storeService.createStore(
             user5,
             'Gamefi Studios',
-            'pcol_01HRVF8HCVY8B00RF5S54THTPC',
+            'pcol_01HRVF8HCVY8B00RF5S54THTPCD',
             'http://54.253.186.85/headphones.webp'
         );
         const store6 = await storeService.createStore(
             user6,
             "Razor's Edge",
-            'pcol_01HRVF8HCVY8B00RF5S54THTPC',
+            'pcol_01HRVF8HCVY8B00RF5S54THTPCD',
             'http://54.253.186.85/headphones.webp'
         );
         const store7 = await storeService.createStore(
             user7,
             'Lofi Jungle',
-            'pcol_01HRVF8HCVY8B00RF5S54THTPC',
+            'pcol_01HRVF8HCVY8B00RF5S54THTPCD',
             'http://54.253.186.85/headphones.webp'
         );
         const store8 = await storeService.createStore(
             user8,
             'Shake',
-            'pcol_01HRVF8HCVY8B00RF5S54THTPC',
+            'pcol_01HRVF8HCVY8B00RF5S54THTPCD',
             'http://54.253.186.85/headphones.webp'
         );
         const store9 = await storeService.createStore(
             user9,
             'Legendary Light & Design',
-            'pcol_01HRVF8HCVY8B00RF5S54THTPC',
+            'pcol_01HRVF8HCVY8B00RF5S54THTPCD',
             'http://54.253.186.85/headphones.webp'
         );
 
