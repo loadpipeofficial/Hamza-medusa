@@ -4,6 +4,7 @@ import { Text } from '@medusajs/ui';
 type OrderDetailsProps = {
     order: Order;
     showStatus?: boolean;
+    handles: any;
 };
 
 //TODO: replace the following at top of template when ready
@@ -18,7 +19,7 @@ type OrderDetailsProps = {
       </Text>
       */
 
-const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
+const OrderDetails = ({ order, showStatus, handles }: OrderDetailsProps) => {
     const formatStatus = (str: string) => {
         const formatted = str.split('_').join(' ');
 

@@ -63,6 +63,7 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
     );
     // console.log('Orders: ', order.cart_id);
     const [storeName, setStoreName] = useState('');
+    const [handles, setHandles] = useState(); // [key: string]: string
     // console.log(`Orders: ${JSON.stringify(order)}`);
     const router = useRouter();
 
@@ -75,11 +76,18 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
                         cart_id: order.cart_id,
                     }
                 );
+                const orderHandles = await axios.post(
+                    `${BACKEND_URL}/custom/order/order-details`,
+                    {
+                        cart_id: order.cart_id,
+                    }
+                );
                 const updatedItems = data.order.map((item: Item) => ({
                     ...item,
                     order_id: order.id, // Append order_id to each item if cart_id matches
                     customer_id: customer_id,
                 }));
+                setHandles(orderHandles.data);
                 // console.log('Data: ', updatedItems);
                 setDetailedOrders(updatedItems);
                 console.log(`Detailed Orders: ${JSON.stringify(updatedItems)}`);
@@ -131,7 +139,7 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
                 </LocalizedClientLink>
             </div>
             <div className="flex flex-col gap-4 h-full bg-white w-full p-8">
-                <OrderDetails order={order} showStatus />
+                <OrderDetails order={order} handles={handles} showStatus />
                 <h3
                     className="text-lg text-black"
                     onClick={navigateToVendor}
