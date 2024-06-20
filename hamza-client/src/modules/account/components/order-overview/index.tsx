@@ -65,6 +65,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
     const [cancelReason, setCancelReason] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
+    const [customerOrder, setCustomerOrder] = useState<Order[] | null>(null);
 
     const openModal = (orderId: string) => {
         setSelectedOrderId(orderId);
@@ -91,6 +92,22 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
             }
         };
 
+        const fetchAll = async () => {
+            try {
+                const { data } = await axios.post(
+                    `${MEDUSA_SERVER_URL}/custom/order/customer-orders`,
+                    {
+                        customer_id: orders[0].customer_id,
+                    }
+                );
+                console.log(`fetching all data in new style ${data}`);
+                setCustomerOrder(data.order);
+            } catch (e) {
+                console.error('Error fetching all data in new style: ', e);
+            }
+        };
+
+        fetchAll();
         fetchOrders();
     }, [orders]);
 
@@ -200,6 +217,23 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
     if (Object.keys(groupedByCartId).length > 0) {
         return (
             <div className="flex flex-col gap-y-8 w-full bg-black text-white p-8">
+                {customerOrder && customerOrder.length > 0
+                    ? customerOrder.map((order: any) => (
+                          <div
+                              key={order.id}
+                              className="border-b border-gray-200 pb-6 last:pb-0 last:border-none"
+                          >
+                              <div className="p-4 bg-gray-700">
+                                  Order {order.id} - Total Items:{' '}
+                                  {order.cart.items.length}
+                              </div>
+                              {order.cart.items.map((item: any) => (
+                                  <div key={item.id}>item: {item.id}</div>
+                              ))}
+                          </div>
+                      ))
+                    : null}
+
                 {Object.entries(groupedByCartId).map(
                     ([cartId, items], index) => (
                         <div
