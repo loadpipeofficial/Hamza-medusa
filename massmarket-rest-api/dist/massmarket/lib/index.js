@@ -155,7 +155,7 @@ class RelayClient extends events_1.EventEmitter {
                         if (this.keyCardEnrolled) {
                             let res = null;
                             try {
-                                yield __classPrivateFieldGet(this, _RelayClient_instances, "m", _RelayClient_authenticate).call(this);
+                                res = yield __classPrivateFieldGet(this, _RelayClient_instances, "m", _RelayClient_authenticate).call(this);
                             }
                             catch (e) {
                                 console.error(e);

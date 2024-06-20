@@ -118,25 +118,12 @@ exports.testController = {
             return output;
         }), 200);
     }),
-    checkout2: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    setErc20: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         (0, util_1.serveRequest)(req, res, () => __awaiter(void 0, void 0, void 0, function* () {
             const rc = new client_1.RelayClientWrapper(util_1.ENDPOINT, '0xe8b3a2a736a13a35c3329e772a1e5bfd7c0ebde8e4cb38889ecfce8b1e3db0b6', '0xfc5f10e06f7a6c7c26c2930f7dde591f37470677c3fde258b39df6043741fc2b');
-            //await rc.writeManifest();
-            //console.log('CART ID: ', await rc.createCart());
-            //add a product to cart
-            //await rc.addToCart(
-            //    '0xa639fccce044c4539ddf0db8500d95cd3c1a5e64b2cb45a28f170aa3967d3b91',
-            //    '0xa3438104c764746a3d67c761e154ad26a958153743e97db10747121d4c68d642'
-            //);
-            const commitId = yield rc.commitCart('0xa639fccce044c4539ddf0db8500d95cd3c1a5e64b2cb45a28f170aa3967d3b91');
-            console.log('COMMIT: ', commitId);
-            /*
-            CartFinalizedId:
-            27, 123,   5, 219,  16,  87, 162, 224,
-            2, 174, 217,  34, 179, 102,  52,  62,
-            3,  91, 219, 134, 114, 239, 242,  22,
-            105, 235,  48,  73,  61, 108,  65,  81
-            */
+            const erc20 = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48';
+            yield rc.setErc20('0x822585D682B973e4b1B47C0311f162b29586DD02');
+            yield rc.setErc20('0xbe9fe9b717c888a2b2ca0a6caa639afe369249c5');
             return {
                 success: true,
             };
