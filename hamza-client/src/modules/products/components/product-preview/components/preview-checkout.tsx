@@ -1,7 +1,15 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Text, Card, Button, Flex, Box, Heading } from '@chakra-ui/react';
+import {
+    Text,
+    Card,
+    Button,
+    Flex,
+    Box,
+    Heading,
+    textDecoration,
+} from '@chakra-ui/react';
 import useProductPreview from '@store/product-preview/product-preview';
 import CurrencyButtonPreview from './currency-buttons';
 import QuantityButton from './quantity-button';
@@ -72,18 +80,34 @@ const PreviewCheckout = () => {
             overflow={'hidden'}
         >
             <Flex gap="10px" flexDirection={'column'}>
-                <Text color="primary.green.900">Listing Price</Text>
-                <Flex gap="10px">
+                <Heading fontSize={'16px'} color="primary.green.900">
+                    Listing Price
+                </Heading>
+                <Flex gap="10px" mb="-0.5rem">
                     <CurrencyButtonPreview
                         width="24px"
                         height="24px"
                         currencyName={currencies['USDC']}
                     />
-                    <Text fontSize={'32px'} color="white">
+                    <Heading fontSize={'32px'} color="white">
+                        {price}
+                    </Heading>
+                    <Text
+                        style={{ textDecoration: 'line-through' }}
+                        alignSelf={'center'}
+                        fontSize={'18px'}
+                        color="#555555"
+                    >
                         {price}
                     </Text>
                 </Flex>
-                <Heading as="h3" color="white">
+
+                <Heading
+                    as="h3"
+                    variant="semibold"
+                    fontSize={'18px'}
+                    color="white"
+                >
                     {price}
                 </Heading>
                 <Flex gap="5px">
@@ -248,7 +272,10 @@ const PreviewCheckout = () => {
 
                 <QuantityButton />
 
-                <Link style={{ width: '100%' }} href="/checkout?step=address">
+                <Link
+                    style={{ width: '100%', marginTop: '5px' }}
+                    href="/checkout?step=address"
+                >
                     <Button
                         onClick={() => handleAddToCart()}
                         borderRadius={'56px'}
