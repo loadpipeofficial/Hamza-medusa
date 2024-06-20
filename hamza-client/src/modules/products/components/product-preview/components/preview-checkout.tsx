@@ -164,7 +164,7 @@ const PreviewCheckout = () => {
                     <Heading as="h3" fontSize={'18px'} color="white">
                         Size
                     </Heading>
-                    <Flex gap="10px">
+                    <Flex gap="10px" wrap="wrap">
                         {sizes.length > 0 ? (
                             sizes.map((size, index) => (
                                 <Flex
@@ -190,7 +190,7 @@ const PreviewCheckout = () => {
                     <Heading as="h3" fontSize={'18px'} color="white">
                         Color
                     </Heading>
-                    <Flex gap="10px">
+                    <Flex gap="10px" wrap="wrap">
                         {colorSample.length > 0 ? (
                             colorSample.map((color, index) => (
                                 <Flex

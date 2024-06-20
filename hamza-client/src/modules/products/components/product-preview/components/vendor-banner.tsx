@@ -18,19 +18,31 @@ const VendorBanner = () => {
                 gap={'16px'}
             >
                 <Flex
+                    height={'47px'}
+                    width={'190px'}
+                    borderColor={'primary.indigo.900'}
                     borderWidth={'1px'}
                     borderRadius={'37px'}
-                    borderColor={'primary.indigo.900'}
                     justifyContent={'center'}
+                    cursor={'pointer'}
                 >
-                    <Text color="primary.indigo.900">Chat with them</Text>
+                    <Text alignSelf={'center'} color="primary.indigo.900">
+                        Chat with them
+                    </Text>
                 </Flex>
                 <Flex
+                    height={'47px'}
+                    width={'190px'}
+                    borderColor={'transparent'}
+                    backgroundColor={'primary.indigo.900'}
                     borderWidth={'1px'}
                     borderRadius={'37px'}
                     justifyContent={'center'}
+                    cursor={'pointer'}
                 >
-                    <Text color="white">Visit Store</Text>
+                    <Text alignSelf={'center'} color="white">
+                        Visit Store
+                    </Text>
                 </Flex>
             </Flex>
         </Flex>
