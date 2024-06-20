@@ -227,9 +227,20 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                                   Order {order.id} - Total Items:{' '}
                                   {order.cart.items.length}
                               </div>
-                              {order.cart.items.map((item: any) => (
-                                  <div key={item.id}>item: {item.id}</div>
-                              ))}
+                              {order.cart.items.map((item: any) => {
+                                  const handle =
+                                      item.variant?.product?.handle || 'N/A'; // Grab the handle from the product object
+                                  return (
+                                      <div key={item.id}>
+                                          item: {item.id}
+                                          <OrderCard
+                                              key={item.id}
+                                              order={item}
+                                              handle={handle} // Pass the handle here
+                                          />
+                                      </div>
+                                  );
+                              })}
                           </div>
                       ))
                     : null}
@@ -253,42 +264,42 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                                 </span>
                             </div>
 
-                            {(items as any).map((item: WishlistProps) => (
-                                <>
-                                    <OrderCard key={item.id} order={item} />
-                                    <div className="flex justify-end items-center">
-                                        <LocalizedClientLink
-                                            href={`/account/orders/details/${orders[index].id}`}
-                                            passHref
-                                        >
-                                            <Button colorScheme="blue">
-                                                See details
-                                            </Button>
-                                        </LocalizedClientLink>
-                                        {orderStatuses[orders[index].id] ===
-                                        'canceled' ? (
-                                            <Button
-                                                colorScheme="red"
-                                                ml={4}
-                                                isDisabled
-                                            >
-                                                Cancellation Requested
-                                            </Button>
-                                        ) : (
-                                            <Button
-                                                variant="solid"
-                                                colorScheme="blue"
-                                                ml={4}
-                                                onClick={() =>
-                                                    openModal(orders[index].id)
-                                                }
-                                            >
-                                                Request Cancellation
-                                            </Button>
-                                        )}
-                                    </div>
-                                </>
-                            ))}
+                            {/*{(items as any).map((item: WishlistProps) => (*/}
+                            {/*    <>*/}
+                            {/*        <OrderCard key={item.id} order={item} />*/}
+                            {/*        <div className="flex justify-end items-center">*/}
+                            {/*            <LocalizedClientLink*/}
+                            {/*                href={`/account/orders/details/${orders[index].id}`}*/}
+                            {/*                passHref*/}
+                            {/*            >*/}
+                            {/*                <Button colorScheme="blue">*/}
+                            {/*                    See details*/}
+                            {/*                </Button>*/}
+                            {/*            </LocalizedClientLink>*/}
+                            {/*            {orderStatuses[orders[index].id] ===*/}
+                            {/*            'canceled' ? (*/}
+                            {/*                <Button*/}
+                            {/*                    colorScheme="red"*/}
+                            {/*                    ml={4}*/}
+                            {/*                    isDisabled*/}
+                            {/*                >*/}
+                            {/*                    Cancellation Requested*/}
+                            {/*                </Button>*/}
+                            {/*            ) : (*/}
+                            {/*                <Button*/}
+                            {/*                    variant="solid"*/}
+                            {/*                    colorScheme="blue"*/}
+                            {/*                    ml={4}*/}
+                            {/*                    onClick={() =>*/}
+                            {/*                        openModal(orders[index].id)*/}
+                            {/*                    }*/}
+                            {/*                >*/}
+                            {/*                    Request Cancellation*/}
+                            {/*                </Button>*/}
+                            {/*            )}*/}
+                            {/*        </div>*/}
+                            {/*    </>*/}
+                            {/*))}*/}
                         </div>
                     )
                 )}
