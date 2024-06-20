@@ -72,8 +72,8 @@ const PreviewCheckout = () => {
 
     return (
         <Flex
-            padding="2rem"
-            borderRadius={'16px'}
+            padding={{ base: '0', md: '2rem' }}
+            borderRadius={{ base: '0px', md: '16px' }}
             // height={'800px'}
             maxW={{ base: '100%', md: '504px' }}
             minW="375px"
@@ -332,6 +332,11 @@ const PreviewCheckout = () => {
                 >
                     Add To Cart
                 </Button>
+                <Divider
+                    color="#555555"
+                    display={{ base: 'block', md: 'none' }}
+                    mt="2rem"
+                />
             </Flex>
         </Flex>
     );

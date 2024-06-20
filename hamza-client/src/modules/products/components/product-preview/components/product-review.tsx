@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6';
 import { GoArrowLeft, GoArrowRight } from 'react-icons/go';
 import ReviewCard from './review-card';
+import ReviewStar from '../../../../../../public/images/products/review-star.svg';
+import Image from 'next/image';
 
 const reviews = [
     {
@@ -44,7 +46,13 @@ const ProductReview = () => {
         reviews[(startIndex + 1) % reviews.length],
     ];
     return (
-        <Flex maxW="1280px" my="2rem" width={'100%'} height="450.57px">
+        <Flex
+            maxW="1280px"
+            my="2rem"
+            width={'100%'}
+            height="450.57px"
+            overflow={'hidden'}
+        >
             <Flex
                 background="linear-gradient(317.5deg, #53594A 42.03%, #2C272D 117.46%, #2C272D 117.46%)"
                 width="100%"
@@ -65,9 +73,11 @@ const ProductReview = () => {
                     </Flex>
                 </Flex>
 
-                <Flex flexDirection={'column'} my="auto">
-                    <Text>4.96 - 312 Reviews</Text>
-                    <Flex flexDirection="row" gap="26px">
+                <Flex flexDirection={'column'} my="auto" overflow={'hidden'}>
+                    <Text fontSize={'32px'} fontWeight={'bold'} color="white">
+                        4.96 - 312 Reviews
+                    </Text>
+                    <Flex mt="2rem" flexDirection="row" gap="26px">
                         {displayedReviews.map((review) => (
                             <ReviewCard
                                 key={review.id}
