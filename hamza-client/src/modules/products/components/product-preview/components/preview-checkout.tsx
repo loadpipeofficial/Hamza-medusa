@@ -21,6 +21,8 @@ import Image from 'next/image';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import Link from 'next/link';
 import { Variant } from 'types/medusa';
+import { formatCryptoPrice } from '@lib/util/get-product-price';
+import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 
 const PreviewCheckout = () => {
     const currencies: { [key: string]: 'ETH' | 'USDC' | 'USDT' } = {
@@ -38,6 +40,7 @@ const PreviewCheckout = () => {
     const [price, setSelectedPrice] = useState('');
 
     const { productData, variantId, quantity } = useProductPreview();
+    const { preferred_currency_code } = useCustomerAuthStore();
 
     const getUniqueOptions = (
         variants: Variant[],
@@ -108,7 +111,7 @@ const PreviewCheckout = () => {
                         fontSize={{ base: '18px', md: '32px' }}
                         color="white"
                     >
-                        {price}
+                        {`${formatCryptoPrice(parseInt(price), (preferred_currency_code ?? 'usdc'))} ${preferred_currency_code?.toUpperCase() ?? 'USDC'}`}
                     </Heading>
                     <Text
                         style={{ textDecoration: 'line-through' }}
@@ -116,7 +119,7 @@ const PreviewCheckout = () => {
                         fontSize={{ base: '9px', md: '18px' }}
                         color="#555555"
                     >
-                        {price}
+                        {`${formatCryptoPrice(parseInt(price), preferred_currency_code ?? 'usdc')}`}
                     </Text>
                 </Flex>
 
@@ -127,7 +130,7 @@ const PreviewCheckout = () => {
                     fontSize={'18px'}
                     color="white"
                 >
-                    {price}
+                    {`${formatCryptoPrice(parseInt(price), (preferred_currency_code ?? 'usdc'))} ${preferred_currency_code?.toUpperCase() ?? 'USDC'}`}
                 </Heading>
                 <Flex gap="5px">
                     <Flex flexDirection={'row'}>
@@ -231,7 +234,7 @@ const PreviewCheckout = () => {
                                     height="52px"
                                     borderColor={
                                         color === selectedColor ||
-                                        (selectedColor === '' && index === 0)
+                                            (selectedColor === '' && index === 0)
                                             ? 'white'
                                             : 'transparent'
                                     }
