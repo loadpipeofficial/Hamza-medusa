@@ -37,7 +37,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
             }
         );
 
-        console.log('user resposne ', userResponse.data);
+        console.log('user response ', userResponse.data);
 
         if (userResponse.data.email) {
             await CustomerRepository.update(
