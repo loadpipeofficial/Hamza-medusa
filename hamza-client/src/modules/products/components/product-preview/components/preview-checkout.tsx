@@ -71,7 +71,7 @@ const PreviewCheckout = () => {
         >
             <Flex gap="10px" flexDirection={'column'}>
                 <Text color="primary.green.900">Listing Price</Text>
-                <Flex gap="12px">
+                <Flex gap="10px">
                     <CurrencyButtonPreview
                         width="24px"
                         height="24px"
@@ -84,7 +84,6 @@ const PreviewCheckout = () => {
                 <Heading as="h3" color="white">
                     {price}
                 </Heading>
-
                 <Flex gap="5px">
                     <Flex flexDirection={'row'}>
                         <Image src={ReviewStar} alt={'star'} />
@@ -120,7 +119,7 @@ const PreviewCheckout = () => {
                 <Heading as="h4" fontSize="16px" color="white">
                     Also available in other currencies
                 </Heading>
-                <Flex mt="10px" gap="7px">
+                <Flex gap="10px">
                     {Object.keys(currencies)
                         .filter((key) => currencies[key] !== 'USDC')
                         .map((key) => (
@@ -134,12 +133,12 @@ const PreviewCheckout = () => {
                 </Flex>
             </Flex>
 
-            <Flex width={'100%'} flexDirection={'column'}>
-                <Flex flexDirection="column" mt="2rem">
+            <Flex width={'100%'} flexDirection={'column'} mt="1rem">
+                <Flex flexDirection="column" gap="10px">
                     <Heading as="h3" fontSize={'18px'} color="white">
-                        Size:
+                        Size
                     </Heading>
-                    <Flex mt="1rem" gap="10px">
+                    <Flex gap="10px">
                         {sizes.length > 0 ? (
                             sizes.map((size, index) => (
                                 <Flex
@@ -161,11 +160,11 @@ const PreviewCheckout = () => {
                         )}
                     </Flex>
                 </Flex>
-                <Flex flexDirection="column" my="1rem">
+                <Flex flexDirection="column" my="1rem" gap="10px">
                     <Heading as="h3" fontSize={'18px'} color="white">
-                        Color :
+                        Color
                     </Heading>
-                    <Flex mt="1rem" gap="10px">
+                    <Flex gap="10px">
                         {colors.length > 0 ? (
                             colors.map((color, index) => (
                                 <Flex
