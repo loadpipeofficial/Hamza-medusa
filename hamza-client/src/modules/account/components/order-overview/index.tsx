@@ -100,7 +100,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                         customer_id: orders[0].customer_id,
                     }
                 );
-                console.log(`fetching all data in new style ${data}`);
+                // console.log(`fetching all data in new style ${data}`);
                 setCustomerOrder(data.order);
             } catch (e) {
                 console.error('Error fetching all data in new style: ', e);
@@ -119,7 +119,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
         return acc;
     }, {});
 
-    console.log(`Grouped by cart id ${JSON.stringify(groupedByCartId)}`);
+    // console.log(`Grouped by cart id ${JSON.stringify(groupedByCartId)}`);
 
     useEffect(() => {
         const fetchStatuses = async () => {
@@ -217,121 +217,100 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
         console.log('Customer Order: ', order);
     });
 
-    if (Object.keys(groupedByCartId).length > 0) {
-        return (
-            <div className="flex flex-col gap-y-8 w-full bg-black text-white p-8">
-                {customerOrder && customerOrder.length > 0
-                    ? customerOrder.map((order: any) => (
-                          <div
-                              key={order.id}
-                              className="border-b border-gray-200 pb-6 last:pb-0 last:border-none"
-                          >
-                              <div className="p-4 bg-gray-700">
-                                  Order {order.id} - Total Items:{' '}
-                                  {order.cart.items.length}
-                                  <span
-                                      className="pl-2 text-blue-400 underline underline-offset-1 cursor-pointer"
-                                      onClick={() => {
-                                          handleReorder(order.cart.items);
-                                      }}
-                                  >
-                                      Re-order
-                                  </span>
-                              </div>
-                              {order.cart.items.map((item: any) => {
-                                  const handle =
-                                      item.variant?.product?.handle || 'N/A'; // Grab the handle from the product object
-                                  return (
-                                      <div key={item.id}>
-                                          item: {item.id}
-                                          <OrderCard
-                                              key={item.id}
-                                              order={item}
-                                              handle={handle} // Pass the handle here
-                                          />
-                                      </div>
-                                  );
-                              })}
+    return (
+        <div className="flex flex-col gap-y-8 w-full bg-black text-white p-8">
+            {customerOrder && customerOrder.length > 0
+                ? customerOrder.map((order: any) => (
+                      <div
+                          key={order.id}
+                          className="border-b border-gray-200 pb-6 last:pb-0 last:border-none"
+                      >
+                          <div className="p-4 bg-gray-700">
+                              Order {order.id} - Total Items:{' '}
+                              {order.cart.items.length}
+                              <span
+                                  className="pl-2 text-blue-400 underline underline-offset-1 cursor-pointer"
+                                  onClick={() => {
+                                      handleReorder(order.cart.items);
+                                  }}
+                              >
+                                  Re-order
+                              </span>
                           </div>
-                      ))
-                    : null}
-
-                {Object.entries(groupedByCartId).map(
-                    ([cartId, items], index) => (
-                        <div
-                            key={cartId}
-                            className="border-b border-gray-200 pb-6 last:pb-0 last:border-none"
+                          {order.cart.items.map((item: any) => {
+                              const handle =
+                                  item.variant?.product?.handle || 'N/A'; // Grab the handle from the product object
+                              return (
+                                  <div key={item.id}>
+                                      item: {item.id}
+                                      <OrderCard
+                                          key={item.id}
+                                          order={item}
+                                          handle={handle} // Pass the handle here
+                                      />
+                                      <LocalizedClientLink
+                                          href={`/account/orders/details/${order.id}`}
+                                          passHref
+                                      >
+                                          <Button colorScheme="blue">
+                                              See details
+                                          </Button>
+                                      </LocalizedClientLink>
+                                      {orderStatuses[order.id] ===
+                                      'canceled' ? (
+                                          <Button
+                                              colorScheme="red"
+                                              ml={4}
+                                              isDisabled
+                                          >
+                                              Cancellation Requested
+                                          </Button>
+                                      ) : (
+                                          <Button
+                                              variant="solid"
+                                              colorScheme="blue"
+                                              ml={4}
+                                              onClick={() =>
+                                                  openModal(order.id)
+                                              }
+                                          >
+                                              Request Cancellation
+                                          </Button>
+                                      )}
+                                  </div>
+                              );
+                          })}
+                      </div>
+                  ))
+                : null}
+            <Modal isOpen={isModalOpen} onClose={closeModal}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Request Cancellation</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <Textarea
+                            placeholder="Reason for cancellation"
+                            value={cancelReason}
+                            onChange={(e) => setCancelReason(e.target.value)}
+                        />
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button variant="ghost" onClick={closeModal}>
+                            Cancel
+                        </Button>
+                        <Button
+                            colorScheme="blue"
+                            ml={3}
+                            onClick={handleCancel}
                         >
-                            {/*{(items as any).map((item: WishlistProps) => (*/}
-                            {/*    <>*/}
-                            {/*        <OrderCard key={item.id} order={item} />*/}
-                            {/*        <div className="flex justify-end items-center">*/}
-                            {/*            <LocalizedClientLink*/}
-                            {/*                href={`/account/orders/details/${orders[index].id}`}*/}
-                            {/*                passHref*/}
-                            {/*            >*/}
-                            {/*                <Button colorScheme="blue">*/}
-                            {/*                    See details*/}
-                            {/*                </Button>*/}
-                            {/*            </LocalizedClientLink>*/}
-                            {/*            {orderStatuses[orders[index].id] ===*/}
-                            {/*            'canceled' ? (*/}
-                            {/*                <Button*/}
-                            {/*                    colorScheme="red"*/}
-                            {/*                    ml={4}*/}
-                            {/*                    isDisabled*/}
-                            {/*                >*/}
-                            {/*                    Cancellation Requested*/}
-                            {/*                </Button>*/}
-                            {/*            ) : (*/}
-                            {/*                <Button*/}
-                            {/*                    variant="solid"*/}
-                            {/*                    colorScheme="blue"*/}
-                            {/*                    ml={4}*/}
-                            {/*                    onClick={() =>*/}
-                            {/*                        openModal(orders[index].id)*/}
-                            {/*                    }*/}
-                            {/*                >*/}
-                            {/*                    Request Cancellation*/}
-                            {/*                </Button>*/}
-                            {/*            )}*/}
-                            {/*        </div>*/}
-                            {/*    </>*/}
-                            {/*))}*/}
-                        </div>
-                    )
-                )}
-                <Modal isOpen={isModalOpen} onClose={closeModal}>
-                    <ModalOverlay />
-                    <ModalContent>
-                        <ModalHeader>Request Cancellation</ModalHeader>
-                        <ModalCloseButton />
-                        <ModalBody>
-                            <Textarea
-                                placeholder="Reason for cancellation"
-                                value={cancelReason}
-                                onChange={(e) =>
-                                    setCancelReason(e.target.value)
-                                }
-                            />
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button variant="ghost" onClick={closeModal}>
-                                Cancel
-                            </Button>
-                            <Button
-                                colorScheme="blue"
-                                ml={3}
-                                onClick={handleCancel}
-                            >
-                                Submit
-                            </Button>
-                        </ModalFooter>
-                    </ModalContent>
-                </Modal>
-            </div>
-        );
-    }
+                            Submit
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        </div>
+    );
 
     return (
         <div className="w-full flex flex-col items-center gap-y-4 bg-black text-white p-8">

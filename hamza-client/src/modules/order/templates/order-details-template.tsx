@@ -82,6 +82,7 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
                 }));
                 // console.log('Data: ', updatedItems);
                 setDetailedOrders(updatedItems);
+                console.log(`Detailed Orders: ${JSON.stringify(updatedItems)}`);
 
                 const vendor_resp = await axios.post(
                     `${BACKEND_URL}/custom/order/vendor`,
