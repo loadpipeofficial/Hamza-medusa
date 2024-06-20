@@ -70,10 +70,7 @@ export default class OrderService extends MedusaOrderService {
             await this.cartService_.update(cart.id, cart);
 
             //emitting event in event bus
-            await this.eventBus_.emit('order.placed', {
-                orderId: order.id,
-                ...order,
-            });
+
             return order;
         } catch (e) {
             this.logger.error(`Error creating order: ${e}`);
@@ -154,7 +151,7 @@ export default class OrderService extends MedusaOrderService {
         escrowContractAddress
     ): Promise<Order[]> {
         this.logger.debug(`Cart Products ${cartProductsJson}`);
-
+        console.log('cart id', cartId);
         //get orders & order ids
         const orders: Order[] = await this.orderRepository_.find({
             where: { cart_id: cartId, status: OrderStatus.PENDING },
@@ -180,6 +177,12 @@ export default class OrderService extends MedusaOrderService {
 
         //calls to update orders
         const orderPromises = this.getPostCheckoutUpdateOrderPromises(orders);
+
+        await this.eventBus_.emit('order.placed', {
+            orderIds: orderIds,
+            orderId: orderIds[0],
+            ...orders[0],
+        });
 
         //execute all promises
         try {
