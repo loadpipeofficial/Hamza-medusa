@@ -8,7 +8,7 @@ const checkout_1 = require("../controllers/checkout");
 const products_1 = require("../controllers/products");
 const enroll_1 = require("../controllers/enroll");
 const router = (0, express_1.Router)();
-router.get('/test', test_1.testController.writeManifest);
+router.get('/test', test_1.testController.setErc20);
 //createStore: POST /store
 router.post('/store', store_1.storeController.createStore);
 //enrollKeycard: POST /enroll

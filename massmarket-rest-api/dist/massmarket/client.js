@@ -129,7 +129,7 @@ class RelayClientWrapper {
             console.log('storeId', storeId);
             console.log('keycard', keycard.string);
             yield new blockchainClient_1.BlockchainClient(storeId).createStore(storeWallet);
-            yield (0, utils_1.sleep)(120);
+            yield (0, utils_1.sleep)(45);
             //enroll keycard
             console.log('enrolling KC');
             yield client.enrollKeycard(storeWallet); //this uses store wallet
