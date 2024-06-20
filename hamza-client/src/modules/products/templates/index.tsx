@@ -25,12 +25,14 @@ import VendorBanner from '../components/product-preview/components/vendor-banner
 
 type ProductTemplateProps = {
     product: PricedProduct;
+    storeName: string;
     region: Region;
     countryCode: string;
 };
 
 const ProductTemplate: React.FC<ProductTemplateProps> = ({
     product,
+    storeName,
     region,
     countryCode,
 }) => {
@@ -102,7 +104,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
                 </Flex>
             </Flex>
 
-            <VendorBanner />
+            <VendorBanner storeName={storeName} />
             <ProductReview />
             <ProductReviewMobile />
         </Flex>

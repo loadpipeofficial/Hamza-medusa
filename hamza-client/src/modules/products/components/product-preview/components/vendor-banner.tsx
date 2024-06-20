@@ -1,7 +1,20 @@
 import React from 'react';
 import { Box, Text, Flex, Container } from '@chakra-ui/react';
+import { useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 
-const VendorBanner = () => {
+type VendorProps = {
+    storeName: string
+}
+
+const VendorBanner = (props: VendorProps) => {
+    const router = useRouter();
+    const { countryCode } = useParams();
+
+    const navigateToVendor = () => {
+        router.push(`/${countryCode}/store/${props.storeName}`);
+    }
+
     return (
         <Flex
             backgroundColor={'#121212'}
@@ -40,7 +53,7 @@ const VendorBanner = () => {
                     justifyContent={'center'}
                     cursor={'pointer'}
                 >
-                    <Text alignSelf={'center'} color="white">
+                    <Text onClick={navigateToVendor} alignSelf={'center'} color="white">
                         Visit Store
                     </Text>
                 </Flex>
