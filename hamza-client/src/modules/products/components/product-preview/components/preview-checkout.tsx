@@ -19,6 +19,8 @@ const PreviewCheckout = () => {
         USDC: 'USDC',
     };
 
+    const colorSample = ['black', 'white', 'red', 'teal'];
+
     const countryCode = useParams().countryCode as string;
     const [sizes, setSizes] = useState<string[]>([]);
     const [colors, setColors] = useState<string[]>([]);
@@ -165,6 +167,45 @@ const PreviewCheckout = () => {
                         Color
                     </Heading>
                     <Flex gap="10px">
+                        {colorSample.length > 0 ? (
+                            colorSample.map((color, index) => (
+                                <Flex
+                                    key={index}
+                                    p="2px"
+                                    borderRadius="full"
+                                    borderWidth={'2px'}
+                                    width="52px"
+                                    height="52px"
+                                    borderColor={
+                                        color === selectedColor ||
+                                        (selectedColor === '' && index === 0)
+                                            ? 'white'
+                                            : 'transparent'
+                                    }
+                                    backgroundColor={'transparent'}
+                                    cursor="pointer"
+                                    justifyContent={'center'}
+                                    onClick={() => handleColorSelect(color)}
+                                >
+                                    <Box
+                                        alignSelf={'center'}
+                                        width="36px"
+                                        height="36px"
+                                        borderRadius="full"
+                                        backgroundColor={color}
+                                        display="flex"
+                                        alignItems="center"
+                                        justifyContent="center"
+                                    />
+                                </Flex>
+                            ))
+                        ) : (
+                            <Text color="primary.green.900">
+                                No colors available
+                            </Text>
+                        )}
+                    </Flex>
+                    {/* <Flex gap="10px">
                         {colors.length > 0 ? (
                             colors.map((color, index) => (
                                 <Flex
@@ -202,7 +243,7 @@ const PreviewCheckout = () => {
                                 No colors available
                             </Text>
                         )}
-                    </Flex>
+                    </Flex> */}
                 </Flex>
 
                 <QuantityButton />
