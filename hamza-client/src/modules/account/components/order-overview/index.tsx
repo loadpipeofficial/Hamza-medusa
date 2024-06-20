@@ -213,6 +213,9 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
     };
 
     // console.log('groupedByCartId: ', groupedByCartId);
+    customerOrder?.map((order: any) => {
+        console.log('Customer Order: ', order);
+    });
 
     if (Object.keys(groupedByCartId).length > 0) {
         return (
@@ -226,6 +229,14 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                               <div className="p-4 bg-gray-700">
                                   Order {order.id} - Total Items:{' '}
                                   {order.cart.items.length}
+                                  <span
+                                      className="pl-2 text-blue-400 underline underline-offset-1 cursor-pointer"
+                                      onClick={() => {
+                                          handleReorder(order.cart.items);
+                                      }}
+                                  >
+                                      Re-order
+                                  </span>
                               </div>
                               {order.cart.items.map((item: any) => {
                                   const handle =
@@ -251,19 +262,6 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                             key={cartId}
                             className="border-b border-gray-200 pb-6 last:pb-0 last:border-none"
                         >
-                            <div className="p-4 bg-gray-700">
-                                Order {orders[index] ? orders[index].id : 'N/A'}{' '}
-                                - Total Items: {(items as any).length}
-                                <span
-                                    className="pl-2 text-blue-400 underline underline-offset-1 cursor-pointer"
-                                    onClick={() => {
-                                        handleReorder(items);
-                                    }}
-                                >
-                                    Re-order
-                                </span>
-                            </div>
-
                             {/*{(items as any).map((item: WishlistProps) => (*/}
                             {/*    <>*/}
                             {/*        <OrderCard key={item.id} order={item} />*/}
