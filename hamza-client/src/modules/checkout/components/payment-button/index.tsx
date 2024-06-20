@@ -281,7 +281,7 @@ const CryptoPaymentButton = ({
 
                 //country code needed for redirect (get before killing cart)
                 const countryCode =
-                    cart.shipping_address?.country_code?.toLowerCase();
+                    process.env.FORCE_US_COUNTRY ? 'us' : cart.shipping_address?.country_code?.toLowerCase();
 
                 //clear cart
                 clearCart();

@@ -73,7 +73,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
     const closeModal = () => setIsModalOpen(false);
     console.log('Orders: ', orders);
 
-    const countryCode = useParams().countryCode as string;
+    const countryCode = process.env.FORCE_US_COUNTRY ? 'us' : useParams().countryCode as string;
     const router = useRouter();
 
     useEffect(() => {

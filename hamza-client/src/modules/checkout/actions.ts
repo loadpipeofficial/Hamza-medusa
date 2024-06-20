@@ -191,7 +191,7 @@ export async function placeOrder() {
 
     if (cart?.type === 'order') {
         const countryCode =
-            cart.data.shipping_address?.country_code?.toLowerCase();
+            process.env.FORCE_US_COUNTRY ? 'us' : cart.data.shipping_address?.country_code?.toLowerCase();
         cookies().set('_medusa_cart_id', '', { maxAge: -1 });
         redirect(`/${countryCode}/order/confirmed/${cart?.data.id}`);
     }

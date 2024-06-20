@@ -45,7 +45,7 @@ export default function ProductActions({
     const [inventoryCount, setInventoryCount] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const countryCode = useParams().countryCode as string;
+    const countryCode = process.env.FORCE_US_COUNTRY ? 'us' : useParams().countryCode as string;
     const { whitelist_config, authData } = useCustomerAuthStore();
     const [isWhitelisted, setIsWhitelisted] = useState(false);
     const { wishlist } = useWishlistStore();

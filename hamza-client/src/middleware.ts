@@ -81,7 +81,7 @@ export async function middleware(request: NextRequest) {
 
   const regionMap = await listCountries()
 
-  const countryCode = regionMap && (await getCountryCode(request, regionMap))
+  const countryCode = process.env.FORCE_US_COUNTRY ? 'us' : regionMap && (await getCountryCode(request, regionMap))
 
   const urlHasCountryCode =
     countryCode && request.nextUrl.pathname.split("/")[1].includes(countryCode)

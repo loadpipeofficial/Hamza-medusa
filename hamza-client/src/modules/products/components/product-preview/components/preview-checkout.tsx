@@ -18,7 +18,7 @@ const PreviewCheckout = () => {
         USDC: 'USDC',
     };
 
-    const countryCode = useParams().countryCode as string;
+    const countryCode = process.env.FORCE_US_COUNTRY ? 'us' : process.env.FORCE_US_COUNTRY ? 'us' : useParams().countryCode as string;
     const [sizes, setSizes] = useState<string[]>([]);
     const [colors, setColors] = useState<string[]>([]);
     const [selectedColor, setSelectedColor] = useState('');
