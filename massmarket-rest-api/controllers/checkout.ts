@@ -30,6 +30,7 @@ export const checkoutController = {
 
                 //TODO: REMOVE (dummy checkout)
 
+                /*
                 const output: ICheckoutOutput = {
                     success: true,
                     contractAddress:
@@ -39,9 +40,8 @@ export const checkoutController = {
                     chainId: 11155111,
                     ttl: 0,
                     currency: '',
-                };
+                };*/
 
-                /*
                 //validate input
                 if (!validateCheckoutInput(res, input)) {
                     console.log('validation failed');
@@ -71,6 +71,8 @@ export const checkoutController = {
                 if (rc) {
                     const cartId = await rc.createCart();
                     console.log('CART ID: ', cartId);
+
+                    return null;
 
                     //add products to cart
                     for (const item of input.items) {
@@ -102,7 +104,6 @@ export const checkoutController = {
                         }
                     }
                 }
-                */
 
                 console.log('returning output', output);
                 return output;

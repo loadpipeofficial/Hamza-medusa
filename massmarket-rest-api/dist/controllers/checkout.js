@@ -43,8 +43,7 @@ exports.checkoutController = {
                 chainId: 11155111,
                 ttl: 0,
                 currency: '',
-            };
-            */
+            };*/
             //validate input
             if (!validateCheckoutInput(res, input)) {
                 console.log('validation failed');
@@ -66,6 +65,7 @@ exports.checkoutController = {
             if (rc) {
                 const cartId = yield rc.createCart();
                 console.log('CART ID: ', cartId);
+                return null;
                 //add products to cart
                 for (const item of input.items) {
                     yield rc.addToCart(cartId, item.productId, //'0xa3438104c764746a3d67c761e154ad26a958153743e97db10747121d4c68d642'

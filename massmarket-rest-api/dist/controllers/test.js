@@ -14,6 +14,7 @@ const viem_1 = require("viem");
 const client_1 = require("../massmarket/client");
 const util_1 = require("./util");
 exports.testController = {
+    //0x0585a14d58822b6521c55e601a001589552f02eb4c9f8a744e4e2f3f9bc9b2d4
     enrollNewKeycard: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         (0, util_1.serveRequest)(req, res, () => __awaiter(void 0, void 0, void 0, function* () {
             /*
@@ -25,8 +26,33 @@ exports.testController = {
             );
             */
             //await rc.writeManifest();
-            const rc = yield client_1.RelayClientWrapper.enrollNewKeycard(util_1.ENDPOINT, '0xe8b3a2a736a13a35c3329e772a1e5bfd7c0ebde8e4cb38889ecfce8b1e3db0b6');
+            const rc = yield client_1.RelayClientWrapper.enrollNewKeycard(util_1.ENDPOINT, 
+            //'0xe8b3a2a736a13a35c3329e772a1e5bfd7c0ebde8e4cb38889ecfce8b1e3db0b6'
+            '0xec06f1f5463714196949f148c3b843422ef893b5f4c6240e24c6ad8955887142');
             console.log('new keycard enrolled: ', rc.keyCardToString());
+            return {
+                success: true,
+            };
+        }), 200); /*
+            console.log('creating cart...');
+            //const cartId = await rc.createCart();
+            //console.log('cart id', cartId);
+            //await rc.pullEvents();
+
+            console.log('abandon cart');
+            rc.cartId =
+                '0x36dd49db45b8d3f177bb5c5346a672d783acbaaff647bce3a2811e24447752a5';
+            await rc.abandonCart();
+            const id = await rc.commitCartEth();
+            */
+        //console.log('rc', cartId);
+    }),
+    writeManifest: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        (0, util_1.serveRequest)(req, res, () => __awaiter(void 0, void 0, void 0, function* () {
+            const rc = new client_1.RelayClientWrapper(util_1.ENDPOINT, '0xec06f1f5463714196949f148c3b843422ef893b5f4c6240e24c6ad8955887142', '0x0585a14d58822b6521c55e601a001589552f02eb4c9f8a744e4e2f3f9bc9b2d4'
+            //0x80338c01e519d6f980e6fdaad3b7c76bfc9909a46ce6d4096b7a4a39c2c82214
+            );
+            yield rc.writeManifest();
             return {
                 success: true,
             };
