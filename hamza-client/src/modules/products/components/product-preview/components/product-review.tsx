@@ -52,6 +52,7 @@ const ProductReview = () => {
             my="2rem"
             width={'100%'}
             height="450.57px"
+            display={{ base: 'none', md: 'flex' }}
             overflow={'hidden'}
         >
             <Flex

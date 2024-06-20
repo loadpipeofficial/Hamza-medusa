@@ -16,7 +16,6 @@ const ReviewCardMobile: React.FC<ReviewCardProps> = ({
 }) => {
     return (
         <Flex
-            display={{ base: 'flex', md: 'none' }}
             gap={'10px'}
             width={'290.65px'}
             padding={'1rem'}
