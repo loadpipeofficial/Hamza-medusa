@@ -10,6 +10,7 @@ import { useParams } from 'next/navigation';
 import ReviewStar from '../../../../../../public/images/products/review-star.svg';
 import Image from 'next/image';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
+import Link from 'next/link';
 
 const PreviewCheckout = () => {
     const currencies = {
@@ -62,15 +63,14 @@ const PreviewCheckout = () => {
         <Card
             padding="2rem"
             borderRadius={'16px'}
-            height={'800px'}
+            // height={'800px'}
             maxW={'504px'}
             width={'100%'}
             backgroundColor={'#121212'}
             overflow={'hidden'}
         >
-            <Text color="primary.green.900">Listing Price</Text>
-
             <Flex gap="10px" flexDirection={'column'}>
+                <Text color="primary.green.900">Listing Price</Text>
                 <Flex gap="12px">
                     <CurrencyButtonPreview
                         width="24px"
@@ -207,16 +207,19 @@ const PreviewCheckout = () => {
                 </Flex>
 
                 <QuantityButton />
-                <LocalizedClientLink href="/checkout?step=address">
+
+                <Link style={{ width: '100%' }} href="/checkout?step=address">
                     <Button
                         onClick={() => handleAddToCart()}
                         borderRadius={'56px'}
                         height="75px"
+                        width="100%"
                         backgroundColor={'primary.yellow.900'}
                     >
                         Buy Now
                     </Button>
-                </LocalizedClientLink>
+                </Link>
+
                 <Button
                     onClick={() => handleAddToCart()}
                     borderRadius={'56px'}
