@@ -84,6 +84,13 @@ const PreviewCheckout = () => {
         >
             <Flex gap="10px" flexDirection={'column'}>
                 <Heading
+                    display={{ base: 'block', md: 'none' }}
+                    fontSize={'16px'}
+                    color="white"
+                >
+                    {productData.title}
+                </Heading>
+                <Heading
                     display={{ base: 'none', md: 'block' }}
                     fontSize={'16px'}
                     color="primary.green.900"
@@ -96,13 +103,16 @@ const PreviewCheckout = () => {
                         height="24px"
                         currencyName={currencies['USDC']}
                     />
-                    <Heading fontSize={'32px'} color="white">
+                    <Heading
+                        fontSize={{ base: '18px', md: '32px' }}
+                        color="white"
+                    >
                         {price}
                     </Heading>
                     <Text
                         style={{ textDecoration: 'line-through' }}
                         alignSelf={'center'}
-                        fontSize={'18px'}
+                        fontSize={{ base: '9px', md: '18px' }}
                         color="#555555"
                     >
                         {price}
@@ -310,7 +320,7 @@ const PreviewCheckout = () => {
                     borderRadius={'56px'}
                     height="75px"
                     borderWidth={'1px'}
-                    color="white"
+                    color="primary.yellow.900"
                     borderColor={'primary.yellow.900'}
                     backgroundColor={'transparent'}
                     mt="1rem"
