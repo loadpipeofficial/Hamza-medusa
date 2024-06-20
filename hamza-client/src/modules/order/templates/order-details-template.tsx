@@ -139,7 +139,7 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
                 </LocalizedClientLink>
             </div>
             <div className="flex flex-col gap-4 h-full bg-white w-full p-8">
-                <OrderDetails order={order} handles={handles} showStatus />
+                <OrderDetails order={order} showStatus />
                 <h3
                     className="text-lg text-black"
                     onClick={navigateToVendor}
@@ -150,7 +150,7 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
                         {storeName}
                     </span>
                 </h3>{' '}
-                <Items items={specificCart} />
+                <Items items={specificCart} handles={handles} />
                 <ShippingDetails order={order} />
                 <OrderSummary order={order} />
                 <Help />
