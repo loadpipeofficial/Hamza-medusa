@@ -20,6 +20,7 @@ import ReviewStar from '../../../../../../public/images/products/review-star.svg
 import Image from 'next/image';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import Link from 'next/link';
+import { Variant } from 'types/medusa';
 
 const PreviewCheckout = () => {
     const currencies = {
