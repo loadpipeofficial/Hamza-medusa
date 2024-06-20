@@ -19,6 +19,7 @@ import PreviewGallery from '../components/product-preview/components/preview-gal
 import ProductInfo from '../components/product-preview/components/product-info';
 import PreviewCheckout from '../components/product-preview/components/preview-checkout';
 import ProductReview from '../components/product-preview/components/product-review';
+import ProductReviewMobile from '../components/product-preview/components/product-review-mobile';
 import useProductPreview from '@store/product-preview/product-preview';
 import VendorBanner from '../components/product-preview/components/vendor-banner';
 
@@ -103,6 +104,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
 
             <VendorBanner />
             <ProductReview />
+            <ProductReviewMobile />
         </Flex>
     );
 };

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6';
 import { GoArrowLeft, GoArrowRight } from 'react-icons/go';
 import ReviewCard from './review-card';
+import ReviewCardMobile from './review-card-mobile';
 import ReviewStar from '../../../../../../public/images/products/review-star.svg';
 import Image from 'next/image';
 
