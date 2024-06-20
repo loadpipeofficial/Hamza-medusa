@@ -75,7 +75,7 @@ const PreviewCheckout = () => {
             padding="2rem"
             borderRadius={'16px'}
             // height={'800px'}
-            maxW={'504px'}
+            maxW={{ base: '100%', md: '504px' }}
             minW="375px"
             width={'100%'}
             flexDirection={'column'}

@@ -90,7 +90,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
                     <ProductInfo />
                 </Flex>
                 <Flex
-                    maxWidth={'504px'}
+                    maxW={{ base: '100%', md: '504px' }}
                     width={'100%'}
                     flex="0 0 auto"
                     justifyContent={'center'}
