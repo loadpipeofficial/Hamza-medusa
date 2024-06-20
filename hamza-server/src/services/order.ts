@@ -239,6 +239,7 @@ export default class OrderService extends MedusaOrderService {
             this.logger.error(`Error fetching store from order: ${e}`);
         }
     }
+
     private getPostCheckoutUpdateInventoryPromises(
         cartProductsJson: string
     ): Promise<ProductVariant>[] {
@@ -282,5 +283,37 @@ export default class OrderService extends MedusaOrderService {
                 payment_status: PaymentStatus.AWAITING,
             });
         });
+    }
+
+    async listCustomerOrders(customerId: string): Promise<Order[]> {
+        const orders = await this.orderRepository_.find({
+            where: { customer_id: customerId },
+            relations: ['cart.items', 'cart.items.variant.product'],
+            // relations: ['store.owner', 'cart.items'],
+        });
+        // Order Table is showing repeated id's so lets remove the duplicates
+        // Use a Set to track unique cart_ids to avoid duplicates
+        const cartSet = new Set();
+        const uniqueOrders = orders.filter((order) => {
+            if (!cartSet.has(order.cart_id)) {
+                cartSet.add(order.cart_id);
+                return true;
+            }
+            return false;
+        });
+
+        return uniqueOrders;
+    }
+
+    async orderDetails(cartId: string) {
+        const orderHandle = await this.orderRepository_.findOne({
+            where: { cart_id: cartId },
+            relations: ['cart.items', 'cart.items.variant.product'],
+        });
+        let product_handles = [];
+        orderHandle.cart.items.forEach((item) => {
+            product_handles.push(item.variant.product.handle);
+        });
+        return product_handles;
     }
 }

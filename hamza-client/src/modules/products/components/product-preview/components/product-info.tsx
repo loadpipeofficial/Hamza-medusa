@@ -15,7 +15,7 @@ const ProductInfo = () => {
             flexDirection="column"
             gap="26px"
         >
-            <Flex>
+            <Flex display={{ base: 'none', md: 'flex' }}>
                 <Box
                     backgroundColor="#121212"
                     px="15px" // Horizontal padding
@@ -28,7 +28,11 @@ const ProductInfo = () => {
                     <Text color="white">Electronics</Text>
                 </Box>
             </Flex>
-            <Heading as="h1" color="white">
+            <Heading
+                display={{ base: 'none', md: 'block' }}
+                as="h1"
+                color="white"
+            >
                 {productData.title}
             </Heading>
             <Flex flexDirection={'column'}>

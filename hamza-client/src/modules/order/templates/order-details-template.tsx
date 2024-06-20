@@ -63,6 +63,7 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
     );
     // console.log('Orders: ', order.cart_id);
     const [storeName, setStoreName] = useState('');
+    const [handles, setHandles] = useState(); // [key: string]: string
     // console.log(`Orders: ${JSON.stringify(order)}`);
     const router = useRouter();
 
@@ -75,13 +76,21 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
                         cart_id: order.cart_id,
                     }
                 );
+                const orderHandles = await axios.post(
+                    `${BACKEND_URL}/custom/order/order-details`,
+                    {
+                        cart_id: order.cart_id,
+                    }
+                );
                 const updatedItems = data.order.map((item: Item) => ({
                     ...item,
                     order_id: order.id, // Append order_id to each item if cart_id matches
                     customer_id: customer_id,
                 }));
+                setHandles(orderHandles.data);
                 // console.log('Data: ', updatedItems);
                 setDetailedOrders(updatedItems);
+                console.log(`Detailed Orders: ${JSON.stringify(updatedItems)}`);
 
                 const vendor_resp = await axios.post(
                     `${BACKEND_URL}/custom/order/vendor`,
@@ -141,7 +150,7 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
                         {storeName}
                     </span>
                 </h3>{' '}
-                <Items items={specificCart} />
+                <Items items={specificCart} handles={handles} />
                 <ShippingDetails order={order} />
                 <OrderSummary order={order} />
                 <Help />
