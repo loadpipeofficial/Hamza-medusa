@@ -11,7 +11,7 @@ function isZeroAddress(value: any): boolean {
     value = value.trim();
     if (value.length < 1) return true;
 
-    if (value.replace('0', '') === 'x') return true;
+    if (value.replaceAll('0', '') === 'x') return true;
 
     return false;
 }
@@ -71,8 +71,6 @@ export const checkoutController = {
                 if (rc) {
                     const cartId = await rc.createCart();
                     console.log('CART ID: ', cartId);
-
-                    return null;
 
                     //add products to cart
                     for (const item of input.items) {
