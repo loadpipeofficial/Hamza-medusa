@@ -102,6 +102,8 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
         return acc;
     }, {});
 
+    console.log(`Grouped by cart id ${JSON.stringify(groupedByCartId)}`);
+
     useEffect(() => {
         const fetchStatuses = async () => {
             if (!orders || orders.length === 0) return;
