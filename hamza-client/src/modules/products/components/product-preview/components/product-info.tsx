@@ -15,7 +15,7 @@ const ProductInfo = () => {
             flexDirection="column"
             gap="26px"
         >
-            <Flex>
+            <Flex display={{ base: 'none', md: 'flex' }}>
                 <Box
                     backgroundColor="#121212"
                     px="15px" // Horizontal padding

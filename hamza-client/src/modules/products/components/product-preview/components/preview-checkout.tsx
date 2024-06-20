@@ -8,6 +8,7 @@ import {
     Flex,
     Box,
     Heading,
+    Divider,
     textDecoration,
 } from '@chakra-ui/react';
 import useProductPreview from '@store/product-preview/product-preview';
@@ -70,18 +71,23 @@ const PreviewCheckout = () => {
     };
 
     return (
-        <Card
+        <Flex
             padding="2rem"
             borderRadius={'16px'}
             // height={'800px'}
             maxW={'504px'}
             minW="375px"
             width={'100%'}
-            backgroundColor={'#121212'}
+            flexDirection={'column'}
+            backgroundColor={{ base: 'transparent', md: '#121212' }}
             overflow={'hidden'}
         >
             <Flex gap="10px" flexDirection={'column'}>
-                <Heading fontSize={'16px'} color="primary.green.900">
+                <Heading
+                    display={{ base: 'none', md: 'block' }}
+                    fontSize={'16px'}
+                    color="primary.green.900"
+                >
                     Listing Price
                 </Heading>
                 <Flex gap="10px" mb="-0.5rem">
@@ -104,6 +110,7 @@ const PreviewCheckout = () => {
                 </Flex>
 
                 <Heading
+                    display={{ base: 'none', md: 'block' }}
                     as="h3"
                     variant="semibold"
                     fontSize={'18px'}
@@ -143,10 +150,15 @@ const PreviewCheckout = () => {
                     </Flex>
                 </Flex>
 
-                <Heading as="h4" fontSize="16px" color="white">
+                <Heading
+                    display={{ base: 'none', md: 'flex' }}
+                    as="h4"
+                    fontSize="16px"
+                    color="white"
+                >
                     Also available in other currencies
                 </Heading>
-                <Flex gap="10px">
+                <Flex display={{ base: 'none', md: 'flex' }} gap="10px">
                     {Object.keys(currencies)
                         .filter((key) => currencies[key] !== 'USDC')
                         .map((key) => (
@@ -159,7 +171,12 @@ const PreviewCheckout = () => {
                         ))}
                 </Flex>
             </Flex>
-
+            <Divider
+                color="#555555"
+                display={{ base: 'block', md: 'none' }}
+                mt="1rem"
+            />
+            {/* Varients */}
             <Flex width={'100%'} flexDirection={'column'} mt="1rem">
                 <Flex flexDirection="column" gap="10px">
                     <Heading as="h3" fontSize={'18px'} color="white">
@@ -306,7 +323,7 @@ const PreviewCheckout = () => {
                     Add To Cart
                 </Button>
             </Flex>
-        </Card>
+        </Flex>
     );
 };
 

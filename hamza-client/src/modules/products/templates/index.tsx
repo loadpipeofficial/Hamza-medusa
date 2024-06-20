@@ -14,7 +14,7 @@ import RelatedProducts from '@modules/products/components/related-products';
 import SkeletonRelatedProducts from '@modules/skeletons/templates/skeleton-related-products';
 import { notFound } from 'next/navigation';
 import ProductActionsWrapper from './product-actions-wrapper';
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Flex, Divider } from '@chakra-ui/react';
 import PreviewGallery from '../components/product-preview/components/preview-gallery';
 import ProductInfo from '../components/product-preview/components/product-info';
 import PreviewCheckout from '../components/product-preview/components/preview-checkout';
