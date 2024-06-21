@@ -69,6 +69,17 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
     // if (!product || !product.id) {
     //     return null; // Return null or some error display component
     // }
+    console.log(
+        `Product Page, we have product ${product.title} ${product.handle}`
+    );
+
+    useEffect(() => {
+        const product_url = `https://demo.hamza.biz/us/products/${product.handle}`;
+        const tweetHref = `https://twitter.com/intent/tweet?text=Check out this cool product at Hamza.biz! ${encodeURIComponent(product_url)} Buy and sell products with Crypto at Hamza - the world’s first decom marketplace.`;
+        document
+            .getElementById('tweet-button')
+            ?.setAttribute('href', tweetHref);
+    }, [product]);
 
     return (
         <Flex
@@ -91,6 +102,24 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
             >
                 <Flex flex="1" order={{ base: 2, md: 1 }}>
                     <ProductInfo />
+                    <a href="#" id="tweet-button" target="_blank">
+                        <button
+                            type="button"
+                            data-twe-ripple-init
+                            data-twe-ripple-color="light"
+                            className="mb-2 inline-block rounded bg-black px-6 py-2.5 text-xs font-medium uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg"
+                        >
+                            <span className="[&>svg]:h-4 [&>svg]:w-4">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="currentColor"
+                                    viewBox="0 0 512 512"
+                                >
+                                    <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" />
+                                </svg>
+                            </span>
+                        </button>
+                    </a>
                 </Flex>
                 <Flex
                     maxW={{ base: '100%', md: '504px' }}
@@ -100,7 +129,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
                     order={{ base: 1, md: 2 }}
                     alignSelf="flex-start"
                 >
-                    <PreviewCheckout />
+                    <PreviewCheckout product={product} />
                 </Flex>
             </Flex>
 
