@@ -45,11 +45,16 @@ const PreviewGallery = () => {
                                 width="257.4px"
                                 height="245.18px"
                             >
-                                <Image
-                                    src="path/to/your/image2.jpg"
-                                    alt="Top Left Image"
-                                    width="100%"
-                                />
+                                {images.length > 0 && (
+                                    <Image
+                                        // src="path/to/your/image2.jpg"
+                                        src={images[0].url}
+                                        alt="Left Image"
+                                        width="100%"
+                                        height="100%"
+                                        objectFit="cover"
+                                    />
+                                )}
                             </Box>
                         </GridItem>
                         <GridItem>
@@ -59,11 +64,16 @@ const PreviewGallery = () => {
                                 width="257.4px"
                                 height="245.18px"
                             >
-                                <Image
-                                    src="path/to/your/image2.jpg"
-                                    alt="Top Left Image"
-                                    width="100%"
-                                />
+                                {images.length > 0 && (
+                                    <Image
+                                        // src="path/to/your/image2.jpg"
+                                        src={images[0].url}
+                                        alt="Left Image"
+                                        width="100%"
+                                        height="100%"
+                                        objectFit="cover"
+                                    />
+                                )}
                             </Box>
                         </GridItem>
                         <GridItem>
@@ -72,11 +82,16 @@ const PreviewGallery = () => {
                                 width="257.4px"
                                 height="245.18px"
                             >
-                                <Image
-                                    src="path/to/your/image2.jpg"
-                                    alt="Top Left Image"
-                                    width="100%"
-                                />
+                                {images.length > 0 && (
+                                    <Image
+                                        // src="path/to/your/image2.jpg"
+                                        src={images[0].url}
+                                        alt="Left Image"
+                                        width="100%"
+                                        height="100%"
+                                        objectFit="cover"
+                                    />
+                                )}
                             </Box>
                         </GridItem>
                         <GridItem>
@@ -86,11 +101,16 @@ const PreviewGallery = () => {
                                 width="257.4px"
                                 height="245.18px"
                             >
-                                <Image
-                                    src="path/to/your/image2.jpg"
-                                    alt="Top Left Image"
-                                    width="100%"
-                                />
+                                {images.length > 0 && (
+                                    <Image
+                                        // src="path/to/your/image2.jpg"
+                                        src={images[0].url}
+                                        alt="Left Image"
+                                        width="100%"
+                                        height="100%"
+                                        objectFit="cover"
+                                    />
+                                )}
                             </Box>
                         </GridItem>
                     </Grid>
