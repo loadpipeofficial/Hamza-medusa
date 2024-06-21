@@ -21,12 +21,13 @@ const PreviewGallery = () => {
                         backgroundColor={'white'}
                         height="504.11px"
                         maxHeight="504.11px"
-                        maxW={'716.04px'}
+                        maxW={'736.04px'}
                         overflow="hidden"
                         borderLeftRadius={'16px'}
                     >
                         {images.length > 0 && (
                             <Image
+                                // src="path/to/your/image2.jpg"
                                 src={images[0].url}
                                 alt="Left Image"
                                 width="100%"
@@ -37,7 +38,7 @@ const PreviewGallery = () => {
                     </Box>
                 </GridItem>
                 <GridItem>
-                    <Grid templateColumns="1fr 1fr" gap={4}>
+                    <Grid templateColumns="1fr 1fr" gap={3.5}>
                         <GridItem>
                             <Box
                                 backgroundColor={'white'}
