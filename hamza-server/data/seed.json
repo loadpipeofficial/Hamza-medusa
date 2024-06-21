@@ -148,7 +148,7 @@
             "handle": "headphones",
             "is_giftcard": false,
             "weight": 250,
-            "images": ["http://54.253.186.85/headphones.webp"],
+            "images": ["https://images.hamza.biz/headphones.webp"],
             "options": [
                 {
                     "title": "Color",
@@ -195,7 +195,7 @@
             "handle": "headset_future",
             "is_giftcard": false,
             "weight": 300,
-            "images": ["http://54.253.186.85/dalle_black_vr.webp"],
+            "images": ["https://images.hamza.biz/dalle_black_vr.webp"],
             "options": [
                 {
                     "title": "Color",
@@ -242,7 +242,7 @@
             "handle": "headset_audio",
             "is_giftcard": false,
             "weight": 260,
-            "images": ["http://54.253.186.85/dalle_vr.webp"],
+            "images": ["https://images.hamza.biz/dalle_vr.webp"],
             "options": [
                 {
                     "title": "Color",
@@ -289,7 +289,7 @@
             "handle": "headset_sleek",
             "is_giftcard": false,
             "weight": 290,
-            "images": ["http://54.253.186.85/dalle_vr_2.webp"],
+            "images": ["https://images.hamza.biz/dalle_vr_2.webp"],
             "options": [
                 {
                     "title": "Color",
@@ -336,7 +336,7 @@
             "handle": "headset_aural",
             "is_giftcard": false,
             "weight": 275,
-            "images": ["http://54.253.186.85/dalle_vr_headset.webp"],
+            "images": ["https://images.hamza.biz/dalle_vr_headset.webp"],
             "options": [
                 {
                     "title": "Color",
@@ -383,7 +383,7 @@
             "handle": "headset_vision",
             "is_giftcard": false,
             "weight": 310,
-            "images": ["http://54.253.186.85/dalle_vr_headset3.webp"],
+            "images": ["https://images.hamza.biz/dalle_vr_headset3.webp"],
             "options": [
                 {
                     "title": "Color",
@@ -430,7 +430,7 @@
             "handle": "headset_echo",
             "is_giftcard": false,
             "weight": 265,
-            "images": ["http://54.253.186.85/vr_3.webp"],
+            "images": ["https://images.hamza.biz/vr_3.webp"],
             "options": [
                 {
                     "title": "Color",
@@ -477,7 +477,7 @@
             "handle": "headset_nova",
             "is_giftcard": false,
             "weight": 285,
-            "images": ["http://54.253.186.85/sony_wh1000xm4.jpeg"],
+            "images": ["https://images.hamza.biz/sony_wh1000xm4.jpeg"],
             "options": [
                 {
                     "title": "Color",
