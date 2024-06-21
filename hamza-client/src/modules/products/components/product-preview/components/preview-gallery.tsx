@@ -36,13 +36,15 @@ const PreviewGallery = () => {
                 <GridItem>
                     <Box
                         backgroundColor={'white'}
-                        height={{ sm: '312.22px', md: '504.11px' }}
-                        maxHeight="504.11px"
+                        width="100%"
+                        height={{ base: '312.22px', md: '100%' }}
+                        minHeight={'312.22px'}
+                        minWidth={'352.65px'}
+                        maxH={'504.11px'}
                         maxW={'736.04px'}
-                        minW={'352.65px'}
                         overflow="hidden"
-                        borderLeftRadius={{ base: 'none', md: '16px' }}
-                        borderRadius={{ base: '12px' }}
+                        borderLeftRadius={'16px'}
+                        borderRightRadius={{ base: '16px', md: 'none' }}
                     >
                         {images.length > 0 && (
                             <Image
@@ -88,8 +90,8 @@ const PreviewGallery = () => {
                             <Box
                                 borderTopRightRadius={'16px'}
                                 backgroundColor={'white'}
-                                width={{ base: '80px', md: '257.4px' }}
-                                height={{ base: '80px', md: '245.18px' }}
+                                width={{ sm: '80px', md: '257.4px' }}
+                                height={{ sm: '80px', md: '245.18px' }}
                             >
                                 {images.length > 0 && (
                                     <Image
