@@ -105,6 +105,11 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
             </Flex>
 
             <VendorBanner storeName={storeName} />
+            <Divider
+                color="#555555"
+                display={{ base: 'block', md: 'none' }}
+                mt="2rem"
+            />
             <ProductReview />
             <ProductReviewMobile />
         </Flex>
