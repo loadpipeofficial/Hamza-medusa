@@ -4,16 +4,17 @@ import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
 
 type VendorProps = {
-    storeName: string
-}
+    vendor: string;
+};
 
 const VendorBanner = (props: VendorProps) => {
     const router = useRouter();
     const { countryCode } = useParams();
 
+    console.log(`vendor name is ${props.vendor}`);
     const navigateToVendor = () => {
-        router.push(`/${countryCode}/store/${props.storeName}`);
-    }
+        router.push(`/${countryCode}/vendor/${props.vendor}`);
+    };
 
     return (
         <Flex
@@ -53,7 +54,11 @@ const VendorBanner = (props: VendorProps) => {
                     justifyContent={'center'}
                     cursor={'pointer'}
                 >
-                    <Text onClick={navigateToVendor} alignSelf={'center'} color="white">
+                    <Text
+                        onClick={navigateToVendor}
+                        alignSelf={'center'}
+                        color="white"
+                    >
                         Visit Store
                     </Text>
                 </Flex>
