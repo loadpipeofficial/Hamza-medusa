@@ -74,7 +74,10 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
     const closeModal = () => setIsModalOpen(false);
     console.log('Orders: ', orders);
 
-    const countryCode = useParams().countryCode as string;
+    let countryCode = useParams().countryCode as string;
+    if (process.env.FORCE_US_COUNTRY)
+        countryCode = process.env.FORCE_US_COUNTRY;
+
     const router = useRouter();
 
     useEffect(() => {
@@ -221,67 +224,67 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
         <div className="flex flex-col gap-y-8 w-full bg-black text-white p-8">
             {customerOrder && customerOrder.length > 0
                 ? customerOrder.map((order: any) => (
-                      <div
-                          key={order.id}
-                          className="border-b border-gray-200 pb-6 last:pb-0 last:border-none"
-                      >
-                          <div className="p-4 bg-gray-700">
-                              Order {order.id} - Total Items:{' '}
-                              {order.cart.items.length}
-                              <span
-                                  className="pl-2 text-blue-400 underline underline-offset-1 cursor-pointer"
-                                  onClick={() => {
-                                      handleReorder(order.cart.items);
-                                  }}
-                              >
-                                  Re-order
-                              </span>
-                          </div>
-                          {order.cart.items.map((item: any) => {
-                              const handle =
-                                  item.variant?.product?.handle || 'N/A'; // Grab the handle from the product object
-                              return (
-                                  <div key={item.id}>
-                                      item: {item.id}
-                                      <OrderCard
-                                          key={item.id}
-                                          order={item}
-                                          handle={handle} // Pass the handle here
-                                      />
-                                      <LocalizedClientLink
-                                          href={`/account/orders/details/${order.id}`}
-                                          passHref
-                                      >
-                                          <Button colorScheme="blue">
-                                              See details
-                                          </Button>
-                                      </LocalizedClientLink>
-                                      {orderStatuses[order.id] ===
-                                      'canceled' ? (
-                                          <Button
-                                              colorScheme="red"
-                                              ml={4}
-                                              isDisabled
-                                          >
-                                              Cancellation Requested
-                                          </Button>
-                                      ) : (
-                                          <Button
-                                              variant="solid"
-                                              colorScheme="blue"
-                                              ml={4}
-                                              onClick={() =>
-                                                  openModal(order.id)
-                                              }
-                                          >
-                                              Request Cancellation
-                                          </Button>
-                                      )}
-                                  </div>
-                              );
-                          })}
-                      </div>
-                  ))
+                    <div
+                        key={order.id}
+                        className="border-b border-gray-200 pb-6 last:pb-0 last:border-none"
+                    >
+                        <div className="p-4 bg-gray-700">
+                            Order {order.id} - Total Items:{' '}
+                            {order.cart.items.length}
+                            <span
+                                className="pl-2 text-blue-400 underline underline-offset-1 cursor-pointer"
+                                onClick={() => {
+                                    handleReorder(order.cart.items);
+                                }}
+                            >
+                                Re-order
+                            </span>
+                        </div>
+                        {order.cart.items.map((item: any) => {
+                            const handle =
+                                item.variant?.product?.handle || 'N/A'; // Grab the handle from the product object
+                            return (
+                                <div key={item.id}>
+                                    item: {item.id}
+                                    <OrderCard
+                                        key={item.id}
+                                        order={item}
+                                        handle={handle} // Pass the handle here
+                                    />
+                                    <LocalizedClientLink
+                                        href={`/account/orders/details/${order.id}`}
+                                        passHref
+                                    >
+                                        <Button colorScheme="blue">
+                                            See details
+                                        </Button>
+                                    </LocalizedClientLink>
+                                    {orderStatuses[order.id] ===
+                                        'canceled' ? (
+                                        <Button
+                                            colorScheme="red"
+                                            ml={4}
+                                            isDisabled
+                                        >
+                                            Cancellation Requested
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            variant="solid"
+                                            colorScheme="blue"
+                                            ml={4}
+                                            onClick={() =>
+                                                openModal(order.id)
+                                            }
+                                        >
+                                            Request Cancellation
+                                        </Button>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+                ))
                 : null}
             <Modal isOpen={isModalOpen} onClose={closeModal}>
                 <ModalOverlay />

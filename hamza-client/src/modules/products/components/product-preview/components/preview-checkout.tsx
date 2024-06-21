@@ -31,9 +31,11 @@ const PreviewCheckout = () => {
         USDC: 'USDC',
     };
 
+    let countryCode = useParams().countryCode as string;
+    if (process.env.FORCE_US_COUNTRY)
+        countryCode = process.env.FORCE_US_COUNTRY;
     const colorSample = ['black', 'white', 'red', 'teal'];
 
-    const countryCode = useParams().countryCode as string;
     const [sizes, setSizes] = useState<string[]>([]);
     const [colors, setColors] = useState<string[]>([]);
     const [selectedColor, setSelectedColor] = useState('');
