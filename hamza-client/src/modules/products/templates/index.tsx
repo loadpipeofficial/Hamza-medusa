@@ -129,7 +129,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
                     order={{ base: 1, md: 2 }}
                     alignSelf="flex-start"
                 >
-                    <PreviewCheckout product={product} />
+                    <PreviewCheckout />
                 </Flex>
             </Flex>
 
