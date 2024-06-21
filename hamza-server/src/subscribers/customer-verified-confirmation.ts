@@ -6,6 +6,8 @@ export default async function customerVerifiedHandler({
     container,
 }: SubscriberArgs<{ email: string }>) {
     let smtpMailService = container.resolve('smtpMailService');
+
+    //TODO: parameterize this with (a) the support email addr and (b) the URL of Hamza
     await smtpMailService.sendMail({
         from: process.env.SMTP_FROM,
         subject: 'Email Verified',
