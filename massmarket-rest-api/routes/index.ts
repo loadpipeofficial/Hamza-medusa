@@ -8,13 +8,13 @@ import { enrollController } from '../controllers/enroll';
 
 const router = Router();
 
-router.get('/test', testController.checkout);
+router.get('/test', testController.writeManifest);
 
 //createStore: POST /store
-router.get('/store', storeController.createStore);
+router.post('/store', storeController.createStore);
 
 //enrollKeycard: POST /enroll
-router.get('/enroll', enrollController.enrollKeycard);
+router.post('/enroll', enrollController.enrollKeycard);
 
 //createCart: POST /cart
 router.post('/cart', cartController.createCart);
@@ -35,7 +35,7 @@ router.delete('/cart', cartController.abandonCart);
 router.post('/cart:id', cartController.commitCart);
 
 //checkout: POST /checkout
-router.get('/checkout', checkoutController.doCheckout);
+router.post('/checkout', checkoutController.doCheckout);
 
 //checkout: POST /checkout
 router.post('/checkout', checkoutController.doCheckout);

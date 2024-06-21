@@ -165,7 +165,7 @@ export class RelayClientWrapper {
         console.log('keycard', keycard.string);
         await new BlockchainClient(storeId).createStore(storeWallet);
 
-        await sleep(90);
+        await sleep(45);
 
         //enroll keycard
         console.log('enrolling KC');
