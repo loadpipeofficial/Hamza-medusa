@@ -140,7 +140,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                 <ProductCollections vendorName={displaySlug} />{' '}
                 {/* Pass the capitalized slug */}
             </div>
-            <Box>
+            <Box pt={12}>
                 <Button
                     onClick={onOpen}
                     colorScheme={isSubmitted ? 'green' : 'red'}
