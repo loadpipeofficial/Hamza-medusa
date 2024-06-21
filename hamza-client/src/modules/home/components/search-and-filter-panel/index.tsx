@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import ProductCardGroup from '../product-layout';
 import { Box, Container, Flex, Button, Text } from '@chakra-ui/react';
 import FilterButtons from './components/FilterButtons';
@@ -9,6 +9,7 @@ import { RiMenu2Fill } from 'react-icons/ri';
 import Reputation from '../reputation';
 import SearchBar from './components/SearchBar';
 import SearchModalWrapper from '@modules/search/templates/search-wrapper';
+import SkeletonProductGrid from '@modules/skeletons/components/skeleton-product-grid';
 
 const SearchAndFilterPanel = () => {
     const [vendorName, setVendorName] = useState('Medusa Merch');
@@ -56,7 +57,9 @@ const SearchAndFilterPanel = () => {
                     </Button>
                 </Flex>
             </Container>
-            <ProductCardGroup vendorName={vendorName} />
+            <Suspense fallback={<SkeletonProductGrid />}>
+                <ProductCardGroup vendorName={vendorName} />
+            </Suspense>
         </Box>
     );
 };
