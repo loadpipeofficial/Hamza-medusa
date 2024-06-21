@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import ProductCard from './components/product-card';
 import { SimpleGrid, Container } from '@chakra-ui/react';
 import axios from 'axios';
@@ -9,6 +9,7 @@ import { formatCryptoPrice } from '@lib/util/get-product-price';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import { addToCart } from '@modules/cart/actions';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
+import SkeletonProductGrid from '@modules/skeletons/components/skeleton-product-grid';
 
 type Props = {
     vendorName: string;
@@ -30,7 +31,7 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
     const { authData, preferred_currency_code } = useCustomerAuthStore();
 
     if (isLoading) {
-        return null; // Suspense will handle the loading fallback.
+        return <SkeletonProductGrid />;
     }
 
     const err: any = error ? error : null;
@@ -48,47 +49,51 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
                 rowGap="2.5rem"
                 placeItems="center"
             >
-                {products.map((product: any, index: number) => {
-                    const variantPrices = product.variants
-                        .map((variant: any) => variant.prices)
-                        .flat();
+                <Suspense fallback={<SkeletonProductGrid />}>
+                    {products.map((product: any, index: number) => {
+                        const variantPrices = product.variants
+                            .map((variant: any) => variant.prices)
+                            .flat();
 
-                    let variantID = product.variants[0].id;
-                    const reviewCounter = product.reviews.length;
-                    const totalRating = product.reviews.reduce(
-                        (acc: number, review: any) => acc + review.rating,
-                        0
-                    );
-                    const avgRating = totalRating / reviewCounter;
-                    const productPricing = formatCryptoPrice(
-                        variantPrices[0].amount,
-                        preferred_currency_code as string
-                    );
-                    variantID = product.variants[0].id;
+                        let variantID = product.variants[0].id;
+                        const reviewCounter = product.reviews.length;
+                        const totalRating = product.reviews.reduce(
+                            (acc: number, review: any) => acc + review.rating,
+                            0
+                        );
+                        const avgRating = totalRating / reviewCounter;
+                        const productPricing = formatCryptoPrice(
+                            variantPrices[0].amount,
+                            preferred_currency_code as string
+                        );
+                        variantID = product.variants[0].id;
 
-                    return (
-                        <ProductCard
-                            key={index}
-                            productHandle={products[index].handle}
-                            reviewCount={reviewCounter}
-                            totalRating={avgRating}
-                            variantID={variantID}
-                            countryCode={product.countryCode}
-                            productName={product.title}
-                            productPrice={productPricing}
-                            currencyCode={preferred_currency_code ?? 'usdc'}
-                            imageSrc={product.thumbnail}
-                            hasDiscount={product.is_giftcard}
-                            discountValue={product.discountValue}
-                            productId={product.id}
-                            inventory={product.variants[0].inventory_quantity}
-                            allow_backorder={
-                                product.variants[0].allow_backorder
-                            }
-                            storeId={product.store_id}
-                        />
-                    );
-                })}
+                        return (
+                            <ProductCard
+                                key={index}
+                                productHandle={products[index].handle}
+                                reviewCount={reviewCounter}
+                                totalRating={avgRating}
+                                variantID={variantID}
+                                countryCode={product.countryCode}
+                                productName={product.title}
+                                productPrice={productPricing}
+                                currencyCode={preferred_currency_code ?? 'usdc'}
+                                imageSrc={product.thumbnail}
+                                hasDiscount={product.is_giftcard}
+                                discountValue={product.discountValue}
+                                productId={product.id}
+                                inventory={
+                                    product.variants[0].inventory_quantity
+                                }
+                                allow_backorder={
+                                    product.variants[0].allow_backorder
+                                }
+                                storeId={product.store_id}
+                            />
+                        );
+                    })}
+                </Suspense>
             </SimpleGrid>
         </Container>
     );
