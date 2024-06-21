@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Text, Flex, Container } from '@chakra-ui/react';
+import { Box, Text, Flex, Container, Divider } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
 

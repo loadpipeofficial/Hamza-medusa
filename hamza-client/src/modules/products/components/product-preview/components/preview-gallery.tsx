@@ -1,4 +1,11 @@
-import { Box, Flex, Grid, GridItem, Image } from '@chakra-ui/react';
+import {
+    Box,
+    Flex,
+    Grid,
+    GridItem,
+    Image,
+    useBreakpointValue,
+} from '@chakra-ui/react';
 import useProductPreview from '@store/product-preview/product-preview';
 import React, { useEffect, useState } from 'react';
 
@@ -12,18 +19,32 @@ const PreviewGallery = () => {
         }
     }, [productData]);
 
+    const gridTemplate = useBreakpointValue(
+        {
+            base: '1fr', // On mobile, stack vertically
+            md: '2fr 1fr', // On medium screens and up, use 2 columns
+        },
+        {
+            fallback: 'md',
+        }
+    );
+
     //TODO: If each product needs 5 images how will we handle blank images?
     return (
         <Flex maxWidth={'1280px'} width={'100%'} flexDirection={'column'}>
-            <Grid templateColumns="2fr 1fr" gap={4}>
+            <Grid templateColumns={gridTemplate} gap={4}>
                 <GridItem>
                     <Box
                         backgroundColor={'white'}
-                        height="504.11px"
-                        maxHeight="504.11px"
-                        maxW={'716.04px'}
+                        width="100%"
+                        height={{ base: '312.22px', md: '100%' }}
+                        minHeight={'312.22px'}
+                        minWidth={'352.65px'}
+                        maxH={'504.11px'}
+                        maxW={'736.04px'}
                         overflow="hidden"
                         borderLeftRadius={'16px'}
+                        borderRightRadius={{ base: '16px', md: 'none' }}
                     >
                         {images.length > 0 && (
                             <Image
@@ -37,59 +58,99 @@ const PreviewGallery = () => {
                     </Box>
                 </GridItem>
                 <GridItem>
-                    <Grid templateColumns="1fr 1fr" gap={4}>
+                    <Grid
+                        minW={'375px'}
+                        templateColumns={{
+                            base: 'repeat(4, 1fr)',
+                            md: '1fr 1fr',
+                        }}
+                        gap={3.5}
+                    >
                         <GridItem>
                             <Box
                                 backgroundColor={'white'}
-                                width="257.4px"
-                                height="245.18px"
+                                maxWidth="257.4px"
+                                width={{ base: '80px', md: '257.4px' }}
+                                height={{ base: '80px', md: '245.18px' }}
+                                borderRadius={{ base: '16px', md: 'none' }}
+                                overflow={'hidden'}
                             >
-                                <Image
-                                    src="path/to/your/image2.jpg"
-                                    alt="Top Left Image"
-                                    width="100%"
-                                />
+                                {images.length > 0 && (
+                                    <Image
+                                        // src="path/to/your/image2.jpg"
+                                        src={images[0].url}
+                                        alt="Left Image"
+                                        width="100%"
+                                        height="100%"
+                                        objectFit="cover"
+                                    />
+                                )}
                             </Box>
                         </GridItem>
                         <GridItem>
                             <Box
-                                borderTopRightRadius={'16px'}
+                                borderRadius={{
+                                    base: '16px',
+                                    md: '0px 16px 0px 0px',
+                                }}
                                 backgroundColor={'white'}
-                                width="257.4px"
-                                height="245.18px"
+                                width={{ sm: '80px', md: '257.4px' }}
+                                height={{ sm: '80px', md: '245.18px' }}
+                                overflow={'hidden'}
                             >
-                                <Image
-                                    src="path/to/your/image2.jpg"
-                                    alt="Top Left Image"
-                                    width="100%"
-                                />
+                                {images.length > 0 && (
+                                    <Image
+                                        // src="path/to/your/image2.jpg"
+                                        src={images[0].url}
+                                        alt="Left Image"
+                                        width="100%"
+                                        height="100%"
+                                        objectFit="cover"
+                                    />
+                                )}
                             </Box>
                         </GridItem>
                         <GridItem>
                             <Box
                                 backgroundColor={'white'}
-                                width="257.4px"
-                                height="245.18px"
+                                width={{ base: '80px', md: '257.4px' }}
+                                height={{ base: '80px', md: '245.18px' }}
+                                borderRadius={{ base: '16px', md: 'none' }}
+                                overflow={'hidden'}
                             >
-                                <Image
-                                    src="path/to/your/image2.jpg"
-                                    alt="Top Left Image"
-                                    width="100%"
-                                />
+                                {images.length > 0 && (
+                                    <Image
+                                        // src="path/to/your/image2.jpg"
+                                        src={images[0].url}
+                                        alt="Left Image"
+                                        width="100%"
+                                        height="100%"
+                                        objectFit="cover"
+                                    />
+                                )}
                             </Box>
                         </GridItem>
                         <GridItem>
                             <Box
-                                borderBottomRightRadius={'16px'}
+                                borderRadius={{
+                                    base: '16px',
+                                    md: '0px 0px 16px 0px',
+                                }}
                                 backgroundColor={'white'}
-                                width="257.4px"
-                                height="245.18px"
+                                width={{ base: '80px', md: '257.4px' }}
+                                height={{ base: '80px', md: '245.18px' }}
+                                overflow={'hidden'}
                             >
-                                <Image
-                                    src="path/to/your/image2.jpg"
-                                    alt="Top Left Image"
-                                    width="100%"
-                                />
+                                {images.length > 0 && (
+                                    <Image
+                                        // src="path/to/your/image2.jpg"
+                                        src={images[0].url}
+                                        alt="Left Image"
+                                        width="100%"
+                                        height="100%"
+                                        objectFit="cover"
+                                    />
+                                )}
                             </Box>
                         </GridItem>
                     </Grid>
