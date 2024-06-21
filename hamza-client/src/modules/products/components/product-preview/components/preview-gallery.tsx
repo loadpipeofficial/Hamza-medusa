@@ -72,7 +72,8 @@ const PreviewGallery = () => {
                                 maxWidth="257.4px"
                                 width={{ base: '80px', md: '257.4px' }}
                                 height={{ base: '80px', md: '245.18px' }}
-                                borderRadius={{ base: '12px', md: '0px' }}
+                                borderRadius={{ base: '16px', md: 'none' }}
+                                overflow={'hidden'}
                             >
                                 {images.length > 0 && (
                                     <Image
@@ -88,10 +89,14 @@ const PreviewGallery = () => {
                         </GridItem>
                         <GridItem>
                             <Box
-                                borderTopRightRadius={'16px'}
+                                borderRadius={{
+                                    base: '16px',
+                                    md: '0px 16px 0px 0px',
+                                }}
                                 backgroundColor={'white'}
                                 width={{ sm: '80px', md: '257.4px' }}
                                 height={{ sm: '80px', md: '245.18px' }}
+                                overflow={'hidden'}
                             >
                                 {images.length > 0 && (
                                     <Image
@@ -110,6 +115,8 @@ const PreviewGallery = () => {
                                 backgroundColor={'white'}
                                 width={{ base: '80px', md: '257.4px' }}
                                 height={{ base: '80px', md: '245.18px' }}
+                                borderRadius={{ base: '16px', md: 'none' }}
+                                overflow={'hidden'}
                             >
                                 {images.length > 0 && (
                                     <Image
@@ -125,10 +132,14 @@ const PreviewGallery = () => {
                         </GridItem>
                         <GridItem>
                             <Box
-                                borderBottomRightRadius={'16px'}
+                                borderRadius={{
+                                    base: '16px',
+                                    md: '0px 0px 16px 0px',
+                                }}
                                 backgroundColor={'white'}
                                 width={{ base: '80px', md: '257.4px' }}
                                 height={{ base: '80px', md: '245.18px' }}
+                                overflow={'hidden'}
                             >
                                 {images.length > 0 && (
                                     <Image
