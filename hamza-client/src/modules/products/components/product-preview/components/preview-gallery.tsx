@@ -1,4 +1,11 @@
-import { Box, Flex, Grid, GridItem, Image } from '@chakra-ui/react';
+import {
+    Box,
+    Flex,
+    Grid,
+    GridItem,
+    Image,
+    useBreakpointValue,
+} from '@chakra-ui/react';
 import useProductPreview from '@store/product-preview/product-preview';
 import React, { useEffect, useState } from 'react';
 
@@ -12,18 +19,30 @@ const PreviewGallery = () => {
         }
     }, [productData]);
 
+    const gridTemplate = useBreakpointValue(
+        {
+            base: '1fr', // On mobile, stack vertically
+            md: '2fr 1fr', // On medium screens and up, use 2 columns
+        },
+        {
+            fallback: 'md',
+        }
+    );
+
     //TODO: If each product needs 5 images how will we handle blank images?
     return (
         <Flex maxWidth={'1280px'} width={'100%'} flexDirection={'column'}>
-            <Grid templateColumns="2fr 1fr" gap={4}>
+            <Grid templateColumns={gridTemplate} gap={4}>
                 <GridItem>
                     <Box
                         backgroundColor={'white'}
-                        height="504.11px"
+                        height={{ sm: '312.22px', md: '504.11px' }}
                         maxHeight="504.11px"
                         maxW={'736.04px'}
+                        minW={'352.65px'}
                         overflow="hidden"
-                        borderLeftRadius={'16px'}
+                        borderLeftRadius={{ base: 'none', md: '16px' }}
+                        borderRadius={{ base: '12px' }}
                     >
                         {images.length > 0 && (
                             <Image
@@ -37,12 +56,21 @@ const PreviewGallery = () => {
                     </Box>
                 </GridItem>
                 <GridItem>
-                    <Grid templateColumns="1fr 1fr" gap={3.5}>
+                    <Grid
+                        minW={'375px'}
+                        templateColumns={{
+                            base: 'repeat(4, 1fr)',
+                            md: '1fr 1fr',
+                        }}
+                        gap={3.5}
+                    >
                         <GridItem>
                             <Box
                                 backgroundColor={'white'}
-                                width="257.4px"
-                                height="245.18px"
+                                maxWidth="257.4px"
+                                width={{ base: '80px', md: '257.4px' }}
+                                height={{ base: '80px', md: '245.18px' }}
+                                borderRadius={{ base: '12px', md: '0px' }}
                             >
                                 {images.length > 0 && (
                                     <Image
@@ -60,8 +88,8 @@ const PreviewGallery = () => {
                             <Box
                                 borderTopRightRadius={'16px'}
                                 backgroundColor={'white'}
-                                width="257.4px"
-                                height="245.18px"
+                                width={{ base: '80px', md: '257.4px' }}
+                                height={{ base: '80px', md: '245.18px' }}
                             >
                                 {images.length > 0 && (
                                     <Image
@@ -78,8 +106,8 @@ const PreviewGallery = () => {
                         <GridItem>
                             <Box
                                 backgroundColor={'white'}
-                                width="257.4px"
-                                height="245.18px"
+                                width={{ base: '80px', md: '257.4px' }}
+                                height={{ base: '80px', md: '245.18px' }}
                             >
                                 {images.length > 0 && (
                                     <Image
@@ -97,8 +125,8 @@ const PreviewGallery = () => {
                             <Box
                                 borderBottomRightRadius={'16px'}
                                 backgroundColor={'white'}
-                                width="257.4px"
-                                height="245.18px"
+                                width={{ base: '80px', md: '257.4px' }}
+                                height={{ base: '80px', md: '245.18px' }}
                             >
                                 {images.length > 0 && (
                                     <Image
