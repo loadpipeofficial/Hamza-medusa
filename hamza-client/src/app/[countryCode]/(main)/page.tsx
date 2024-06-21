@@ -16,6 +16,7 @@ import SearchAndFilterPanel from '@modules/home/components/search-and-filter-pan
 import { Box } from '@chakra-ui/react';
 import HeroBanner from '@modules/home/components/hero-banner';
 import SkeletonProductGrid from '@modules/skeletons/components/skeleton-product-grid';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
     title: 'Hamza Store',
