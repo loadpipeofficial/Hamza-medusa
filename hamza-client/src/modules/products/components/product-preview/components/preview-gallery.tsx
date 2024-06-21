@@ -78,7 +78,7 @@ const PreviewGallery = () => {
                                 {images.length > 0 && (
                                     <Image
                                         // src="path/to/your/image2.jpg"
-                                        src={images[0].url}
+                                        src={(images[0] as any).url}
                                         alt="Left Image"
                                         width="100%"
                                         height="100%"
@@ -101,7 +101,7 @@ const PreviewGallery = () => {
                                 {images.length > 0 && (
                                     <Image
                                         // src="path/to/your/image2.jpg"
-                                        src={images[0].url}
+                                        src={(images[0] as any).url}
                                         alt="Left Image"
                                         width="100%"
                                         height="100%"
@@ -121,7 +121,7 @@ const PreviewGallery = () => {
                                 {images.length > 0 && (
                                     <Image
                                         // src="path/to/your/image2.jpg"
-                                        src={images[0].url}
+                                        src={(images[0] as any).url}
                                         alt="Left Image"
                                         width="100%"
                                         height="100%"
@@ -144,7 +144,7 @@ const PreviewGallery = () => {
                                 {images.length > 0 && (
                                     <Image
                                         // src="path/to/your/image2.jpg"
-                                        src={images[0].url}
+                                        src={(images[0] as any).url}
                                         alt="Left Image"
                                         width="100%"
                                         height="100%"
