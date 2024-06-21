@@ -15,7 +15,7 @@ GET http://localhost:9000/admin/custom/user
 Content-Type: application/json
 
 ###
-GET http://localhost:9000/store/custom/products?store_name=Indiana Drones
+GET http://localhost:9000/store/custom/products?store_name=Medusa Merch
 Content-Type: application/json
 
 ###
