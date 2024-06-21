@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReviewCardMobile from './review-card-mobile';
 import { Text, Flex, Box } from '@chakra-ui/react';
 
@@ -24,24 +24,6 @@ const reviews = [
 ];
 
 const ProductReviewMobile = () => {
-    // const [currentIndex, setCurrentIndex] = useState(0);
-
-    // const handlers = useSwipeable({
-    //     onSwipedLeft: () => {
-    //         setCurrentIndex((prevIndex) => (prevIndex + 1) % reviews.length);
-    //     },
-    //     onSwipedRight: () => {
-    //         setCurrentIndex(
-    //             (prevIndex) => (prevIndex - 1 + reviews.length) % reviews.length
-    //         );
-    //     },
-    // });
-
-    // const displayedReviews = [
-    //     reviews[currentIndex],
-    //     reviews[(currentIndex + 1) % reviews.length],
-    // ];
-
     return (
         <Flex
             maxW="1280px"
@@ -49,14 +31,10 @@ const ProductReviewMobile = () => {
             height="450.57px"
             display={{ base: 'flex', md: 'none' }}
             overflow={'hidden'}
+            overflowX="scroll"
         >
             <Flex flexDirection={'column'} my="2rem">
-                <Flex
-                    mt="2rem"
-                    flexDirection="row"
-                    gap="26px"
-                    overflow={'hidden'}
-                >
+                <Flex mt="2rem" flexDirection="row" gap="26px">
                     {reviews.map((review) => (
                         <ReviewCardMobile
                             key={review.id}
