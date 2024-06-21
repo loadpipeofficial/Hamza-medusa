@@ -24,6 +24,7 @@ export function useWishlistMutations() {
                 'AND PRODUCT ID',
                 product.id
             );
+            addWishlistProduct(product);
             // Return the axios post call from the mutation function
             return axios.post(`${BACKEND_URL}/custom/wishlist/item`, {
                 customer_id: customer_id, // Ensure customer_id is handled when null
@@ -33,9 +34,9 @@ export function useWishlistMutations() {
         {
             onSuccess: (data, product) => {
                 console.log('Adding Wish list item in DB!');
-                addWishlistProduct(product);
             },
-            onError: (error) => {
+            onError: (error, product) => {
+                removeWishlistProduct(product.id);
                 console.error('Error adding item to wishlist', error);
             },
         }
@@ -50,6 +51,7 @@ export function useWishlistMutations() {
                 product.id
             );
             // Return the axios delete call from the mutation function
+            removeWishlistProduct(product.id);
             return axios.delete(`${BACKEND_URL}/custom/wishlist/item`, {
                 data: {
                     customer_id: customer_id, // Ensure customer_id is handled when null
@@ -60,9 +62,9 @@ export function useWishlistMutations() {
         {
             onSuccess: (data, product) => {
                 console.log('Removing Wish List item in DB', product.id);
-                removeWishlistProduct(product.id);
             },
-            onError: (error) => {
+            onError: (error, product) => {
+                addWishlistProduct(product.id);
                 console.error(
                     'Error removing item from wishlist-dropdown',
                     error
