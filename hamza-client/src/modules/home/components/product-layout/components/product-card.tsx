@@ -16,6 +16,7 @@ import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutatio
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import axios from 'axios';
 import useWishlistStore from '@store/wishlist/wishlist-store';
+import { formatCryptoPrice } from '@lib/util/get-product-price';
 interface ProductCardProps {
     variantID: string;
     countryCode: string;
@@ -23,6 +24,7 @@ interface ProductCardProps {
     reviewCount: number;
     totalRating: number;
     productPrice: number | string;
+    currencyCode: string;
     imageSrc: string;
     hasDiscount: boolean;
     discountValue: string;
@@ -39,6 +41,7 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
     reviewCount,
     totalRating,
     productPrice,
+    currencyCode,
     imageSrc,
     hasDiscount,
     discountValue,
@@ -91,7 +94,7 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
     const whitelistedProductHandler = async () => {
         const whitelistedProduct =
             whitelist_config.is_whitelisted &&
-            whitelist_config.whitelisted_stores.includes(storeId)
+                whitelist_config.whitelisted_stores.includes(storeId)
                 ? true
                 : false;
 
@@ -166,7 +169,7 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
                                 }}
                             >
                                 <Box alignSelf="center">
-                                    {wishlist.products.find(
+                                    {!wishlist.products.find(
                                         (a) => a.id == productId
                                     ) ? (
                                         <FaRegHeart color="#7B61FF" size={23} />
@@ -228,7 +231,7 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
                                 fontSize="1.25rem"
                                 lineHeight="33.72px"
                             >
-                                {productPrice}
+                                {`${formatCryptoPrice(parseInt(productPrice ? productPrice.toString() : '0'), currencyCode)} ${currencyCode.toUpperCase()}`}
                             </Text>
                             <Text
                                 textDecoration={

@@ -21,23 +21,28 @@ import Image from 'next/image';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import Link from 'next/link';
 import { Variant } from 'types/medusa';
+import { formatCryptoPrice } from '@lib/util/get-product-price';
+import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 
 const PreviewCheckout = () => {
-    const currencies = {
+    const currencies: { [key: string]: 'ETH' | 'USDC' | 'USDT' } = {
         ETH: 'ETH',
         USDT: 'USDT',
         USDC: 'USDC',
     };
 
+    let countryCode = useParams().countryCode as string;
+    if (process.env.FORCE_US_COUNTRY)
+        countryCode = process.env.FORCE_US_COUNTRY;
     const colorSample = ['black', 'white', 'red', 'teal'];
 
-    const countryCode = useParams().countryCode as string;
     const [sizes, setSizes] = useState<string[]>([]);
     const [colors, setColors] = useState<string[]>([]);
     const [selectedColor, setSelectedColor] = useState('');
     const [price, setSelectedPrice] = useState('');
 
     const { productData, variantId, quantity } = useProductPreview();
+    const { preferred_currency_code } = useCustomerAuthStore();
 
     const getUniqueOptions = (
         variants: Variant[],
@@ -58,7 +63,7 @@ const PreviewCheckout = () => {
         }
     }, [productData]);
 
-    const handleColorSelect = (color) => {
+    const handleColorSelect = (color: any) => {
         setSelectedColor(color);
     };
 
@@ -108,7 +113,7 @@ const PreviewCheckout = () => {
                         fontSize={{ base: '18px', md: '32px' }}
                         color="white"
                     >
-                        {price}
+                        {`${formatCryptoPrice(parseInt(price), (preferred_currency_code ?? 'usdc'))} ${preferred_currency_code?.toUpperCase() ?? 'USDC'}`}
                     </Heading>
                     <Text
                         style={{ textDecoration: 'line-through' }}
@@ -116,7 +121,7 @@ const PreviewCheckout = () => {
                         fontSize={{ base: '9px', md: '18px' }}
                         color="#555555"
                     >
-                        {price}
+                        {`${formatCryptoPrice(parseInt(price), preferred_currency_code ?? 'usdc')}`}
                     </Text>
                 </Flex>
 
@@ -127,7 +132,7 @@ const PreviewCheckout = () => {
                     fontSize={'18px'}
                     color="white"
                 >
-                    {price}
+                    {`${formatCryptoPrice(parseInt(price), (preferred_currency_code ?? 'usdc'))} ${preferred_currency_code?.toUpperCase() ?? 'USDC'}`}
                 </Heading>
                 <Flex gap="5px">
                     <Flex flexDirection={'row'}>
@@ -171,7 +176,7 @@ const PreviewCheckout = () => {
                 </Heading>
                 <Flex display={{ base: 'none', md: 'flex' }} gap="10px">
                     {Object.keys(currencies)
-                        .filter((key) => currencies[key] !== 'USDC')
+                        .filter((key: string) => currencies[key] !== 'USDC')
                         .map((key) => (
                             <CurrencyButtonPreview
                                 width="20px"
@@ -231,7 +236,7 @@ const PreviewCheckout = () => {
                                     height="52px"
                                     borderColor={
                                         color === selectedColor ||
-                                        (selectedColor === '' && index === 0)
+                                            (selectedColor === '' && index === 0)
                                             ? 'white'
                                             : 'transparent'
                                     }

@@ -51,7 +51,6 @@ const EditReviewTemplate = () => {
                 reviewUpdates: review,
                 order_id: item?.order_id,
             });
-            alert('Review submitted successfully!');
             setReview('');
             setRating(0);
             setSubmissionSuccess(true); // Update the state to indicate success

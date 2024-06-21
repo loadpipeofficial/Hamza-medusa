@@ -351,7 +351,7 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
             }
 
             //get payment currency address
-            let currencyAddress = getCurrencyAddress(group.currency_code);
+            let currencyAddress = getCurrencyAddress(group.currency_code, 11155111);
             if (currencyAddress) {
                 if (currencyAddress === '0x0' || currencyAddress === '')
                     currencyAddress = undefined;

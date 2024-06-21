@@ -45,7 +45,9 @@ export default function ProductActions({
     const [inventoryCount, setInventoryCount] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const countryCode = useParams().countryCode as string;
+    let countryCode = useParams().countryCode as string;
+    if (process.env.FORCE_US_COUNTRY)
+        countryCode = process.env.FORCE_US_COUNTRY;
     const { whitelist_config, authData } = useCustomerAuthStore();
     const [isWhitelisted, setIsWhitelisted] = useState(false);
     const { wishlist } = useWishlistStore();
@@ -192,7 +194,7 @@ export default function ProductActions({
         if (data.status == true) {
             const whitelistedProduct =
                 whitelist_config.is_whitelisted &&
-                whitelist_config.whitelisted_stores.includes(data.data)
+                    whitelist_config.whitelisted_stores.includes(data.data)
                     ? true
                     : false;
 
@@ -261,10 +263,10 @@ export default function ProductActions({
                     {!variant
                         ? 'Select variant'
                         : !inStock && isWhitelisted
-                          ? 'Add to cart'
-                          : inStock
-                            ? 'Add to Cart'
-                            : 'Out of Stock'}
+                            ? 'Add to cart'
+                            : inStock
+                                ? 'Add to Cart'
+                                : 'Out of Stock'}
                 </Button>
                 {!inStock && isWhitelisted && (
                     <span className="text-xs">

@@ -300,7 +300,7 @@ export async function signOut() {
     } catch (e) {
         console.error(e);
     }
-    const countryCode = headers().get('next-url')?.split('/')[1] || '';
+    const countryCode = process.env.FORCE_US_COUNTRY ? 'us' : headers().get('next-url')?.split('/')[1] || '';
     revalidateTag('auth');
     revalidateTag('customer');
     redirect(`/${countryCode}/account`);

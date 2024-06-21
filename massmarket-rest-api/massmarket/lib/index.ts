@@ -288,7 +288,7 @@ export class RelayClient extends EventEmitter {
                     if (this.keyCardEnrolled) {
                         let res = null;
                         try {
-                            await this.#authenticate();
+                            res = await this.#authenticate();
                         } catch (e) {
                             console.error(e);
                         }

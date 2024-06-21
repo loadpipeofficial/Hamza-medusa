@@ -269,7 +269,7 @@ const CryptoPaymentButton = ({
                     `${MEDUSA_SERVER_URL}/custom/checkout`,
                     {
                         cartProducts: JSON.stringify(cartRef.current),
-                        cart_id: data.cart_id,
+                        cart_id: cartId,
                         transaction_id: output.transaction_id,
                         payer_address: output.payer_address,
                         escrow_contract_address: output.escrow_contract_address,
@@ -281,7 +281,7 @@ const CryptoPaymentButton = ({
 
                 //country code needed for redirect (get before killing cart)
                 const countryCode =
-                    cart.shipping_address?.country_code?.toLowerCase();
+                    process.env.FORCE_US_COUNTRY ? 'us' : cart.shipping_address?.country_code?.toLowerCase();
 
                 //clear cart
                 clearCart();

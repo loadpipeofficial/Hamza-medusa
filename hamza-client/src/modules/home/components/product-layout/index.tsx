@@ -65,6 +65,7 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
                         preferred_currency_code as string
                     );
                     variantID = product.variants[0].id;
+
                     return (
                         <ProductCard
                             key={index}
@@ -75,6 +76,7 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
                             countryCode={product.countryCode}
                             productName={product.title}
                             productPrice={productPricing}
+                            currencyCode={preferred_currency_code ?? 'usdc'}
                             imageSrc={product.thumbnail}
                             hasDiscount={product.is_giftcard}
                             discountValue={product.discountValue}
