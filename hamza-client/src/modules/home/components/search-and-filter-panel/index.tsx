@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, Suspense } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import ProductCardGroup from '../product-layout';
 import { Box, Container, Flex, Button, Text } from '@chakra-ui/react';
 import FilterButtons from './components/FilterButtons';
@@ -13,31 +13,36 @@ import SkeletonProductGrid from '@modules/skeletons/components/skeleton-product-
 
 const SearchAndFilterPanel = () => {
     const [vendorName, setVendorName] = useState('Medusa Merch');
+    const [isClient, setIsClient] = useState(false);
 
-    //TODO: reputation causing overflow
+    // Ensure that the component knows when it's running on the client
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+
     return (
         <Box>
             <SearchBar />
-            <Box
-                mb={{ base: '-10rem', md: '0' }}
-                display={{ base: 'none', md: 'block' }}
-            >
-                <Reputation />
-            </Box>
+            {isClient && (
+                <Box
+                    mb={{ base: '-10rem', md: '0' }}
+                    display={{ base: 'none', md: 'block' }}
+                >
+                    <Reputation />
+                </Box>
+            )}
             <Container py="8" maxW="1280px">
                 <Flex gap="1rem">
-                    {vendors.map((vendors: any) => {
-                        return (
-                            <FilterButtons
-                                key={vendors.id}
-                                title={vendors.vendorName}
-                                selected={vendorName}
-                                setVendorName={() =>
-                                    setVendorName(vendors.vendorName)
-                                }
-                            />
-                        );
-                    })}
+                    {vendors.map((vendor: any) => (
+                        <FilterButtons
+                            key={vendor.id}
+                            title={vendor.vendorName}
+                            selected={vendorName}
+                            setVendorName={() =>
+                                setVendorName(vendor.vendorName)
+                            }
+                        />
+                    ))}
                     <Button
                         display="flex"
                         justifyContent={'center'}
@@ -57,9 +62,13 @@ const SearchAndFilterPanel = () => {
                     </Button>
                 </Flex>
             </Container>
-            <Suspense fallback={<SkeletonProductGrid />}>
-                <ProductCardGroup vendorName={vendorName} />
-            </Suspense>
+            {isClient ? (
+                <Suspense fallback={<SkeletonProductGrid />}>
+                    <ProductCardGroup vendorName={vendorName} />
+                </Suspense>
+            ) : (
+                <SkeletonProductGrid />
+            )}
         </Box>
     );
 };
