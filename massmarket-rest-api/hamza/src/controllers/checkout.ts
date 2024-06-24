@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { ENDPOINT, serveRequest, validateStoreIdAndKeycard } from './utils';
+import { ENDPOINT, serveRequest, validateStoreIdAndKeycard } from './utils.js';
 import {
     IAddItemInput,
     ICheckoutInput,
     ICheckoutOutput,
 } from '../entity/index';
-import { RelayClientWrapper } from '../massmarket/client';
+import { RelayClientWrapper } from '../massmarket/client.js';
 import { bytesToHex, keccak256 } from 'viem';
 import { randomBytes } from 'crypto';
 
@@ -20,6 +20,8 @@ function isZeroAddress(value: any): boolean {
     return false;
 }
 
+const FAKE_CHECKOUT = 1;
+
 export const checkoutController = {
     //checkout
     //creates cart, adds items to it, and commits it
@@ -33,7 +35,7 @@ export const checkoutController = {
                 console.log(JSON.stringify(input));
 
                 let output = {};
-                if (process.env.FAKE_CHECKOUT) {
+                if (FAKE_CHECKOUT) {
                     output = {
                         success: true,
                         contractAddress:
