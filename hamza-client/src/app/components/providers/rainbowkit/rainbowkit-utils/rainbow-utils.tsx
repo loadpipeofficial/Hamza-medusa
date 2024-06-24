@@ -75,7 +75,7 @@ export const SwitchNetwork = () => {
 
     const voidFunction = () => {};
 
-    const requiredChains = [11155111, 11155420]; // Sepolia and Optimism Sepolia
+    const requiredChains = [11155111]; // Sepolia and Optimism Sepolia
 
     useEffect(() => {
         onOpen();
@@ -107,16 +107,6 @@ export const SwitchNetwork = () => {
                         }
                     >
                         Switch to Sepolia testnet
-                    </Button>
-                    <Button
-                        disabled={!switchNetwork || isLoading}
-                        onClick={() =>
-                            switchNetwork
-                                ? switchNetwork(11155420)
-                                : voidFunction()
-                        }
-                    >
-                        Switch to Optimism Sepolia testnet
                     </Button>
                     {error && <p>Error: {error.message}</p>}
                     {isLoading && pendingChainId && (
