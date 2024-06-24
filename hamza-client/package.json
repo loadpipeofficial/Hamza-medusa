@@ -55,6 +55,7 @@
         "react": "^18.2.0",
         "react-country-flag": "^3.0.2",
         "react-dom": "^18.2.0",
+        "react-hot-toast": "^2.4.1",
         "react-icons": "^5.0.1",
         "react-instantsearch-hooks-web": "^6.29.0",
         "react-intersection-observer": "^9.3.4",
