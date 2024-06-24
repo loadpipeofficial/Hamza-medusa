@@ -149,11 +149,21 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                             (a) => a.id == productId
                                         )
                                             ? addWishlistItemMutation.mutate({
-                                                id: productId,
-                                            })
+                                                  id: productId!,
+                                                  description: '',
+                                                  title: productName!,
+                                                  thumbnail: imageSrc!,
+                                                  handle: productHandle!,
+                                              })
                                             : removeWishlistItemMutation.mutate(
-                                                { id: productId }
-                                            );
+                                                  {
+                                                      id: productId!,
+                                                      description: '',
+                                                      title: productName!,
+                                                      thumbnail: imageSrc!,
+                                                      handle: productHandle!,
+                                                  }
+                                              );
                                     }}
                                     sx={{
                                         userSelect: 'none',

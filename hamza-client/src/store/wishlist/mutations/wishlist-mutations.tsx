@@ -1,7 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
-import useWishlistStore from '@store/wishlist/wishlist-store';
+import useWishlistStore, {
+    WishlistProduct,
+} from '@store/wishlist/wishlist-store';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 
@@ -17,7 +19,7 @@ export function useWishlistMutations() {
     const customer_id = customerState?.customer_id;
 
     const addWishlistItemMutation = useMutation(
-        (product: any) => {
+        (product: WishlistProduct) => {
             console.log(
                 'PASSING CUSTOMER_ID',
                 customer_id,
@@ -33,6 +35,7 @@ export function useWishlistMutations() {
         },
         {
             onSuccess: (data, product) => {
+                // loadWishlist(customer_id);
                 console.log('Adding Wish list item in DB!');
             },
             onError: (error, product) => {
@@ -43,13 +46,7 @@ export function useWishlistMutations() {
     );
 
     const removeWishlistItemMutation = useMutation(
-        (product: any) => {
-            console.log(
-                'PASSING CUSTOMER_ID',
-                customer_id,
-                'AND PRODUCT ID',
-                product.id
-            );
+        (product: WishlistProduct) => {
             // Return the axios delete call from the mutation function
             removeWishlistProduct(product.id);
             return axios.delete(`${BACKEND_URL}/custom/wishlist/item`, {
@@ -61,10 +58,11 @@ export function useWishlistMutations() {
         },
         {
             onSuccess: (data, product) => {
+                // loadWishlist(customer_id);
                 console.log('Removing Wish List item in DB', product.id);
             },
             onError: (error, product) => {
-                addWishlistProduct(product.id);
+                addWishlistProduct(product);
                 console.error(
                     'Error removing item from wishlist-dropdown',
                     error

@@ -65,8 +65,20 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
     const toggleWishlist = async () => {
         // console.log('toggle wishlist-dropdown item', product);
         wishlist.products.find((a) => a.id == productId)
-            ? removeWishlistItemMutation.mutate({ id: productId })
-            : addWishlistItemMutation.mutate({ id: productId });
+            ? removeWishlistItemMutation.mutate({
+                  id: productId!,
+                  description: '',
+                  handle: productHandle,
+                  thumbnail: imageSrc,
+                  title: productName,
+              })
+            : addWishlistItemMutation.mutate({
+                  id: productId!,
+                  description: '',
+                  handle: productHandle,
+                  thumbnail: imageSrc,
+                  title: productName,
+              });
     };
 
     const handleAddToCart = async () => {
@@ -94,7 +106,7 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
     const whitelistedProductHandler = async () => {
         const whitelistedProduct =
             whitelist_config.is_whitelisted &&
-                whitelist_config.whitelisted_stores.includes(storeId)
+            whitelist_config.whitelisted_stores.includes(storeId)
                 ? true
                 : false;
 
