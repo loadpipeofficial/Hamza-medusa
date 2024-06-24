@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { Order } from 'src/models/order';
+import { formatCryptoPrice } from '../price-formatter';
 
 export default function ordersDataParser(orders: Order[]) {
     let parsedData = {};
@@ -12,13 +13,19 @@ export default function ordersDataParser(orders: Order[]) {
                         thumbnail: a.thumbnail,
                         title: a.title,
                         quantity: a.quantity,
-                        unit_price: a.unit_price,
+                        unit_price: `${formatCryptoPrice(
+                            a.unit_price,
+                            order.currency_code
+                        )} ${order.currency_code}`,
                     };
                 }),
                 orderDate: moment(order.created_at).format(
                     'MMMM Do YYYY, h:mm:ss a'
                 ),
-                orderAmount: order.payments[0].amount,
+                orderAmount: `${formatCryptoPrice(
+                    order.payments[0].amount,
+                    order.currency_code
+                )} ${order.currency_code}`,
             });
 
             parsedData[order.store_id].totalStoreOrderAmount +=
@@ -48,5 +55,6 @@ export default function ordersDataParser(orders: Order[]) {
             };
         }
     });
+
     return parsedData;
 }
