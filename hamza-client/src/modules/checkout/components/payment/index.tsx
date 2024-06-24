@@ -86,10 +86,14 @@ const Payment = ({
     };
 
     const handleSubmit = () => {
-        setIsLoading(true);
-        router.push(pathname + '?' + createQueryString('step', 'review'), {
-            scroll: false,
-        });
+        if (!isConnected) {
+            if (openConnectModal) openConnectModal();
+        } else {
+            setIsLoading(true);
+            router.push(pathname + '?' + createQueryString('step', 'review'), {
+                scroll: false,
+            });
+        }
     };
 
     useEffect(() => {
