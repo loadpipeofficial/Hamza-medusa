@@ -11,7 +11,7 @@ const chainConfig: any = {
             address: '0x74b7284836F753101bD683C3843e95813b381f18',
         },
         massmarket_payment: {
-            address: '0x0DcA1518DB5A058F29EBfDab76739faf8Fb4544c',
+            address: '0x3d9DbbD22E4903274171ED3e94F674Bb52bCF015',
         },
     },
     11155420: {
