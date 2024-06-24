@@ -15,6 +15,7 @@ import { Region } from '@medusajs/medusa';
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const ToggleNotifications = ({ region }: { region: Region }) => {
     const [selectedNotifications, setSelectedNotifications] = useState([]);
@@ -104,6 +105,7 @@ const ToggleNotifications = ({ region }: { region: Region }) => {
                     }
                 );
             }
+            toast.success('Notification preferences saved!', {});
             console.log('Selected Notifications:', selectedNotifications);
             console.log('Notification Method:', notificationMethod);
         } catch (error) {
@@ -117,14 +119,18 @@ const ToggleNotifications = ({ region }: { region: Region }) => {
             <Stack spacing={3}>
                 <Checkbox
                     value="orderShipped"
-                    isChecked={selectedNotifications.includes('orderShipped' as never)}
+                    isChecked={selectedNotifications.includes(
+                        'orderShipped' as never
+                    )}
                     onChange={handleCheckboxChange}
                 >
                     Notify when order shipped
                 </Checkbox>
                 <Checkbox
                     value="newProduct"
-                    isChecked={selectedNotifications.includes('newProduct' as never)}
+                    isChecked={selectedNotifications.includes(
+                        'newProduct' as never
+                    )}
                     onChange={handleCheckboxChange}
                 >
                     Notify when followed sellers post a new product
@@ -140,14 +146,18 @@ const ToggleNotifications = ({ region }: { region: Region }) => {
                 </Checkbox>
                 <Checkbox
                     value="promotions"
-                    isChecked={selectedNotifications.includes('promotions' as never)}
+                    isChecked={selectedNotifications.includes(
+                        'promotions' as never
+                    )}
                     onChange={handleCheckboxChange}
                 >
                     Notify for promotions/discounts
                 </Checkbox>
                 <Checkbox
                     value="surveys"
-                    isChecked={selectedNotifications.includes('surveys' as never)}
+                    isChecked={selectedNotifications.includes(
+                        'surveys' as never
+                    )}
                     onChange={handleCheckboxChange}
                 >
                     Notify for surveys
