@@ -37,14 +37,18 @@ const QuantityButton = () => {
     return (
         <Flex flexDirection="column" mb="1rem">
             <Flex>
-                <Heading as="h3" fontSize={'18px'} color="white">
+                <Heading
+                    as="h3"
+                    fontSize={{ base: '14px', md: '18px' }}
+                    color="white"
+                >
                     Quantity &#x2022;
                 </Heading>
                 <Heading
                     as="h4"
                     ml="5px"
                     mt="auto"
-                    fontSize="16px"
+                    fontSize={{ base: '14px', md: '18px' }}
                     color="primary.indigo.900"
                 >
                     {`${quantityAvailable} available`}

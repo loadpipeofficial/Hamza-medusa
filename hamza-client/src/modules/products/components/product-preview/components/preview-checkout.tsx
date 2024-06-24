@@ -133,7 +133,7 @@ const PreviewCheckout = () => {
                 >
                     {`${formatCryptoPrice(parseInt(price), preferred_currency_code ?? 'usdc')} ${preferred_currency_code?.toUpperCase() ?? 'USDC'}`}
                 </Heading>
-                <Flex gap="5px">
+                <Flex gap="5px" height="20px">
                     <Flex flexDirection={'row'}>
                         <Image src={ReviewStar} alt={'star'} />
                         <Image src={ReviewStar} alt={'star'} />
@@ -149,6 +149,7 @@ const PreviewCheckout = () => {
                             fontSize={'16px'}
                             color={'white'}
                             alignSelf={'center'}
+                            mt="2px"
                         >
                             4.97
                         </Heading>
@@ -159,6 +160,7 @@ const PreviewCheckout = () => {
                             fontSize={'16px'}
                             color={'#555555'}
                             alignSelf={'center'}
+                            mt="2px"
                         >
                             (0 Reviews)
                         </Heading>
@@ -194,7 +196,11 @@ const PreviewCheckout = () => {
             {/* Varients */}
             <Flex width={'100%'} flexDirection={'column'} mt="1rem">
                 <Flex flexDirection="column" gap="10px">
-                    <Heading as="h3" fontSize={'18px'} color="white">
+                    <Heading
+                        as="h3"
+                        fontSize={{ base: '14px', md: '18px' }}
+                        color="white"
+                    >
                         Size
                     </Heading>
                     <Flex gap="10px" wrap="wrap">
@@ -225,7 +231,11 @@ const PreviewCheckout = () => {
                     </Flex>
                 </Flex>
                 <Flex flexDirection="column" my="1rem" gap="10px">
-                    <Heading as="h3" fontSize={'18px'} color="white">
+                    <Heading
+                        as="h3"
+                        fontSize={{ base: '14px', md: '18px' }}
+                        color="white"
+                    >
                         Color
                     </Heading>
                     <Flex gap="10px" wrap="wrap">
