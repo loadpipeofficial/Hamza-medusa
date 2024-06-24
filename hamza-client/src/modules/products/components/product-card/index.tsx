@@ -85,14 +85,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
     return (
         <Card
-            width={'100%'}
-            height={'100%'}
-            minW={'167px'}
-            maxW={'295px'}
-            minH={'243.73px'}
-            maxH={'399px'}
-            // width={{ base: '167px', md: '280px' }}
-            // height={{ base: '243.73px', md: '384px ' }}
+            width={{ base: '167px', md: '280px' }}
+            height={{ base: '243px', md: '384px ' }}
             backgroundColor={'#121212'}
             borderRadius="16px"
             overflow="hidden"
@@ -100,8 +94,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <LocalizedClientLink href={`/products/${productHandle}`}>
                 <Box
                     onClick={() => console.log('hello')}
-                    h="240px"
-                    // width="100%"
+                    height={{ base: '167px', md: '238px' }}
+                    width="100%"
                     display="flex"
                     justifyContent="center"
                     alignItems="center"

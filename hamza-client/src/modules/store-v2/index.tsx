@@ -15,6 +15,9 @@ const StoreTemplate = () => {
         lg: 3,
     };
 
+    //ipad pro 1024px
+    //ipad air 820px (hide left)
+
     const { categorySelect } = useStorePage();
     const { reviewFilterSelect } = useSideFilter();
 
@@ -31,7 +34,7 @@ const StoreTemplate = () => {
     }, [reviewFilterSelect]);
 
     return (
-        <Container maxWidth={'1280px'} py="2rem">
+        <Container maxWidth={'1280px'} my="1rem">
             <Flex>
                 <SideMenu />
                 <ProductCardGroup

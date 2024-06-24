@@ -21,7 +21,7 @@ const StoreFilterDisplay = () => {
                         {categorySelect}
                     </Text>
                 </Flex>
-                <Flex gap="20px">
+                <Flex gap="20px" overflow={'hidden'}>
                     <CategoryTopButton
                         categoryType="clothes"
                         categoryName="Medusa Merch"

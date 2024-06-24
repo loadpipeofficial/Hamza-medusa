@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Box, Text, Heading, Flex } from '@chakra-ui/react';
+import { Box, Text, Heading, Flex, useMediaQuery } from '@chakra-ui/react';
 import CurrencyButton from './currency-button';
 import CategoryButton from './category-button';
 import currencies from '../data/currency-category';
@@ -10,9 +10,11 @@ import FilterButton from './filter-button';
 import RangeSlider from './range-slider';
 
 const SideMenu = () => {
+    const [isLargerThan820] = useMediaQuery('(min-width: 820px)');
+
     return (
         <Box
-            display={{ base: 'none', md: 'block' }}
+            display={isLargerThan820 ? 'block' : 'none'}
             px="2rem"
             py="2rem"
             color={'white'}

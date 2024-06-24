@@ -8,6 +8,7 @@ import {
     Box,
     Skeleton,
     SkeletonText,
+    Flex,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
@@ -119,11 +120,9 @@ const ProductCardGroup = ({
     return (
         <Container maxWidth={layoutMaxWidth} backgroundColor={'transparent'}>
             <StoreFilterDisplay />
-            <SimpleGrid
-                columns={gridColumns}
-                spacing="1.25rem"
-                rowGap="2.5rem"
-                placeItems="center"
+            <Flex
+                gap={'24px'}
+                wrap="wrap" // Allow items to wrap onto the next line
             >
                 {isLoading
                     ? renderSkeletons(8) // Render 8 skeletons while loading
@@ -167,7 +166,7 @@ const ProductCardGroup = ({
                               />
                           );
                       })}
-            </SimpleGrid>
+            </Flex>
         </Container>
     );
 };
