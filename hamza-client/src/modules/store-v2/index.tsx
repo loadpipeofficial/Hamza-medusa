@@ -34,8 +34,8 @@ const StoreTemplate = () => {
     }, [reviewFilterSelect]);
 
     return (
-        <Container maxWidth={'1280px'} my="1rem">
-            <Flex>
+        <Flex width={'100%'} justifyContent={'center'} my="1rem">
+            <Flex width={'100%'} maxWidth={'1280px'}>
                 <SideMenu />
                 <ProductCardGroup
                     layoutMaxWidth={'941px'}
@@ -45,7 +45,7 @@ const StoreTemplate = () => {
                     category=""
                 />
             </Flex>
-        </Container>
+        </Flex>
     );
 };
 
