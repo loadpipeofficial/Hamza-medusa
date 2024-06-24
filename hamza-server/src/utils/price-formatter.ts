@@ -1,4 +1,4 @@
-import { getCurrencyPrecision } from 'src/currency.config';
+import { getCurrencyPrecision } from '../currency.config';
 
 export function formatCryptoPrice(
     amount: number,
