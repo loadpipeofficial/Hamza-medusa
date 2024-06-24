@@ -20,7 +20,7 @@ function isZeroAddress(value: any): boolean {
     return false;
 }
 
-const FAKE_CHECKOUT = 1;
+const FAKE_CHECKOUT = 0;
 
 export const checkoutController = {
     //checkout
@@ -38,13 +38,15 @@ export const checkoutController = {
                 if (FAKE_CHECKOUT) {
                     output = {
                         success: true,
-                        contractAddress:
-                            '0x0DcA1518DB5A058F29EBfDab76739faf8Fb4544c',
-                        amount: '21000000000',
-                        orderId: bytesToHex(randomBytes(32)),
+                        contractAddress: '0x3d9DbbD22E4903274171ED3e94F674Bb52bCF015',
+                        payeeAddress: '0x74b7284836f753101bd683c3843e95813b381f18',
+                        isPaymentEndpoint: true,
+                        paymentId: '0x97ca469adfbee1dae8a61f800dc630eaa30607956273e0b568d3ffe5684c5c8c',
+                        amount: '0x0000000000000000000000000000000000000000000000000000000000002904',
+                        orderHash: '0x32648674fb21af6d32bd931ec228a8fa82bffd2794cce0474f2744fc1cfda7a1',
                         chainId: 11155111,
-                        ttl: 0,
-                        currency: '',
+                        ttl: 1719308448,
+                        currency: '0xbe9fe9b717c888a2b2ca0a6caa639afe369249c5'
                     };
                 } else {
                     //validate input
@@ -53,16 +55,21 @@ export const checkoutController = {
                         return null;
                     }
 
+                    input.storeId = '0x382e9fdf10295e01ad4c7e4dc7e3cecf461016addbe8e15e55736983af39426c';
+                    input.keycard = '0x1d24055a9122ab48d62e9f65f37335f844d7de6858edf61d3ca115efbe82be86';
+                    input.items[0].productId = '0x3736fa407ac3ba42ad6f4d2625c38d160db135a59f871ffe151ca73398e275e6';
+                    input.paymentCurrency = '0xbe9fe9b717c888a2b2ca0a6caa639afe369249c5';
+
                     //create default output
                     const checkoutOutput: ICheckoutOutput = {
                         success: false,
                         contractAddress:
-                            '0x0DcA1518DB5A058F29EBfDab76739faf8Fb4544c',
+                            '0x3d9DbbD22E4903274171ED3e94F674Bb52bCF015',
                         payeeAddress: '0x0',
                         isPaymentEndpoint: true,
                         paymentId: '0x0',
                         amount: '0',
-                        orderId: '0x',
+                        orderHash: '0x',
                         chainId: 11155111,
                         ttl: 0,
                         currency: '',
@@ -113,7 +120,7 @@ export const checkoutController = {
                         console.log('COMMITTING CART');
                         await rc.commitCart(cartId, input.paymentCurrency);
                         const event = await rc.getCartFinalizedEvent(cartId);
-                        checkoutOutput.orderId = bytesToHex(event.orderHash);
+                        checkoutOutput.orderHash = bytesToHex(event.orderHash);
                         checkoutOutput.ttl = parseInt(event.ttl);
                         checkoutOutput.amount = bytesToHex(event.totalInCrypto);
                         checkoutOutput.currency = input.paymentCurrency

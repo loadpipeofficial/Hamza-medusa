@@ -4,6 +4,7 @@ import { erc20abi } from './abi/erc20-abi';
 import { IMultiPaymentInput, ITransactionOutput } from './';
 import { getCurrencyAddress } from '../currency.config';
 import { HexString } from 'ethers/lib.commonjs/utils/data';
+import { hexToBytes } from 'viem';
 
 interface IPaymentRequest {
     chainId: number;
@@ -47,56 +48,6 @@ export class MassmarketPaymentClient {
         );
     }
 
-    /**
-     * Place a single payment in a single currency.
-     * @param input The payment input
-     */
-    async placeMultiplePayments(
-        inputs: IMultiPaymentInput[]
-    ): Promise<ITransactionOutput> {
-        //prepare the inputs
-        for (let n = 0; n < inputs.length; n++) {
-            const input: IMultiPaymentInput = inputs[n];
-            if (!input.currency || input.currency === 'eth') {
-                input.currency = ethers.ZeroAddress;
-            } else {
-                if (!ethers.isAddress(input.currency)) {
-                    input.currency = getCurrencyAddress(
-                        input.currency,
-                        parseInt(
-                            (
-                                await this.provider.getNetwork()
-                            ).chainId.toString()
-                        )
-                    );
-                }
-            }
-        }
-
-        //make any necessary token approvals
-        await this.approveAllTokens(this.contractAddress, inputs);
-
-        //get total native amount
-        const nativeTotal: BigNumberish = this.getNativeTotal(inputs);
-        console.log('native amount:', nativeTotal);
-
-        const requests: IPaymentRequest[] = this.convertInputs(inputs);
-
-        console.log('sending requests: ', requests, nativeTotal);
-        const tx: any = await this.paymentContract.multiPay(requests, {
-            value: nativeTotal,
-        });
-
-        const transaction_id = tx.hash;
-        const receipt = await tx.wait();
-
-        return {
-            transaction_id,
-            tx,
-            receipt,
-        };
-    }
-
     async pay(inputs: IMultiPaymentInput[]) {
         //prepare the inputs
         for (let n = 0; n < inputs.length; n++) {
@@ -131,9 +82,13 @@ export class MassmarketPaymentClient {
         let receipt: any = { from, to };
         let txHash: any = '0x0';
 
-        if (process.env.FAKE_CHECKOUT) {
+        if (!process.env.FAKE_CHECKOUT) {
             console.log('sending requests: ', requests, nativeTotal);
-            const tx: any = await this.paymentContract.multiPay(requests, {
+            const permits: string[] = [];
+            for (let i = 0; i < requests.length; i++) {
+                permits.push('0x0000000000000000000000000000000000000000000000000000000000000000');
+            }
+            const tx: any = await this.paymentContract.multiPay(requests, permits, {
                 value: nativeTotal,
             });
             receipt = await tx.wait();
@@ -169,14 +124,16 @@ export class MassmarketPaymentClient {
                     ttl: payment.massmarketTtl,
                     currency: input.currency, //payment.currency ?? '0x0',
                     amount: payment.massmarketAmount,
-                    order: payment.massmarketOrderId,
-                    payeeAddress: this.escrowAddress, //switch address, or store owner address
+                    order: payment.massmarketOrderId, //hexToBytes(payment.massmarketOrderId as `0x${string}`),
+                    payeeAddress: '0x74b7284836f753101bd683c3843e95813b381f18', //switch address, or store owner address
                     isPaymentEndpoint: true, //true if using switch
-                    shopId: 1,
-                    shopSignature: new Uint8Array([
-                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    ]),
+                    shopSignature: '0x0000000000000000000000000000000000000000000000000000000000000000',
+                    shopId: '0x382e9fdf10295e01ad4c7e4dc7e3cecf461016addbe8e15e55736983af39426c', //payment.storeId,
+                    //shopSignature: new Uint8Array([
+                    //    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    //    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    //    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    //]),
                 };
                 output.push(request);
             }
