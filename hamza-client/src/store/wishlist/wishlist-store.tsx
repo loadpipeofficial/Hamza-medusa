@@ -4,9 +4,12 @@ import axios from 'axios';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import wishlist from '@/components/wishlist-dropdown/icon/wishlist-icon';
 
-type WishlistProduct = {
+export type WishlistProduct = {
     id: string;
-    product_id: string;
+    thumbnail: string;
+    title: string;
+    handle: string;
+    description: string;
 };
 
 type Wishlist = {
@@ -41,10 +44,6 @@ const useWishlistStore = create<WishlistType>()(
                 const { wishlist } = get();
                 console.log('Wishlist product', wishlist);
                 if (wishlist.products.some((p) => p.id === product.id)) {
-                    console.log(
-                        'Product already in wishlist-dropdown:',
-                        product.product_id
-                    );
                     return;
                 }
                 set((state) => ({
