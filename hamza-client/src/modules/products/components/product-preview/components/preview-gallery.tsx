@@ -33,13 +33,11 @@ const PreviewGallery = () => {
     return (
         <Flex maxWidth={'1280px'} width={'100%'} flexDirection={'column'}>
             <Grid templateColumns={gridTemplate} gap={4}>
-                <GridItem>
-                    <Box
+                <GridItem display={'flex'}>
+                    <Flex
                         backgroundColor={'white'}
-                        width="100%"
-                        height={{ base: '312.22px', md: '100%' }}
-                        minHeight={'312.22px'}
-                        minWidth={'352.65px'}
+                        width={'100%'}
+                        minH={'312.22px'}
                         maxH={'504.11px'}
                         maxW={'736.04px'}
                         overflow="hidden"
@@ -55,11 +53,10 @@ const PreviewGallery = () => {
                                 objectFit="cover"
                             />
                         )}
-                    </Box>
+                    </Flex>
                 </GridItem>
                 <GridItem>
                     <Grid
-                        minW={'375px'}
                         templateColumns={{
                             base: 'repeat(4, 1fr)',
                             md: '1fr 1fr',
@@ -67,11 +64,12 @@ const PreviewGallery = () => {
                         gap={3.5}
                     >
                         <GridItem>
-                            <Box
+                            <Flex
                                 backgroundColor={'white'}
-                                maxWidth="257.4px"
-                                width={{ base: '80px', md: '257.4px' }}
-                                height={{ base: '80px', md: '245.18px' }}
+                                width={{ base: '100%', md: '257.4px' }}
+                                minW="80px"
+                                minH={'80px'}
+                                maxH={'245.18px'}
                                 borderRadius={{ base: '16px', md: 'none' }}
                                 overflow={'hidden'}
                             >
@@ -85,17 +83,19 @@ const PreviewGallery = () => {
                                         objectFit="cover"
                                     />
                                 )}
-                            </Box>
+                            </Flex>
                         </GridItem>
                         <GridItem>
-                            <Box
+                            <Flex
                                 borderRadius={{
                                     base: '16px',
                                     md: '0px 16px 0px 0px',
                                 }}
                                 backgroundColor={'white'}
-                                width={{ sm: '80px', md: '257.4px' }}
-                                height={{ sm: '80px', md: '245.18px' }}
+                                width={{ base: '100%', md: '257.4px' }}
+                                minW="80px"
+                                minH={'80px'}
+                                maxH={'245.18px'}
                                 overflow={'hidden'}
                             >
                                 {images.length > 0 && (
@@ -108,13 +108,15 @@ const PreviewGallery = () => {
                                         objectFit="cover"
                                     />
                                 )}
-                            </Box>
+                            </Flex>
                         </GridItem>
                         <GridItem>
-                            <Box
+                            <Flex
                                 backgroundColor={'white'}
-                                width={{ base: '80px', md: '257.4px' }}
-                                height={{ base: '80px', md: '245.18px' }}
+                                width={{ base: '100%', md: '257.4px' }}
+                                minW="80px"
+                                minH={'80px'}
+                                maxH={'245.18px'}
                                 borderRadius={{ base: '16px', md: 'none' }}
                                 overflow={'hidden'}
                             >
@@ -128,17 +130,19 @@ const PreviewGallery = () => {
                                         objectFit="cover"
                                     />
                                 )}
-                            </Box>
+                            </Flex>
                         </GridItem>
                         <GridItem>
-                            <Box
+                            <Flex
                                 borderRadius={{
                                     base: '16px',
                                     md: '0px 0px 16px 0px',
                                 }}
                                 backgroundColor={'white'}
-                                width={{ base: '80px', md: '257.4px' }}
-                                height={{ base: '80px', md: '245.18px' }}
+                                width={{ base: '100%', md: '257.4px' }}
+                                minW="80px"
+                                minH={'80px'}
+                                maxH={'245.18px'}
                                 overflow={'hidden'}
                             >
                                 {images.length > 0 && (
@@ -151,7 +155,7 @@ const PreviewGallery = () => {
                                         objectFit="cover"
                                     />
                                 )}
-                            </Box>
+                            </Flex>
                         </GridItem>
                     </Grid>
                 </GridItem>

@@ -80,9 +80,7 @@ const PreviewCheckout = () => {
         <Flex
             padding={{ base: '0', md: '2rem' }}
             borderRadius={{ base: '0px', md: '16px' }}
-            // height={'800px'}
             maxW={{ base: '100%', md: '504px' }}
-            minW="375px"
             width={'100%'}
             flexDirection={'column'}
             backgroundColor={{ base: 'transparent', md: '#121212' }}
@@ -119,6 +117,7 @@ const PreviewCheckout = () => {
                         style={{ textDecoration: 'line-through' }}
                         alignSelf={'center'}
                         fontSize={{ base: '9px', md: '18px' }}
+                        display={{ base: 'none', md: 'block' }}
                         color="#555555"
                     >
                         {`${formatCryptoPrice(parseInt(price), preferred_currency_code ?? 'usdc')}`}
@@ -210,7 +209,12 @@ const PreviewCheckout = () => {
                                     borderRadius="full"
                                     borderColor={'#3E3E3E'}
                                 >
-                                    <Text color="white">{size}</Text>
+                                    <Text
+                                        fontSize={{ base: '10px', md: '16px' }}
+                                        color="white"
+                                    >
+                                        {size}
+                                    </Text>
                                 </Flex>
                             ))
                         ) : (
