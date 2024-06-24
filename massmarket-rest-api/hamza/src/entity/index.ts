@@ -102,7 +102,7 @@ export interface ICheckoutOutput {
     payeeAddress: HexString;
     paymentId: HexString;
     isPaymentEndpoint: boolean;
-    orderId: HexString;
+    orderHash: HexString;
     amount: string;
     chainId: number;
     ttl: number;

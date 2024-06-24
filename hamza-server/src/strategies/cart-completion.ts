@@ -383,14 +383,14 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
         const promises: Promise<Order>[] = [];
         for (const r of checkoutResults) {
             this.logger.debug(
-                'saving order ' + r.orderId + ', ' + r.medusaOrderId
+                'saving order ' + r.paymentId + ', ' + r.medusaOrderId
             );
             promises.push(
                 this.orderRepository.save({
                     id: r.medusaOrderId,
-                    massmarket_order_id: r.orderId,
+                    massmarket_order_id: r.orderHash,
                     massmarket_ttl: r.ttl,
-                    massmarket_amount: r.amount.toString(),
+                    massmarket_amount: r.amount,
                 })
             );
         }

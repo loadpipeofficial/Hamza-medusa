@@ -42,7 +42,10 @@ export type CreateStoreOutput = {
 export type CheckoutOutput = {
     success: boolean;
     contractAddress: HexString;
-    orderId: HexString;
+    payeeAddress: HexString;
+    paymentId: HexString;
+    isPaymentEndpoint: boolean;
+    orderHash: HexString;
     amount: string;
     chainId: number;
     ttl: number;
