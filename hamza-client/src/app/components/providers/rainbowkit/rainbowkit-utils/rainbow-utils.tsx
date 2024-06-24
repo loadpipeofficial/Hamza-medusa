@@ -26,7 +26,7 @@ import {
     ModalBody,
     useDisclosure,
 } from '@chakra-ui/react';
-import sepoliaImage from '../../../../../../public/images/sepolia/sepolia.webp';
+// import sepoliaImage from '../../../../../../public/images/sepolia/sepolia.webp';
 
 const PROJECT_ID = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || '';
 const ALCHEMY_API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY || '';
@@ -39,18 +39,19 @@ export const darkThemeConfig = darkTheme({
     overlayBlur: 'small',
 });
 
-// Extend the Sepolia chain configuration
-const customSepolia = {
-    ...sepolia,
-    iconUrl: sepoliaImage.src, // Use the correct property for the image URL
-    // lets make the background transparent
-    iconBackground: 'transparent', // Set your desired background color
-};
+// TODO: Later can use this logic for custom Chain logos
+// // Extend the Sepolia chain configuration
+// const customSepolia = {
+//     ...sepolia,
+//     iconUrl: sepoliaImage.src, // Use the correct property for the image URL
+//     // lets make the background transparent
+//     iconBackground: 'transparent', // Set your desired background color
+// };
 
-export { customSepolia };
+// export { customSepolia };
 
 export const { chains, publicClient, webSocketPublicClient } = configureChains(
-    [optimismSepolia, customSepolia],
+    [optimismSepolia, sepolia],
     [
         alchemyProvider({
             apiKey: ALCHEMY_API_KEY,
@@ -74,7 +75,7 @@ export const SwitchNetwork = () => {
 
     const voidFunction = () => {};
 
-    const requiredChains = [11155111, 11155420]; // Sepolia and Optimism Sepolia
+    const requiredChains = [11155111]; // Sepolia and Optimism Sepolia
 
     useEffect(() => {
         onOpen();
@@ -106,16 +107,6 @@ export const SwitchNetwork = () => {
                         }
                     >
                         Switch to Sepolia testnet
-                    </Button>
-                    <Button
-                        disabled={!switchNetwork || isLoading}
-                        onClick={() =>
-                            switchNetwork
-                                ? switchNetwork(11155420)
-                                : voidFunction()
-                        }
-                    >
-                        Switch to Optimism Sepolia testnet
                     </Button>
                     {error && <p>Error: {error.message}</p>}
                     {isLoading && pendingChainId && (

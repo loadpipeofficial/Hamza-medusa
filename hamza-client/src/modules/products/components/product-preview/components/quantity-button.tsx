@@ -11,7 +11,11 @@ const QuantityButton = () => {
 
     useEffect(() => {
         const updateQuantityButton = async () => {
-            if (productData !== null) {
+            if (
+                productData &&
+                productData.variants &&
+                productData.variants.length > 0
+            ) {
                 setQuantityAvailable(
                     productData.variants[0].inventory_quantity
                 );
@@ -19,7 +23,7 @@ const QuantityButton = () => {
         };
 
         updateQuantityButton();
-    }, [productData, setProductData]);
+    }, [productData]);
 
     const incrementQuantity = () => {
         if (quantity < Number(quantityAvailable)) {
