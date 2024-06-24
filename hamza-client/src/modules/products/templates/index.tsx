@@ -117,7 +117,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
                 <Flex flex="1" order={{ base: 2, md: 1 }}>
                     <Flex flexDirection={'column'}>
                         <ProductInfo />
-                        <Box mt="2rem">
+                        <Box mt="1.5rem">
                             <Tweet productHandle={product.handle as string} />
                         </Box>
                     </Flex>
