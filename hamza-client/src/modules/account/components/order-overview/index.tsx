@@ -116,16 +116,6 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
         fetchOrders();
     }, [orders]);
 
-    const groupedByCartId = detailedOrders.reduce((acc: any, item: any) => {
-        if (!acc[item.cart_id]) {
-            acc[item.cart_id] = [];
-        }
-        acc[item.cart_id].push(item);
-        return acc;
-    }, {});
-
-    // console.log(`Grouped by cart id ${JSON.stringify(groupedByCartId)}`);
-
     useEffect(() => {
         const fetchStatuses = async () => {
             if (!orders || orders.length === 0) return;
