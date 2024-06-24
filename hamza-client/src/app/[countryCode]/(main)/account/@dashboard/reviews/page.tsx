@@ -9,13 +9,15 @@ import { getRegion } from 'app/actions';
 import { headers } from 'next/headers';
 
 export const metadata: Metadata = {
-    title: 'Notifications',
-    description: 'View your notifications',
+    title: 'Reviews',
+    description: 'View your Reviews',
 };
 
 export default async function Reviews() {
     const nextHeaders = headers();
-    const countryCode = process.env.FORCE_US_COUNTRY ? 'us' : nextHeaders.get('next-url')?.split('/')[1] || '';
+    const countryCode = process.env.FORCE_US_COUNTRY
+        ? 'us'
+        : nextHeaders.get('next-url')?.split('/')[1] || '';
     const customer = await getCustomer();
     const region = await getRegion(countryCode);
 

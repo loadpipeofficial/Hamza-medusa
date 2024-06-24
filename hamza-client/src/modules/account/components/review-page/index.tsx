@@ -68,7 +68,9 @@ const ReviewPage = ({ region }: { region: Region }) => {
                                     <Text fontSize="sm">
                                         Rating: {review.rating} / 5
                                     </Text>
-                                    <Text fontSize="sm">{review.review}</Text>
+                                    <Text fontSize="sm">
+                                        Review: {review.content}
+                                    </Text>
                                     <Text fontSize="sm">
                                         Date:{' '}
                                         {format(
