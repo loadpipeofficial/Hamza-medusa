@@ -9,8 +9,8 @@ import useSideFilter from '@store/store-page/side-filter';
 
 const StoreTemplate = () => {
     const gridLayout = {
-        base: 1,
-        sm: 1,
+        base: 2,
+        sm: 2,
         md: 2,
         lg: 3,
     };

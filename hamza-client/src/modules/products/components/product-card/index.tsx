@@ -1,14 +1,15 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+// import Image from 'next/image';
 import {
     Card,
     CardBody,
-    Image,
     Text,
     Flex,
     Box,
     Skeleton,
+    Image,
 } from '@chakra-ui/react';
 import { AiOutlineDollar } from 'react-icons/ai';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
@@ -21,6 +22,7 @@ import useWishlistStore from '@store/wishlist/wishlist-store';
 import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import { formatCryptoPrice } from '@lib/util/get-product-price';
+import currencyIcons from '../../../../../public/images/currencies/crypto-currencies';
 
 interface ProductCardProps {
     reviewCount?: number;
@@ -83,8 +85,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
     return (
         <Card
+            width={'100%'}
+            height={'100%'}
+            minW={'167px'}
             maxW={'295px'}
-            h="399px"
+            minH={'243.73px'}
+            maxH={'399px'}
+            // width={{ base: '167px', md: '280px' }}
+            // height={{ base: '243.73px', md: '384px ' }}
             backgroundColor={'#121212'}
             borderRadius="16px"
             overflow="hidden"
@@ -93,7 +101,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 <Box
                     onClick={() => console.log('hello')}
                     h="240px"
-                    width="100%"
+                    // width="100%"
                     display="flex"
                     justifyContent="center"
                     alignItems="center"
@@ -103,6 +111,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     <Image
                         src={imageSrc}
                         alt={productName}
+                        width="100%"
+                        height="100%"
+                        objectFit="cover"
                         onLoad={() => setImageLoaded(true)}
                         display={imageLoaded ? 'block' : 'none'}
                     />{' '}
@@ -123,7 +134,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                         <Text
                             color={'white'}
                             fontWeight="700"
-                            fontSize="1.25rem"
+                            fontSize={{ base: '14px', md: '1.25rem' }}
                             lineHeight="25.29px"
                             noOfLines={3}
                         >
@@ -206,7 +217,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                         color={'white'}
                                         alignSelf={'center'}
                                         fontWeight="700"
-                                        fontSize="14px"
+                                        fontSize={{ base: '14px', md: '16' }}
                                         ml="1"
                                     >
                                         {totalRating}
@@ -214,7 +225,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                     <Text
                                         alignSelf={'center'}
                                         fontWeight="700"
-                                        fontSize="14px"
+                                        fontSize={{ base: '14px', md: '16' }}
                                         color="#555555"
                                         ml="1"
                                     >
@@ -222,11 +233,24 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                     </Text>
                                 </>
                             ) : (
-                                <Text color={'white'}> No Reviews Yet </Text>
+                                <Text
+                                    alignSelf={'center'}
+                                    ml="5px"
+                                    fontSize={{ base: '14px', md: '16' }}
+                                    color={'white'}
+                                >
+                                    {' '}
+                                    No Reviews Yet{' '}
+                                </Text>
                             )}
                         </Flex>
                         <Flex>
                             <Box alignSelf={'center'}>
+                                {/* <Image
+                                    src={currencyIcons['USDC']}
+                                    style={{ width: '16px', height: '16px' }}
+                                    alt="usdc"
+                                /> */}
                                 <AiOutlineDollar
                                     style={{ width: '24px', height: '24px' }}
                                     color="#2775CA"
@@ -236,7 +260,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 color={'white'}
                                 ml="2"
                                 fontWeight="700"
-                                fontSize="1.25rem"
+                                fontSize="24px"
                                 lineHeight="33.72px"
                             >
                                 {`${formatCryptoPrice(parseInt(productPrice?.toString() ?? '0'), currencyCode ?? 'usdc')} ${currencyCode?.toUpperCase()}`}

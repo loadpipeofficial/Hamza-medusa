@@ -17,47 +17,45 @@ const CategoryTopButton: React.FC<CategoryButtonProps> = ({
         useStorePage();
 
     return (
-        <Flex>
-            <Flex
-                onClick={() => {
-                    setCategorySelect(categoryName),
-                        setCategoryTypeSelect(categoryType);
-                }}
-                borderColor={'transparent'}
-                backgroundColor={
+        <Flex
+            flexShrink={0}
+            onClick={() => {
+                setCategorySelect(categoryName),
+                    setCategoryTypeSelect(categoryType);
+            }}
+            borderColor={'transparent'}
+            backgroundColor={
+                categorySelect !== null && categorySelect === categoryName
+                    ? 'white'
+                    : 'black'
+            }
+            display={'flex'}
+            flexDirection={'row'}
+            alignItems={'center'}
+            borderWidth={'1px'}
+            borderRadius={'49px'}
+            height={'63px'}
+            cursor="pointer"
+            style={{ padding: '10px 24px' }}
+            _hover={{
+                background: 'white',
+            }}
+        >
+            <Image src={categoryIcons[categoryType]} alt={categoryName} />
+            <Text
+                ml="10px"
+                fontSize={'18px'}
+                color={
                     categorySelect !== null && categorySelect === categoryName
-                        ? 'white'
-                        : 'black'
+                        ? 'black'
+                        : 'white'
                 }
-                display={'flex'}
-                flexDirection={'row'}
-                alignItems={'center'}
-                borderWidth={'1px'}
-                borderRadius={'49px'}
-                height={'63px'}
-                cursor="pointer"
-                style={{ padding: '10px 24px' }}
                 _hover={{
-                    background: 'white',
+                    color: 'black',
                 }}
             >
-                <Image src={categoryIcons[categoryType]} alt={categoryName} />
-                <Text
-                    ml="10px"
-                    fontSize={'18px'}
-                    color={
-                        categorySelect !== null &&
-                        categorySelect === categoryName
-                            ? 'black'
-                            : 'white'
-                    }
-                    _hover={{
-                        color: 'black',
-                    }}
-                >
-                    {categoryName}
-                </Text>
-            </Flex>
+                {categoryName}
+            </Text>
         </Flex>
     );
 };

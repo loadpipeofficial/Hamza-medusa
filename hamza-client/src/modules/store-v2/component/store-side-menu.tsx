@@ -12,12 +12,12 @@ import RangeSlider from './range-slider';
 const SideMenu = () => {
     return (
         <Box
+            display={{ base: 'none', md: 'block' }}
             px="2rem"
             py="2rem"
             color={'white'}
             borderRadius={'20px'}
-            maxWidth={'348.74px'}
-            width={'100%'}
+            width={'348.74px'}
             height={'100%'}
             backgroundColor={'secondary.onyx.900'}
         >
