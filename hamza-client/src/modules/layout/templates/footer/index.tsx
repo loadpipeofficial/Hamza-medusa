@@ -183,10 +183,20 @@ export default async function Footer() {
 
                 <Flex pt="2rem" justifyContent={'space-between'} width={'100%'}>
                     <Flex flexDir={'column'} color={'white'} gap={'8px'}>
-                        <Text className="text-3xl font-bold">HAMZA</Text>
+                        <Text
+                            display={{ base: 'none', md: 'block' }}
+                            className="text-3xl font-bold"
+                        >
+                            HAMZA
+                        </Text>
                     </Flex>
 
-                    <Flex flexDir={'row'} color={'white'} gap={'8px'}>
+                    <Flex
+                        mr={{ base: 'auto', md: '0' }}
+                        flexDir={'row'}
+                        color={'white'}
+                        gap={'8px'}
+                    >
                         <Text className="text-base font-bold">
                             Follow us on:{' '}
                         </Text>
@@ -205,7 +215,10 @@ export default async function Footer() {
                     </Flex>
 
                     <Flex flexDir={'column'} color={'white'} gap={'8px'}>
-                        <Text className="text-base font-bold">
+                        <Text
+                            display={{ base: 'none', md: 'block' }}
+                            className="text-base font-bold"
+                        >
                             Certificate of Authenticity
                         </Text>
                     </Flex>
