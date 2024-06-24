@@ -292,24 +292,47 @@ export default class OrderService extends MedusaOrderService {
         });
     }
 
-    async listCustomerOrders(customerId: string): Promise<Order[]> {
+    async listCustomerOrders(
+        customerId: string
+    ): Promise<{ orders: any[]; uniqueCartIds: string[]; cartCount: number }> {
         const orders = await this.orderRepository_.find({
             where: { customer_id: customerId },
-            relations: ['cart.items', 'cart.items.variant.product'],
+            relations: ['cart.items'],
             // relations: ['store.owner', 'cart.items'],
         });
-        // Order Table is showing repeated id's so lets remove the duplicates
-        // Use a Set to track unique cart_ids to avoid duplicates
-        const cartSet = new Set();
-        const uniqueOrders = orders.filter((order) => {
-            if (!cartSet.has(order.cart_id)) {
-                cartSet.add(order.cart_id);
-                return true;
+
+        // Create a map to group orders by cart_id
+        const groupedOrders = orders.reduce((acc, order) => {
+            const cartId = order.cart_id;
+            if (!acc[cartId]) {
+                acc[cartId] = {
+                    cart_id: cartId,
+                    items: new Set(),
+                };
             }
-            return false;
+            order.cart.items.forEach((item) =>
+                acc[cartId].items.add(JSON.stringify(item))
+            );
+            return acc;
+        }, {});
+
+        const result = Object.values(groupedOrders).map((group: any) => {
+            return {
+                cart_id: group.cart_id,
+                items: Array.from(group.items).map((item: any) =>
+                    JSON.parse(item)
+                ),
+            };
         });
 
-        return uniqueOrders;
+        const uniqueCartIds = Object.keys(groupedOrders);
+        const cartCount = uniqueCartIds.length;
+
+        return {
+            orders: result,
+            uniqueCartIds,
+            cartCount,
+        };
     }
 
     async orderDetails(cartId: string) {

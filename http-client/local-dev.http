@@ -335,7 +335,7 @@ POST http://localhost:9000/custom/order/customer-orders
 Content-Type: application/json
 
 {
-  "customer_id": "cus_01J0QK65HY311HDHQKN5W042GZ"
+  "customer_id": "cus_01J0WJ5M458YXMWJ2EFBGTAKK1"
 }
 
 
