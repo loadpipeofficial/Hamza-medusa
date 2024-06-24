@@ -5,22 +5,29 @@ import {
     OrderStatus,
     PaymentStatus,
     Logger,
+    IdempotencyKeyService,
     ProductVariant,
 } from '@medusajs/medusa';
 import OrderRepository from '@medusajs/medusa/dist/repositories/order';
 import PaymentRepository from '@medusajs/medusa/dist/repositories/payment';
 import { ProductVariantRepository } from '../repositories/product-variant';
 import StoreRepository from '../repositories/store';
-
+import { LineItemService } from '@medusajs/medusa';
 import { Order } from '../models/order';
 import { Payment } from '../models/payment';
 import { Lifetime } from 'awilix';
 import { In } from 'typeorm';
 
+type InjectDependencies = {
+    idempotencyKeyService: IdempotencyKeyService;
+    lineItemService: LineItemService;
+};
+
 export default class OrderService extends MedusaOrderService {
     static LIFE_TIME = Lifetime.SINGLETON; // default, but just to show how to change it
 
     protected orderRepository_: typeof OrderRepository;
+    protected lineItemService: LineItemService;
     protected paymentRepository_: typeof PaymentRepository;
     protected readonly storeRepository_: typeof StoreRepository;
     protected readonly productVariantRepository_: typeof ProductVariantRepository;
@@ -308,12 +315,25 @@ export default class OrderService extends MedusaOrderService {
     async orderDetails(cartId: string) {
         const orderHandle = await this.orderRepository_.findOne({
             where: { cart_id: cartId },
-            relations: ['cart.items', 'cart.items.variant.product'],
+            relations: ['cart.items', 'cart.items.variant.product', 'cart'],
         });
         let product_handles = [];
         orderHandle.cart.items.forEach((item) => {
             product_handles.push(item.variant.product.handle);
         });
         return product_handles;
+    }
+
+    // Ok now lets list all orders via lineItemService and return when the relation to cart_id matches..
+    async listCollection(cartId: string) {
+        try {
+            const lineItems = await this.lineItemService.list({
+                cart_id: cartId,
+            });
+            return lineItems;
+        } catch (e) {
+            this.logger.error('Error retrieving order', e);
+            throw new Error('Failed to retrieve order');
+        }
     }
 }
