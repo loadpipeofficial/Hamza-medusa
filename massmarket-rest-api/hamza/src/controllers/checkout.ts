@@ -58,6 +58,9 @@ export const checkoutController = {
                         success: false,
                         contractAddress:
                             '0x0DcA1518DB5A058F29EBfDab76739faf8Fb4544c',
+                        payeeAddress: '0x0',
+                        isPaymentEndpoint: true,
+                        paymentId: '0x0',
                         amount: '0',
                         orderId: '0x',
                         chainId: 11155111,
@@ -77,11 +80,14 @@ export const checkoutController = {
                         const cartId = await rc.createCart();
                         console.log('CART ID: ', cartId);
 
+                        //TODO: handle empty payment currency
+
                         //add products to cart
                         for (const item of input.items) {
+                            console.log('ADDING TO CART ', item.productId);
                             await rc.addToCart(
                                 cartId,
-                                item.productId, //'0xa3438104c764746a3d67c761e154ad26a958153743e97db10747121d4c68d642'
+                                item.productId,
                                 item.quantity
                             );
                         }
@@ -90,12 +96,35 @@ export const checkoutController = {
                         if (isZeroAddress(input.paymentCurrency))
                             input.paymentCurrency = undefined;
 
+                        /*
+                        {
+                            "paymentId":"l8pGmt++4droph+ADcYw6qMGB5Vic+C1aNP/5WhMXIw=",
+                            "subTotal":"0.01",
+                            "salesTax":"0.00",
+                            "total":"0.01",
+                            "ttl":"1719308448",
+                            "orderHash":"MmSGdPshr20yvZMewiio+oK//SeUzOBHTydE/Bz9p6E=",
+                            "currencyAddr":"vp/ptxfIiKKyygpsqmOa/jaSScU=",
+                            "totalInCrypto":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKQQ=",
+                            "payeeAddr":"dLcoSDb3UxAb1oPDhD6VgTs4Hxg=",
+                            "isPaymentEndpoint":true,
+                            "shopSignature":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="}
+                        */
+                        console.log('COMMITTING CART');
                         await rc.commitCart(cartId, input.paymentCurrency);
                         const event = await rc.getCartFinalizedEvent(cartId);
-                        checkoutOutput.orderId = keccak256(event.cartId);
-                        checkoutOutput.ttl = event.paymentTtl;
-                        checkoutOutput.amount = event.totalInCrypto;
-                        checkoutOutput.currency = input.paymentCurrency ?? '';
+                        checkoutOutput.orderId = bytesToHex(event.orderHash);
+                        checkoutOutput.ttl = parseInt(event.ttl);
+                        checkoutOutput.amount = bytesToHex(event.totalInCrypto);
+                        checkoutOutput.currency = input.paymentCurrency
+                            ? bytesToHex(event.currencyAddr)
+                            : '0x0000000000000000000000000000000000000000';
+                        checkoutOutput.payeeAddress = bytesToHex(
+                            event.payeeAddr
+                        );
+                        checkoutOutput.paymentId = bytesToHex(event.paymentId);
+                        checkoutOutput.isPaymentEndpoint =
+                            event.isPaymentEndpoint;
                         checkoutOutput.success = true;
 
                         output = checkoutOutput;

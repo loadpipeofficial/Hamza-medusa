@@ -1,3 +1,5 @@
+import { Hex } from '../../node_modules/viem/_types/index';
+
 export type HexString = `0x${string}`;
 
 export interface ICreateStoreInput {
@@ -97,6 +99,9 @@ export interface ICheckoutInput {
 export interface ICheckoutOutput {
     success: boolean;
     contractAddress: HexString;
+    payeeAddress: HexString;
+    paymentId: HexString;
+    isPaymentEndpoint: boolean;
     orderId: HexString;
     amount: string;
     chainId: number;
