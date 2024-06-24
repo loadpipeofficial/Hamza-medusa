@@ -26,6 +26,7 @@ import {
     ModalBody,
     useDisclosure,
 } from '@chakra-ui/react';
+import sepoliaImage from '../../../../../../public/images/sepolia/sepolia.webp';
 
 const PROJECT_ID = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || '';
 const ALCHEMY_API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY || '';
@@ -37,8 +38,19 @@ export const darkThemeConfig = darkTheme({
     fontStack: 'system',
     overlayBlur: 'small',
 });
+
+// Extend the Sepolia chain configuration
+const customSepolia = {
+    ...sepolia,
+    iconUrl: sepoliaImage.src, // Use the correct property for the image URL
+    // lets make the background transparent
+    iconBackground: 'transparent', // Set your desired background color
+};
+
+export { customSepolia };
+
 export const { chains, publicClient, webSocketPublicClient } = configureChains(
-    [optimismSepolia, sepolia],
+    [optimismSepolia, customSepolia],
     [
         alchemyProvider({
             apiKey: ALCHEMY_API_KEY,
@@ -60,7 +72,7 @@ export const SwitchNetwork = () => {
         useSwitchNetwork();
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const voidFunction = () => { };
+    const voidFunction = () => {};
 
     const requiredChains = [11155111, 11155420]; // Sepolia and Optimism Sepolia
 
@@ -79,7 +91,7 @@ export const SwitchNetwork = () => {
     if (!chain) return <div>Loading...</div>;
 
     return (
-        <Modal isOpen={isOpen} onClose={() => { }}>
+        <Modal isOpen={isOpen} onClose={() => {}}>
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader>Switch Network</ModalHeader>
@@ -87,13 +99,21 @@ export const SwitchNetwork = () => {
                     <p>The currently selected chain is not supported!</p>
                     <Button
                         disabled={!switchNetwork || isLoading}
-                        onClick={() => switchNetwork ? switchNetwork(11155111) : voidFunction()}
+                        onClick={() =>
+                            switchNetwork
+                                ? switchNetwork(11155111)
+                                : voidFunction()
+                        }
                     >
                         Switch to Sepolia testnet
                     </Button>
                     <Button
                         disabled={!switchNetwork || isLoading}
-                        onClick={() => switchNetwork ? switchNetwork(11155420) : voidFunction()}
+                        onClick={() =>
+                            switchNetwork
+                                ? switchNetwork(11155420)
+                                : voidFunction()
+                        }
                     >
                         Switch to Optimism Sepolia testnet
                     </Button>

@@ -9,7 +9,7 @@ const NavTernary = () => {
 
     return (
         <React.Fragment>
-            {authData.customer_id ? (
+            {authData.status == 'authenticated' ? (
                 <React.Fragment>
                     <NavLink href="/account" title="Account" />
                     {!authData.is_verified && (

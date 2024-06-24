@@ -140,13 +140,15 @@ export default function Page({ params }: { params: { slug: string } }) {
                 <ProductCollections vendorName={displaySlug} />{' '}
                 {/* Pass the capitalized slug */}
             </div>
-            <Button
-                onClick={onOpen}
-                colorScheme={isSubmitted ? 'green' : 'red'}
-                mt={4}
-            >
-                {isSubmitted ? 'Report Submitted' : 'Report Abuse'}
-            </Button>
+            <Box pt={12}>
+                <Button
+                    onClick={onOpen}
+                    colorScheme={isSubmitted ? 'green' : 'red'}
+                    mt={4}
+                >
+                    {isSubmitted ? 'Report Submitted' : 'Report Abuse'}
+                </Button>
+            </Box>
             <Box className="bg-black text-white p-4">
                 <Card>
                     {reviewStats.reviewCount > 0 && (
@@ -171,7 +173,8 @@ export default function Page({ params }: { params: { slug: string } }) {
                                                 {(review as any).customer_id}
                                             </Text>
                                             <Text fontSize="sm">
-                                                Rating: {(review as any).rating} / 5
+                                                Rating: {(review as any).rating}{' '}
+                                                / 5
                                             </Text>
                                             <Text fontSize="sm">
                                                 {(review as any).review}
@@ -179,7 +182,11 @@ export default function Page({ params }: { params: { slug: string } }) {
                                             <Text fontSize="sm">
                                                 Date:{' '}
                                                 {format(
-                                                    new Date((review as any).createdAt),
+                                                    new Date(
+                                                        (
+                                                            review as any
+                                                        ).createdAt
+                                                    ),
                                                     'PPP'
                                                 )}
                                             </Text>

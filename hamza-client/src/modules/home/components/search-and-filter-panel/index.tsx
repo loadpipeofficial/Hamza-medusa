@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import ProductCardGroup from '../product-layout';
 import { Box, Container, Flex, Button, Text } from '@chakra-ui/react';
 import FilterButtons from './components/FilterButtons';
@@ -9,34 +9,40 @@ import { RiMenu2Fill } from 'react-icons/ri';
 import Reputation from '../reputation';
 import SearchBar from './components/SearchBar';
 import SearchModalWrapper from '@modules/search/templates/search-wrapper';
+import SkeletonProductGrid from '@modules/skeletons/components/skeleton-product-grid';
 
 const SearchAndFilterPanel = () => {
     const [vendorName, setVendorName] = useState('Medusa Merch');
+    const [isClient, setIsClient] = useState(false);
 
-    //TODO: reputation causing overflow
+    // Ensure that the component knows when it's running on the client
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+
     return (
         <Box>
             <SearchBar />
-            <Box
-                mb={{ base: '-10rem', md: '0' }}
-                display={{ base: 'none', md: 'block' }}
-            >
-                <Reputation />
-            </Box>
+            {isClient && (
+                <Box
+                    mb={{ base: '-10rem', md: '0' }}
+                    display={{ base: 'none', md: 'block' }}
+                >
+                    <Reputation />
+                </Box>
+            )}
             <Container py="8" maxW="1280px">
                 <Flex gap="1rem">
-                    {vendors.map((vendors: any) => {
-                        return (
-                            <FilterButtons
-                                key={vendors.id}
-                                title={vendors.vendorName}
-                                selected={vendorName}
-                                setVendorName={() =>
-                                    setVendorName(vendors.vendorName)
-                                }
-                            />
-                        );
-                    })}
+                    {vendors.map((vendor: any) => (
+                        <FilterButtons
+                            key={vendor.id}
+                            title={vendor.vendorName}
+                            selected={vendorName}
+                            setVendorName={() =>
+                                setVendorName(vendor.vendorName)
+                            }
+                        />
+                    ))}
                     <Button
                         display="flex"
                         justifyContent={'center'}
@@ -56,7 +62,13 @@ const SearchAndFilterPanel = () => {
                     </Button>
                 </Flex>
             </Container>
-            <ProductCardGroup vendorName={vendorName} />
+            {isClient ? (
+                <Suspense fallback={<SkeletonProductGrid />}>
+                    <ProductCardGroup vendorName={vendorName} />
+                </Suspense>
+            ) : (
+                <SkeletonProductGrid />
+            )}
         </Box>
     );
 };

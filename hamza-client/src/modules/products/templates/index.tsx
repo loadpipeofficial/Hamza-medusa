@@ -2,7 +2,7 @@
 
 import { Region } from '@medusajs/medusa';
 import { PricedProduct } from '@medusajs/medusa/dist/types/pricing';
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 
 import ImageGallery from '@modules/products/components/image-gallery';
 import ProductActions from '@modules/products/components/product-actions';
@@ -22,17 +22,17 @@ import ProductReview from '../components/product-preview/components/product-revi
 import ProductReviewMobile from '../components/product-preview/components/product-review-mobile';
 import useProductPreview from '@store/product-preview/product-preview';
 import VendorBanner from '../components/product-preview/components/vendor-banner';
+import axios from 'axios';
+import Tweet from '@/components/tweet';
 
 type ProductTemplateProps = {
     product: PricedProduct;
-    storeName: string;
     region: Region;
     countryCode: string;
 };
 
 const ProductTemplate: React.FC<ProductTemplateProps> = ({
     product,
-    storeName,
     region,
     countryCode,
 }) => {
@@ -43,6 +43,8 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
         setProductId,
         setQuantity,
     } = useProductPreview();
+
+    const [vendor, setVendor] = useState('');
 
     // Only update product data when `product` changes
     useEffect(() => {
@@ -69,6 +71,29 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
     // if (!product || !product.id) {
     //     return null; // Return null or some error display component
     // }
+    console.log(
+        `Product Page, we have product ${product.id} ${product.handle}`
+    );
+
+    useEffect(() => {
+        // Fetch Vendor Name from product.id
+        const fetchVendor = async () => {
+            try {
+                const { data } = await axios.post(
+                    `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/custom/get-store`,
+                    {
+                        product_id: product.id,
+                    }
+                );
+                console.log(`Vendor: ${data}`);
+                setVendor(data);
+            } catch (error) {
+                console.error('Error fetching vendor: ', error);
+            }
+        };
+
+        fetchVendor();
+    }, [product]);
 
     return (
         <Flex
@@ -91,6 +116,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
             >
                 <Flex flex="1" order={{ base: 2, md: 1 }}>
                     <ProductInfo />
+                    <Tweet productHandle={product.handle as string} />
                 </Flex>
                 <Flex
                     maxW={{ base: '100%', md: '504px' }}
@@ -104,7 +130,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
                 </Flex>
             </Flex>
 
-            <VendorBanner storeName={storeName} />
+            <VendorBanner vendor={vendor} />
             <Divider
                 color="#555555"
                 display={{ base: 'block', md: 'none' }}
