@@ -102,9 +102,9 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
             alignItems={'center'}
             mx="1rem"
         >
-            <Box mt="2rem">
+            <Flex mt="2rem">
                 <PreviewGallery />
-            </Box>
+            </Flex>
 
             <Flex
                 maxWidth="1280px"
