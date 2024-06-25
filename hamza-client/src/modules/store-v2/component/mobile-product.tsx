@@ -53,6 +53,7 @@ const MobileCard: React.FC<ProductCardProps> = ({
             borderRadius="16px"
             overflow="hidden"
             width="100%"
+            height="100%"
             backgroundColor="black"
             maxHeight={'399px'}
             minHeight={'243.73px'}
@@ -76,7 +77,12 @@ const MobileCard: React.FC<ProductCardProps> = ({
                 />
             </Box>
 
-            <Box p="4">
+            <Box
+                p="4"
+                display={'flex'}
+                flexDirection={'column'}
+                height={{ base: '109px', md: '161px' }}
+            >
                 <Flex justifyContent="space-between" alignItems="center">
                     <Text
                         color="white"
@@ -135,37 +141,38 @@ const MobileCard: React.FC<ProductCardProps> = ({
                     )}
                 </Flex>
 
-                <Flex mt="2" alignItems="center">
-                    <IoStar style={{ color: '#FEC84B' }} />
-                    <Text
-                        color="white"
-                        fontWeight="700"
-                        fontSize={{ base: '14px', md: '14px' }}
-                        ml="1"
-                    >
-                        {totalRating}
-                    </Text>
-                    <Text
-                        color="#555555"
-                        fontWeight="700"
-                        fontSize={{ base: '14px', md: '16px' }}
-                        ml="1"
-                    >
-                        ({reviewCount} reviews)
-                    </Text>
-                </Flex>
+                <Flex marginTop="auto" flexDirection={'column'}>
+                    <Flex alignItems="center">
+                        <IoStar style={{ color: '#FEC84B' }} />
+                        <Text
+                            color="white"
+                            fontWeight="700"
+                            fontSize={{ base: '14px', md: '14px' }}
+                            ml="1"
+                        >
+                            {totalRating}
+                        </Text>
+                        <Text
+                            color="#555555"
+                            fontWeight="700"
+                            fontSize={{ base: '14px', md: '16px' }}
+                            ml="1"
+                        >
+                            ({reviewCount} reviews)
+                        </Text>
+                    </Flex>
 
-                <Flex mt="2" alignItems="center">
-                    <AiOutlineDollar color="#2775CA" />
-                    <Text
-                        color="white"
-                        ml="2"
-                        fontWeight="700"
-                        fontSize={{ base: '14px', md: '18px' }}
-                    >
-                        {`${formatCryptoPrice(parseInt(productPrice?.toString() ?? '0'), currencyCode ?? 'usdc')} ${currencyCode?.toUpperCase()}`}
-                    </Text>
-                    {/* <Text
+                    <Flex mt="auto" alignItems="center">
+                        <AiOutlineDollar color="#2775CA" />
+                        <Text
+                            color="white"
+                            ml="2"
+                            fontWeight="700"
+                            fontSize={{ base: '14px', md: '18px' }}
+                        >
+                            {`${formatCryptoPrice(parseInt(productPrice?.toString() ?? '0'), currencyCode ?? 'usdc')} ${currencyCode?.toUpperCase()}`}
+                        </Text>
+                        {/* <Text
                         textDecoration={hasDiscount ? 'line-through' : 'none'}
                         ml="2"
                         color="#555555"
@@ -174,6 +181,7 @@ const MobileCard: React.FC<ProductCardProps> = ({
                     >
                         {productPrice}
                     </Text> */}
+                    </Flex>
                 </Flex>
             </Box>
         </Box>
