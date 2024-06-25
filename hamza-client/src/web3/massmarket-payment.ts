@@ -92,7 +92,9 @@ export class MassmarketPaymentClient {
         let receipt: any = { from, to };
         let txHash: any = '0x0';
 
-        if (!process.env.FAKE_CHECKOUT) {
+        console.log('FAKE CHECKOUT IS ' + process.env.NEXT_PUBLIC_FAKE_CHECKOUT);
+
+        if (!process.env.NEXT_PUBLIC_FAKE_CHECKOUT) {
             console.log('sending requests: ', requests, nativeTotal);
             console.log('paymentId', BigInt(await this.getPaymentId(requests[0])).toString(16))
             const permits: string[] = [];
