@@ -10,6 +10,8 @@ import {
     SimpleGrid,
     Heading,
 } from '@chakra-ui/react';
+import LocalizedClientLink from '@modules/common/components/localized-client-link';
+import Thumbnail from '@modules/products/components/thumbnail';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 
@@ -68,44 +70,26 @@ const Summary: React.FC<{ cart_id: string }> = ({ cart_id }) => {
     }, [cart_id]);
 
     return (
-        <Box p="8">
-            <Heading as="h1" size="xl" mb="8">
-                Product Summary
-            </Heading>
-            <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }} spacing="8">
-                {products.map((product) => (
-                    <Box
-                        key={product.id}
-                        borderWidth="1px"
-                        borderRadius="lg"
-                        overflow="hidden"
-                        p="6"
-                    >
-                        <Image src={product.thumbnail} alt={product.title} />
-                        <Box p="6">
-                            <Stack spacing="4">
-                                <Box>
-                                    <Text
-                                        fontWeight="bold"
-                                        as="h2"
-                                        fontSize="xl"
-                                    >
-                                        {product.title}
-                                    </Text>
-                                    <Text mt="2">{product.description}</Text>
-                                </Box>
-                                <Link
-                                    color="teal.500"
-                                    href={`/products/${product.handle}`}
-                                >
-                                    View Product
-                                </Link>
-                            </Stack>
-                        </Box>
-                    </Box>
-                ))}
-            </SimpleGrid>
-        </Box>
+        <div className="flex flex-col">
+            {products.map((product) => (
+                <div
+                    key={product.id}
+                    className="flex flex-col mb-8 p-6 border border-gray-200 rounded-lg"
+                >
+                    <div className="mb-4">
+                        <h2 className="text-xl font-bold">{product.title}</h2>
+                        <p className="mt-2">{product.description}</p>
+                    </div>
+                    <LocalizedClientLink href={`/products/${product.handle}`}>
+                        <Thumbnail
+                            thumbnail={product.thumbnail}
+                            images={[]}
+                            size={'small'}
+                        />
+                    </LocalizedClientLink>
+                </div>
+            ))}
+        </div>
     );
 };
 
