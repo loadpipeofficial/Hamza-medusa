@@ -102,9 +102,9 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
             alignItems={'center'}
             mx="1rem"
         >
-            <Box mt="2rem">
+            <Flex mt="2rem">
                 <PreviewGallery />
-            </Box>
+            </Flex>
 
             <Flex
                 maxWidth="1280px"
@@ -115,8 +115,12 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
                 flexDirection={{ base: 'column', md: 'row' }}
             >
                 <Flex flex="1" order={{ base: 2, md: 1 }}>
-                    <ProductInfo />
-                    <Tweet productHandle={product.handle as string} />
+                    <Flex flexDirection={'column'}>
+                        <ProductInfo />
+                        <Box mt="1.5rem">
+                            <Tweet productHandle={product.handle as string} />
+                        </Box>
+                    </Flex>
                 </Flex>
                 <Flex
                     maxW={{ base: '100%', md: '504px' }}

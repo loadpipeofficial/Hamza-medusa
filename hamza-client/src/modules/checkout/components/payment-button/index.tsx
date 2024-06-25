@@ -6,10 +6,7 @@ import ErrorMessage from '../error-message';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { useAccount, useConnect, WindowProvider } from 'wagmi';
 import { InjectedConnector } from 'wagmi/connectors/injected';
-import {
-    ITransactionOutput,
-    IMultiPaymentInput,
-} from 'web3';
+import { ITransactionOutput, IMultiPaymentInput } from 'web3';
 import { MassmarketPaymentClient } from 'web3/massmarket-payment';
 import { ethers, BigNumberish } from 'ethers';
 import { useCompleteCart, useUpdateCart } from 'medusa-react';
@@ -52,10 +49,10 @@ declare global {
 const PaymentButton: React.FC<PaymentButtonProps> = ({ cart }) => {
     const notReady =
         !cart ||
-            !cart.shipping_address ||
-            !cart.billing_address ||
-            !cart.email ||
-            cart.shipping_methods.length < 1
+        !cart.shipping_address ||
+        !cart.billing_address ||
+        !cart.email ||
+        cart.shipping_methods.length < 1
             ? true
             : false;
 
@@ -170,7 +167,8 @@ const CryptoPaymentButton = ({
 
                 //create the contract client
                 const escrow_contract_address = getMasterSwitchAddress(chainId);
-                const paymentContractAddr = getMassmarketPaymentAddress(chainId);
+                const paymentContractAddr =
+                    getMassmarketPaymentAddress(chainId);
                 const paymentClient: MassmarketPaymentClient =
                     new MassmarketPaymentClient(
                         provider,
@@ -183,17 +181,17 @@ const CryptoPaymentButton = ({
                 console.log('escrow address:', escrow_contract_address);
 
                 //create the inputs
-                const paymentInput: IMultiPaymentInput[] = await createPaymentInput(
-                    data,
-                    await signer.getAddress(),
-                    chainId
-                );
+                const paymentInput: IMultiPaymentInput[] =
+                    await createPaymentInput(
+                        data,
+                        await signer.getAddress(),
+                        chainId
+                    );
 
                 console.log('payment input: ', paymentInput);
 
                 //send payment to contract
-                const output =
-                    await paymentClient.pay(paymentInput);
+                const output = await paymentClient.pay(paymentInput);
 
                 console.log(output);
                 const transaction_id = output.transaction_id;
@@ -203,7 +201,8 @@ const CryptoPaymentButton = ({
                     transaction_id,
                     payer_address,
                     escrow_contract_address,
-                    success: transaction_id && transaction_id.length ? true : false,
+                    success:
+                        transaction_id && transaction_id.length ? true : false,
                 };
             }
         } catch (e) {
@@ -280,8 +279,9 @@ const CryptoPaymentButton = ({
                 //TODO: examine response
 
                 //country code needed for redirect (get before killing cart)
-                const countryCode =
-                    process.env.FORCE_US_COUNTRY ? 'us' : cart.shipping_address?.country_code?.toLowerCase();
+                const countryCode = process.env.NEXT_PUBLIC_FORCE_US_COUNTRY
+                    ? 'us'
+                    : cart.shipping_address?.country_code?.toLowerCase();
 
                 //clear cart
                 clearCart();
@@ -329,7 +329,7 @@ const CryptoPaymentButton = ({
             updateCart.mutate(
                 { context: {} },
                 {
-                    onSuccess: ({ }) => {
+                    onSuccess: ({}) => {
                         //this calls the CartCompletion routine
                         completeCart.mutate(void 0, {
                             onSuccess: async ({ data, type }) => {
@@ -346,7 +346,7 @@ const CryptoPaymentButton = ({
                                     await cancelOrderFromCart();
                                 }
                             },
-                            onError: async ({ }) => {
+                            onError: async ({}) => {
                                 setSubmitting(false);
                                 setErrorMessage('Checkout was not completed');
                                 await cancelOrderFromCart();

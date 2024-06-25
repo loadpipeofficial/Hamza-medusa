@@ -238,8 +238,8 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                               return (
                                   <div key={item.id}>
                                       item: {item.id} <br /> Order_id list:{' '}
-                                      {item.order_ids} <br />
-                                      item quantity: {item.order_ids.length}
+                                      {/*{item.order_ids} <br />*/}
+                                      {/*item quantity: {item.quantity}*/}
                                       <OrderCard
                                           key={item.id}
                                           order={item}

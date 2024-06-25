@@ -32,8 +32,8 @@ const PreviewCheckout = () => {
     };
 
     let countryCode = useParams().countryCode as string;
-    if (process.env.FORCE_US_COUNTRY)
-        countryCode = process.env.FORCE_US_COUNTRY;
+    if (process.env.NEXT_PUBLIC_FORCE_US_COUNTRY)
+        countryCode = process.env.NEXT_PUBLIC_FORCE_US_COUNTRY;
     const colorSample = ['black', 'white', 'red', 'teal'];
 
     const [sizes, setSizes] = useState<string[]>([]);
@@ -80,9 +80,7 @@ const PreviewCheckout = () => {
         <Flex
             padding={{ base: '0', md: '2rem' }}
             borderRadius={{ base: '0px', md: '16px' }}
-            // height={'800px'}
             maxW={{ base: '100%', md: '504px' }}
-            minW="375px"
             width={'100%'}
             flexDirection={'column'}
             backgroundColor={{ base: 'transparent', md: '#121212' }}
@@ -113,12 +111,13 @@ const PreviewCheckout = () => {
                         fontSize={{ base: '18px', md: '32px' }}
                         color="white"
                     >
-                        {`${formatCryptoPrice(parseInt(price), (preferred_currency_code ?? 'usdc'))} ${preferred_currency_code?.toUpperCase() ?? 'USDC'}`}
+                        {`${formatCryptoPrice(parseInt(price), preferred_currency_code ?? 'usdc')} ${preferred_currency_code?.toUpperCase() ?? 'USDC'}`}
                     </Heading>
                     <Text
                         style={{ textDecoration: 'line-through' }}
                         alignSelf={'center'}
                         fontSize={{ base: '9px', md: '18px' }}
+                        display={{ base: 'none', md: 'block' }}
                         color="#555555"
                     >
                         {`${formatCryptoPrice(parseInt(price), preferred_currency_code ?? 'usdc')}`}
@@ -132,9 +131,9 @@ const PreviewCheckout = () => {
                     fontSize={'18px'}
                     color="white"
                 >
-                    {`${formatCryptoPrice(parseInt(price), (preferred_currency_code ?? 'usdc'))} ${preferred_currency_code?.toUpperCase() ?? 'USDC'}`}
+                    {`${formatCryptoPrice(parseInt(price), preferred_currency_code ?? 'usdc')} ${preferred_currency_code?.toUpperCase() ?? 'USDC'}`}
                 </Heading>
-                <Flex gap="5px">
+                <Flex gap="5px" height="20px">
                     <Flex flexDirection={'row'}>
                         <Image src={ReviewStar} alt={'star'} />
                         <Image src={ReviewStar} alt={'star'} />
@@ -150,6 +149,7 @@ const PreviewCheckout = () => {
                             fontSize={'16px'}
                             color={'white'}
                             alignSelf={'center'}
+                            mt="2px"
                         >
                             4.97
                         </Heading>
@@ -160,6 +160,7 @@ const PreviewCheckout = () => {
                             fontSize={'16px'}
                             color={'#555555'}
                             alignSelf={'center'}
+                            mt="2px"
                         >
                             (0 Reviews)
                         </Heading>
@@ -195,7 +196,11 @@ const PreviewCheckout = () => {
             {/* Varients */}
             <Flex width={'100%'} flexDirection={'column'} mt="1rem">
                 <Flex flexDirection="column" gap="10px">
-                    <Heading as="h3" fontSize={'18px'} color="white">
+                    <Heading
+                        as="h3"
+                        fontSize={{ base: '14px', md: '18px' }}
+                        color="white"
+                    >
                         Size
                     </Heading>
                     <Flex gap="10px" wrap="wrap">
@@ -210,7 +215,12 @@ const PreviewCheckout = () => {
                                     borderRadius="full"
                                     borderColor={'#3E3E3E'}
                                 >
-                                    <Text color="white">{size}</Text>
+                                    <Text
+                                        fontSize={{ base: '10px', md: '16px' }}
+                                        color="white"
+                                    >
+                                        {size}
+                                    </Text>
                                 </Flex>
                             ))
                         ) : (
@@ -221,7 +231,11 @@ const PreviewCheckout = () => {
                     </Flex>
                 </Flex>
                 <Flex flexDirection="column" my="1rem" gap="10px">
-                    <Heading as="h3" fontSize={'18px'} color="white">
+                    <Heading
+                        as="h3"
+                        fontSize={{ base: '14px', md: '18px' }}
+                        color="white"
+                    >
                         Color
                     </Heading>
                     <Flex gap="10px" wrap="wrap">
@@ -232,11 +246,11 @@ const PreviewCheckout = () => {
                                     p="2px"
                                     borderRadius="full"
                                     borderWidth={'2px'}
-                                    width="52px"
-                                    height="52px"
+                                    width={{ base: '40px', md: '52px' }}
+                                    height={{ base: '40px', md: '52px' }}
                                     borderColor={
                                         color === selectedColor ||
-                                            (selectedColor === '' && index === 0)
+                                        (selectedColor === '' && index === 0)
                                             ? 'white'
                                             : 'transparent'
                                     }
@@ -247,8 +261,8 @@ const PreviewCheckout = () => {
                                 >
                                     <Box
                                         alignSelf={'center'}
-                                        width="36px"
-                                        height="36px"
+                                        width={{ base: '24px', md: '36px' }}
+                                        height={{ base: '24px', md: '36px' }}
                                         borderRadius="full"
                                         backgroundColor={color}
                                         display="flex"
@@ -313,9 +327,10 @@ const PreviewCheckout = () => {
                     <Button
                         onClick={() => handleAddToCart()}
                         borderRadius={'56px'}
-                        height="75px"
+                        height={{ base: '40px', md: '75px' }}
                         width="100%"
                         backgroundColor={'primary.yellow.900'}
+                        fontSize={{ base: '12px', md: '18px' }}
                     >
                         Buy Now
                     </Button>
@@ -324,12 +339,13 @@ const PreviewCheckout = () => {
                 <Button
                     onClick={() => handleAddToCart()}
                     borderRadius={'56px'}
-                    height="75px"
+                    height={{ base: '40px', md: '75px' }}
                     borderWidth={'1px'}
                     color="primary.yellow.900"
                     borderColor={'primary.yellow.900'}
                     backgroundColor={'transparent'}
                     mt="1rem"
+                    fontSize={{ base: '12px', md: '18px' }}
                     _hover={{
                         color: 'black',
                         bg: 'white',

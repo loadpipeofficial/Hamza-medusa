@@ -21,7 +21,7 @@ const VendorBanner = (props: VendorProps) => {
             backgroundColor={'#121212'}
             maxWidth="1280px"
             width="100%"
-            height="165.78px"
+            height={{ base: '99px', md: '165.78px' }}
             borderRadius={'16px'}
             p="2rem"
         >
@@ -32,21 +32,23 @@ const VendorBanner = (props: VendorProps) => {
                 gap={'16px'}
             >
                 <Flex
-                    height={'47px'}
-                    width={'190px'}
+                    display={{ base: 'none', md: 'flex' }}
+                    height={{ base: '33px', md: '47px' }}
+                    width={{ base: '120px', md: '190px' }}
                     borderColor={'primary.indigo.900'}
                     borderWidth={'1px'}
                     borderRadius={'37px'}
                     justifyContent={'center'}
                     cursor={'pointer'}
+                    fontSize={{ base: '12px', md: '16px' }}
                 >
                     <Text alignSelf={'center'} color="primary.indigo.900">
                         Chat with them
                     </Text>
                 </Flex>
                 <Flex
-                    height={'47px'}
-                    width={'190px'}
+                    height={{ base: '33px', md: '47px' }}
+                    width={{ base: '120px', md: '190px' }}
                     borderColor={'transparent'}
                     backgroundColor={'primary.indigo.900'}
                     borderWidth={'1px'}
@@ -58,6 +60,7 @@ const VendorBanner = (props: VendorProps) => {
                         onClick={navigateToVendor}
                         alignSelf={'center'}
                         color="white"
+                        fontSize={{ base: '12px', md: '16px' }}
                     >
                         Visit Store
                     </Text>

@@ -65,8 +65,20 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
     const toggleWishlist = async () => {
         // console.log('toggle wishlist-dropdown item', product);
         wishlist.products.find((a) => a.id == productId)
-            ? removeWishlistItemMutation.mutate({ id: productId })
-            : addWishlistItemMutation.mutate({ id: productId });
+            ? removeWishlistItemMutation.mutate({
+                id: productId!,
+                description: '',
+                handle: productHandle,
+                thumbnail: imageSrc,
+                title: productName,
+            })
+            : addWishlistItemMutation.mutate({
+                id: productId!,
+                description: '',
+                handle: productHandle,
+                thumbnail: imageSrc,
+                title: productName,
+            });
     };
 
     const handleAddToCart = async () => {
@@ -231,7 +243,7 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
                                 fontSize="1.25rem"
                                 lineHeight="33.72px"
                             >
-                                {`${formatCryptoPrice(parseInt(productPrice ? productPrice.toString() : '0'), currencyCode)} ${currencyCode.toUpperCase()}`}
+                                {`${productPrice} ${currencyCode.toUpperCase()}`}
                             </Text>
                             <Text
                                 textDecoration={

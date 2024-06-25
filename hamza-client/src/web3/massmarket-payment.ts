@@ -4,6 +4,8 @@ import { erc20abi } from './abi/erc20-abi';
 import { IMultiPaymentInput, ITransactionOutput } from './';
 import { getCurrencyAddress } from '../currency.config';
 import { HexString } from 'ethers/lib.commonjs/utils/data';
+import { hexToBytes } from 'viem';
+import { BiSleepy } from 'react-icons/bi';
 
 interface IPaymentRequest {
     chainId: number;
@@ -47,54 +49,8 @@ export class MassmarketPaymentClient {
         );
     }
 
-    /**
-     * Place a single payment in a single currency.
-     * @param input The payment input
-     */
-    async placeMultiplePayments(
-        inputs: IMultiPaymentInput[]
-    ): Promise<ITransactionOutput> {
-        //prepare the inputs
-        for (let n = 0; n < inputs.length; n++) {
-            const input: IMultiPaymentInput = inputs[n];
-            if (!input.currency || input.currency === 'eth') {
-                input.currency = ethers.ZeroAddress;
-            } else {
-                if (!ethers.isAddress(input.currency)) {
-                    input.currency = getCurrencyAddress(
-                        input.currency,
-                        parseInt(
-                            (
-                                await this.provider.getNetwork()
-                            ).chainId.toString()
-                        )
-                    );
-                }
-            }
-        }
-
-        //make any necessary token approvals
-        await this.approveAllTokens(this.contractAddress, inputs);
-
-        //get total native amount
-        const nativeTotal: BigNumberish = this.getNativeTotal(inputs);
-        console.log('native amount:', nativeTotal);
-
-        const requests: IPaymentRequest[] = this.convertInputs(inputs);
-
-        console.log('sending requests: ', requests, nativeTotal);
-        const tx: any = await this.paymentContract.multiPay(requests, {
-            value: nativeTotal,
-        });
-
-        const transaction_id = tx.hash;
-        const receipt = await tx.wait();
-
-        return {
-            transaction_id,
-            tx,
-            receipt,
-        };
+    async getPaymentId(request: IPaymentRequest) {
+        return await this.paymentContract.getPaymentId(request);
     }
 
     async pay(inputs: IMultiPaymentInput[]) {
@@ -117,8 +73,13 @@ export class MassmarketPaymentClient {
             }
         }
 
+        const sleep = async (sec: number) => {
+            return new Promise(resolve => setTimeout(resolve, sec * 1000));
+        }
+
         //make any necessary token approvals
         await this.approveAllTokens(this.contractAddress, inputs);
+        await sleep(10);
 
         //get total native amount
         const nativeTotal: BigNumberish = this.getNativeTotal(inputs);
@@ -131,12 +92,20 @@ export class MassmarketPaymentClient {
         let receipt: any = { from, to };
         let txHash: any = '0x0';
 
-        if (process.env.FAKE_CHECKOUT) {
+        console.log('FAKE CHECKOUT IS ' + process.env.NEXT_PUBLIC_FAKE_CHECKOUT);
+
+        if (!process.env.NEXT_PUBLIC_FAKE_CHECKOUT) {
             console.log('sending requests: ', requests, nativeTotal);
-            const tx: any = await this.paymentContract.multiPay(requests, {
-                value: nativeTotal,
-            });
-            receipt = await tx.wait();
+            console.log('paymentId', BigInt(await this.getPaymentId(requests[0])).toString(16))
+            const permits: string[] = [];
+            for (let i = 0; i < requests.length; i++) {
+                permits.push('0x');
+            }
+            const tx: any = await this.paymentContract.multiPay(requests, permits),
+                //    {
+                //    value: nativeTotal,
+                //});
+                receipt = await tx.wait();
             txHash = tx.hash;
         }
         else {
@@ -168,15 +137,13 @@ export class MassmarketPaymentClient {
                     chainId: payment.chainId,
                     ttl: payment.massmarketTtl,
                     currency: input.currency, //payment.currency ?? '0x0',
-                    amount: payment.massmarketAmount,
-                    order: payment.massmarketOrderId,
-                    payeeAddress: this.escrowAddress, //switch address, or store owner address
+                    amount: 10500, //TODO: payment.massmarketAmount, 
+                    order: payment.massmarketOrderId, //hexToBytes(payment.massmarketOrderId as `0x${string}`),
+                    payeeAddress: '0x74b7284836f753101bd683c3843e95813b381f18', //TODO: get dynamic 
                     isPaymentEndpoint: true, //true if using switch
-                    shopId: 1,
-                    shopSignature: new Uint8Array([
-                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    ]),
+                    //shopSignature: '0x0000000000000000000000000000000000000000000000000000000000000000',
+                    shopId: '0x382e9fdf10295e01ad4c7e4dc7e3cecf461016addbe8e15e55736983af39426c', //TODO: get dynamic payment.storeId,
+                    shopSignature: new Uint8Array(64),
                 };
                 output.push(request);
             }
@@ -297,15 +264,20 @@ export class MassmarketPaymentClient {
 
         // Convert amount to bigint for comparison and arithmetic, assuming it could be string, number, or bigint already
         // BigNumber instances (from ethers.js or similar libraries) should be converted to string or number before passing to this function
-        const bigintAmount = BigInt(amount);
+        let bigintAmount = BigInt(amount);
+        console.log(`allowance of ${tokenAddr} for ${spender} is ${allowance}`)
 
         if (allowance > 0) {
             amount =
                 allowance < bigintAmount ? bigintAmount - allowance : BigInt(0);
         }
 
+        //TODO: this amount is wrong 
+        bigintAmount = BigInt(10000000);
+
         // Approve if necessary
         if (bigintAmount > 0) {
+            console.log(`approving ${bigintAmount} of ${tokenAddr} for ${spender}`)
             await token.approve(spender, bigintAmount.toString()); // Convert bigint back to string for the smart contract call
         }
     }
