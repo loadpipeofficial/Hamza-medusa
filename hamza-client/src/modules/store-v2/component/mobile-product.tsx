@@ -83,7 +83,7 @@ const MobileCard: React.FC<ProductCardProps> = ({
                 flexDirection={'column'}
                 height={{ base: '109px', md: '161px' }}
             >
-                <Flex justifyContent="space-between" alignItems="center">
+                <Flex alignItems="center" wrap={'nowrap'}>
                     <Text
                         color="white"
                         fontWeight="700"
@@ -93,7 +93,13 @@ const MobileCard: React.FC<ProductCardProps> = ({
                         {productName}
                     </Text>
                     {authData.status == 'authenticated' && (
-                        <Box p="5px" display={{ base: 'none', md: 'flex' }}>
+                        <Flex
+                            p="5px"
+                            mb="auto"
+                            flex={1}
+                            display={{ base: 'none', md: 'flex' }}
+                            justifyContent={'flex-end'}
+                        >
                             <Flex
                                 justifyContent="center"
                                 alignItems="center"
@@ -137,7 +143,7 @@ const MobileCard: React.FC<ProductCardProps> = ({
                                     )}
                                 </Flex>
                             </Flex>
-                        </Box>
+                        </Flex>
                     )}
                 </Flex>
 
