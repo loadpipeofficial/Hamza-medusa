@@ -32,8 +32,8 @@ const PreviewCheckout = () => {
     };
 
     let countryCode = useParams().countryCode as string;
-    if (process.env.FORCE_US_COUNTRY)
-        countryCode = process.env.FORCE_US_COUNTRY;
+    if (process.env.NEXT_PUBLIC_FORCE_US_COUNTRY)
+        countryCode = process.env.NEXT_PUBLIC_FORCE_US_COUNTRY;
     const colorSample = ['black', 'white', 'red', 'teal'];
 
     const [sizes, setSizes] = useState<string[]>([]);

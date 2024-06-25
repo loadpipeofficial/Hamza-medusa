@@ -3,35 +3,35 @@ import { MedusaRequest, MedusaResponse, Logger } from '@medusajs/medusa';
 
 const productsToIds = {
     'Medusa Longsleeve':
-        '0xa0941cefe70d28eb87937da15dde89ee311d5f2f45b824204c2371939f4cebd2',
+        '0xd2bf8aa15bd0b0fe8d34d5b9470456e29c7a8ba8ed2e74c3eaacc4e90f078024',
     'Medusa Sweatshirt':
-        '0xdacc3d7e6f8e89807ad0a122e34d0bda31295f33bea1cba36f84e4589eee1d77',
+        '0xd2bf8aa15bd0b0fe8d34d5b9470456e29c7a8ba8ed2e74c3eaacc4e90f078024',
     'Medusa Shorts':
-        '0x3f5418b0fe529d301e70ab314c66e8ef89cc10f9a3918a7899f91b41488f7594',
+        '0xd2bf8aa15bd0b0fe8d34d5b9470456e29c7a8ba8ed2e74c3eaacc4e90f078024',
     'The Echo Shade':
-        '0xa5e8100cffa309fd2e7f1c9e9a0ad45e782724268513f23925c0e6893ef3a4af',
+        '0xd2bf8aa15bd0b0fe8d34d5b9470456e29c7a8ba8ed2e74c3eaacc4e90f078024',
     'Sony WH-1000XM4':
-        '0xf82088ef67748d8cbb1dc4f19c8844d6199455b9553c0faf78a9af8cbfd34950',
+        '0xd2bf8aa15bd0b0fe8d34d5b9470456e29c7a8ba8ed2e74c3eaacc4e90f078024',
     'The Orbit Headset':
-        '0x7457f7eab54033e45c2eb06d1494c90d797e426d1c87130036a6de2440506caf',
+        '0xd2bf8aa15bd0b0fe8d34d5b9470456e29c7a8ba8ed2e74c3eaacc4e90f078024',
     'The Futurist Visor':
-        '0xfc6054f29e99c40661f9508ea76efab427cc025c015123e4b1b5205131a60c46',
+        '0xd2bf8aa15bd0b0fe8d34d5b9470456e29c7a8ba8ed2e74c3eaacc4e90f078024',
     'The Visionary':
-        '0xee1b52ea6cf1237990074d6ca1f1b071e2c423b84214e8c025fb53c5cf896927',
+        '0xd2bf8aa15bd0b0fe8d34d5b9470456e29c7a8ba8ed2e74c3eaacc4e90f078024',
     'The Nova Gear':
-        '0x5ebec7d98771a7565ce969887eb17a5dcf698dc9ab6953cbdc7eb21314751c8c',
+        '0xd2bf8aa15bd0b0fe8d34d5b9470456e29c7a8ba8ed2e74c3eaacc4e90f078024',
     'Medusa Coffee Mug':
-        '0x5129e86736e8addd5db782cd86b1a052a25d91362002d8861f38d0484e1b4fa8',
+        '0xd2bf8aa15bd0b0fe8d34d5b9470456e29c7a8ba8ed2e74c3eaacc4e90f078024',
     'Medusa T-Shirt':
-        '0xf35f8fb48351b139ff6065b3b33c4d640ca765c1b52352b3dc40ac26ca732096',
+        '0xd2bf8aa15bd0b0fe8d34d5b9470456e29c7a8ba8ed2e74c3eaacc4e90f078024',
     'Medusa Sweatpants':
-        '0xa985564bb8b8515922723c4d3c57c3ec2dea29e11081605031e78005fcfb6eae',
+        '0xd2bf8aa15bd0b0fe8d34d5b9470456e29c7a8ba8ed2e74c3eaacc4e90f078024',
     'Medusa Hoodie':
-        '0x304b9793489ed6fd9d4f45239444657b4d506ef43a79906022606f7635c09d6d',
+        '0xd2bf8aa15bd0b0fe8d34d5b9470456e29c7a8ba8ed2e74c3eaacc4e90f078024',
     'The Streamline Rift':
-        '0xb1004cae5366f1720449a5640ca523da7476995ee5318ee51c45a234e0ae55bb',
+        '0xd2bf8aa15bd0b0fe8d34d5b9470456e29c7a8ba8ed2e74c3eaacc4e90f078024',
     'The Cybernetic Headset':
-        '0x7bfd4f50faf80cf1ef96d647b73da9aeac313a741d229603dc21aec5f8b1376f',
+        '0xd2bf8aa15bd0b0fe8d34d5b9470456e29c7a8ba8ed2e74c3eaacc4e90f078024',
 };
 
 async function updateStoreForMM(
@@ -43,9 +43,9 @@ async function updateStoreForMM(
     storeRepository.save({
         id: storeId,
         massmarket_store_id:
-            '0xe8b3a2a736a13a35c3329e772a1e5bfd7c0ebde8e4cb38889ecfce8b1e3db0b6',
+            '0x382e9fdf10295e01ad4c7e4dc7e3cecf461016addbe8e15e55736983af39426c',
         massmarket_keycard:
-            '0xfc5f10e06f7a6c7c26c2930f7dde591f37470677c3fde258b39df6043741fc2b',
+            '0x1d24055a9122ab48d62e9f65f37335f844d7de6858edf61d3ca115efbe82be86',
     });
 
     const products =

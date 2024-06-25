@@ -55,8 +55,7 @@
                     <h2>
                         <%= store.storeName %>
                     </h2>
-                    <p>Total Amount: <%= store.totalStoreOrderAmount %>
-                    </p>
+
                 </div>
                 <% store.orders.forEach(order=> { %>
                     <div class="order-details">
@@ -75,7 +74,7 @@
                                         alt="<%= item.title %>">
                                 </div>
                                 <div class="item-details">
-                                    <p><strong>Title:</strong>
+                                    <p><strong>Product:</strong>
                                         <%= item.title %>
                                     </p>
                                     <p><strong>Quantity:</strong>
