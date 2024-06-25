@@ -1,13 +1,11 @@
 import { Request, Response } from 'express';
 import { ENDPOINT, serveRequest, validateStoreIdAndKeycard } from './utils.js';
 import {
-    IAddItemInput,
     ICheckoutInput,
     ICheckoutOutput,
 } from '../entity/index';
 import { RelayClientWrapper } from '../massmarket/client.js';
 import { bytesToHex, keccak256 } from 'viem';
-import { randomBytes } from 'crypto';
 
 function isZeroAddress(value: any): boolean {
     if (!value) return true;
