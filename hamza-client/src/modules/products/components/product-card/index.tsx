@@ -117,10 +117,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
             {/* card body */}
             <Flex
                 padding={{ base: '0.5rem', md: '1rem' }}
+                height={'100%'}
                 display={'flex'}
                 flexDirection={'column'}
             >
-                <Box display={'flex'} flexDirection={'column'}>
+                <Box display={'flex'} flexDirection={'column'} flex="1">
                     <Flex mb={{ base: '0', md: '1' }}>
                         <Text
                             color={'white'}
@@ -194,9 +195,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     </Flex>
 
                     {/* revew + currency */}
-                    <Box marginTop={{ base: '1rem', md: '0' }}>
-                        <Flex>
-                            <Box fontSize={{ base: '18px', md: '24px' }}>
+                    <Box mt="auto">
+                        <Flex mb={{ base: '0', md: '2.5px' }}>
+                            <Box
+                                ml="2px"
+                                fontSize={{ base: '18px', md: '18px' }}
+                            >
                                 <IoStar
                                     style={{
                                         color: '#FEC84B',
@@ -209,7 +213,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                         color={'white'}
                                         alignSelf={'center'}
                                         fontWeight="700"
-                                        fontSize={{ base: '14px', md: '16' }}
+                                        fontSize={{ base: '14px', md: '14px' }}
                                         ml="1"
                                     >
                                         {totalRating}
@@ -217,7 +221,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                     <Text
                                         alignSelf={'center'}
                                         fontWeight="700"
-                                        fontSize={{ base: '14px', md: '16' }}
+                                        fontSize={{ base: '14px', md: '16px' }}
                                         color="#555555"
                                         ml="1"
                                     >
@@ -227,7 +231,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             ) : (
                                 <Text
                                     alignSelf={'center'}
-                                    ml="5px"
+                                    ml="10px"
                                     fontSize={{ base: '14px', md: '14px' }}
                                     color={'white'}
                                 >
@@ -252,7 +256,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 color={'white'}
                                 ml="2"
                                 fontWeight="700"
-                                fontSize={{ base: '14px', md: '24px' }}
+                                fontSize={{ base: '14px', md: '18px' }}
                                 lineHeight="33.72px"
                             >
                                 {`${formatCryptoPrice(parseInt(productPrice?.toString() ?? '0'), currencyCode ?? 'usdc')} ${currencyCode?.toUpperCase()}`}
