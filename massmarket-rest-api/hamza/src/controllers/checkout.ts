@@ -1,11 +1,9 @@
 import { Request, Response } from 'express';
 import { ENDPOINT, serveRequest, validateStoreIdAndKeycard } from './utils.js';
-import {
-    ICheckoutInput,
-    ICheckoutOutput,
-} from '../entity/index';
+import { ICheckoutInput, ICheckoutOutput } from '../entity/index';
 import { RelayClientWrapper } from '../massmarket/client.js';
 import { bytesToHex, keccak256 } from 'viem';
+import { sleep } from '../utils.js';
 
 function isZeroAddress(value: any): boolean {
     if (!value) return true;
@@ -127,20 +125,41 @@ export const checkoutController = {
                         */
                         console.log('COMMITTING CART');
                         await rc.commitCart(cartId, input.paymentCurrency);
-                        const event = await rc.getCartFinalizedEvent(cartId);
-                        checkoutOutput.orderHash = bytesToHex(event.orderHash);
-                        checkoutOutput.ttl = parseInt(event.ttl);
-                        checkoutOutput.amount = bytesToHex(event.totalInCrypto);
-                        checkoutOutput.currency = input.paymentCurrency
-                            ? bytesToHex(event.currencyAddr)
-                            : '0x0000000000000000000000000000000000000000';
-                        checkoutOutput.payeeAddress = bytesToHex(
-                            event.payeeAddr
-                        );
-                        checkoutOutput.paymentId = bytesToHex(event.paymentId);
-                        checkoutOutput.isPaymentEndpoint =
-                            event.isPaymentEndpoint;
-                        checkoutOutput.success = true;
+
+                        const numRetries = 3;
+                        let retry = 0;
+                        while (retry < numRetries) {
+                            console.log('trying to get checkout event...');
+                            const event =
+                                await rc.getCartFinalizedEvent(cartId);
+                            if (event) {
+                                checkoutOutput.orderHash = bytesToHex(
+                                    event.orderHash
+                                );
+                                checkoutOutput.ttl = parseInt(event.ttl);
+                                checkoutOutput.amount = bytesToHex(
+                                    event.totalInCrypto
+                                );
+                                checkoutOutput.currency = input.paymentCurrency
+                                    ? bytesToHex(event.currencyAddr)
+                                    : '0x0000000000000000000000000000000000000000';
+                                checkoutOutput.payeeAddress = bytesToHex(
+                                    event.payeeAddr
+                                );
+                                checkoutOutput.paymentId = bytesToHex(
+                                    event.paymentId
+                                );
+                                checkoutOutput.isPaymentEndpoint =
+                                    event.isPaymentEndpoint;
+                                checkoutOutput.success = true;
+                                break;
+                            } else {
+                                console.log('event not found');
+                            }
+
+                            await sleep(3);
+                            retry++;
+                        }
 
                         output = checkoutOutput;
                     }
