@@ -1,12 +1,13 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Flex, Container } from '@chakra-ui/react';
+import { Flex, Container, Box } from '@chakra-ui/react';
 import ProductCardGroup from '@modules/products/components/product-card-group';
 import SideMenu from './component/store-side-menu';
 import useStorePage from '@store/store-page/store-page';
 import useSideFilter from '@store/store-page/side-filter';
 import MobileFilter from './component/mobile-filter';
+import MobileCard from './component/mobile-product';
 
 const StoreTemplate = () => {
     const gridLayout = {
@@ -35,14 +36,20 @@ const StoreTemplate = () => {
     }, [reviewFilterSelect]);
 
     return (
-        <Flex width={'100%'} justifyContent={'center'} my="2rem">
-            <Flex
+        <Flex
+            width={'100%'}
+            flexDirection={'column'}
+            justifyContent={'center'}
+            my="2rem"
+        >
+            {/* <Flex
                 width={'100%'}
                 flexDirection={{ base: 'column', md: 'row' }}
                 maxWidth={'1280px'}
             >
                 <SideMenu />
                 <MobileFilter />
+
                 <ProductCardGroup
                     layoutMaxWidth={'941px'}
                     filterByRating={reviewFilterSelect}
@@ -50,6 +57,32 @@ const StoreTemplate = () => {
                     gridColumns={gridLayout}
                     category=""
                 />
+            </Flex> */}
+            <Flex
+                width={'100%'}
+                flexDirection={{ base: 'column', md: 'row' }}
+                maxWidth={'1280px'}
+                gap="24px"
+                mx="auto" // Center the container horizontally
+            >
+                <SideMenu />
+                <MobileFilter />
+                <Flex
+                    justifyContent={'center'}
+                    alignItems={'center'}
+                    maxW={'941px'}
+                    gap={'24px'}
+                    wrap={'wrap'}
+                    width="100%"
+                    height="100%"
+                >
+                    <MobileCard />
+                    <MobileCard />
+                    <MobileCard />
+                    <MobileCard />
+                    <MobileCard />
+                    <MobileCard />
+                </Flex>
             </Flex>
         </Flex>
     );
