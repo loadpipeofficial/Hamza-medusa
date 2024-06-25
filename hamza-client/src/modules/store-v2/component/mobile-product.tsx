@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { Text, Box, Flex, Skeleton, Image } from '@chakra-ui/react';
+import {
+    Text,
+    Box,
+    Flex,
+    Skeleton,
+    Image as ChakraImage,
+} from '@chakra-ui/react';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import useWishlistStore from '@store/wishlist/wishlist-store';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
@@ -10,6 +16,8 @@ import { AiOutlineDollar } from 'react-icons/ai';
 import { addToCart } from '@modules/cart/actions';
 import Link from 'next/link';
 import { formatCryptoPrice } from '@lib/util/get-product-price';
+import USDC from '../../../../public/images/currencies/usdc-icon.svg';
+import Image from 'next/image';
 
 interface ProductCardProps {
     reviewCount?: number;
@@ -40,8 +48,6 @@ const MobileCard: React.FC<ProductCardProps> = ({
     productHandle,
     productId,
 }) => {
-    const [loadingBuy, setLoadingBuy] = useState(false);
-    const [loadingAddToCart, setLoadingAddToCard] = useState(false);
     const [imageLoaded, setImageLoaded] = useState(false);
     const { wishlist } = useWishlistStore();
     const { addWishlistItemMutation, removeWishlistItemMutation } =
@@ -66,7 +72,7 @@ const MobileCard: React.FC<ProductCardProps> = ({
                 onClick={() => console.log('hello')}
                 style={{ cursor: 'pointer' }}
             >
-                <Image
+                <ChakraImage
                     src={imageSrc}
                     alt={productName}
                     objectFit="cover"
@@ -78,7 +84,7 @@ const MobileCard: React.FC<ProductCardProps> = ({
             </Box>
 
             <Box
-                p="4"
+                p={{ base: '2', md: '4' }}
                 display={'flex'}
                 flexDirection={'column'}
                 height={{ base: '109px', md: '161px' }}
@@ -148,28 +154,53 @@ const MobileCard: React.FC<ProductCardProps> = ({
                 </Flex>
 
                 <Flex marginTop="auto" flexDirection={'column'}>
-                    <Flex alignItems="center">
+                    <Flex alignItems="center" mb={{ base: '2.5px', md: '0' }}>
                         <IoStar style={{ color: '#FEC84B' }} />
-                        <Text
-                            color="white"
-                            fontWeight="700"
-                            fontSize={{ base: '14px', md: '14px' }}
-                            ml="1"
-                        >
-                            {totalRating}
-                        </Text>
-                        <Text
-                            color="#555555"
-                            fontWeight="700"
-                            fontSize={{ base: '14px', md: '16px' }}
-                            ml="1"
-                        >
-                            ({reviewCount} reviews)
-                        </Text>
+                        {(reviewCount ?? 0) > 0 ? (
+                            <>
+                                <Text
+                                    color={'white'}
+                                    alignSelf={'center'}
+                                    fontWeight="700"
+                                    fontSize={{ base: '14px', md: '14px' }}
+                                    ml="1"
+                                >
+                                    {totalRating}
+                                </Text>
+                                <Text
+                                    alignSelf={'center'}
+                                    fontWeight="700"
+                                    fontSize={{ base: '14px', md: '16px' }}
+                                    color="#555555"
+                                    ml="1"
+                                >
+                                    ({reviewCount} reviews)
+                                </Text>
+                            </>
+                        ) : (
+                            <Text
+                                alignSelf={'center'}
+                                ml={{ base: '1.5', md: '2' }}
+                                fontSize={{ base: '14px', md: '16px' }}
+                                color={'white'}
+                            >
+                                no reviews yet
+                            </Text>
+                        )}
                     </Flex>
 
                     <Flex mt="auto" alignItems="center">
-                        <AiOutlineDollar color="#2775CA" />
+                        <Flex
+                            wrap={'nowrap'}
+                            width={{ base: '14px', md: '16px' }}
+                            height={{ base: '14px', md: '16px' }}
+                        >
+                            <Image
+                                src={require('../../../../public/images/currencies/usdc-icon.svg')}
+                                alt="usdc"
+                                style={{ width: '100%', height: '100%' }}
+                            />
+                        </Flex>
                         <Text
                             color="white"
                             ml="2"
@@ -178,15 +209,18 @@ const MobileCard: React.FC<ProductCardProps> = ({
                         >
                             {`${formatCryptoPrice(parseInt(productPrice?.toString() ?? '0'), currencyCode ?? 'usdc')} ${currencyCode?.toUpperCase()}`}
                         </Text>
-                        {/* <Text
-                        textDecoration={hasDiscount ? 'line-through' : 'none'}
-                        ml="2"
-                        color="#555555"
-                        fontWeight="700"
-                        fontSize="0.875rem"
-                    >
-                        {productPrice}
-                    </Text> */}
+                        <Text
+                            textDecoration={
+                                hasDiscount ? 'line-through' : 'none'
+                            }
+                            ml="2"
+                            color="#555555"
+                            fontWeight="700"
+                            display={{ base: 'none', md: 'none' }}
+                            fontSize={{ base: '14px', md: '12px' }}
+                        >
+                            {productPrice}
+                        </Text>
                     </Flex>
                 </Flex>
             </Box>
