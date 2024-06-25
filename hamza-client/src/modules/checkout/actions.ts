@@ -144,7 +144,7 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
     }
 
     redirect(
-        `/${process.env.FORCE_US_COUNTRY ? 'us' : formData.get('shipping_address.country_code')}/checkout?step=delivery`
+        `/${process.env.NEXT_PUBLIC_FORCE_US_COUNTRY ? 'us' : formData.get('shipping_address.country_code')}/checkout?step=delivery`
     );
 }
 
@@ -190,8 +190,9 @@ export async function placeOrder() {
     }
 
     if (cart?.type === 'order') {
-        const countryCode =
-            process.env.FORCE_US_COUNTRY ? 'us' : cart.data.shipping_address?.country_code?.toLowerCase();
+        const countryCode = process.env.NEXT_PUBLIC_FORCE_US_COUNTRY
+            ? 'us'
+            : cart.data.shipping_address?.country_code?.toLowerCase();
         cookies().set('_medusa_cart_id', '', { maxAge: -1 });
         redirect(`/${countryCode}/order/confirmed/${cart?.data.id}`);
     }
