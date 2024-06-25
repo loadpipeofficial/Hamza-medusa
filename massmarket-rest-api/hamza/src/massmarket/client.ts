@@ -5,6 +5,7 @@ import {
     createWalletClient,
     PrivateKeyAccount,
     bytesToHex,
+    keccak256,
     hexToBytes,
 } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
@@ -229,7 +230,6 @@ export class RelayClientWrapper {
         await this._client.connect();
         const stream = await this._client.createEventStream();
         for await (const event of stream) {
-            console.log(event);
             if (event.event.updateOrder?.itemsFinalized) {
                 return bytesToHex(event.event.updateOrder.orderId);
             }
@@ -242,9 +242,15 @@ export class RelayClientWrapper {
         await this._client.connect();
         const stream = await this._client.createEventStream();
         for await (const event of stream) {
-            console.log(event);
-            if (event.event.updateOrder?.itemsFinalized) {
-                return event.event.updateOrder?.itemsFinalized;
+            if (event.event?.updateOrder?.itemsFinalized) {
+                if (
+                    bytesToHex(
+                        event.event?.updateOrder?.itemsFinalized.orderHash
+                    ) == keccak256(hexToBytes(cartId))
+                ) {
+                    console.log(event.event?.updateOrder?.itemsFinalized);
+                    return event?.event.updateOrder?.itemsFinalized;
+                }
             }
         }
         return null;

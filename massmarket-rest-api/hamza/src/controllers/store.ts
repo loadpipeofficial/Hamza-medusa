@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { ICreateStoreInput, ICreateStoreOutput } from '../entity/index';
-import { RelayClientWrapper } from '../massmarket/client';
-import { serveRequest, ENDPOINT } from './utils';
+import { ICreateStoreInput, ICreateStoreOutput } from '../entity/index.js';
+import { RelayClientWrapper } from '../massmarket/client.js';
+import { serveRequest, ENDPOINT } from './utils.js';
 
 /*
 {

@@ -4,15 +4,15 @@ import {
     serveRequest,
     validateRequiredHexString,
     validateStoreIdAndKeycard,
-} from './utils';
+} from './utils.js';
 import {
     HexString,
     ICreateProductInput,
     ICreateProductOutput,
     IUpdateProductInput,
     IUpdateProductOutput,
-} from '../entity/index';
-import { RelayClientWrapper } from '../massmarket/client';
+} from '../entity/index.js';
+import { RelayClientWrapper } from '../massmarket/client.js';
 
 export const productsController = {
     //create product

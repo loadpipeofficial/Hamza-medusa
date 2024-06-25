@@ -42,7 +42,10 @@ export type CreateStoreOutput = {
 export type CheckoutOutput = {
     success: boolean;
     contractAddress: HexString;
-    orderId: HexString;
+    payeeAddress: HexString;
+    paymentId: HexString;
+    isPaymentEndpoint: boolean;
+    orderHash: HexString;
     amount: string;
     chainId: number;
     ttl: number;
@@ -196,13 +199,31 @@ export class MassMarketClient {
                 items,
             };
 
-            const response = await this.client.post('/api/checkout', body, {
-                headers: { 'Content-Type': 'application/json' },
-            });
+            if (process.env.FAKE_CHECKOUT) {
+                return {
+                    success: true,
+                    contractAddress:
+                        '0x3d9DbbD22E4903274171ED3e94F674Bb52bCF015',
+                    payeeAddress: '0x74b7284836f753101bd683c3843e95813b381f18',
+                    isPaymentEndpoint: true,
+                    paymentId:
+                        '0x97ca469adfbee1dae8a61f800dc630eaa30607956273e0b568d3ffe5684c5c8c',
+                    amount: '0x0000000000000000000000000000000000000000000000000000000000002904',
+                    orderHash:
+                        '0x32648674fb21af6d32bd931ec228a8fa82bffd2794cce0474f2744fc1cfda7a1',
+                    chainId: 11155111,
+                    ttl: 1719308448,
+                    currency: '0xbe9fe9b717c888a2b2ca0a6caa639afe369249c5',
+                };
+            } else {
+                const response = await this.client.post('/api/checkout', body, {
+                    headers: { 'Content-Type': 'application/json' },
+                });
 
-            console.log('Checking out');
-            console.log('response:', JSON.stringify(response.data));
-            return response.data;
+                console.log('Checking out');
+                console.log('response:', JSON.stringify(response.data));
+                return response.data;
+            }
         } catch (error) {
             console.error('Error checking out:', error.message);
             throw error;

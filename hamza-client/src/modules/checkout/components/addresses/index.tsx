@@ -33,7 +33,9 @@ const Addresses = ({
     const pathname = usePathname();
     const params = useParams();
 
-    const countryCode = process.env.FORCE_US_COUNTRY ? 'us' : params.countryCode as string;
+    const countryCode = process.env.NEXT_PUBLIC_FORCE_US_COUNTRY
+        ? 'us'
+        : (params.countryCode as string);
 
     const isOpen =
         (searchParams.get('step') && searchParams.get('step') === 'address') ||
