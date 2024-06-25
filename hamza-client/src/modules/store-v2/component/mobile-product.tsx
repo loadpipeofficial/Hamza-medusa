@@ -48,251 +48,132 @@ const MobileCard: React.FC<ProductCardProps> = ({
         useWishlistMutations();
     const { authData } = useCustomerAuthStore();
 
-    // const handleAddToCart = async () => {
-    //     setLoadingAddToCard(true);
-    //     await addToCart({
-    //         variantId: variantID ?? '',
-    //         quantity: 1,
-    //         countryCode: countryCode ?? '',
-    //         currencyCode: 'eth',
-    //     });
-    //     setLoadingAddToCard(false);
-    // };
-
-    // const handleBuyNow = async () => {
-    //     setLoadingBuy(true);
-    //     await addToCart({
-    //         variantId: variantID ?? '',
-    //         quantity: 1,
-    //         countryCode: countryCode ?? '',
-    //         currencyCode: 'eth',
-    //     });
-    //     setLoadingBuy(false);
-    // };
-
     return (
         <Box
-            flex={{ base: '1 0 45%', md: '1 0 30%' }}
-            maxWidth={{ base: '45%', md: '30%' }}
+            borderRadius="16px"
+            overflow="hidden"
+            width="100%"
+            backgroundColor="black"
         >
-            <Flex
-                minW="167px"
-                maxW="295px"
-                minH="243.73px"
-                maxH="399px"
-                width="100%"
-                wrap={'nowrap'}
-                height={{ base: '100%', sm: '167px', md: '399px' }} // Ensure the card occupies the full height
-                borderRadius="16px"
-                backgroundColor="black"
-                flexDirection={'column'}
+            <Box
+                height={{ base: '200px', md: '300px' }}
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                onClick={() => console.log('hello')}
+                style={{ cursor: 'pointer' }}
             >
-                {/* Header Image */}
-                <Box
-                    borderTopRadius={'16px'}
-                    onClick={() => console.log('hello')}
-                    height={{ base: '100%', sm: '134.73px', md: '238px' }}
-                    minH="134.73px"
-                    maxH="238px"
+                <Image
+                    src={imageSrc}
+                    alt={productName}
+                    objectFit="cover"
+                    height="100%"
                     width="100%"
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    style={{ cursor: 'pointer' }}
-                    backgroundColor={'white'}
-                >
-                    {/* <Image
-                        src={imageSrc}
-                        alt={productName}
-                        width="100%"
-                        height="100%"
-                        objectFit="cover"
-                        onLoad={() => setImageLoaded(true)}
-                        display={imageLoaded ? 'block' : 'none'}
-                    /> */}
-                </Box>
+                    onLoad={() => setImageLoaded(true)}
+                    display={imageLoaded ? 'block' : 'none'}
+                />
+            </Box>
 
-                {/* card body */}
-                <Flex
-                    padding={{ base: '0.5rem', md: '1rem' }}
-                    display={'flex'}
-                    flexDirection={'column'}
-                >
-                    <Flex flexDirection={'column'} flex="1">
-                        <Flex>
-                            <Text
-                                color={'white'}
-                                fontWeight="700"
-                                fontSize={{ base: '14px', md: '1.25rem' }}
-                                noOfLines={2}
-                            >
-                                {
-                                    'Mr Big Gains Mr Big Gains Mr Big Gains Mr Big Gains Mr Big Gains'
-                                }
-                            </Text>
-                            {/* wish list heart code */}
-
-                            {authData.status == 'authenticated' && (
-                                <Box
-                                    p="5px"
-                                    ml="0.7rem"
-                                    display={{ base: 'none', md: 'flex' }}
-                                >
-                                    <Flex
-                                        justifyContent="center"
-                                        alignItems="center"
-                                        width="40px"
-                                        height="40px"
-                                        borderRadius="full"
-                                        borderWidth="2px"
-                                        borderColor="#7B61FF"
-                                        cursor="pointer"
-                                        onClick={() => {
-                                            console.log('adding ', productId);
-                                            !wishlist.products.find(
-                                                (a) => a.id == productId
-                                            )
-                                                ? addWishlistItemMutation.mutate(
-                                                      {
-                                                          id: productId!,
-                                                          description: '',
-                                                          title: productName!,
-                                                          thumbnail: imageSrc!,
-                                                          handle: productHandle!,
-                                                      }
-                                                  )
-                                                : removeWishlistItemMutation.mutate(
-                                                      {
-                                                          id: productId!,
-                                                          description: '',
-                                                          title: productName!,
-                                                          thumbnail: imageSrc!,
-                                                          handle: productHandle!,
-                                                      }
-                                                  );
-                                        }}
-                                        sx={{
-                                            userSelect: 'none',
-                                        }}
-                                    >
-                                        <Flex alignSelf="center">
-                                            {!wishlist.products.find(
-                                                (a) => a.id == productId
-                                            ) ? (
-                                                <FaRegHeart
-                                                    color="#7B61FF"
-                                                    size={20}
-                                                />
-                                            ) : (
-                                                <FaHeart
-                                                    color="#7B61FF"
-                                                    size={20}
-                                                />
-                                            )}
-                                        </Flex>
-                                    </Flex>
-                                </Box>
-                            )}
-                        </Flex>
-
-                        {/* revew + currency */}
-                        <Box mt={{ base: '0.5rem', md: '2rem' }}>
+            <Box p="4">
+                <Flex justifyContent="space-between" alignItems="center">
+                    <Text
+                        color="white"
+                        fontWeight="700"
+                        fontSize={{ base: '14px', md: '1.25rem' }}
+                        noOfLines={2}
+                    >
+                        {productName}
+                    </Text>
+                    {authData.status == 'authenticated' && (
+                        <Box p="5px" display={{ base: 'none', md: 'flex' }}>
                             <Flex
-                                mb={{ base: '-5px', md: '2.5px' }}
-                                overflow={'hidden'}
-                                wrap={'nowrap'}
+                                justifyContent="center"
+                                alignItems="center"
+                                width="40px"
+                                height="40px"
+                                borderRadius="full"
+                                borderWidth="2px"
+                                borderColor="#7B61FF"
+                                cursor="pointer"
+                                onClick={() => {
+                                    console.log('adding ', productId);
+                                    !wishlist.products.find(
+                                        (a) => a.id == productId
+                                    )
+                                        ? addWishlistItemMutation.mutate({
+                                              id: productId!,
+                                              description: '',
+                                              title: productName!,
+                                              thumbnail: imageSrc!,
+                                              handle: productHandle!,
+                                          })
+                                        : removeWishlistItemMutation.mutate({
+                                              id: productId!,
+                                              description: '',
+                                              title: productName!,
+                                              thumbnail: imageSrc!,
+                                              handle: productHandle!,
+                                          });
+                                }}
+                                sx={{
+                                    userSelect: 'none',
+                                }}
                             >
-                                <Box
-                                    ml="2px"
-                                    fontSize={{ base: '18px', md: '18px' }}
-                                >
-                                    <IoStar
-                                        style={{
-                                            color: '#FEC84B',
-                                        }}
-                                    />
-                                </Box>
-                                {(reviewCount ?? 0) > 0 ? (
-                                    <>
-                                        <Text
-                                            color={'white'}
-                                            alignSelf={'center'}
-                                            fontWeight="700"
-                                            fontSize={{
-                                                base: '14px',
-                                                md: '14px',
-                                            }}
-                                            ml="1"
-                                        >
-                                            {totalRating}
-                                        </Text>
-                                        <Text
-                                            alignSelf={'center'}
-                                            fontWeight="700"
-                                            fontSize={{
-                                                base: '14px',
-                                                md: '16px',
-                                            }}
-                                            color="#555555"
-                                            ml="1"
-                                        >
-                                            ({reviewCount} reviews)
-                                        </Text>
-                                    </>
-                                ) : (
-                                    <Text
-                                        alignSelf={'center'}
-                                        ml="10px"
-                                        fontSize={{ base: '14px', md: '14px' }}
-                                        color={'white'}
-                                    >
-                                        {' '}
-                                        No Reviews Yet{' '}
-                                    </Text>
-                                )}
-                            </Flex>
-                            <Flex overflow={'hidden'} wrap={'nowrap'} flex="0">
-                                <Box
-                                    alignSelf={'center'}
-                                    fontSize={{ base: '18px', md: '24px' }}
-                                >
-                                    {/* <Image
-                                    src={currencyIcons['USDC']}
-                                    style={{ width: '16px', height: '16px' }}
-                                    alt="usdc"
-                                /> */}
-                                    <AiOutlineDollar color="#2775CA" />
-                                </Box>
-                                <Text
-                                    color={'white'}
-                                    ml="2"
-                                    fontWeight="700"
-                                    fontSize={{ base: '14px', md: '18px' }}
-                                    lineHeight="33.72px"
-                                >
-                                    {`${formatCryptoPrice(parseInt(productPrice?.toString() ?? '0'), currencyCode ?? 'usdc')} ${currencyCode?.toUpperCase()}`}
-                                </Text>
-                                <Text
-                                    textDecoration={
-                                        hasDiscount === true
-                                            ? 'line-through'
-                                            : 'none'
-                                    }
-                                    ml={{ base: '1', md: '2' }}
-                                    mb={{ base: '0', md: '1' }}
-                                    alignSelf={'center'}
-                                    color={'#555555'}
-                                    fontWeight="700"
-                                    fontSize="0.875rem"
-                                    lineHeight="17.64px"
-                                >
-                                    {productPrice}
-                                </Text>
+                                <Flex alignSelf="center">
+                                    {!wishlist.products.find(
+                                        (a) => a.id == productId
+                                    ) ? (
+                                        <FaRegHeart color="#7B61FF" size={20} />
+                                    ) : (
+                                        <FaHeart color="#7B61FF" size={20} />
+                                    )}
+                                </Flex>
                             </Flex>
                         </Box>
-                    </Flex>
+                    )}
                 </Flex>
-            </Flex>
+
+                <Flex mt="2" alignItems="center">
+                    <IoStar style={{ color: '#FEC84B' }} />
+                    <Text
+                        color="white"
+                        fontWeight="700"
+                        fontSize={{ base: '14px', md: '14px' }}
+                        ml="1"
+                    >
+                        {totalRating}
+                    </Text>
+                    <Text
+                        color="#555555"
+                        fontWeight="700"
+                        fontSize={{ base: '14px', md: '16px' }}
+                        ml="1"
+                    >
+                        ({reviewCount} reviews)
+                    </Text>
+                </Flex>
+
+                <Flex mt="2" alignItems="center">
+                    <AiOutlineDollar color="#2775CA" />
+                    <Text
+                        color="white"
+                        ml="2"
+                        fontWeight="700"
+                        fontSize={{ base: '14px', md: '18px' }}
+                    >
+                        {`${formatCryptoPrice(parseInt(productPrice?.toString() ?? '0'), currencyCode ?? 'usdc')} ${currencyCode?.toUpperCase()}`}
+                    </Text>
+                    <Text
+                        textDecoration={hasDiscount ? 'line-through' : 'none'}
+                        ml="2"
+                        color="#555555"
+                        fontWeight="700"
+                        fontSize="0.875rem"
+                    >
+                        {productPrice}
+                    </Text>
+                </Flex>
+            </Box>
         </Box>
     );
 };

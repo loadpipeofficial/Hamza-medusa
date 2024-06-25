@@ -2,12 +2,13 @@
 
 import React, { useEffect, useState } from 'react';
 import { Flex, Container, Box } from '@chakra-ui/react';
-import ProductCardGroup from '@modules/products/components/product-card-group';
+// import ProductCardGroup from '@modules/products/components/product-card-group';
 import SideMenu from './component/store-side-menu';
 import useStorePage from '@store/store-page/store-page';
 import useSideFilter from '@store/store-page/side-filter';
 import MobileFilter from './component/mobile-filter';
-import MobileCard from './component/mobile-product';
+import ProductCardGroup from '@modules/products/components/product-group-store';
+import StoreFilterDisplay from '@modules/store-v2/component/store-filter-display';
 
 const StoreTemplate = () => {
     const gridLayout = {
@@ -36,29 +37,29 @@ const StoreTemplate = () => {
     }, [reviewFilterSelect]);
 
     return (
-        <Flex
-            width={'100%'}
-            flexDirection={'column'}
-            justifyContent={'center'}
-            my="2rem"
-        >
-            {/* <Flex
+        <Flex width={'100%'} flexDirection={'column'} my="2rem">
+            <Flex
                 width={'100%'}
                 flexDirection={{ base: 'column', md: 'row' }}
                 maxWidth={'1280px'}
+                mx="auto"
             >
                 <SideMenu />
                 <MobileFilter />
-
                 <ProductCardGroup
-                    layoutMaxWidth={'941px'}
                     filterByRating={reviewFilterSelect}
                     vendorName={vendorName}
-                    gridColumns={gridLayout}
                     category=""
                 />
-            </Flex> */}
-            <Flex
+            </Flex>
+        </Flex>
+    );
+};
+
+export default StoreTemplate;
+
+{
+    /* <Flex
                 width={'100%'}
                 flexDirection={{ base: 'column', md: 'row' }}
                 maxWidth={'1280px'}
@@ -83,9 +84,5 @@ const StoreTemplate = () => {
                     <MobileCard />
                     <MobileCard />
                 </Flex>
-            </Flex>
-        </Flex>
-    );
-};
-
-export default StoreTemplate;
+            </Flex> */
+}

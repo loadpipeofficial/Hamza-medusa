@@ -10,8 +10,8 @@ const StoreFilterDisplay = () => {
     return (
         <Flex
             display={{ base: 'none', md: 'flex' }}
+            width={'100%'}
             flexDirection={'column'}
-            mb="2rem"
         >
             <Flex flexDirection={'column'} gap="1.5rem">
                 <Flex gap="10px">
