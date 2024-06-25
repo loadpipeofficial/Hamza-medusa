@@ -64,24 +64,27 @@ const MobileCard: React.FC<ProductCardProps> = ({
             maxHeight={'399px'}
             minHeight={'243.73px'}
         >
-            <Box
-                height={{ base: '134.73', md: '238px' }}
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                onClick={() => console.log('hello')}
-                style={{ cursor: 'pointer' }}
-            >
-                <ChakraImage
-                    src={imageSrc}
-                    alt={productName}
-                    objectFit="cover"
-                    height="100%"
-                    width="100%"
-                    onLoad={() => setImageLoaded(true)}
-                    display={imageLoaded ? 'block' : 'none'}
-                />
-            </Box>
+            <LocalizedClientLink href={`/products/${productHandle}`}>
+                <Box
+                    height={{ base: '134.73', md: '238px' }}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    onClick={() => console.log('hello')}
+                    style={{ cursor: 'pointer' }}
+                >
+                    {!imageLoaded && <Skeleton height="240px" width="100%" />}
+                    <ChakraImage
+                        src={imageSrc}
+                        alt={productName}
+                        objectFit="cover"
+                        height="100%"
+                        width="100%"
+                        onLoad={() => setImageLoaded(true)}
+                        display={imageLoaded ? 'block' : 'none'}
+                    />
+                </Box>
+            </LocalizedClientLink>
 
             <Box
                 p={{ base: '2', md: '4' }}
@@ -216,7 +219,7 @@ const MobileCard: React.FC<ProductCardProps> = ({
                             ml="2"
                             color="#555555"
                             fontWeight="700"
-                            display={{ base: 'none', md: 'none' }}
+                            display={{ base: 'none', md: 'block' }}
                             fontSize={{ base: '14px', md: '12px' }}
                         >
                             {productPrice}
