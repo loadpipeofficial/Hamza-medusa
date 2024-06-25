@@ -56,7 +56,7 @@ const MobileCard: React.FC<ProductCardProps> = ({
             backgroundColor="black"
         >
             <Box
-                height={{ base: '200px', md: '300px' }}
+                height={{ base: '134.73', md: '238px' }}
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
