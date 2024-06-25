@@ -122,6 +122,7 @@ const ProductCardGroup = ({
             <StoreFilterDisplay />
             <Flex
                 gap={'24px'}
+                // justifyContent={{ base: 'space-between', md: 'center' }}
                 flexBasis={{
                     base: 'calc(50% - 5px)',
                     md: 'calc(33.33% - 6.67px)',

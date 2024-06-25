@@ -8,7 +8,11 @@ import { FaGreaterThan } from 'react-icons/fa';
 const StoreFilterDisplay = () => {
     const { categorySelect } = useStorePage();
     return (
-        <Flex flexDirection={'column'} mb="2rem">
+        <Flex
+            display={{ base: 'none', md: 'flex' }}
+            flexDirection={'column'}
+            mb="2rem"
+        >
             <Flex flexDirection={'column'} gap="1.5rem">
                 <Flex gap="10px">
                     <Text color="White" fontSize={'18px'}>

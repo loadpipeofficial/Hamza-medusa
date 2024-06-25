@@ -6,6 +6,7 @@ import ProductCardGroup from '@modules/products/components/product-card-group';
 import SideMenu from './component/store-side-menu';
 import useStorePage from '@store/store-page/store-page';
 import useSideFilter from '@store/store-page/side-filter';
+import MobileFilter from './component/mobile-filter';
 
 const StoreTemplate = () => {
     const gridLayout = {
@@ -35,8 +36,13 @@ const StoreTemplate = () => {
 
     return (
         <Flex width={'100%'} justifyContent={'center'} my="2rem">
-            <Flex width={'100%'} maxWidth={'1280px'}>
+            <Flex
+                width={'100%'}
+                flexDirection={{ base: 'column', md: 'row' }}
+                maxWidth={'1280px'}
+            >
                 <SideMenu />
+                <MobileFilter />
                 <ProductCardGroup
                     layoutMaxWidth={'941px'}
                     filterByRating={reviewFilterSelect}
