@@ -243,7 +243,11 @@ export class RelayClientWrapper {
         const stream = await this._client.createEventStream();
         for await (const event of stream) {
             if (event.event.updateOrder?.itemsFinalized) {
-                if (bytesToHex(event.event.updateOrder?.itemsFinalized.orderHash) == keccak256(hexToBytes(cartId))) {
+                if (
+                    bytesToHex(
+                        event.event.updateOrder?.itemsFinalized.orderHash
+                    ) == keccak256(hexToBytes(cartId))
+                ) {
                     console.log(event.event.updateOrder?.itemsFinalized);
                     return event.event.updateOrder?.itemsFinalized;
                 }
