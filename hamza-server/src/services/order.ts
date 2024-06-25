@@ -5,22 +5,29 @@ import {
     OrderStatus,
     PaymentStatus,
     Logger,
+    IdempotencyKeyService,
     ProductVariant,
 } from '@medusajs/medusa';
 import OrderRepository from '@medusajs/medusa/dist/repositories/order';
 import PaymentRepository from '@medusajs/medusa/dist/repositories/payment';
 import { ProductVariantRepository } from '../repositories/product-variant';
 import StoreRepository from '../repositories/store';
-
+import { LineItemService } from '@medusajs/medusa';
 import { Order } from '../models/order';
 import { Payment } from '../models/payment';
 import { Lifetime } from 'awilix';
 import { In } from 'typeorm';
 
+type InjectDependencies = {
+    idempotencyKeyService: IdempotencyKeyService;
+    lineItemService: LineItemService;
+};
+
 export default class OrderService extends MedusaOrderService {
     static LIFE_TIME = Lifetime.SINGLETON; // default, but just to show how to change it
 
     protected orderRepository_: typeof OrderRepository;
+    protected lineItemService: LineItemService;
     protected paymentRepository_: typeof PaymentRepository;
     protected readonly storeRepository_: typeof StoreRepository;
     protected readonly productVariantRepository_: typeof ProductVariantRepository;
@@ -285,35 +292,88 @@ export default class OrderService extends MedusaOrderService {
         });
     }
 
-    async listCustomerOrders(customerId: string): Promise<Order[]> {
+    async listCustomerOrders(
+        customerId: string
+    ): Promise<{ orders: any[]; uniqueCartIds: string[]; cartCount: number }> {
         const orders = await this.orderRepository_.find({
             where: { customer_id: customerId },
-            relations: ['cart.items', 'cart.items.variant.product'],
-            // relations: ['store.owner', 'cart.items'],
-        });
-        // Order Table is showing repeated id's so lets remove the duplicates
-        // Use a Set to track unique cart_ids to avoid duplicates
-        const cartSet = new Set();
-        const uniqueOrders = orders.filter((order) => {
-            if (!cartSet.has(order.cart_id)) {
-                cartSet.add(order.cart_id);
-                return true;
-            }
-            return false;
+            select: ['id', 'cart_id'], // Select id and cart_id
+            relations: ['cart.items', 'cart', 'cart.items.variant.product'],
         });
 
-        return uniqueOrders;
+        console.log(`Orders Line item? ${JSON.stringify(orders)}`);
+
+        // Create a map to group orders by cart_id
+        const groupedOrders = orders.reduce((acc, order) => {
+            const cartId = order.cart_id;
+            if (!acc[cartId]) {
+                acc[cartId] = {
+                    cart_id: cartId,
+                    order_ids: new Set(),
+                    items: {},
+                };
+            }
+
+            acc[cartId].order_ids.add(order.id); // Add order ID to the set
+
+            order.cart.items.forEach((item) => {
+                const itemId = item.id;
+                if (!acc[cartId].items[itemId]) {
+                    acc[cartId].items[itemId] = {
+                        ...item,
+                        order_ids: new Set(),
+                    };
+                }
+
+                acc[cartId].items[itemId].order_ids.add(order.id);
+            });
+
+            return acc;
+        }, {});
+
+        const result = Object.values(groupedOrders).map((group: any) => {
+            return {
+                cart_id: group.cart_id,
+                order_ids: Array.from(group.order_ids), // Include order_ids in the result
+                items: Object.values(group.items).map((item: any) => ({
+                    ...item,
+                    order_ids: Array.from(item.order_ids),
+                })),
+            };
+        });
+
+        const uniqueCartIds = Object.keys(groupedOrders);
+        const cartCount = uniqueCartIds.length;
+
+        return {
+            orders: result,
+            uniqueCartIds,
+            cartCount,
+        };
     }
 
     async orderDetails(cartId: string) {
         const orderHandle = await this.orderRepository_.findOne({
             where: { cart_id: cartId },
-            relations: ['cart.items', 'cart.items.variant.product'],
+            relations: ['cart.items', 'cart.items.variant.product', 'cart'],
         });
         let product_handles = [];
         orderHandle.cart.items.forEach((item) => {
             product_handles.push(item.variant.product.handle);
         });
         return product_handles;
+    }
+
+    // Ok now lets list all orders via lineItemService and return when the relation to cart_id matches..
+    async listCollection(cartId: string) {
+        try {
+            const lineItems = await this.lineItemService.list({
+                cart_id: cartId,
+            });
+            return lineItems;
+        } catch (e) {
+            this.logger.error('Error retrieving order', e);
+            throw new Error('Failed to retrieve order');
+        }
     }
 }
