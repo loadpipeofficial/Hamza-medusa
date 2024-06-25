@@ -80,6 +80,10 @@ const Summary: React.FC<{ cart_id: string }> = ({ cart_id }) => {
                         <h2 className="text-xl font-bold">{product.title}</h2>
                         <p className="mt-2">{product.description}</p>
                     </div>
+                    <span className="pr-2">
+                        {new Date(product.created_at).toDateString()}
+                    </span>
+                    <span className="pr-2">store_id: {product.store_id}</span>
                     <LocalizedClientLink href={`/products/${product.handle}`}>
                         <Thumbnail
                             thumbnail={product.thumbnail}
