@@ -17,6 +17,8 @@ import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import axios from 'axios';
 import useWishlistStore from '@store/wishlist/wishlist-store';
 import { formatCryptoPrice } from '@lib/util/get-product-price';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 interface ProductCardProps {
     variantID: string;
     countryCode: string;
@@ -61,24 +63,25 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
     const { wishlist } = useWishlistStore();
 
     const [isWhitelisted, setIsWhitelisted] = useState(false);
+    const router = useRouter();
 
     const toggleWishlist = async () => {
         // console.log('toggle wishlist-dropdown item', product);
         wishlist.products.find((a) => a.id == productId)
             ? removeWishlistItemMutation.mutate({
-                id: productId!,
-                description: '',
-                handle: productHandle,
-                thumbnail: imageSrc,
-                title: productName,
-            })
+                  id: productId!,
+                  description: '',
+                  handle: productHandle,
+                  thumbnail: imageSrc,
+                  title: productName,
+              })
             : addWishlistItemMutation.mutate({
-                id: productId!,
-                description: '',
-                handle: productHandle,
-                thumbnail: imageSrc,
-                title: productName,
-            });
+                  id: productId!,
+                  description: '',
+                  handle: productHandle,
+                  thumbnail: imageSrc,
+                  title: productName,
+              });
     };
 
     const handleAddToCart = async () => {
@@ -106,7 +109,7 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
     const whitelistedProductHandler = async () => {
         const whitelistedProduct =
             whitelist_config.is_whitelisted &&
-                whitelist_config.whitelisted_stores.includes(storeId)
+            whitelist_config.whitelisted_stores.includes(storeId)
                 ? true
                 : false;
 
@@ -268,23 +271,52 @@ const ProductCard: React.FC<ProductCardProps & { productId?: string }> = ({
                             py={2}
                         >
                             <CartButton
-                                handleBuyNow={() => handleAddToCart()}
+                                handleBuyNow={() => {
+                                    if (inventory == 0 && !isWhitelisted) {
+                                        toast.error('Out of Stock');
+                                        return;
+                                    }
+                                    if (inventory == 0 && isWhitelisted) {
+                                        handleAddToCart();
+                                        return;
+                                    }
+                                    if (inventory > 0) {
+                                        handleAddToCart();
+                                        return;
+                                    }
+                                }}
                                 loader={loadingAddToCart}
                                 styles={'w-full'}
                                 outOfStock={inventory == 0 && !isWhitelisted}
-                                title={'Add to Cart'}
+                                title={
+                                    inventory == 0 && !isWhitelisted
+                                        ? 'Out of Stock'
+                                        : 'Add to Cart'
+                                }
                             />
-                            <LocalizedClientLink href="/checkout?step=address">
-                                <BuyButton
-                                    handleBuyNow={() => handleBuyNow()}
-                                    loader={loadingBuy}
-                                    styles={'w-full'}
-                                    outOfStock={
-                                        inventory == 0 && !isWhitelisted
+
+                            <BuyButton
+                                handleBuyNow={() => {
+                                    if (inventory == 0 && !isWhitelisted) {
+                                        toast.error('Out of Stock');
+                                        return;
                                     }
-                                    title="Buy Now"
-                                />
-                            </LocalizedClientLink>
+                                    if (inventory == 0 && isWhitelisted) {
+                                        handleBuyNow();
+                                        router.push('/checkout?step=address');
+                                        return;
+                                    }
+                                    if (inventory > 0) {
+                                        handleBuyNow();
+                                        router.push('/checkout?step=address');
+                                        return;
+                                    }
+                                }}
+                                loader={loadingBuy}
+                                styles={'w-full'}
+                                outOfStock={inventory == 0 && !isWhitelisted}
+                                title="Buy Now"
+                            />
                         </Flex>
                     </Box>
                 </Box>

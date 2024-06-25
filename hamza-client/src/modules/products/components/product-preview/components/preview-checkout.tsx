@@ -15,7 +15,7 @@ import useProductPreview from '@store/product-preview/product-preview';
 import CurrencyButtonPreview from './currency-buttons';
 import QuantityButton from './quantity-button';
 import { addToCart } from '@modules/cart/actions';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import ReviewStar from '../../../../../../public/images/products/review-star.svg';
 import Image from 'next/image';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
@@ -23,6 +23,8 @@ import Link from 'next/link';
 import { Variant } from 'types/medusa';
 import { formatCryptoPrice } from '@lib/util/get-product-price';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const PreviewCheckout = () => {
     const currencies: { [key: string]: 'ETH' | 'USDC' | 'USDT' } = {
@@ -40,9 +42,13 @@ const PreviewCheckout = () => {
     const [colors, setColors] = useState<string[]>([]);
     const [selectedColor, setSelectedColor] = useState('');
     const [price, setSelectedPrice] = useState('');
+    const [isWhitelisted, setIsWhitelisted] = useState(false);
 
     const { productData, variantId, quantity } = useProductPreview();
     const { preferred_currency_code } = useCustomerAuthStore();
+    const { whitelist_config, setWhitelistConfig, authData } =
+        useCustomerAuthStore();
+    const router = useRouter();
 
     const getUniqueOptions = (
         variants: Variant[],
@@ -75,6 +81,53 @@ const PreviewCheckout = () => {
             currencyCode: 'eth',
         });
     };
+
+    const whitelistedProductHandler = async () => {
+        let res = await axios.get(
+            `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/custom/product/get-store?product_id=${productData.id}`
+        );
+        let data = res.data;
+        console.log(data);
+
+        if (data.status == true) {
+            console.log('white list config ', whitelist_config);
+            const whitelistedProduct =
+                whitelist_config.is_whitelisted &&
+                whitelist_config.whitelisted_stores.includes(data.data)
+                    ? true
+                    : false;
+
+            console.log('white listed product ', whitelistedProduct);
+
+            setIsWhitelisted(whitelistedProduct);
+        }
+        return;
+    };
+
+    const inStock =
+        productData &&
+        productData.variants &&
+        productData.variants[0] &&
+        productData.variants[0].inventory_quantity > 0
+            ? true
+            : false;
+
+    useEffect(() => {
+        if (
+            authData.status == 'authenticated' &&
+            productData &&
+            productData.variants &&
+            productData.variants[0] &&
+            productData.variants[0].allow_backorder
+        ) {
+            console.log('running whitelist product handler');
+            whitelistedProductHandler();
+        }
+    }, [authData.status, productData]);
+
+    useEffect(() => {
+        console.log(inStock, isWhitelisted);
+    }, [inStock, isWhitelisted]);
 
     return (
         <Flex
@@ -320,24 +373,53 @@ const PreviewCheckout = () => {
 
                 <QuantityButton />
 
-                <Link
-                    style={{ width: '100%', marginTop: '5px' }}
-                    href="/checkout?step=address"
+                <Button
+                    onClick={() => {
+                        if (!inStock && isWhitelisted) {
+                            handleAddToCart();
+                            router.push('/checkout?step=address');
+
+                            return;
+                        }
+                        if (inStock) {
+                            handleAddToCart();
+                            router.push('/checkout?step=address');
+
+                            return;
+                        }
+                        if (!inStock && !isWhitelisted) {
+                            toast.error('Out of stock');
+                        }
+                    }}
+                    borderRadius={'56px'}
+                    height={{ base: '40px', md: '75px' }}
+                    width="100%"
+                    backgroundColor={'primary.yellow.900'}
+                    fontSize={{ base: '12px', md: '18px' }}
                 >
-                    <Button
-                        onClick={() => handleAddToCart()}
-                        borderRadius={'56px'}
-                        height={{ base: '40px', md: '75px' }}
-                        width="100%"
-                        backgroundColor={'primary.yellow.900'}
-                        fontSize={{ base: '12px', md: '18px' }}
-                    >
-                        Buy Now
-                    </Button>
-                </Link>
+                    Buy Now
+                </Button>
+                {!inStock && isWhitelisted && (
+                    <span className="text-xs text-white px-4 py-2">
+                        You can buy it as you are whitelisted customer
+                    </span>
+                )}
 
                 <Button
-                    onClick={() => handleAddToCart()}
+                    disabled={!inStock && !isWhitelisted}
+                    onClick={() => {
+                        if (!inStock && isWhitelisted) {
+                            handleAddToCart();
+                            return;
+                        }
+                        if (inStock) {
+                            handleAddToCart();
+                            return;
+                        }
+                        if (!inStock && !isWhitelisted) {
+                            toast.error('Out of stock');
+                        }
+                    }}
                     borderRadius={'56px'}
                     height={{ base: '40px', md: '75px' }}
                     borderWidth={'1px'}
@@ -352,8 +434,18 @@ const PreviewCheckout = () => {
                         borderColor: 'white',
                     }}
                 >
-                    Add To Cart
+                    {!inStock && isWhitelisted
+                        ? 'Add to cart'
+                        : inStock
+                          ? 'Add to Cart'
+                          : 'Out of Stock'}
                 </Button>
+                {!inStock && isWhitelisted && (
+                    <span className="text-xs text-white px-4 py-2">
+                        You can add it as you are whitelisted customer
+                    </span>
+                )}
+
                 <Divider
                     color="#555555"
                     display={{ base: 'block', md: 'none' }}
