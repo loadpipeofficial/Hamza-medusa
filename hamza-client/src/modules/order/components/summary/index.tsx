@@ -27,6 +27,7 @@ interface Product {
     description: string;
     handle: string;
     is_giftcard: boolean;
+    store_name: string;
     order_id: string;
     status: string;
     thumbnail: string;
@@ -86,6 +87,9 @@ const Summary: React.FC<{ cart_id: string }> = ({ cart_id }) => {
                     </span>
                     <span className="pr-2">store_id: {product.store_id}</span>
                     <span className="pr-2">order_id: {product.order_id}</span>
+                    <span className="pr-2">
+                        store_name: {product.store_name}
+                    </span>
 
                     <LocalizedClientLink href={`/products/${product.handle}`}>
                         <Thumbnail
