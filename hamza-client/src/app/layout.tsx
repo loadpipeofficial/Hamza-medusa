@@ -9,6 +9,7 @@ import MedusaProvider from '@/components/providers/medusa/medusa-provider'; // I
 import { RainbowWrapper } from '@/components/providers/rainbowkit/rainbow-provider';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import theme from '../styles/chakra-theme';
+import { Toaster } from 'react-hot-toast';
 // TODO: Refactor using scaffold-eth-2 for proper layout.
 
 // export const metadata: Metadata = {
@@ -31,6 +32,9 @@ export default function RootLayout(props: { children: React.ReactNode }) {
                             </ChakraProvider>
                         </RainbowWrapper>
                     </MedusaProvider>
+                    <div>
+                        <Toaster position="top-right" />
+                    </div>
                 </div>
             </body>
         </html>
