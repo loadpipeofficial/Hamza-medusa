@@ -9,6 +9,7 @@ import OnboardingCta from '@modules/order/components/onboarding-cta';
 import OrderDetails from '@modules/order/components/order-details';
 import ShippingDetails from '@modules/order/components/shipping-details';
 import PaymentDetails from '@modules/order/components/payment-details';
+import Summary from '@modules/order/components/summary';
 
 type OrderCompletedTemplateProps = {
     order: Order;
@@ -16,7 +17,6 @@ type OrderCompletedTemplateProps = {
 
 //TODO: replace the following back in the template, when working
 /*
-
           <Items items={line-item.items} region={line-item.region} />
           <CartTotals data={line-item} />
           <ShippingDetails line-item={line-item} />
@@ -26,8 +26,6 @@ export default function OrderCompletedTemplate({
     order,
 }: OrderCompletedTemplateProps) {
     const isOnboarding = cookies().get('_medusa_onboarding')?.value === 'true';
-
-    console.log(`Order Completed Template: ${JSON.stringify(order)}`);
 
     return (
         <div className="py-6 min-h-[calc(100vh-64px)]">
@@ -47,6 +45,7 @@ export default function OrderCompletedTemplate({
                         className="flex flex-row text-3xl-regular"
                     >
                         Summary
+                        <Summary cart_id={order.cart_id} />
                     </Heading>
                     <PaymentDetails order={order} />
                     <Help />
