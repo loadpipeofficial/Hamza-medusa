@@ -6,7 +6,7 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     const orderService: OrderService = req.scope.resolve('orderService');
     const logger: Logger = req.scope.resolve('logger');
 
-    const { customer_id } = readRequestBody(req.query, ['customer_id']);
+    const { customer_id } = readRequestBody(req.body, ['customer_id']);
 
     try {
         const order = await orderService.listCustomerOrders(customer_id);
