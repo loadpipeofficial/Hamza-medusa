@@ -104,7 +104,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                     }
                 );
                 console.log(
-                    `fetching all data in new style ${data.order.orders}`
+                    `fetching all data in new style ${JSON.stringify(data.order.orders)}`
                 );
                 setCustomerOrder(data.order.orders);
             } catch (e) {
@@ -238,13 +238,14 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                               return (
                                   <div key={item.id}>
                                       item: {item.id}
+                                      order_id? {item.order_ids[0]}
                                       <OrderCard
                                           key={item.id}
                                           order={item}
                                           handle={handle} // Pass the handle here
                                       />
                                       <LocalizedClientLink
-                                          href={`/account/orders/details/${orderGroup.cart_id}`}
+                                          href={`/account/orders/details/${item.order_ids[0]}`}
                                           passHref
                                       >
                                           <Button colorScheme="blue">

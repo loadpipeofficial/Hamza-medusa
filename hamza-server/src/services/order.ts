@@ -297,8 +297,8 @@ export default class OrderService extends MedusaOrderService {
     ): Promise<{ orders: any[]; uniqueCartIds: string[]; cartCount: number }> {
         const orders = await this.orderRepository_.find({
             where: { customer_id: customerId },
-            relations: ['cart.items'],
-            // relations: ['store.owner', 'cart.items'],
+            select: ['id', 'cart_id'], // Select id and cart_id
+            relations: ['cart.items', 'cart', 'cart.items.variant.product'],
         });
 
         // Create a map to group orders by cart_id
@@ -307,21 +307,34 @@ export default class OrderService extends MedusaOrderService {
             if (!acc[cartId]) {
                 acc[cartId] = {
                     cart_id: cartId,
-                    items: new Set(),
+                    items: {},
                 };
             }
-            order.cart.items.forEach((item) =>
-                acc[cartId].items.add(JSON.stringify(item))
-            );
+
+            order.cart.items.forEach((item) => {
+                const itemId = item.id;
+                if (!acc[cartId].items[itemId]) {
+                    acc[cartId].items[itemId] = {
+                        ...item,
+                        quantity: 0,
+                        order_ids: new Set(),
+                    };
+                }
+
+                acc[cartId].items[itemId].quantity += item.quantity;
+                acc[cartId].items[itemId].order_ids.add(order.id);
+            });
+
             return acc;
         }, {});
 
         const result = Object.values(groupedOrders).map((group: any) => {
             return {
                 cart_id: group.cart_id,
-                items: Array.from(group.items).map((item: any) =>
-                    JSON.parse(item)
-                ),
+                items: Object.values(group.items).map((item: any) => ({
+                    ...item,
+                    order_ids: Array.from(item.order_ids),
+                })),
             };
         });
 

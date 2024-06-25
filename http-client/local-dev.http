@@ -330,7 +330,7 @@ Content-Type: application/json
   "order_id": "order_01J0N1CPD866R0TF9RVDZFZ125"
 }
 
-### Get Specific Customers All Orders
+### Get Specific Customers All Orders METHOD: listCustomerOrders() in order.ts
 POST http://localhost:9000/custom/order/customer-orders
 Content-Type: application/json
 
