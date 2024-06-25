@@ -1,14 +1,13 @@
 'use client';
 
 import React from 'react';
-
 import { Box, Skeleton, SkeletonText, Grid, GridItem } from '@chakra-ui/react';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { formatCryptoPrice } from '@lib/util/get-product-price';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import StoreFilterDisplay from '@modules/store-v2/component/store-filter-display';
-import MobileCard from '@modules/store-v2/component/mobile-product';
+import ProductCardStore from '@modules/store-v2/component/product-card';
 
 type Props = {
     vendorName: string;
@@ -132,7 +131,7 @@ const ProductCardGroup = ({ vendorName, filterByRating, category }: Props) => {
                           const variantID = product.variants[0].id;
                           return (
                               <GridItem key={index} w="100%">
-                                  <MobileCard
+                                  <ProductCardStore
                                       productHandle={products[index].handle}
                                       variantID={variantID}
                                       reviewCount={reviewCounter}

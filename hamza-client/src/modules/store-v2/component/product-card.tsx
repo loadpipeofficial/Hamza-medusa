@@ -34,7 +34,7 @@ interface ProductCardProps {
     productId?: string;
 }
 
-const MobileCard: React.FC<ProductCardProps> = ({
+const ProductCardStore: React.FC<ProductCardProps> = ({
     variantID,
     countryCode,
     productName,
@@ -231,4 +231,4 @@ const MobileCard: React.FC<ProductCardProps> = ({
     );
 };
 
-export default MobileCard;
+export default ProductCardStore;
