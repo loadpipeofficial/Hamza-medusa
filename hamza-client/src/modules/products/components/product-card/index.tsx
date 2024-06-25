@@ -113,6 +113,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     />{' '}
                 </Box>
             </LocalizedClientLink>
+
+            {/* card body */}
             <Flex
                 padding={{ base: '0.5rem', md: '1rem' }}
                 display={'flex'}
@@ -131,7 +133,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
                         {/* wish list heart code */}
 
                         {authData.status == 'authenticated' && (
-                            <Box p="5px" ml="auto">
+                            <Box
+                                p="5px"
+                                ml="auto"
+                                display={{ base: 'none', md: 'flex' }}
+                            >
                                 <Flex
                                     justifyContent="center"
                                     alignItems="center"
@@ -187,7 +193,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
                         )}
                     </Flex>
 
-                    <Box marginTop="1rem" alignSelf={'bottom'}>
+                    {/* revew + currency */}
+                    <Box marginTop={{ base: '1rem', md: '0' }}>
                         <Flex>
                             <Box fontSize={{ base: '18px', md: '24px' }}>
                                 <IoStar
@@ -221,7 +228,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 <Text
                                     alignSelf={'center'}
                                     ml="5px"
-                                    fontSize={{ base: '14px', md: '16px' }}
+                                    fontSize={{ base: '14px', md: '14px' }}
                                     color={'white'}
                                 >
                                     {' '}
