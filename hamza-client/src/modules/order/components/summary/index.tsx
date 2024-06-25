@@ -27,6 +27,7 @@ interface Product {
     description: string;
     handle: string;
     is_giftcard: boolean;
+    order_id: string;
     status: string;
     thumbnail: string;
     weight: number;
@@ -84,6 +85,8 @@ const Summary: React.FC<{ cart_id: string }> = ({ cart_id }) => {
                         {new Date(product.created_at).toDateString()}
                     </span>
                     <span className="pr-2">store_id: {product.store_id}</span>
+                    <span className="pr-2">order_id: {product.order_id}</span>
+
                     <LocalizedClientLink href={`/products/${product.handle}`}>
                         <Thumbnail
                             thumbnail={product.thumbnail}

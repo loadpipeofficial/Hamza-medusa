@@ -299,16 +299,16 @@ export default class OrderService extends MedusaOrderService {
             relations: ['cart.items.variant.product'],
         });
         console.log(orders);
-        const productMap = new Map();
+        const products = [];
+
         orders.forEach((order) => {
             order.cart.items.forEach((item) => {
-                const product = item.variant.product;
-                productMap.set(product.id, product); // Use product ID as key
+                const product = { ...item.variant.product, order_id: order.id }; // Clone the product object and add order_id
+                products.push(product);
             });
         });
 
-        // Convert the map values to an array of products
-        return Array.from(productMap.values());
+        return products;
     }
 
     async listCustomerOrders(
