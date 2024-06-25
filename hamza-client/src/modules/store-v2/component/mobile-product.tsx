@@ -54,6 +54,8 @@ const MobileCard: React.FC<ProductCardProps> = ({
             overflow="hidden"
             width="100%"
             backgroundColor="black"
+            maxHeight={'399px'}
+            minHeight={'243.73px'}
         >
             <Box
                 height={{ base: '134.73', md: '238px' }}
@@ -163,7 +165,7 @@ const MobileCard: React.FC<ProductCardProps> = ({
                     >
                         {`${formatCryptoPrice(parseInt(productPrice?.toString() ?? '0'), currencyCode ?? 'usdc')} ${currencyCode?.toUpperCase()}`}
                     </Text>
-                    <Text
+                    {/* <Text
                         textDecoration={hasDiscount ? 'line-through' : 'none'}
                         ml="2"
                         color="#555555"
@@ -171,7 +173,7 @@ const MobileCard: React.FC<ProductCardProps> = ({
                         fontSize="0.875rem"
                     >
                         {productPrice}
-                    </Text>
+                    </Text> */}
                 </Flex>
             </Box>
         </Box>

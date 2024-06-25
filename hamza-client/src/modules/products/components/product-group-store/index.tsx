@@ -104,7 +104,7 @@ const ProductCardGroup = ({ vendorName, filterByRating, category }: Props) => {
                 mt="2rem"
                 templateColumns={{
                     base: 'repeat(2, 1fr)',
-                    md: 'repeat(3, 1fr)',
+                    lg: 'repeat(3, 1fr)',
                 }}
                 gap={{ base: 4, md: 6 }}
             >
