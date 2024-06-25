@@ -18,6 +18,7 @@ type Order = {
     display_id: string;
     created_at: string;
     details: OrderDetails;
+    quantity: string;
     paid_total: number;
     currency_code: string;
     unit_price: number;
