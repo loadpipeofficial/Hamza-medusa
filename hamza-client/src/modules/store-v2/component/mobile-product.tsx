@@ -6,8 +6,10 @@ import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
 import { IoStar } from 'react-icons/io5';
 import { FaRegHeart, FaHeart } from 'react-icons/fa6';
+import { AiOutlineDollar } from 'react-icons/ai';
 import { addToCart } from '@modules/cart/actions';
 import Link from 'next/link';
+import { formatCryptoPrice } from '@lib/util/get-product-price';
 
 interface ProductCardProps {
     reviewCount?: number;
@@ -90,6 +92,8 @@ const MobileCard: React.FC<ProductCardProps> = ({
                     borderTopRadius={'16px'}
                     onClick={() => console.log('hello')}
                     height={{ base: '100%', sm: '134.73px', md: '238px' }}
+                    minH="134.73px"
+                    maxH="238px"
                     width="100%"
                     display="flex"
                     justifyContent="center"
@@ -97,7 +101,7 @@ const MobileCard: React.FC<ProductCardProps> = ({
                     style={{ cursor: 'pointer' }}
                     backgroundColor={'white'}
                 >
-                    <Image
+                    {/* <Image
                         src={imageSrc}
                         alt={productName}
                         width="100%"
@@ -105,7 +109,7 @@ const MobileCard: React.FC<ProductCardProps> = ({
                         objectFit="cover"
                         onLoad={() => setImageLoaded(true)}
                         display={imageLoaded ? 'block' : 'none'}
-                    />
+                    /> */}
                 </Box>
 
                 {/* card body */}
@@ -114,78 +118,178 @@ const MobileCard: React.FC<ProductCardProps> = ({
                     display={'flex'}
                     flexDirection={'column'}
                 >
-                    <Flex mb={{ base: '0', md: '1' }}>
-                        <Text
-                            color={'white'}
-                            fontWeight="700"
-                            fontSize={{ base: '14px', md: '1.25rem' }}
-                            noOfLines={2}
-                        >
-                            {
-                                'Mr Big Gains Mr Big Gains Mr Big Gains Mr Big Gains Mr Big Gains'
-                            }
-                        </Text>
-                        {/* wish list heart code */}
-
-                        {authData.status == 'authenticated' && (
-                            <Box
-                                p="5px"
-                                ml="0.7rem"
-                                display={{ base: 'none', md: 'flex' }}
+                    <Flex flexDirection={'column'} flex="1">
+                        <Flex>
+                            <Text
+                                color={'white'}
+                                fontWeight="700"
+                                fontSize={{ base: '14px', md: '1.25rem' }}
+                                noOfLines={2}
                             >
-                                <Flex
-                                    justifyContent="center"
-                                    alignItems="center"
-                                    width="40px"
-                                    height="40px"
-                                    borderRadius="full"
-                                    borderWidth="2px"
-                                    borderColor="#7B61FF"
-                                    cursor="pointer"
-                                    onClick={() => {
-                                        console.log('adding ', productId);
-                                        !wishlist.products.find(
-                                            (a) => a.id == productId
-                                        )
-                                            ? addWishlistItemMutation.mutate({
-                                                  id: productId!,
-                                                  description: '',
-                                                  title: productName!,
-                                                  thumbnail: imageSrc!,
-                                                  handle: productHandle!,
-                                              })
-                                            : removeWishlistItemMutation.mutate(
-                                                  {
-                                                      id: productId!,
-                                                      description: '',
-                                                      title: productName!,
-                                                      thumbnail: imageSrc!,
-                                                      handle: productHandle!,
-                                                  }
-                                              );
-                                    }}
-                                    sx={{
-                                        userSelect: 'none',
-                                    }}
+                                {
+                                    'Mr Big Gains Mr Big Gains Mr Big Gains Mr Big Gains Mr Big Gains'
+                                }
+                            </Text>
+                            {/* wish list heart code */}
+
+                            {authData.status == 'authenticated' && (
+                                <Box
+                                    p="5px"
+                                    ml="0.7rem"
+                                    display={{ base: 'none', md: 'flex' }}
                                 >
-                                    <Flex alignSelf="center">
-                                        {!wishlist.products.find(
-                                            (a) => a.id == productId
-                                        ) ? (
-                                            <FaRegHeart
-                                                color="#7B61FF"
-                                                size={20}
-                                            />
-                                        ) : (
-                                            <FaHeart
-                                                color="#7B61FF"
-                                                size={20}
-                                            />
-                                        )}
+                                    <Flex
+                                        justifyContent="center"
+                                        alignItems="center"
+                                        width="40px"
+                                        height="40px"
+                                        borderRadius="full"
+                                        borderWidth="2px"
+                                        borderColor="#7B61FF"
+                                        cursor="pointer"
+                                        onClick={() => {
+                                            console.log('adding ', productId);
+                                            !wishlist.products.find(
+                                                (a) => a.id == productId
+                                            )
+                                                ? addWishlistItemMutation.mutate(
+                                                      {
+                                                          id: productId!,
+                                                          description: '',
+                                                          title: productName!,
+                                                          thumbnail: imageSrc!,
+                                                          handle: productHandle!,
+                                                      }
+                                                  )
+                                                : removeWishlistItemMutation.mutate(
+                                                      {
+                                                          id: productId!,
+                                                          description: '',
+                                                          title: productName!,
+                                                          thumbnail: imageSrc!,
+                                                          handle: productHandle!,
+                                                      }
+                                                  );
+                                        }}
+                                        sx={{
+                                            userSelect: 'none',
+                                        }}
+                                    >
+                                        <Flex alignSelf="center">
+                                            {!wishlist.products.find(
+                                                (a) => a.id == productId
+                                            ) ? (
+                                                <FaRegHeart
+                                                    color="#7B61FF"
+                                                    size={20}
+                                                />
+                                            ) : (
+                                                <FaHeart
+                                                    color="#7B61FF"
+                                                    size={20}
+                                                />
+                                            )}
+                                        </Flex>
                                     </Flex>
-                                </Flex>
-                            </Box>
-                        )}
+                                </Box>
+                            )}
+                        </Flex>
+
+                        {/* revew + currency */}
+                        <Box mt={{ base: '0.5rem', md: '2rem' }}>
+                            <Flex
+                                mb={{ base: '-5px', md: '2.5px' }}
+                                overflow={'hidden'}
+                                wrap={'nowrap'}
+                            >
+                                <Box
+                                    ml="2px"
+                                    fontSize={{ base: '18px', md: '18px' }}
+                                >
+                                    <IoStar
+                                        style={{
+                                            color: '#FEC84B',
+                                        }}
+                                    />
+                                </Box>
+                                {(reviewCount ?? 0) > 0 ? (
+                                    <>
+                                        <Text
+                                            color={'white'}
+                                            alignSelf={'center'}
+                                            fontWeight="700"
+                                            fontSize={{
+                                                base: '14px',
+                                                md: '14px',
+                                            }}
+                                            ml="1"
+                                        >
+                                            {totalRating}
+                                        </Text>
+                                        <Text
+                                            alignSelf={'center'}
+                                            fontWeight="700"
+                                            fontSize={{
+                                                base: '14px',
+                                                md: '16px',
+                                            }}
+                                            color="#555555"
+                                            ml="1"
+                                        >
+                                            ({reviewCount} reviews)
+                                        </Text>
+                                    </>
+                                ) : (
+                                    <Text
+                                        alignSelf={'center'}
+                                        ml="10px"
+                                        fontSize={{ base: '14px', md: '14px' }}
+                                        color={'white'}
+                                    >
+                                        {' '}
+                                        No Reviews Yet{' '}
+                                    </Text>
+                                )}
+                            </Flex>
+                            <Flex overflow={'hidden'} wrap={'nowrap'} flex="0">
+                                <Box
+                                    alignSelf={'center'}
+                                    fontSize={{ base: '18px', md: '24px' }}
+                                >
+                                    {/* <Image
+                                    src={currencyIcons['USDC']}
+                                    style={{ width: '16px', height: '16px' }}
+                                    alt="usdc"
+                                /> */}
+                                    <AiOutlineDollar color="#2775CA" />
+                                </Box>
+                                <Text
+                                    color={'white'}
+                                    ml="2"
+                                    fontWeight="700"
+                                    fontSize={{ base: '14px', md: '18px' }}
+                                    lineHeight="33.72px"
+                                >
+                                    {`${formatCryptoPrice(parseInt(productPrice?.toString() ?? '0'), currencyCode ?? 'usdc')} ${currencyCode?.toUpperCase()}`}
+                                </Text>
+                                <Text
+                                    textDecoration={
+                                        hasDiscount === true
+                                            ? 'line-through'
+                                            : 'none'
+                                    }
+                                    ml={{ base: '1', md: '2' }}
+                                    mb={{ base: '0', md: '1' }}
+                                    alignSelf={'center'}
+                                    color={'#555555'}
+                                    fontWeight="700"
+                                    fontSize="0.875rem"
+                                    lineHeight="17.64px"
+                                >
+                                    {productPrice}
+                                </Text>
+                            </Flex>
+                        </Box>
                     </Flex>
                 </Flex>
             </Flex>
