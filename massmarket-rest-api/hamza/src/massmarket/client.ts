@@ -242,14 +242,14 @@ export class RelayClientWrapper {
         await this._client.connect();
         const stream = await this._client.createEventStream();
         for await (const event of stream) {
-            if (event.event.updateOrder?.itemsFinalized) {
+            if (event.event?.updateOrder?.itemsFinalized) {
                 if (
                     bytesToHex(
-                        event.event.updateOrder?.itemsFinalized.orderHash
+                        event.event?.updateOrder?.itemsFinalized.orderHash
                     ) == keccak256(hexToBytes(cartId))
                 ) {
-                    console.log(event.event.updateOrder?.itemsFinalized);
-                    return event.event.updateOrder?.itemsFinalized;
+                    console.log(event.event?.updateOrder?.itemsFinalized);
+                    return event?.event.updateOrder?.itemsFinalized;
                 }
             }
         }
