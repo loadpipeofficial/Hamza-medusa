@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default async function Reviews() {
     const nextHeaders = headers();
-    const countryCode = process.env.FORCE_US_COUNTRY
+    const countryCode = process.env.NEXT_PUBLIC_FORCE_US_COUNTRY
         ? 'us'
         : nextHeaders.get('next-url')?.split('/')[1] || '';
     const customer = await getCustomer();

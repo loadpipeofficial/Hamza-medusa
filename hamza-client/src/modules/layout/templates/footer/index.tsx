@@ -39,8 +39,9 @@ export default async function Footer() {
                 {/* links */}
                 <Divider mx="auto" color="#555555" maxWidth={'1014px'} />
                 <Flex
-                    pt="3rem"
+                    pt={{ base: '2rem', md: '3rem' }}
                     pb="2rem"
+                    flexDirection={{ base: 'column', md: 'row' }}
                     justifyContent={'space-between'}
                     width={'100%'}
                 >
@@ -48,59 +49,130 @@ export default async function Footer() {
                         <Text className="text-base font-bold">
                             Processing and Shipping
                         </Text>
-                        <Text className="text-base font-bold">
+                        <Text
+                            fontSize={{ base: '14px', md: '16px' }}
+                            className="text-base font-bold"
+                        >
                             Our Copyrights Policy
                         </Text>
-                        <Text className="text-base font-bold">
+                        <Text
+                            fontSize={{ base: '14px', md: '16px' }}
+                            className="text-base font-bold"
+                        >
                             Our Return Policy
                         </Text>
-                        <Text className="text-base font-bold">Catalog</Text>
-                        <Text className="text-base font-bold">Articles</Text>
-                        <Text className="text-base font-bold">
+                        <Text
+                            fontSize={{ base: '14px', md: '16px' }}
+                            className="text-base font-bold"
+                        >
+                            Catalog
+                        </Text>
+                        <Text
+                            fontSize={{ base: '14px', md: '16px' }}
+                            className="text-base font-bold"
+                        >
+                            Articles
+                        </Text>
+                        <Text
+                            fontSize={{ base: '14px', md: '16px' }}
+                            className="text-base font-bold"
+                        >
                             Privacy Policy
                         </Text>
-                        <Text className="text-base font-bold">
+                        <Text
+                            fontSize={{ base: '14px', md: '16px' }}
+                            className="text-base font-bold"
+                        >
                             Terms and Conditions
                         </Text>
                     </Flex>
 
+                    <Divider
+                        display={{ base: 'block', md: 'none' }}
+                        my="2rem"
+                    />
+
                     <Flex flexDir={'column'} color={'white'} gap={'8px'}>
-                        <Text className="text-base font-bold">CONTACT US</Text>
-                        <Text className="text-base font-normal">
+                        <Text
+                            fontSize={{ base: '14px', md: '16px' }}
+                            className="text-base font-bold"
+                        >
+                            CONTACT US
+                        </Text>
+                        <Text
+                            fontSize={{ base: '14px', md: '16px' }}
+                            className="text-base font-normal"
+                        >
                             +1-888-417-8278
                         </Text>
-                        <Text className="text-base font-bold">
+                        <Text
+                            fontSize={{ base: '14px', md: '16px' }}
+                            className="text-base font-bold"
+                        >
                             team@hamza.biz
                         </Text>
-                        <Text className="text-base font-bold">
+                        <Text
+                            fontSize={{ base: '14px', md: '16px' }}
+                            className="text-base font-bold"
+                        >
                             Monday-Friday
                         </Text>
-                        <Text className="text-base font-normal">
+                        <Text
+                            fontSize={{ base: '14px', md: '16px' }}
+                            className="text-base font-normal"
+                        >
                             10:00 PM - 7:00 AM
                         </Text>
 
-                        <Text mt="1rem" className="text-base font-bold">
+                        <Text
+                            fontSize={{ base: '14px', md: '16px' }}
+                            mt="1rem"
+                            className="text-base font-bold"
+                        >
                             1STAG INT LTD
                         </Text>
-                        <Text className="text-base font-bold">
+                        <Text
+                            fontSize={{ base: '14px', md: '16px' }}
+                            className="text-base font-bold"
+                        >
                             Agias Fylaxeos 73, 2nd Floor
                         </Text>
-                        <Text className="text-base font-bold">
+                        <Text
+                            fontSize={{ base: '14px', md: '16px' }}
+                            className="text-base font-bold"
+                        >
                             Limassol, 3087, Cyprus
                         </Text>
                     </Flex>
 
+                    <Divider
+                        display={{ base: 'block', md: 'none' }}
+                        my="2rem"
+                    />
+
                     <Flex flexDir={'column'} color={'white'} gap={'8px'}>
-                        <Text className="text-base font-bold">
+                        <Text
+                            fontSize={{ base: '14px', md: '16px' }}
+                            className="text-base font-bold"
+                        >
                             Free Shipping Worldwide
                         </Text>
-                        <Text className="text-base font-bold">
+                        <Text
+                            fontSize={{ base: '14px', md: '16px' }}
+                            className="text-base font-bold"
+                        >
                             365 DAYS Money Back Guarantee
                         </Text>
-                        <Text className="text-base font-bold">
+                        <Text
+                            fontSize={{ base: '14px', md: '16px' }}
+                            className="text-base font-bold"
+                        >
                             Included Lifetime Warranty
                         </Text>
-                        <Text className="text-base font-bold">
+                        <Text
+                            fontSize={{ base: '14px', md: '16px' }}
+                            className="text-base font-bold"
+                        >
                             Certificate of Authenticity
                         </Text>
                     </Flex>
@@ -111,10 +183,20 @@ export default async function Footer() {
 
                 <Flex pt="2rem" justifyContent={'space-between'} width={'100%'}>
                     <Flex flexDir={'column'} color={'white'} gap={'8px'}>
-                        <Text className="text-3xl font-bold">HAMZA</Text>
+                        <Text
+                            display={{ base: 'none', md: 'block' }}
+                            className="text-3xl font-bold"
+                        >
+                            HAMZA
+                        </Text>
                     </Flex>
 
-                    <Flex flexDir={'row'} color={'white'} gap={'8px'}>
+                    <Flex
+                        mr={{ base: 'auto', md: '0' }}
+                        flexDir={'row'}
+                        color={'white'}
+                        gap={'8px'}
+                    >
                         <Text className="text-base font-bold">
                             Follow us on:{' '}
                         </Text>
@@ -133,7 +215,10 @@ export default async function Footer() {
                     </Flex>
 
                     <Flex flexDir={'column'} color={'white'} gap={'8px'}>
-                        <Text className="text-base font-bold">
+                        <Text
+                            display={{ base: 'none', md: 'block' }}
+                            className="text-base font-bold"
+                        >
                             Certificate of Authenticity
                         </Text>
                     </Flex>

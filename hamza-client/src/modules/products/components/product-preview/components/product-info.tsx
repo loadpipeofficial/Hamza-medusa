@@ -36,16 +36,28 @@ const ProductInfo = () => {
                 {productData.title}
             </Heading>
             <Flex flexDirection={'column'}>
-                <Heading as="h2" color="primary.green.900">
+                <Heading
+                    as="h2"
+                    fontSize={{ base: '16px', md: '24px' }}
+                    color="primary.green.900"
+                >
                     Product Info
                 </Heading>
-                <Text color="white">{productData.description}</Text>
+                <Text fontSize={{ base: '14px', md: '16px' }} color="white">
+                    {productData.description}
+                </Text>
             </Flex>
             <Flex flexDirection={'column'}>
-                <Heading as="h2" color="primary.green.900">
+                <Heading
+                    as="h2"
+                    fontSize={{ base: '16px', md: '24px' }}
+                    color="primary.green.900"
+                >
                     About this item
                 </Heading>
-                <Text color="white">{productData.description}</Text>
+                <Text fontSize={{ base: '14px', md: '16px' }} color="white">
+                    {productData.description}
+                </Text>
             </Flex>
         </Flex>
     );

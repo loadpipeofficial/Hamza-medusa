@@ -41,14 +41,18 @@ const QuantityButton = () => {
     return (
         <Flex flexDirection="column" mb="1rem">
             <Flex>
-                <Heading as="h3" fontSize={'18px'} color="white">
+                <Heading
+                    as="h3"
+                    fontSize={{ base: '14px', md: '18px' }}
+                    color="white"
+                >
                     Quantity &#x2022;
                 </Heading>
                 <Heading
                     as="h4"
                     ml="5px"
                     mt="auto"
-                    fontSize="16px"
+                    fontSize={{ base: '14px', md: '18px' }}
                     color="primary.indigo.900"
                 >
                     {`${quantityAvailable} available`}
@@ -62,11 +66,16 @@ const QuantityButton = () => {
                     padding={'10px'}
                     borderRadius={'8px'}
                     width={'40px'}
+                    height={{ base: '33px', md: '50px' }}
+                    backgroundColor={{ base: 'black', md: 'transparent' }}
                     borderColor={'#3E3E3E'}
                     cursor={'pointer'}
                     justifyContent={'center'}
                 >
-                    <Flex alignSelf="center">
+                    <Flex
+                        alignSelf="center"
+                        fontSize={{ base: '12px', md: '20px' }}
+                    >
                         <AiOutlineMinus color="white" />
                     </Flex>
                 </Flex>
@@ -74,12 +83,20 @@ const QuantityButton = () => {
                 <Flex
                     borderWidth={'1px'}
                     width={'109px'}
+                    height={{ base: '33px', md: '50px' }}
                     justifyContent={'center'}
                     padding={'10px'}
                     borderRadius={'8px'}
                     borderColor={'#3E3E3E'}
+                    backgroundColor={{ base: 'black', md: 'transparent' }}
                 >
-                    <Text color="white">{quantity}</Text>
+                    <Text
+                        fontSize={{ base: '12px', md: '20px' }}
+                        alignSelf={'center'}
+                        color="white"
+                    >
+                        {quantity}
+                    </Text>
                 </Flex>
 
                 <Flex
@@ -88,11 +105,16 @@ const QuantityButton = () => {
                     padding={'10px'}
                     borderRadius={'8px'}
                     width={'40px'}
+                    height={{ base: '33px', md: '50px' }}
                     borderColor={'#3E3E3E'}
                     cursor={'pointer'}
                     justifyContent={'center'}
+                    backgroundColor={{ base: 'black', md: 'transparent' }}
                 >
-                    <Flex alignSelf="center">
+                    <Flex
+                        alignSelf="center"
+                        fontSize={{ base: '12px', md: '20px' }}
+                    >
                         <AiOutlinePlus color="white" />
                     </Flex>
                 </Flex>
