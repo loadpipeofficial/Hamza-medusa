@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import Thumbnail from '@modules/products/components/thumbnail';
+import Tweet from '@/components/tweet';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 
@@ -78,6 +79,7 @@ const Summary: React.FC<{ cart_id: string }> = ({ cart_id }) => {
                     key={product.id}
                     className="flex flex-col mb-8 p-6 border border-gray-200 rounded-lg"
                 >
+                    <Tweet productHandle={product.handle} isPurchased={true} />
                     <div className="mb-4">
                         <h2 className="text-xl font-bold">{product.title}</h2>
                         <p className="mt-2">{product.description}</p>
