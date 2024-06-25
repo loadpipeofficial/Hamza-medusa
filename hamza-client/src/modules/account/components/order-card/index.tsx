@@ -22,6 +22,7 @@ type Order = {
     currency_code: string;
     unit_price: number;
     thumbnail: string;
+    order_ids: string[];
     title: string;
     description: string;
     region: {
@@ -63,7 +64,7 @@ const OrderCard = ({ order, handle }: OrderCardProps) => {
                     {formatCryptoPrice(order.unit_price, order.currency_code)}{' '}
                     {order.currency_code}
                 </span>
-                <span className="pl-2">1 item</span>{' '}
+                <span className="pl-2">{order.order_ids.length} items</span>{' '}
                 {/* Static '1 item' since there are no items array */}
             </div>
             <div className="my-4">
