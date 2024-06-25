@@ -237,8 +237,9 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                                   item.variant?.product?.handle || 'N/A'; // Grab the handle from the product object
                               return (
                                   <div key={item.id}>
-                                      item: {item.id}
-                                      order_id? {item.order_ids[0]}
+                                      item: {item.id} <br /> Order_id list:{' '}
+                                      {item.order_ids} <br />
+                                      item quantity: {item.order_ids.length}
                                       <OrderCard
                                           key={item.id}
                                           order={item}

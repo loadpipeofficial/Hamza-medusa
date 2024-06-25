@@ -307,9 +307,12 @@ export default class OrderService extends MedusaOrderService {
             if (!acc[cartId]) {
                 acc[cartId] = {
                     cart_id: cartId,
+                    order_ids: new Set(),
                     items: {},
                 };
             }
+
+            acc[cartId].order_ids.add(order.id); // Add order ID to the set
 
             order.cart.items.forEach((item) => {
                 const itemId = item.id;
@@ -331,6 +334,7 @@ export default class OrderService extends MedusaOrderService {
         const result = Object.values(groupedOrders).map((group: any) => {
             return {
                 cart_id: group.cart_id,
+                order_ids: Array.from(group.order_ids), // Include order_ids in the result
                 items: Object.values(group.items).map((item: any) => ({
                     ...item,
                     order_ids: Array.from(item.order_ids),
