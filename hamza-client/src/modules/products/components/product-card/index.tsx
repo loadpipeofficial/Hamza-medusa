@@ -149,21 +149,21 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                             (a) => a.id == productId
                                         )
                                             ? addWishlistItemMutation.mutate({
-                                                  id: productId!,
-                                                  description: '',
-                                                  title: productName!,
-                                                  thumbnail: imageSrc!,
-                                                  handle: productHandle!,
-                                              })
+                                                id: productId!,
+                                                description: '',
+                                                title: productName!,
+                                                thumbnail: imageSrc!,
+                                                handle: productHandle!,
+                                            })
                                             : removeWishlistItemMutation.mutate(
-                                                  {
-                                                      id: productId!,
-                                                      description: '',
-                                                      title: productName!,
-                                                      thumbnail: imageSrc!,
-                                                      handle: productHandle!,
-                                                  }
-                                              );
+                                                {
+                                                    id: productId!,
+                                                    description: '',
+                                                    title: productName!,
+                                                    thumbnail: imageSrc!,
+                                                    handle: productHandle!,
+                                                }
+                                            );
                                     }}
                                     sx={{
                                         userSelect: 'none',
@@ -239,7 +239,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 fontSize="1.25rem"
                                 lineHeight="33.72px"
                             >
-                                {`${formatCryptoPrice(parseInt(productPrice?.toString() ?? '0'), currencyCode ?? 'usdc')} ${currencyCode?.toUpperCase()}`}
+                                {`${productPrice} ${currencyCode?.toUpperCase()}`}
                             </Text>
                             <Text
                                 textDecoration={
