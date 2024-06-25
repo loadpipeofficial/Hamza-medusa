@@ -122,6 +122,10 @@ const ProductCardGroup = ({
             <StoreFilterDisplay />
             <Flex
                 gap={'24px'}
+                flexBasis={{
+                    base: 'calc(50% - 5px)',
+                    md: 'calc(33.33% - 6.67px)',
+                }}
                 wrap="wrap" // Allow items to wrap onto the next line
             >
                 {isLoading

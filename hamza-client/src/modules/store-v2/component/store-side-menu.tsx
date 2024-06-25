@@ -10,13 +10,14 @@ import FilterButton from './filter-button';
 import RangeSlider from './range-slider';
 
 const SideMenu = () => {
-    const [isLargerThan820] = useMediaQuery('(min-width: 820px)');
+    const [isLargerThan820] = useMediaQuery('(min-width: 800px)');
 
     return (
         <Box
             display={isLargerThan820 ? 'block' : 'none'}
             px="2rem"
             py="2rem"
+            ml="1rem"
             color={'white'}
             borderRadius={'20px'}
             width={'348.74px'}

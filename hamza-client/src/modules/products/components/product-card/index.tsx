@@ -94,7 +94,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <LocalizedClientLink href={`/products/${productHandle}`}>
                 <Box
                     onClick={() => console.log('hello')}
-                    height={{ base: '167px', md: '238px' }}
+                    height={{ base: '134.73px', md: '238px' }}
                     width="100%"
                     display="flex"
                     justifyContent="center"
@@ -113,39 +113,32 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     />{' '}
                 </Box>
             </LocalizedClientLink>
-            <CardBody
-                backgroundColor={'#121212'}
+            <Flex
+                padding={{ base: '0.5rem', md: '1rem' }}
                 display={'flex'}
                 flexDirection={'column'}
             >
-                <Box
-                    display={'flex'}
-                    flexDirection={'column'}
-                    h="100%"
-                    w="100%"
-                >
-                    <Flex mb="1">
+                <Box display={'flex'} flexDirection={'column'}>
+                    <Flex mb={{ base: '0', md: '1' }}>
                         <Text
                             color={'white'}
                             fontWeight="700"
                             fontSize={{ base: '14px', md: '1.25rem' }}
-                            lineHeight="25.29px"
-                            noOfLines={3}
+                            noOfLines={{ base: 2, md: 3 }}
                         >
                             {productName}
                         </Text>
                         {/* wish list heart code */}
 
                         {authData.status == 'authenticated' && (
-                            <Box pl="1rem" ml="auto">
-                                <Box
-                                    display="flex"
+                            <Box p="5px" ml="auto">
+                                <Flex
                                     justifyContent="center"
                                     alignItems="center"
-                                    minWidth="40px"
-                                    minHeight="40px"
-                                    borderRadius="50%"
-                                    border="1px"
+                                    width="40px"
+                                    height="40px"
+                                    borderRadius="full"
+                                    borderWidth="2px"
                                     borderColor="#7B61FF"
                                     cursor="pointer"
                                     onClick={() => {
@@ -174,34 +167,32 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                         userSelect: 'none',
                                     }}
                                 >
-                                    <Box alignSelf="center">
+                                    <Flex alignSelf="center">
                                         {!wishlist.products.find(
                                             (a) => a.id == productId
                                         ) ? (
                                             <FaRegHeart
                                                 color="#7B61FF"
-                                                size={23}
+                                                size={20}
                                             />
                                         ) : (
                                             <FaHeart
                                                 color="#7B61FF"
-                                                size={23}
+                                                size={20}
                                             />
                                         )}
-                                    </Box>
-                                </Box>
+                                    </Flex>
+                                </Flex>
                             </Box>
                         )}
                     </Flex>
 
-                    <Box mt="auto">
-                        <Flex mb="1">
-                            <Box mt="1px">
+                    <Box marginTop="1rem" alignSelf={'bottom'}>
+                        <Flex>
+                            <Box fontSize={{ base: '18px', md: '24px' }}>
                                 <IoStar
                                     style={{
                                         color: '#FEC84B',
-                                        width: '24px',
-                                        height: '24px',
                                     }}
                                 />
                             </Box>
@@ -230,7 +221,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 <Text
                                     alignSelf={'center'}
                                     ml="5px"
-                                    fontSize={{ base: '14px', md: '16' }}
+                                    fontSize={{ base: '14px', md: '16px' }}
                                     color={'white'}
                                 >
                                     {' '}
@@ -239,22 +230,22 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             )}
                         </Flex>
                         <Flex>
-                            <Box alignSelf={'center'}>
+                            <Box
+                                alignSelf={'center'}
+                                fontSize={{ base: '18px', md: '24px' }}
+                            >
                                 {/* <Image
                                     src={currencyIcons['USDC']}
                                     style={{ width: '16px', height: '16px' }}
                                     alt="usdc"
                                 /> */}
-                                <AiOutlineDollar
-                                    style={{ width: '24px', height: '24px' }}
-                                    color="#2775CA"
-                                />
+                                <AiOutlineDollar color="#2775CA" />
                             </Box>
                             <Text
                                 color={'white'}
                                 ml="2"
                                 fontWeight="700"
-                                fontSize="24px"
+                                fontSize={{ base: '14px', md: '24px' }}
                                 lineHeight="33.72px"
                             >
                                 {`${formatCryptoPrice(parseInt(productPrice?.toString() ?? '0'), currencyCode ?? 'usdc')} ${currencyCode?.toUpperCase()}`}
@@ -265,8 +256,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                         ? 'line-through'
                                         : 'none'
                                 }
-                                ml="2"
-                                mb="1"
+                                ml={{ base: '1', md: '2' }}
+                                mb={{ base: '0', md: '1' }}
                                 alignSelf={'center'}
                                 color={'#555555'}
                                 fontWeight="700"
@@ -276,8 +267,20 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 {productPrice}
                             </Text>
                         </Flex>
-                        {/* add to cart / buy button */}
-                        {/* <Flex
+                    </Box>
+                </Box>
+            </Flex>
+        </Card>
+    );
+};
+
+export default ProductCard;
+
+{
+    /* add to cart / buy button */
+}
+{
+    /* <Flex
                             direction={{ base: 'column', md: 'row' }} // Stack vertically on small screens, horizontally on medium and up
                             gap="14px"
                             py={2}
@@ -298,12 +301,5 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                     title="Buy Now"
                                 />
                             </LocalizedClientLink>
-                        </Flex> */}
-                    </Box>
-                </Box>
-            </CardBody>
-        </Card>
-    );
-};
-
-export default ProductCard;
+                        </Flex> */
+}
