@@ -301,6 +301,8 @@ export default class OrderService extends MedusaOrderService {
             relations: ['cart.items', 'cart', 'cart.items.variant.product'],
         });
 
+        console.log(`Orders Line item? ${JSON.stringify(orders)}`);
+
         // Create a map to group orders by cart_id
         const groupedOrders = orders.reduce((acc, order) => {
             const cartId = order.cart_id;
@@ -319,12 +321,10 @@ export default class OrderService extends MedusaOrderService {
                 if (!acc[cartId].items[itemId]) {
                     acc[cartId].items[itemId] = {
                         ...item,
-                        quantity: 0,
                         order_ids: new Set(),
                     };
                 }
 
-                acc[cartId].items[itemId].quantity += item.quantity;
                 acc[cartId].items[itemId].order_ids.add(order.id);
             });
 
