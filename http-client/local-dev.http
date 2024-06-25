@@ -354,3 +354,11 @@ Content-Type: application/json
 {
   "cart_id": "cart_01J14XTSA3X0TRQQHAPCR8QY2A"
 }
+
+### Get Order Template Information
+POST http://localhost:9000/custom/order/complete-template
+Content-Type: application/json
+
+{
+  "cart_id": "cart_01J1850HSG22JJY5Z22M92VAVW"
+}
