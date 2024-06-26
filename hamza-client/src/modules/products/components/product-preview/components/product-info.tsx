@@ -56,7 +56,7 @@ const ProductInfo = () => {
                     About this item
                 </Heading>
                 <Text fontSize={{ base: '14px', md: '16px' }} color="white">
-                    {productData.description}
+                    <div dangerouslySetInnerHTML={{ __html: productData.description }} />
                 </Text>
             </Flex>
         </Flex>
