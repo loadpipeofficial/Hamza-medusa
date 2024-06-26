@@ -6,6 +6,7 @@ import {
     Image,
     Text,
     Stack,
+    Button,
     Link,
     SimpleGrid,
     Heading,
@@ -101,8 +102,7 @@ const Summary: React.FC<{ cart_id: string }> = ({ cart_id }) => {
                     <span className="pr-2">
                         store_name: {product.store_name}
                     </span>
-                    <button
-                        className="mt-4 p-2 bg-blue-500 text-white rounded"
+                    <Button
                         onClick={() =>
                             router.push(
                                 `/${countryCode}/vendor/${product.store_name}`
@@ -110,7 +110,7 @@ const Summary: React.FC<{ cart_id: string }> = ({ cart_id }) => {
                         }
                     >
                         Vendor Store
-                    </button>
+                    </Button>
 
                     <LocalizedClientLink href={`/products/${product.handle}`}>
                         <Thumbnail
