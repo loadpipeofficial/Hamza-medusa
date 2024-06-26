@@ -27,41 +27,41 @@ const Reputation = () => {
             >
                 AS SEEN IN
             </Text>
-            <Flex gap={'42px'} justifyContent="center" mb={6}>
+            <Flex gap={'21'} justifyContent="center" mb={6}>
                 <Image
-                    src={hns}
+                    src={ethlondon}
                     width={126}
-                    height={116}
+                    height={80}
                     alt={'ETH London'}
                     style={{
-                        filter: 'invert(47%) sepia(2%) saturate(0%) hue-rotate(186deg) brightness(90%) contrast(90%)',
+                        filter: 'hue-rotate(186deg) brightness(90%) contrast(90%)',
                     }}
                 />
                 <Image
-                    src={hns}
+                    src={ethglobal}
                     width={126}
-                    height={116}
+                    height={80}
                     alt={'ETH Global'}
                     style={{
-                        filter: 'invert(47%) sepia(2%) saturate(0%) hue-rotate(186deg) brightness(90%) contrast(90%)',
+                        filter: 'hue-rotate(186deg) brightness(90%) contrast(90%)',
                     }}
                 />
                 <Image
-                    src={hns}
+                    src={cbs}
                     width={126}
-                    height={116}
+                    height={80}
                     alt={'Cross Border Summit'}
                     style={{
-                        filter: 'invert(47%) sepia(2%) saturate(0%) hue-rotate(186deg) brightness(90%) contrast(90%)',
+                        filter: 'hue-rotate(186deg) brightness(90%) contrast(90%)',
                     }}
                 />
                 <Image
                     src={hns}
                     width={126}
-                    height={116}
+                    height={80}
                     alt={'Handshake Conference'}
                     style={{
-                        filter: 'invert(47%) sepia(2%) saturate(0%) hue-rotate(186deg) brightness(90%) contrast(90%)',
+                        filter: 'hue-rotate(186deg) brightness(90%) contrast(90%)',
                     }}
                 />
             </Flex>

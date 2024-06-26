@@ -167,7 +167,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
         );
         const store9 = await storeService.createStore(
             user9,
-            'Legendary Light & Design',
+            'Legendary Light Design',
             'pcol_01HRVF8HCVY8B00RF5S54THTPCD',
             'http://54.253.186.85/headphones.webp'
         );

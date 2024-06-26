@@ -44,7 +44,7 @@ const ProductInfo = () => {
                     Product Info
                 </Heading>
                 <Text fontSize={{ base: '14px', md: '16px' }} color="white">
-                    {productData.description}
+                    {productData.subtitle}
                 </Text>
             </Flex>
             <Flex flexDirection={'column'}>
@@ -56,7 +56,7 @@ const ProductInfo = () => {
                     About this item
                 </Heading>
                 <Text fontSize={{ base: '14px', md: '16px' }} color="white">
-                    {productData.description}
+                    <div dangerouslySetInnerHTML={{ __html: productData.description }} />
                 </Text>
             </Flex>
         </Flex>

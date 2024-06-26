@@ -3,20 +3,25 @@ import React, { useEffect, useState } from 'react';
 
 type TweetProps = {
     productHandle: string;
+    isPurchased?: boolean;
 };
 
-const Tweet: React.FC<TweetProps> = ({ productHandle }) => {
+const Tweet: React.FC<TweetProps> = ({
+    productHandle,
+    isPurchased = false,
+}) => {
     const [isDisabled, setIsDisabled] = useState(true);
 
     useEffect(() => {
         const product_url = `https://demo.hamza.biz/us/products/${productHandle}`;
-        const tweetHref = `https://twitter.com/intent/tweet?text=Check out this cool product at Hamza.biz! ${encodeURIComponent(product_url)} Buy and sell products with Crypto at Hamza - the world’s first decom marketplace.`;
-
+        const tweetHref = isPurchased
+            ? `https://twitter.com/intent/tweet?text=I bought this cool thing at Hamza.biz! ${encodeURIComponent(product_url)} Buy and sell products with Crypto at Hamza - the world’s first decom marketplace.`
+            : `https://twitter.com/intent/tweet?text=Check out this cool product at Hamza.biz! ${encodeURIComponent(product_url)} Buy and sell products with Crypto at Hamza - the world’s first decom marketplace.`;
         document
             .getElementById('tweet-button')
             ?.setAttribute('href', tweetHref);
         setIsDisabled(false);
-    }, [productHandle]);
+    }, [productHandle, isPurchased]);
 
     return (
         <div>
