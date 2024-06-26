@@ -119,7 +119,6 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
             'password'
         );
 
-        /////////////////////////////////////////////////////////////////////////
 
         const store0 = await storeService.createStore(
             user0,
@@ -141,26 +140,26 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
         );
         const store3 = await storeService.createStore(
             user3,
-            'Indiana Drones',
-            'pcol_drones',
+            'Drones',
+            'pcol_01HSGAMXDJD725MR3VSW631DR0',
             'http://54.253.186.85/headphones.webp'
         );
         const store4 = await storeService.createStore(
             user4,
-            'SB Sound',
-            'pcol_sound',
+            'Legos',
+            'pcol_01HSGAMXDJD725MR3VSW63LEG0',
             'http://54.253.186.85/headphones.webp'
         );
         const store5 = await storeService.createStore(
             user5,
-            'Gamefi Studios',
-            'pcol_gamefi',
+            'Board Games',
+            'pcol_01HSGAMXDJD725MR3VSW63B0RD',
             'http://54.253.186.85/headphones.webp'
         );
         const store6 = await storeService.createStore(
             user6,
-            "Razor's Edge",
-            'pcol_razor',
+            'Workout Gear',
+            'pcol_01HSGAMXDJD725MR3VSW63W0GE',
             'http://54.253.186.85/headphones.webp'
         );
         const store7 = await storeService.createStore(
@@ -203,6 +202,25 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
             { store_id: store2.id }
         );
 
+        await productCollectionService.update(
+            'pcol_01HSGAMXDJD725MR3VSW631DR0',
+            { store_id: store3.id }
+        );
+
+        await productCollectionService.update(
+            'pcol_01HSGAMXDJD725MR3VSW63LEG0',
+            { store_id: store4.id }
+        );
+
+        await productCollectionService.update(
+            'pcol_01HSGAMXDJD725MR3VSW63B0RD',
+            { store_id: store5.id }
+        );
+
+        await productCollectionService.update(
+            'pcol_01HSGAMXDJD725MR3VSW63W0GE',
+            { store_id: store6.id }
+        );
         await productCollectionService.update('pcol_drones', {
             store_id: store3.id,
         });

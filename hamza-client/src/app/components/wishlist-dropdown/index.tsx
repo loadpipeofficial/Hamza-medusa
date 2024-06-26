@@ -35,7 +35,7 @@ const WishlistDropdown: React.FC<WishlistPopoverItemProps> = () => {
 
     useEffect(() => {
         if (itemRef.current !== totalItems && !pathname.includes('/wishlist')) {
-            timedOpen();
+            //timedOpen();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [totalItems, itemRef.current]);
@@ -119,7 +119,7 @@ const WishlistDropdown: React.FC<WishlistPopoverItemProps> = () => {
                                                         key={product.id}
                                                     >
                                                         <Popover.Button>
-                                                            {({}) =>
+                                                            {({ }) =>
                                                                 product ? ( // Check if the product exists
                                                                     <LocalizedClientLink
                                                                         href={`/products/${product.handle}`}

@@ -5,6 +5,7 @@ import LocalizedClientLink from '@modules/common/components/localized-client-lin
 import { FaTwitter } from 'react-icons/fa6';
 import { FaDiscord } from 'react-icons/fa6';
 import Link from 'next/link';
+import Reputation from '@modules/home/components/reputation';
 
 const fetchCollections = async () => {
     const { collections } = await getCollectionsList();
@@ -32,7 +33,7 @@ export default async function Footer() {
         >
             <Flex
                 maxWidth={'1280px'}
-                px="2rem"
+                px="1rem"
                 flexDirection={'column'}
                 width={'100%'}
             >
@@ -67,6 +68,34 @@ export default async function Footer() {
                         >
                             Catalog
                         </Text>
+                    </Flex>
+
+                    <Divider
+                        display={{ base: 'block', md: 'none' }}
+                        my="2rem"
+                    />
+
+                    <Flex flexDir={'column'} color={'white'} gap={'8px'}>
+                        <Text
+                            fontSize={{ base: '14px', md: '16px' }}
+                            className="text-base font-bold"
+                        >
+                            CONTACT US
+                        </Text>
+                        <Text
+                            fontSize={{ base: '14px', md: '16px' }}
+                            className="text-base font-bold"
+                        >
+                            team@hamza.biz
+                        </Text>
+                    </Flex>
+
+                    <Divider
+                        display={{ base: 'block', md: 'none' }}
+                        my="2rem"
+                    />
+
+                    <Flex flexDir={'column'} color={'white'} gap={'8px'}>
                         <Text
                             fontSize={{ base: '14px', md: '16px' }}
                             className="text-base font-bold"
@@ -85,90 +114,6 @@ export default async function Footer() {
                         >
                             Terms and Conditions
                         </Text>
-                    </Flex>
-
-                    <Divider
-                        display={{ base: 'block', md: 'none' }}
-                        my="2rem"
-                    />
-
-                    <Flex flexDir={'column'} color={'white'} gap={'8px'}>
-                        <Text
-                            fontSize={{ base: '14px', md: '16px' }}
-                            className="text-base font-bold"
-                        >
-                            CONTACT US
-                        </Text>
-                        <Text
-                            fontSize={{ base: '14px', md: '16px' }}
-                            className="text-base font-normal"
-                        >
-                            +1-888-417-8278
-                        </Text>
-                        <Text
-                            fontSize={{ base: '14px', md: '16px' }}
-                            className="text-base font-bold"
-                        >
-                            team@hamza.biz
-                        </Text>
-                        <Text
-                            fontSize={{ base: '14px', md: '16px' }}
-                            className="text-base font-bold"
-                        >
-                            Monday-Friday
-                        </Text>
-                        <Text
-                            fontSize={{ base: '14px', md: '16px' }}
-                            className="text-base font-normal"
-                        >
-                            10:00 PM - 7:00 AM
-                        </Text>
-
-                        <Text
-                            fontSize={{ base: '14px', md: '16px' }}
-                            mt="1rem"
-                            className="text-base font-bold"
-                        >
-                            1STAG INT LTD
-                        </Text>
-                        <Text
-                            fontSize={{ base: '14px', md: '16px' }}
-                            className="text-base font-bold"
-                        >
-                            Agias Fylaxeos 73, 2nd Floor
-                        </Text>
-                        <Text
-                            fontSize={{ base: '14px', md: '16px' }}
-                            className="text-base font-bold"
-                        >
-                            Limassol, 3087, Cyprus
-                        </Text>
-                    </Flex>
-
-                    <Divider
-                        display={{ base: 'block', md: 'none' }}
-                        my="2rem"
-                    />
-
-                    <Flex flexDir={'column'} color={'white'} gap={'8px'}>
-                        <Text
-                            fontSize={{ base: '14px', md: '16px' }}
-                            className="text-base font-bold"
-                        >
-                            Free Shipping Worldwide
-                        </Text>
-                        <Text
-                            fontSize={{ base: '14px', md: '16px' }}
-                            className="text-base font-bold"
-                        >
-                            365 DAYS Money Back Guarantee
-                        </Text>
-                        <Text
-                            fontSize={{ base: '14px', md: '16px' }}
-                            className="text-base font-bold"
-                        >
-                            Included Lifetime Warranty
-                        </Text>
                         <Text
                             fontSize={{ base: '14px', md: '16px' }}
                             className="text-base font-bold"
@@ -177,7 +122,17 @@ export default async function Footer() {
                         </Text>
                     </Flex>
                 </Flex>
-                {/* Bottom Content */}
+
+                <Divider />
+                {/* Reputation */}
+
+                <Box
+                    mb={{ base: '-10rem', md: '0' }}
+                    display={{ base: 'none', md: 'block' }}
+                >
+                    <Reputation />
+                </Box>
+
                 <Divider />
                 {/* Bottom Content */}
 
@@ -190,7 +145,6 @@ export default async function Footer() {
                             HAMZA
                         </Text>
                     </Flex>
-
                     <Flex
                         mr={{ base: 'auto', md: '0' }}
                         flexDir={'row'}

@@ -34,6 +34,7 @@ import {
     Stack,
     StackDivider,
     CardFooter,
+    FormErrorMessage,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { format } from 'date-fns';
@@ -54,7 +55,7 @@ export default function Page({ params }: { params: { slug: string } }) {
     const [abuseReason, setAbuseReason] = useState('');
     const [abuseDetails, setAbuseDetails] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
-
+    const [isAttemptedSubmit, setIsAttemptedSubmit] = useState(false);
     console.log(`slug name ${displaySlug}`);
     // can I get a store_id from vendor name??
     // yes you can so let's do that, /custom/vendors/vendor-reviews
@@ -98,10 +99,16 @@ export default function Page({ params }: { params: { slug: string } }) {
         console.log('Abuse Report Submitted');
         console.log('Reason:', abuseReason);
         console.log('Details:', abuseDetails);
+        if (!abuseReason) {
+            setIsAttemptedSubmit(true);
+            return;
+        }
         // Reset form values
         setAbuseReason('');
         setAbuseDetails('');
         setIsSubmitted(true);
+        setIsAttemptedSubmit(false);
+
         onClose();
     };
 
@@ -215,7 +222,13 @@ export default function Page({ params }: { params: { slug: string } }) {
                             </Alert>
                         ) : (
                             <>
-                                <FormControl id="abuse-reason" isRequired>
+                                <FormControl
+                                    id="abuse-reason"
+                                    isRequired
+                                    isInvalid={
+                                        !abuseReason && isAttemptedSubmit
+                                    }
+                                >
                                     <FormLabel>Reason</FormLabel>
                                     <Select
                                         placeholder="Select reason"
@@ -232,6 +245,11 @@ export default function Page({ params }: { params: { slug: string } }) {
                                             Inappropriate Content
                                         </option>
                                     </Select>
+                                    {!abuseReason && isAttemptedSubmit && (
+                                        <FormErrorMessage>
+                                            Reason is required.
+                                        </FormErrorMessage>
+                                    )}
                                 </FormControl>
                                 <FormControl
                                     id="abuse-details"
@@ -260,9 +278,6 @@ export default function Page({ params }: { params: { slug: string } }) {
                                 Submit
                             </Button>
                         )}
-                        <Button variant="ghost" onClick={onClose}>
-                            Cancel
-                        </Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
