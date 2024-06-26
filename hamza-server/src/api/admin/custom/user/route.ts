@@ -109,6 +109,16 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
             'password'
         );
 
+        const user10 = await userService.create(
+            {
+                email: 'horatio-turdburger@imagescience.org',
+                first_name: 'Horatio',
+                last_name: 'Turdmuncher',
+                wallet_address: '0x0000F49cC0f91d66Bc5bBbE931913D8709500003',
+            },
+            'password'
+        );
+
         /////////////////////////////////////////////////////////////////////////
 
         const store0 = await storeService.createStore(
@@ -132,43 +142,49 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
         const store3 = await storeService.createStore(
             user3,
             'Indiana Drones',
-            'pcol_01HRVF8HCVY8B00RF5S54THTPCD',
+            'pcol_drones',
             'http://54.253.186.85/headphones.webp'
         );
         const store4 = await storeService.createStore(
             user4,
             'SB Sound',
-            'pcol_01HRVF8HCVY8B00RF5S54THTPCD',
+            'pcol_sound',
             'http://54.253.186.85/headphones.webp'
         );
         const store5 = await storeService.createStore(
             user5,
             'Gamefi Studios',
-            'pcol_01HRVF8HCVY8B00RF5S54THTPCD',
+            'pcol_gamefi',
             'http://54.253.186.85/headphones.webp'
         );
         const store6 = await storeService.createStore(
             user6,
             "Razor's Edge",
-            'pcol_01HRVF8HCVY8B00RF5S54THTPCD',
+            'pcol_razor',
             'http://54.253.186.85/headphones.webp'
         );
         const store7 = await storeService.createStore(
             user7,
             'Lofi Jungle',
-            'pcol_01HRVF8HCVY8B00RF5S54THTPCD',
+            'pcol_lofi',
             'http://54.253.186.85/headphones.webp'
         );
         const store8 = await storeService.createStore(
             user8,
             'Shake',
-            'pcol_01HRVF8HCVY8B00RF5S54THTPCD',
+            'pcol_shake',
             'http://54.253.186.85/headphones.webp'
         );
         const store9 = await storeService.createStore(
             user9,
             'Legendary Light Design',
-            'pcol_01HRVF8HCVY8B00RF5S54THTPCD',
+            'pcol_lighting',
+            'http://54.253.186.85/headphones.webp'
+        );
+        const store10 = await storeService.createStore(
+            user10,
+            'Block',
+            'pcol_blocks',
             'http://54.253.186.85/headphones.webp'
         );
 
@@ -187,6 +203,38 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
             { store_id: store2.id }
         );
 
+        await productCollectionService.update('pcol_drones', {
+            store_id: store3.id,
+        });
+
+        await productCollectionService.update('pcol_sound', {
+            store_id: store4.id,
+        });
+
+        await productCollectionService.update('pcol_gamefi', {
+            store_id: store5.id,
+        });
+
+        await productCollectionService.update('pcol_razor', {
+            store_id: store6.id,
+        });
+
+        await productCollectionService.update('pcol_lofi', {
+            store_id: store7.id,
+        });
+
+        await productCollectionService.update('pcol_shake', {
+            store_id: store8.id,
+        });
+
+        await productCollectionService.update('pcol_lighting', {
+            store_id: store9.id,
+        });
+
+        await productCollectionService.update('pcol_blocks', {
+            store_id: store10.id,
+        });
+
         return res.json({
             user0,
             user1,
@@ -198,6 +246,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
             user7,
             user8,
             user9,
+            user10,
             store0,
             store1,
             store2,
@@ -208,6 +257,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
             store7,
             store8,
             store9,
+            store10,
         });
     } catch (error) {
         logger.error(error);

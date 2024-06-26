@@ -1,12 +1,6 @@
 {
     "store": {
-        "currencies": [
-            "eur",
-            "usd",
-            "eth",
-            "usdc",
-            "usdt"
-        ],
+        "currencies": ["eur", "usd", "eth", "usdc", "usdt"],
         "default_currency_code": "eth"
     },
     "users": [
@@ -23,37 +17,18 @@
             "name": "EU",
             "currency_code": "eth",
             "tax_rate": 0,
-            "payment_providers": [
-                "crypto"
-            ],
-            "fulfillment_providers": [
-                "manual"
-            ],
-            "countries": [
-                "gb",
-                "de",
-                "dk",
-                "se",
-                "fr",
-                "es",
-                "it"
-            ]
+            "payment_providers": ["crypto"],
+            "fulfillment_providers": ["manual"],
+            "countries": ["gb", "de", "dk", "se", "fr", "es", "it"]
         },
         {
             "id": "test-region-na",
             "name": "NA",
             "currency_code": "eth",
             "tax_rate": 0,
-            "payment_providers": [
-                "crypto"
-            ],
-            "fulfillment_providers": [
-                "manual"
-            ],
-            "countries": [
-                "us",
-                "ca"
-            ]
+            "payment_providers": ["crypto"],
+            "fulfillment_providers": ["manual"],
+            "countries": ["us", "ca"]
         }
     ],
     "shipping_options": [
@@ -157,6 +132,11 @@
             "id": "pcol_01HSGAMXDJD725MR3VSW631SN2",
             "title": "VR Headphones",
             "handle": "pcol_01HSGAMXDJD725MR3VSW631SN2"
+        },
+        {
+            "id": "pcol_lighting",
+            "title": "Lighting",
+            "handle": "pcol_lighting"
         }
     ],
     "products": [
@@ -173,16 +153,11 @@
             "handle": "headphones",
             "is_giftcard": false,
             "weight": 250,
-            "images": [
-                "https://images.hamza.biz/headphones.webp"
-            ],
+            "images": ["https://images.hamza.biz/headphones.webp"],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black",
-                        "Silver"
-                    ]
+                    "values": ["Black", "Silver"]
                 }
             ],
             "variants": [
@@ -225,16 +200,11 @@
             "handle": "headset_future",
             "is_giftcard": false,
             "weight": 300,
-            "images": [
-                "https://images.hamza.biz/dalle_black_vr.webp"
-            ],
+            "images": ["https://images.hamza.biz/dalle_black_vr.webp"],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Sleek Black",
-                        "Space Gray"
-                    ]
+                    "values": ["Sleek Black", "Space Gray"]
                 }
             ],
             "variants": [
@@ -277,16 +247,11 @@
             "handle": "headset_audio",
             "is_giftcard": false,
             "weight": 260,
-            "images": [
-                "https://images.hamza.biz/dalle_vr.webp"
-            ],
+            "images": ["https://images.hamza.biz/dalle_vr.webp"],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Robot White",
-                        "Electronic Blue"
-                    ]
+                    "values": ["Robot White", "Electronic Blue"]
                 }
             ],
             "variants": [
@@ -329,16 +294,11 @@
             "handle": "headset_sleek",
             "is_giftcard": false,
             "weight": 290,
-            "images": [
-                "https://images.hamza.biz/dalle_vr_2.webp"
-            ],
+            "images": ["https://images.hamza.biz/dalle_vr_2.webp"],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Racing Red",
-                        "Midnight Black"
-                    ]
+                    "values": ["Racing Red", "Midnight Black"]
                 }
             ],
             "variants": [
@@ -381,16 +341,11 @@
             "handle": "headset_aural",
             "is_giftcard": false,
             "weight": 275,
-            "images": [
-                "https://images.hamza.biz/dalle_vr_headset.webp"
-            ],
+            "images": ["https://images.hamza.biz/dalle_vr_headset.webp"],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Galactic Black",
-                        "Stellar White"
-                    ]
+                    "values": ["Galactic Black", "Stellar White"]
                 }
             ],
             "variants": [
@@ -433,16 +388,11 @@
             "handle": "headset_vision",
             "is_giftcard": false,
             "weight": 310,
-            "images": [
-                "https://images.hamza.biz/dalle_vr_headset3.webp"
-            ],
+            "images": ["https://images.hamza.biz/dalle_vr_headset3.webp"],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Visionary Black",
-                        "Innovator Ivory"
-                    ]
+                    "values": ["Visionary Black", "Innovator Ivory"]
                 }
             ],
             "variants": [
@@ -485,16 +435,11 @@
             "handle": "headset_echo",
             "is_giftcard": false,
             "weight": 265,
-            "images": [
-                "https://images.hamza.biz/vr_3.webp"
-            ],
+            "images": ["https://images.hamza.biz/vr_3.webp"],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Eclipse Black",
-                        "Solar White"
-                    ]
+                    "values": ["Eclipse Black", "Solar White"]
                 }
             ],
             "variants": [
@@ -537,16 +482,11 @@
             "handle": "headset_nova",
             "is_giftcard": false,
             "weight": 285,
-            "images": [
-                "https://images.hamza.biz/sony_wh1000xm4.jpeg"
-            ],
+            "images": ["https://images.hamza.biz/sony_wh1000xm4.jpeg"],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Nebula Navy",
-                        "Cosmic Chrome"
-                    ]
+                    "values": ["Nebula Navy", "Cosmic Chrome"]
                 }
             ],
             "variants": [
@@ -598,19 +538,11 @@
             "options": [
                 {
                     "title": "Size",
-                    "values": [
-                        "S",
-                        "M",
-                        "L",
-                        "XL"
-                    ]
+                    "values": ["S", "M", "L", "XL"]
                 },
                 {
                     "title": "Color",
-                    "values": [
-                        "Black",
-                        "White"
-                    ]
+                    "values": ["Black", "White"]
                 }
             ],
             "variants": [
@@ -852,12 +784,7 @@
             "options": [
                 {
                     "title": "Size",
-                    "values": [
-                        "S",
-                        "M",
-                        "L",
-                        "XL"
-                    ]
+                    "values": ["S", "M", "L", "XL"]
                 }
             ],
             "variants": [
@@ -979,12 +906,7 @@
             "options": [
                 {
                     "title": "Size",
-                    "values": [
-                        "S",
-                        "M",
-                        "L",
-                        "XL"
-                    ]
+                    "values": ["S", "M", "L", "XL"]
                 }
             ],
             "variants": [
@@ -1106,12 +1028,7 @@
             "options": [
                 {
                     "title": "Size",
-                    "values": [
-                        "S",
-                        "M",
-                        "L",
-                        "XL"
-                    ]
+                    "values": ["S", "M", "L", "XL"]
                 }
             ],
             "variants": [
@@ -1236,12 +1153,7 @@
             "options": [
                 {
                     "title": "Size",
-                    "values": [
-                        "S",
-                        "M",
-                        "L",
-                        "XL"
-                    ]
+                    "values": ["S", "M", "L", "XL"]
                 }
             ],
             "variants": [
@@ -1366,12 +1278,7 @@
             "options": [
                 {
                     "title": "Size",
-                    "values": [
-                        "S",
-                        "M",
-                        "L",
-                        "XL"
-                    ]
+                    "values": ["S", "M", "L", "XL"]
                 }
             ],
             "variants": [
@@ -1495,9 +1402,7 @@
             "options": [
                 {
                     "title": "Size",
-                    "values": [
-                        "One Size"
-                    ]
+                    "values": ["One Size"]
                 }
             ],
             "variants": [
@@ -1598,6 +1503,41 @@
             "rank": 2,
             "category_children": [],
             "handle": "gaming"
+        },
+        {
+            "id": "pcat_razor",
+            "name": "Razors",
+            "rank": 2,
+            "category_children": [],
+            "handle": "razor"
+        },
+        {
+            "id": "pcat_sound",
+            "name": "Sound",
+            "rank": 2,
+            "category_children": [],
+            "handle": "sound"
+        },
+        {
+            "id": "pcat_lofi",
+            "name": "Lofi",
+            "rank": 2,
+            "category_children": [],
+            "handle": "lofi"
+        },
+        {
+            "id": "pcat_shake",
+            "name": "Shake",
+            "rank": 2,
+            "category_children": [],
+            "handle": "shake"
+        },
+        {
+            "id": "pcat_blocks",
+            "name": "Blocks",
+            "rank": 2,
+            "category_children": [],
+            "handle": "blocks"
         }
     ],
     "publishable_api_keys": [
