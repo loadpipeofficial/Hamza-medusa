@@ -11,13 +11,6 @@ import ProductCardGroup from '@modules/products/components/product-group-store';
 import StoreFilterDisplay from '@modules/store-v2/component/store-filter-display';
 
 const StoreTemplate = () => {
-    const gridLayout = {
-        base: 2,
-        sm: 2,
-        md: 2,
-        lg: 3,
-    };
-
     //ipad pro 1024px
     //ipad air 820px (hide left)
 
@@ -57,32 +50,3 @@ const StoreTemplate = () => {
 };
 
 export default StoreTemplate;
-
-{
-    /* <Flex
-                width={'100%'}
-                flexDirection={{ base: 'column', md: 'row' }}
-                maxWidth={'1280px'}
-                gap="24px"
-                mx="auto" // Center the container horizontally
-            >
-                <SideMenu />
-                <MobileFilter />
-                <Flex
-                    justifyContent={'center'}
-                    alignItems={'center'}
-                    maxW={'941px'}
-                    gap={'24px'}
-                    wrap={'wrap'}
-                    width="100%"
-                    height="100%"
-                >
-                    <MobileCard />
-                    <MobileCard />
-                    <MobileCard />
-                    <MobileCard />
-                    <MobileCard />
-                    <MobileCard />
-                </Flex>
-            </Flex> */
-}

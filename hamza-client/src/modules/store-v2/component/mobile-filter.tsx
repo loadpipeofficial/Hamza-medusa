@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import mobileFilter from '../../../../public/images/categories/mobile-filter.svg';
 import {
     Flex,
@@ -7,12 +7,17 @@ import {
     Text,
     InputGroup,
     InputRightElement,
+    useDisclosure,
 } from '@chakra-ui/react';
 import Image from 'next/image';
 import { MdChevronLeft } from 'react-icons/md';
 import { FaSearch } from 'react-icons/fa';
+import FilterModal from './filter-modal';
 
 const MobileFilter = () => {
+    const [showFilterModal, setShowFilterModal] = useState(true);
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
     return (
         <Flex
             width={'100%'}
@@ -51,6 +56,7 @@ const MobileFilter = () => {
             {/* filter button */}
             <Box>
                 <Flex
+                    onClick={onOpen}
                     wrap={'nowrap'}
                     ml="auto"
                     borderWidth={'2px'}
@@ -75,6 +81,11 @@ const MobileFilter = () => {
                     />
                 </Flex>
             </Box>
+            <FilterModal
+                isOpen={isOpen}
+                onClose={onClose}
+                title="Modal Title"
+            />
         </Flex>
     );
 };

@@ -22,6 +22,7 @@ const CurrencyButton: React.FC<CurrencyButtonProps> = ({ currencyName }) => {
                 }
                 display={'flex'}
                 flexDirection={'row'}
+                justifyContent={'center'}
                 alignItems={'center'}
                 borderWidth={'1px'}
                 borderRadius={'49px'}
@@ -37,7 +38,9 @@ const CurrencyButton: React.FC<CurrencyButtonProps> = ({ currencyName }) => {
                 onClick={() => setCurrencyFilterSelect(currencyName)}
             >
                 <Image src={currencyIcons[currencyName]} alt={currencyName} />
-                <Text ml="1rem">{currencyName}</Text>
+                <Text fontSize={{ base: '14px', md: '16px' }} ml="0.5rem">
+                    {currencyName}
+                </Text>
             </Flex>
         </Flex>
     );
