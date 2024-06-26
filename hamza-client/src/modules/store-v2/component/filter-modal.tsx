@@ -19,6 +19,9 @@ import CurrencyButton from './currency-button';
 import currencies from '../data/currency-category';
 import ReviewButton from './review-button';
 import RangeSliderComponent from './range-slider';
+import CategoryButton from './category-button';
+import useStorePage from '@store/store-page/store-page';
+import useSideFilter from '@store/store-page/side-filter';
 
 interface FilterModalProps {
     isOpen: boolean;
@@ -26,6 +29,23 @@ interface FilterModalProps {
 }
 
 const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
+    const {
+        setCurrencySelect,
+        setReviewStarsSelect,
+        setCategorySelect,
+        setCategoryTypeSelect,
+    } = useStorePage();
+    const {
+        categoryFilterSelect,
+        categoryTypeFilterSelect,
+        reviewFilterSelect,
+        currencyFilterSelect,
+        setReviewFilterSelect,
+        setCurrencyFilterSelect,
+        setCategoryFilterSelect,
+        setCategoryTypeFilterSelect,
+    } = useSideFilter();
+
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
@@ -38,28 +58,42 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
                 >
                     Filters
                 </ModalHeader>
+
                 <ModalCloseButton color={'white'} />
-                <ModalBody padding={'0px'}>
-                    <ModalHeader
-                        padding={'1rem'}
-                        fontWeight={'600'}
-                        fontSize={'16px'}
-                        color="white"
+                <ModalBody padding={'1rem'}>
+                    <Text fontWeight={'600'} fontSize={'16px'} color="white">
+                        Categories
+                    </Text>
+                    <Flex
+                        mt="1.5rem"
+                        flexDirection={'row'}
+                        wrap={'wrap'}
+                        gap="16px"
                     >
-                        Filters
-                    </ModalHeader>
-                    <ModalHeader
-                        padding={'1rem'}
+                        <CategoryButton
+                            categoryType="clothes"
+                            categoryName="Medusa Merch"
+                        />
+                        <CategoryButton
+                            categoryType="games"
+                            categoryName="Echo Rift"
+                        />
+                        <CategoryButton
+                            categoryType="gadgets"
+                            categoryName="Dauntless"
+                        />
+                    </Flex>
+                    <Text
+                        mt="1.5rem"
                         fontWeight={'600'}
                         fontSize={'16px'}
                         color="white"
                     >
                         Price Range
-                    </ModalHeader>
+                    </Text>
 
                     <Text
-                        px={'1rem'}
-                        mt="-0.5rem"
+                        mt="0.25rem"
                         fontSize={'14px'}
                         color="secondary.davy.900"
                     >
@@ -68,24 +102,24 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
 
                     <RangeSliderComponent />
 
-                    <ModalHeader
-                        px={'1rem'}
+                    <Text
+                        mt="2rem"
                         fontWeight={'600'}
                         fontSize={'16px'}
                         color="white"
                     >
                         Cryptocurrency
-                    </ModalHeader>
+                    </Text>
                     <Text
-                        px={'1rem'}
-                        mt="-0.5rem"
+                        // mx={'1.5rem'}
+                        mt="0.25rem"
                         fontSize={'14px'}
                         color="secondary.davy.900"
                     >
                         Pay with different cryptocurrencies
                     </Text>
 
-                    <Flex p="1rem" mt="0.5rem" flexDirection={'row'} gap="12px">
+                    <Flex mt="1.5rem" flexDirection={'row'} gap="12px">
                         {Object.keys(currencies).map((key) => (
                             <CurrencyButton
                                 key={key}
@@ -95,17 +129,16 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
                             />
                         ))}
                     </Flex>
-                    <ModalHeader
-                        px={'1rem'}
+                    <Text
+                        my="1.5rem"
                         fontWeight={'600'}
                         fontSize={'16px'}
                         color="white"
                     >
                         Ratings
-                    </ModalHeader>
+                    </Text>
                     <Flex
                         mt="0.5rem"
-                        px="1rem"
                         flexDirection={'row'}
                         wrap={'wrap'}
                         gap="12px"
@@ -134,6 +167,23 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
                         Clear All
                     </Button>
                     <Button
+                        onClick={() => {
+                            if (currencyFilterSelect) {
+                                setCurrencySelect(currencyFilterSelect);
+                            }
+                            if (reviewFilterSelect) {
+                                setReviewStarsSelect(reviewFilterSelect);
+                            }
+                            if (categoryFilterSelect) {
+                                setCategorySelect(categoryFilterSelect);
+                                setCategoryTypeSelect(categoryTypeFilterSelect);
+                            }
+                            setReviewFilterSelect(null);
+                            setCurrencyFilterSelect(null);
+                            setCategoryFilterSelect(null);
+                            setCategoryTypeFilterSelect(null);
+                            onClose();
+                        }}
                         fontSize={'16px'}
                         fontWeight={'400'}
                         leftIcon={

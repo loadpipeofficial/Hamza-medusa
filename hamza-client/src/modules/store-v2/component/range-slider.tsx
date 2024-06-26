@@ -24,7 +24,7 @@ const RangeSliderComponent = () => {
 
     return (
         <Box my={{ base: '1rem', md: '2rem' }}>
-            <Box mx={'1.5rem'}>
+            <Box>
                 <RangeSlider
                     // eslint-disable-next-line jsx-a11y/aria-proptypes
                     aria-label={['min', 'max']}
@@ -51,12 +51,7 @@ const RangeSliderComponent = () => {
             </Box>
 
             {/* Display for min and max values */}
-            <Flex
-                mt="1rem"
-                mx="1rem"
-                justifyContent="center"
-                alignItems={'center'}
-            >
+            <Flex mt="1rem" justifyContent="center" alignItems={'center'}>
                 <Flex
                     borderColor="secondary.davy.900"
                     flexDirection="column"
