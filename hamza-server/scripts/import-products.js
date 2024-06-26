@@ -109,17 +109,16 @@ async function main() {
                     products: [
                         {
                             store_id: 'Legendary Light Design',
-                            title: 'Stoopid Lights',
+                            title: 'INDOOR/OUTDOOR WALL LAMP M - W100 X D4',
                             categories: [
                                 {
-                                    id: 'pcat_lighting',
+                                    id: 'pcat_home_lighting',
                                 },
                             ],
                             collection_id: 'pcol_lighting',
-                            subtitle: 'For stunning indoor & outdoor ambience',
-                            description:
-                                'The Cybernetic Headset merges state-of-the-art sound technology with a robotic design to deliver an unmatched audio experience.',
-                            handle: 'lld_indout',
+                            "subtitle": "For stunning indoor & outdoor ambience, this light comes with high-quality Langdon fixtures, a light design, and durable stricture framing.",
+                            "description": "<li>M - W100 X D4.5 X H3.6 CMS.<li>L - W200 X D4.5 X H3.6 CMS.<li>S- W30 X D4.5 X H3.6 CMS.<li>S- W30 X D4.5 X H3.6 CMS.<li>NAME : Howet INDOOR/OUTDOOR WALL LAMP<li>CODE : WL-24D&crlf;SIZE :<li>S- W30 X D4.5 X H3.6 CMS.<li>M - W100 X D4.5 X H3.6 CMS.<li>L - W200 X D4.5 X H3.6 CMS.<li>COLOR : METAL BLACK<li>MATERIAL : HIGH QUALITY ALUMINIUM WITH WATERPROOF PROTECTIVE FILM<li>LIGHT SOURCE : LED 9W / 30W/ 60W",
+                            "handle": "lld_indout",
                             is_giftcard: false,
                             weight: 260,
                             images: [
