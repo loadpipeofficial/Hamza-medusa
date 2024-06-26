@@ -161,7 +161,13 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
                         color={'white'}
                         backgroundColor={'transparent'}
                         mr={3}
-                        onClick={onClose}
+                        onClick={() => {
+                            setReviewFilterSelect(null);
+                            setCurrencyFilterSelect(null);
+                            setCategoryFilterSelect(null);
+                            setCategoryTypeFilterSelect(null);
+                            onClose();
+                        }}
                         mr="auto"
                     >
                         Clear All

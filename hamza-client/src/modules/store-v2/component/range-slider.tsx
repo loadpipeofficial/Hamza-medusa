@@ -34,7 +34,7 @@ const RangeSliderComponent = () => {
                     onChange={handleRangeChange}
                     colorScheme="blue"
                 >
-                    <RangeSliderTrack bg="secondary.charcoal.900">
+                    <RangeSliderTrack bg="primary.indigo.900">
                         <RangeSliderFilledTrack bg="secondary.charcoal.900" />
                     </RangeSliderTrack>
                     <RangeSliderThumb
