@@ -28,8 +28,8 @@ const ReviewButton: React.FC<ReviewButtonProps> = ({ title, value }) => {
                 alignItems={'center'}
                 borderWidth={'1px'}
                 borderRadius={'49px'}
+                height={'60px'}
                 width={{ base: '125px', md: '154px' }}
-                // minW={'101px'}
                 style={{ padding: '10px 24px', cursor: 'pointer' }}
                 color={reviewFilterSelect === title ? 'black' : 'white'}
                 _hover={{

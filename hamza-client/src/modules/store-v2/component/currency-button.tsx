@@ -27,6 +27,7 @@ const CurrencyButton: React.FC<CurrencyButtonProps> = ({ currencyName }) => {
                 borderWidth={'1px'}
                 borderRadius={'49px'}
                 cursor="pointer"
+                height={'60px'}
                 color={
                     currencyFilterSelect === currencyName ? 'black' : 'white'
                 }

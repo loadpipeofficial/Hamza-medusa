@@ -34,6 +34,7 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({
                 alignItems={'center'}
                 borderWidth={'1px'}
                 borderRadius={'49px'}
+                height={'60px'}
                 cursor="pointer"
                 color={
                     categoryFilterSelect === categoryName ? 'black' : 'white'
