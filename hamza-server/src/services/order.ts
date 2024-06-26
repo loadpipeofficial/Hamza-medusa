@@ -299,6 +299,8 @@ export default class OrderService extends MedusaOrderService {
             relations: ['cart.items.variant.product', 'store.owner'],
         })) as Order[];
         console.log(orders);
+        // return orders;
+
         const products = [];
 
         orders.forEach((order) => {
@@ -307,12 +309,26 @@ export default class OrderService extends MedusaOrderService {
                     ...item.variant.product,
                     order_id: order.id,
                     store_name: order.store.name, // Add store.name to the product
+                    currency_code: item.currency_code,
+                    unit_price: item.unit_price,
                 };
                 products.push(product);
             });
         });
 
         return products;
+
+        // const orderSet = new Set();
+        // const uniqueOrder = products.filter((item) => {
+        //     if (orderSet.has(item.order_id)) {
+        //         return false;
+        //     } else {
+        //         orderSet.add(item.order_id);
+        //         return true;
+        //     }
+        // });
+        //
+        // return uniqueOrder;
     }
 
     async listCustomerOrders(
