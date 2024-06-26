@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import mobileFilter from '../../../../public/images/categories/mobile-filter.svg';
+import mobileFilter from '../../../../../public/images/categories/mobile-filter.svg';
 import {
     Flex,
     Box,
@@ -12,9 +12,12 @@ import {
 import Image from 'next/image';
 import { MdChevronLeft } from 'react-icons/md';
 import { FaSearch } from 'react-icons/fa';
-import FilterModal from './filter-modal';
+import FilterModal from './components/filter-modal';
+import useModalFilter from '@store/store-page/filter-modal';
 
 const MobileFilter = () => {
+    const { setModalFilterSelected } = useModalFilter();
+
     const [showFilterModal, setShowFilterModal] = useState(true);
     const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -56,7 +59,10 @@ const MobileFilter = () => {
             {/* filter button */}
             <Box>
                 <Flex
-                    onClick={onOpen}
+                    onClick={() => {
+                        onOpen();
+                        setModalFilterSelected(true);
+                    }}
                     wrap={'nowrap'}
                     ml="auto"
                     borderWidth={'2px'}
@@ -81,11 +87,7 @@ const MobileFilter = () => {
                     />
                 </Flex>
             </Box>
-            <FilterModal
-                isOpen={isOpen}
-                onClose={onClose}
-                title="Modal Title"
-            />
+            <FilterModal isOpen={isOpen} onClose={onClose} />
         </Flex>
     );
 };

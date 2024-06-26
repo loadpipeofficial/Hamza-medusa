@@ -13,15 +13,17 @@ import {
     Box,
 } from '@chakra-ui/react';
 import React from 'react';
-import FilterIcon from '../../../../public/images/categories/mobile-filter.svg';
+import FilterIcon from '../../../../../../public/images/categories/mobile-filter.svg';
 import Image from 'next/image';
-import CurrencyButton from './currency-button';
-import currencies from '../data/currency-category';
-import ReviewButton from './review-button';
-import RangeSliderComponent from './range-slider';
-import CategoryButton from './category-button';
+import CurrencyButton from '../../currency-button';
+import currencies from '../../../data/currency-category';
+import ReviewButton from '../../review-button';
+import RangeSliderComponent from '../../range-slider';
+import CategoryModalButton from './category-modal-button';
+import CurrencyModalButton from './currency-modal-button';
 import useStorePage from '@store/store-page/store-page';
 import useSideFilter from '@store/store-page/side-filter';
+import useModalFilter from '@store/store-page/filter-modal';
 
 interface FilterModalProps {
     isOpen: boolean;
@@ -45,6 +47,15 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
         setCategoryFilterSelect,
         setCategoryTypeFilterSelect,
     } = useSideFilter();
+
+    const {
+        modalCurrencyFilterSelect,
+        modalCategoryFilterSelect,
+        modalCategoryTypeFilterSelect,
+        setModalCategoryTypeFilterSelect,
+        setModalCurrencyFilterSelect,
+        setModalCategoryFilterSelect,
+    } = useModalFilter();
 
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
@@ -70,15 +81,15 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
                         wrap={'wrap'}
                         gap="16px"
                     >
-                        <CategoryButton
+                        <CategoryModalButton
                             categoryType="clothes"
                             categoryName="Medusa Merch"
                         />
-                        <CategoryButton
+                        <CategoryModalButton
                             categoryType="games"
                             categoryName="Echo Rift"
                         />
-                        <CategoryButton
+                        <CategoryModalButton
                             categoryType="gadgets"
                             categoryName="Dauntless"
                         />
@@ -121,7 +132,7 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
 
                     <Flex mt="1.5rem" flexDirection={'row'} gap="12px">
                         {Object.keys(currencies).map((key) => (
-                            <CurrencyButton
+                            <CurrencyModalButton
                                 key={key}
                                 currencyName={
                                     (currencies as { [key: string]: any })[key]
@@ -174,20 +185,21 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
                     </Button>
                     <Button
                         onClick={() => {
-                            if (currencyFilterSelect) {
-                                setCurrencySelect(currencyFilterSelect);
+                            if (modalCurrencyFilterSelect) {
+                                setCurrencySelect(modalCurrencyFilterSelect);
                             }
                             if (reviewFilterSelect) {
                                 setReviewStarsSelect(reviewFilterSelect);
                             }
-                            if (categoryFilterSelect) {
-                                setCategorySelect(categoryFilterSelect);
-                                setCategoryTypeSelect(categoryTypeFilterSelect);
+                            if (modalCategoryFilterSelect) {
+                                setCategorySelect(modalCategoryFilterSelect);
+                                setCategoryTypeSelect(
+                                    modalCategoryTypeFilterSelect
+                                );
                             }
-                            setReviewFilterSelect(null);
-                            setCurrencyFilterSelect(null);
-                            setCategoryFilterSelect(null);
-                            setCategoryTypeFilterSelect(null);
+                            setModalCurrencyFilterSelect(null);
+                            setModalCategoryFilterSelect(null);
+                            setModalCategoryTypeFilterSelect(null);
                             onClose();
                         }}
                         fontSize={'16px'}
