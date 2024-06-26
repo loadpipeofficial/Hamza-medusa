@@ -5,6 +5,7 @@ import LocalizedClientLink from '@modules/common/components/localized-client-lin
 import { FaTwitter } from 'react-icons/fa6';
 import { FaDiscord } from 'react-icons/fa6';
 import Link from 'next/link';
+import Reputation from '@modules/home/components/reputation';
 
 const fetchCollections = async () => {
     const { collections } = await getCollectionsList();
@@ -177,7 +178,17 @@ export default async function Footer() {
                         </Text>
                     </Flex>
                 </Flex>
-                {/* Bottom Content */}
+
+                <Divider />
+                {/* Reputation */}
+
+                <Box
+                    mb={{ base: '-10rem', md: '0' }}
+                    display={{ base: 'none', md: 'block' }}
+                >
+                    <Reputation />
+                </Box>
+
                 <Divider />
                 {/* Bottom Content */}
 
@@ -190,7 +201,6 @@ export default async function Footer() {
                             HAMZA
                         </Text>
                     </Flex>
-
                     <Flex
                         mr={{ base: 'auto', md: '0' }}
                         flexDir={'row'}

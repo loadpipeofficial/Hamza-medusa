@@ -23,14 +23,6 @@ const SearchAndFilterPanel = () => {
     return (
         <Box>
             <SearchBar />
-            {isClient && (
-                <Box
-                    mb={{ base: '-10rem', md: '0' }}
-                    display={{ base: 'none', md: 'block' }}
-                >
-                    <Reputation />
-                </Box>
-            )}
             <Container py="8" maxW="1280px">
                 <Flex gap="1rem">
                     {vendors.map((vendor: any) => (
