@@ -29,6 +29,8 @@ interface Product {
     handle: string;
     is_giftcard: boolean;
     store_name: string;
+    unit_price: number;
+    currency_code: string;
     order_id: string;
     status: string;
     thumbnail: string;
@@ -50,6 +52,7 @@ interface Product {
 const Summary: React.FC<{ cart_id: string }> = ({ cart_id }) => {
     const [products, setProducts] = useState<Product[]>([]);
 
+    console.log(`CART ID IS ${cart_id}`);
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -89,6 +92,9 @@ const Summary: React.FC<{ cart_id: string }> = ({ cart_id }) => {
                     </span>
                     <span className="pr-2">store_id: {product.store_id}</span>
                     <span className="pr-2">order_id: {product.order_id}</span>
+                    <span className="pr-2">
+                        {product.unit_price} {product.currency_code}
+                    </span>
                     <span className="pr-2">
                         store_name: {product.store_name}
                     </span>
