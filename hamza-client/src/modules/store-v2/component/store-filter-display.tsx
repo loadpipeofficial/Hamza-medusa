@@ -13,7 +13,7 @@ const StoreFilterDisplay = () => {
             width={'100%'}
             flexDirection={'column'}
         >
-            <Flex flexDirection={'column'} gap="1.5rem">
+            <Flex flexDirection={'column'} gap="1rem">
                 <Flex gap="10px">
                     <Text color="White" fontSize={'18px'}>
                         Home
