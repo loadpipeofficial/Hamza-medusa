@@ -316,19 +316,17 @@ export default class OrderService extends MedusaOrderService {
             });
         });
 
-        return products;
+        const seen = new Set();
+        const uniqueCart = [];
 
-        // const orderSet = new Set();
-        // const uniqueOrder = products.filter((item) => {
-        //     if (orderSet.has(item.order_id)) {
-        //         return false;
-        //     } else {
-        //         orderSet.add(item.order_id);
-        //         return true;
-        //     }
-        // });
-        //
-        // return uniqueOrder;
+        for (const item of products) {
+            if (!seen.has(item.id)) {
+                seen.add(item.id);
+                uniqueCart.push(item);
+            }
+        }
+
+        return uniqueCart;
     }
 
     async listCustomerOrders(
