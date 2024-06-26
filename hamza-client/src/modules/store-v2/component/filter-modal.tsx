@@ -26,7 +26,7 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
-            <ModalContent backgroundColor={'#121212'} padding={'0px'}>
+            <ModalContent backgroundColor={'#121212'}>
                 <ModalHeader
                     fontWeight={'600'}
                     fontSize={'16px'}
@@ -70,7 +70,7 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
                         Pay with different cryptocurrencies
                     </Text>
 
-                    <Flex p="1rem" flexDirection={'row'} gap="16px">
+                    <Flex p="1rem" mt="0.5rem" flexDirection={'row'} gap="12px">
                         {Object.keys(currencies).map((key) => (
                             <CurrencyButton
                                 key={key}
@@ -81,7 +81,7 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
                         ))}
                     </Flex>
                     <ModalHeader
-                        padding={'1rem'}
+                        px={'1rem'}
                         fontWeight={'600'}
                         fontSize={'16px'}
                         color="white"
@@ -89,10 +89,11 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
                         Ratings
                     </ModalHeader>
                     <Flex
+                        mt="0.5rem"
                         px="1rem"
                         flexDirection={'row'}
                         wrap={'wrap'}
-                        gap="16px"
+                        gap="12px"
                     >
                         <ReviewButton title={'All'} value={'All'} />
                         <ReviewButton title={'4 Stars'} value={'4'} />
@@ -102,7 +103,7 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
                     </Flex>
                 </ModalBody>
 
-                <Divider mt="1rem" />
+                <Divider mt="1.5rem" />
 
                 <ModalFooter px={'1rem'} pt="1.4rem" pb="1.2rem">
                     <Button
