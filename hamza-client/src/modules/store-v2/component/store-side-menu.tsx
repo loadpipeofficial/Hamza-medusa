@@ -84,7 +84,7 @@ const SideMenu = () => {
                     Rating
                 </Heading>
 
-                <Flex px="1rem" flexDirection={'column'} gap="16px">
+                <Flex mt="1rem" flexDirection={'column'} gap="16px">
                     <ReviewButton title={'All'} value={'All'} />
                     <ReviewButton title={'4 Stars'} value={'4'} />
                     <ReviewButton title={'3 Stars'} value={'3'} />

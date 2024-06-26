@@ -8,12 +8,15 @@ import {
     ModalCloseButton,
     Button,
     Flex,
+    Divider,
+    Text,
 } from '@chakra-ui/react';
 import React from 'react';
 import FilterIcon from '../../../../public/images/categories/mobile-filter.svg';
 import Image from 'next/image';
 import CurrencyButton from './currency-button';
 import currencies from '../data/currency-category';
+import ReviewButton from './review-button';
 interface FilterModalProps {
     isOpen: boolean;
     onClose: () => void;
@@ -51,13 +54,22 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
                         Price Range
                     </ModalHeader>
                     <ModalHeader
-                        padding={'1rem'}
+                        px={'1rem'}
                         fontWeight={'600'}
                         fontSize={'16px'}
                         color="white"
                     >
                         Cryptocurrency
                     </ModalHeader>
+                    <Text
+                        px={'1rem'}
+                        mt="-0.5rem"
+                        fontSize={'14px'}
+                        color="secondary.davy.900"
+                    >
+                        Pay with different cryptocurrencies
+                    </Text>
+
                     <Flex p="1rem" flexDirection={'row'} gap="16px">
                         {Object.keys(currencies).map((key) => (
                             <CurrencyButton
@@ -76,15 +88,29 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
                     >
                         Ratings
                     </ModalHeader>
+                    <Flex
+                        px="1rem"
+                        flexDirection={'row'}
+                        wrap={'wrap'}
+                        gap="16px"
+                    >
+                        <ReviewButton title={'All'} value={'All'} />
+                        <ReviewButton title={'4 Stars'} value={'4'} />
+                        <ReviewButton title={'3 Stars'} value={'3'} />
+                        <ReviewButton title={'2 Stars'} value={'2'} />
+                        <ReviewButton title={'1 Star'} value={'1'} />
+                    </Flex>
                 </ModalBody>
 
-                <ModalFooter padding={'1rem'}>
+                <Divider mt="1rem" />
+
+                <ModalFooter px={'1rem'} pt="1.4rem" pb="1.2rem">
                     <Button
                         fontSize={'16px'}
                         fontWeight={'400'}
                         justifyItems={'flex-start'}
                         color={'white'}
-                        backgroundColor={'red'}
+                        backgroundColor={'transparent'}
                         mr={3}
                         onClick={onClose}
                         mr="auto"

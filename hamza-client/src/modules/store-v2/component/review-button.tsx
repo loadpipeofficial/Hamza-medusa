@@ -24,9 +24,13 @@ const ReviewButton: React.FC<ReviewButtonProps> = ({ title, value }) => {
                 borderColor={'secondary.davy.900'}
                 display={'flex'}
                 flexDirection={'row'}
+                justifyContent={'center'}
                 alignItems={'center'}
                 borderWidth={'1px'}
                 borderRadius={'49px'}
+                maxW={'154px'}
+                minW={'101px'}
+                width={'100%'}
                 style={{ padding: '10px 24px', cursor: 'pointer' }}
                 color={reviewFilterSelect === title ? 'black' : 'white'}
                 _hover={{
@@ -34,8 +38,17 @@ const ReviewButton: React.FC<ReviewButtonProps> = ({ title, value }) => {
                     color: 'black',
                 }}
             >
-                <Image src={ReviewStar} alt={title} />
-                <Text ml="10px">{title}</Text>
+                <Image
+                    style={{ marginLeft: '10px' }}
+                    src={ReviewStar}
+                    alt={title}
+                />
+
+                <Flex justifyContent={'flex-start'} flex="1">
+                    <Text ml="10px" fontSize={{ base: '14px', md: '16px' }}>
+                        {title}
+                    </Text>
+                </Flex>
             </Flex>
         </Flex>
     );
