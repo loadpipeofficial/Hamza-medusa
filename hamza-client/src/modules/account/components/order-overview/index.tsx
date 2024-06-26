@@ -18,7 +18,8 @@ import {
     ModalBody,
     ModalFooter,
     Textarea,
-    VStack,
+    FormControl,
+    FormErrorMessage,
 } from '@chakra-ui/react';
 
 const MEDUSA_SERVER_URL =
@@ -66,12 +67,17 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
     const [customerOrder, setCustomerOrder] = useState<Order[] | null>(null);
+    const [isAttemptedSubmit, setIsAttemptedSubmit] = useState(false);
 
     const openModal = (orderId: string) => {
         setSelectedOrderId(orderId);
         setIsModalOpen(true);
     };
-    const closeModal = () => setIsModalOpen(false);
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setCancelReason('');
+        setIsAttemptedSubmit(false);
+    };
     console.log('Orders: ', orders);
 
     let countryCode = useParams().countryCode as string;
@@ -171,6 +177,10 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
     }, [detailedOrders, orders]);
 
     const handleCancel = async () => {
+        if (!cancelReason) {
+            setIsAttemptedSubmit(true);
+            return;
+        }
         if (!selectedOrderId) return;
 
         try {
@@ -286,11 +296,22 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                     <ModalHeader>Request Cancellation</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Textarea
-                            placeholder="Reason for cancellation"
-                            value={cancelReason}
-                            onChange={(e) => setCancelReason(e.target.value)}
-                        />
+                        <FormControl
+                            isInvalid={!cancelReason && isAttemptedSubmit}
+                        >
+                            <Textarea
+                                placeholder="Reason for cancellation"
+                                value={cancelReason}
+                                onChange={(e) =>
+                                    setCancelReason(e.target.value)
+                                }
+                            />
+                            {!cancelReason && isAttemptedSubmit && (
+                                <FormErrorMessage>
+                                    Cancellation reason is required.
+                                </FormErrorMessage>
+                            )}
+                        </FormControl>
                     </ModalBody>
                     <ModalFooter>
                         <Button variant="ghost" onClick={closeModal}>

@@ -292,6 +292,29 @@ export default class OrderService extends MedusaOrderService {
         });
     }
 
+    async completeOrderTemplate(cartId: string) {
+        console.log('Cart ID', cartId);
+        const orders = (await this.orderRepository_.find({
+            where: { cart_id: cartId },
+            relations: ['cart.items.variant.product', 'store.owner'],
+        })) as Order[];
+        console.log(orders);
+        const products = [];
+
+        orders.forEach((order) => {
+            order.cart.items.forEach((item) => {
+                const product = {
+                    ...item.variant.product,
+                    order_id: order.id,
+                    store_name: order.store.name, // Add store.name to the product
+                };
+                products.push(product);
+            });
+        });
+
+        return products;
+    }
+
     async listCustomerOrders(
         customerId: string
     ): Promise<{ orders: any[]; uniqueCartIds: string[]; cartCount: number }> {

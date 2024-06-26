@@ -84,7 +84,7 @@ function readProductsFromCsv() {
 }
 
 async function main() {
-    console.log(readProductsFromCsv());
+    //console.log(readProductsFromCsv());
     try {
         const authResponse = await fetch('http://localhost:9000/admin/auth', {
             method: 'POST',
@@ -106,7 +106,50 @@ async function main() {
                     'Content-type': 'application/json; charset=UTF-8',
                 },
                 body: JSON.stringify({
-                    products: readProductsFromCsv(),
+                    products: [
+
+                        {
+                            "store_id": "Legendary Light Design",
+                            "title": "The Cybernetic Headset",
+                            "categories": [
+                                {
+                                    "id": "vr_headphones"
+                                }
+                            ],
+                            "collection_id": "pcol_01HSGAMXDJD725MR3VSW631SN2",
+                            "subtitle": "For stunning indoor & outdoor ambience",
+                            "description": "The Cybernetic Headset merges state-of-the-art sound technology with a robotic design to deliver an unmatched audio experience.",
+                            "handle": "lld_indout",
+                            "is_giftcard": false,
+                            "weight": 260,
+                            "images": [
+                                "https://images.hamza.biz/Legendary/LLD_indout.png"
+                            ],
+                            "options": [
+                            ],
+                            "variants": [
+                                {
+                                    "title": "Robot White",
+                                    "prices": [
+                                        {
+                                            "currency_code": "eth",
+                                            "amount": 4400000
+                                        },
+                                        {
+                                            "currency_code": "usdc",
+                                            "amount": 23000
+                                        },
+                                        {
+                                            "currency_code": "usdt",
+                                            "amount": 23000
+                                        }
+                                    ],
+                                    "inventory_quantity": 75,
+                                    "manage_inventory": true
+                                }
+                            ]
+                        }
+                    ],
                 }),
             }
         );
