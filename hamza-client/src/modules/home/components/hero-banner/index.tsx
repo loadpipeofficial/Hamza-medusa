@@ -8,6 +8,8 @@ import { SwitchNetwork } from '@/components/providers/rainbowkit/rainbowkit-util
 const HeroBanner = () => {
     const [opacity, setOpacity] = useState(1);
 
+    const [isHydrated, setIsHydrated] = useState(false);
+
     useEffect(() => {
         const handleScroll = () => {
             const scrollY = window.scrollY;
@@ -21,6 +23,14 @@ const HeroBanner = () => {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
+
+    useEffect(() => {
+        setIsHydrated(true);
+    }, []);
+
+    if (!isHydrated) {
+        return <></>;
+    }
 
     return (
         <>
