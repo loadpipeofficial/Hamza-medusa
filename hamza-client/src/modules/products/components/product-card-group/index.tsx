@@ -133,7 +133,7 @@ const ProductCardGroup = ({
                             .flat();
 
                         const productPricing = formatCryptoPrice(
-                            variantPrices[0].amount,
+                            variantPrices.find((p: any) => p.currency_code === preferred_currency_code).amount,
                             preferred_currency_code as string
                         );
                         const reviewCounter = product.reviews.length;
