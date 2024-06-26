@@ -15,8 +15,7 @@ const SideMenu = () => {
     return (
         <Box
             display={isLargerThan820 ? 'block' : 'none'}
-            px="2rem"
-            py="2rem"
+            p="2rem"
             ml="1rem"
             color={'white'}
             borderRadius={'20px'}
