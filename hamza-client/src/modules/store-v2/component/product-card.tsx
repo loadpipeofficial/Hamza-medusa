@@ -124,19 +124,19 @@ const ProductCardStore: React.FC<ProductCardProps> = ({
                                         (a) => a.id == productId
                                     )
                                         ? addWishlistItemMutation.mutate({
-                                              id: productId!,
-                                              description: '',
-                                              title: productName!,
-                                              thumbnail: imageSrc!,
-                                              handle: productHandle!,
-                                          })
+                                            id: productId!,
+                                            description: '',
+                                            title: productName!,
+                                            thumbnail: imageSrc!,
+                                            handle: productHandle!,
+                                        })
                                         : removeWishlistItemMutation.mutate({
-                                              id: productId!,
-                                              description: '',
-                                              title: productName!,
-                                              thumbnail: imageSrc!,
-                                              handle: productHandle!,
-                                          });
+                                            id: productId!,
+                                            description: '',
+                                            title: productName!,
+                                            thumbnail: imageSrc!,
+                                            handle: productHandle!,
+                                        });
                                 }}
                                 sx={{
                                     userSelect: 'none',
@@ -210,7 +210,7 @@ const ProductCardStore: React.FC<ProductCardProps> = ({
                             fontWeight="700"
                             fontSize={{ base: '14px', md: '18px' }}
                         >
-                            {`${formatCryptoPrice(parseInt(productPrice?.toString() ?? '0'), currencyCode ?? 'usdc')} ${currencyCode?.toUpperCase()}`}
+                            {`${productPrice} ${currencyCode?.toUpperCase()}`}
                         </Text>
                         <Text
                             textDecoration={
