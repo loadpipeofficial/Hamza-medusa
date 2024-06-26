@@ -1,14 +1,15 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+// import Image from 'next/image';
 import {
     Card,
     CardBody,
-    Image,
     Text,
     Flex,
     Box,
     Skeleton,
+    Image,
 } from '@chakra-ui/react';
 import { AiOutlineDollar } from 'react-icons/ai';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
@@ -21,6 +22,7 @@ import useWishlistStore from '@store/wishlist/wishlist-store';
 import { useWishlistMutations } from '@store/wishlist/mutations/wishlist-mutations';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import { formatCryptoPrice } from '@lib/util/get-product-price';
+import currencyIcons from '../../../../../public/images/currencies/crypto-currencies';
 
 interface ProductCardProps {
     reviewCount?: number;
@@ -83,8 +85,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
     return (
         <Card
-            maxW={'295px'}
-            h="399px"
+            width={{ base: '167px', md: '280px' }}
+            height={{ base: '243px', md: '384px ' }}
             backgroundColor={'#121212'}
             borderRadius="16px"
             overflow="hidden"
@@ -92,7 +94,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <LocalizedClientLink href={`/products/${productHandle}`}>
                 <Box
                     onClick={() => console.log('hello')}
-                    h="240px"
+                    height={{ base: '134.73px', md: '238px' }}
                     width="100%"
                     display="flex"
                     justifyContent="center"
@@ -103,44 +105,47 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     <Image
                         src={imageSrc}
                         alt={productName}
+                        width="100%"
+                        height="100%"
+                        objectFit="cover"
                         onLoad={() => setImageLoaded(true)}
                         display={imageLoaded ? 'block' : 'none'}
                     />{' '}
                 </Box>
             </LocalizedClientLink>
-            <CardBody
-                backgroundColor={'#121212'}
+
+            {/* card body */}
+            <Flex
+                padding={{ base: '0.5rem', md: '1rem' }}
+                height={'100%'}
                 display={'flex'}
                 flexDirection={'column'}
             >
-                <Box
-                    display={'flex'}
-                    flexDirection={'column'}
-                    h="100%"
-                    w="100%"
-                >
-                    <Flex mb="1">
+                <Box display={'flex'} flexDirection={'column'} flex="1">
+                    <Flex mb={{ base: '0', md: '1' }}>
                         <Text
                             color={'white'}
                             fontWeight="700"
-                            fontSize="1.25rem"
-                            lineHeight="25.29px"
-                            noOfLines={3}
+                            fontSize={{ base: '14px', md: '1.25rem' }}
+                            noOfLines={{ base: 2, md: 3 }}
                         >
                             {productName}
                         </Text>
                         {/* wish list heart code */}
 
                         {authData.status == 'authenticated' && (
-                            <Box pl="1rem" ml="auto">
-                                <Box
-                                    display="flex"
+                            <Box
+                                p="5px"
+                                ml="auto"
+                                display={{ base: 'none', md: 'flex' }}
+                            >
+                                <Flex
                                     justifyContent="center"
                                     alignItems="center"
-                                    minWidth="40px"
-                                    minHeight="40px"
-                                    borderRadius="50%"
-                                    border="1px"
+                                    width="40px"
+                                    height="40px"
+                                    borderRadius="full"
+                                    borderWidth="2px"
                                     borderColor="#7B61FF"
                                     cursor="pointer"
                                     onClick={() => {
@@ -169,34 +174,36 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                         userSelect: 'none',
                                     }}
                                 >
-                                    <Box alignSelf="center">
+                                    <Flex alignSelf="center">
                                         {!wishlist.products.find(
                                             (a) => a.id == productId
                                         ) ? (
                                             <FaRegHeart
                                                 color="#7B61FF"
-                                                size={23}
+                                                size={20}
                                             />
                                         ) : (
                                             <FaHeart
                                                 color="#7B61FF"
-                                                size={23}
+                                                size={20}
                                             />
                                         )}
-                                    </Box>
-                                </Box>
+                                    </Flex>
+                                </Flex>
                             </Box>
                         )}
                     </Flex>
 
+                    {/* revew + currency */}
                     <Box mt="auto">
-                        <Flex mb="1">
-                            <Box mt="1px">
+                        <Flex mb={{ base: '0', md: '2.5px' }}>
+                            <Box
+                                ml="2px"
+                                fontSize={{ base: '18px', md: '18px' }}
+                            >
                                 <IoStar
                                     style={{
                                         color: '#FEC84B',
-                                        width: '24px',
-                                        height: '24px',
                                     }}
                                 />
                             </Box>
@@ -206,7 +213,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                         color={'white'}
                                         alignSelf={'center'}
                                         fontWeight="700"
-                                        fontSize="14px"
+                                        fontSize={{ base: '14px', md: '14px' }}
                                         ml="1"
                                     >
                                         {totalRating}
@@ -214,7 +221,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                     <Text
                                         alignSelf={'center'}
                                         fontWeight="700"
-                                        fontSize="14px"
+                                        fontSize={{ base: '14px', md: '16px' }}
                                         color="#555555"
                                         ml="1"
                                     >
@@ -222,21 +229,34 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                     </Text>
                                 </>
                             ) : (
-                                <Text color={'white'}> No Reviews Yet </Text>
+                                <Text
+                                    alignSelf={'center'}
+                                    ml="10px"
+                                    fontSize={{ base: '14px', md: '14px' }}
+                                    color={'white'}
+                                >
+                                    {' '}
+                                    No Reviews Yet{' '}
+                                </Text>
                             )}
                         </Flex>
                         <Flex>
-                            <Box alignSelf={'center'}>
-                                <AiOutlineDollar
-                                    style={{ width: '24px', height: '24px' }}
-                                    color="#2775CA"
-                                />
+                            <Box
+                                alignSelf={'center'}
+                                fontSize={{ base: '18px', md: '24px' }}
+                            >
+                                {/* <Image
+                                    src={currencyIcons['USDC']}
+                                    style={{ width: '16px', height: '16px' }}
+                                    alt="usdc"
+                                /> */}
+                                <AiOutlineDollar color="#2775CA" />
                             </Box>
                             <Text
                                 color={'white'}
                                 ml="2"
                                 fontWeight="700"
-                                fontSize="1.25rem"
+                                fontSize={{ base: '14px', md: '18px' }}
                                 lineHeight="33.72px"
                             >
                                 {`${productPrice} ${currencyCode?.toUpperCase()}`}
@@ -247,8 +267,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                         ? 'line-through'
                                         : 'none'
                                 }
-                                ml="2"
-                                mb="1"
+                                ml={{ base: '1', md: '2' }}
+                                mb={{ base: '0', md: '1' }}
                                 alignSelf={'center'}
                                 color={'#555555'}
                                 fontWeight="700"
@@ -258,8 +278,20 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 {productPrice}
                             </Text>
                         </Flex>
-                        {/* add to cart / buy button */}
-                        {/* <Flex
+                    </Box>
+                </Box>
+            </Flex>
+        </Card>
+    );
+};
+
+export default ProductCard;
+
+{
+    /* add to cart / buy button */
+}
+{
+    /* <Flex
                             direction={{ base: 'column', md: 'row' }} // Stack vertically on small screens, horizontally on medium and up
                             gap="14px"
                             py={2}
@@ -280,12 +312,5 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                     title="Buy Now"
                                 />
                             </LocalizedClientLink>
-                        </Flex> */}
-                    </Box>
-                </Box>
-            </CardBody>
-        </Card>
-    );
-};
-
-export default ProductCard;
+                        </Flex> */
+}

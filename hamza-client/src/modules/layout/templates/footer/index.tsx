@@ -33,7 +33,7 @@ export default async function Footer() {
         >
             <Flex
                 maxWidth={'1280px'}
-                px="2rem"
+                px="1rem"
                 flexDirection={'column'}
                 width={'100%'}
             >
