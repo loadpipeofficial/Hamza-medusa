@@ -64,7 +64,8 @@ const PreviewCheckout = () => {
         if (productData && productData.variants) {
             setSizes(getUniqueOptions(productData.variants, 0));
             setColors(getUniqueOptions(productData.variants, 1));
-            setSelectedPrice(productData.variants[0].prices.find((p: any) => p.currency_code === preferred_currency_code ?? 'usdt').amount);
+            const price = productData.variants[0].prices.find((p: any) => p.currency_code === preferred_currency_code ?? 'usdt');
+            setSelectedPrice(price?.amount ?? 0);
             console.log(productData);
         }
     }, [productData]);
