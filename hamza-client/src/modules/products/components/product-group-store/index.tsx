@@ -1,41 +1,21 @@
 'use client';
 
 import React from 'react';
-import ProductCard from '../product-card';
-import {
-    SimpleGrid,
-    Container,
-    Box,
-    Skeleton,
-    SkeletonText,
-    Flex,
-} from '@chakra-ui/react';
+import { Box, Skeleton, SkeletonText, Grid, GridItem } from '@chakra-ui/react';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { formatCryptoPrice } from '@lib/util/get-product-price';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import StoreFilterDisplay from '@modules/store-v2/component/store-filter-display';
+import ProductCardStore from '@modules/store-v2/component/product-card';
 
 type Props = {
     vendorName: string;
     filterByRating: string | null;
     category: string;
-    gridColumns: {
-        base?: number;
-        sm?: number;
-        md?: number;
-        lg?: number;
-    };
-    layoutMaxWidth: string;
 };
 
-const ProductCardGroup = ({
-    vendorName,
-    filterByRating,
-    category,
-    gridColumns,
-    layoutMaxWidth,
-}: Props) => {
+const ProductCardGroup = ({ vendorName, filterByRating, category }: Props) => {
     // Get products from vendor
     const { data, error, isLoading } = useQuery(
         ['products', { vendor: vendorName }],
@@ -97,7 +77,7 @@ const ProductCardGroup = ({
 
     const renderSkeletons = (num: number) => {
         return Array.from({ length: num }).map((_, index) => (
-            <Box
+            <GridItem
                 key={index}
                 maxW="295px"
                 h="399px"
@@ -112,22 +92,20 @@ const ProductCardGroup = ({
                     <Skeleton mt="4" height="20px" />
                     <Skeleton mt="2" height="20px" width="60px" />
                 </Box>
-            </Box>
+            </GridItem>
         ));
     };
 
-    //TODO: Make product card clickable to product preview
     return (
-        <Container maxWidth={layoutMaxWidth} backgroundColor={'transparent'}>
+        <Box maxW={'941px'} width="100%" height="100%" px="1rem">
             <StoreFilterDisplay />
-            <Flex
-                gap={'24px'}
-                // justifyContent={{ base: 'space-between', md: 'center' }}
-                flexBasis={{
-                    base: 'calc(50% - 5px)',
-                    md: 'calc(33.33% - 6.67px)',
+            <Grid
+                mt="2rem"
+                templateColumns={{
+                    base: 'repeat(2, 1fr)',
+                    lg: 'repeat(3, 1fr)',
                 }}
-                wrap="wrap" // Allow items to wrap onto the next line
+                gap={{ base: 4, md: 6 }}
             >
                 {isLoading
                     ? renderSkeletons(8) // Render 8 skeletons while loading
@@ -137,11 +115,7 @@ const ProductCardGroup = ({
                               .flat();
 
                           const productPricing = formatCryptoPrice(
-                              variantPrices.find(
-                                  (p: any) =>
-                                      p.currency_code ===
-                                      preferred_currency_code
-                              ).amount,
+                              variantPrices[0].amount,
                               preferred_currency_code as string
                           );
                           const reviewCounter = product.reviews.length;
@@ -156,27 +130,28 @@ const ProductCardGroup = ({
 
                           const variantID = product.variants[0].id;
                           return (
-                              <ProductCard
-                                  key={index}
-                                  productHandle={products[index].handle}
-                                  variantID={variantID}
-                                  reviewCount={reviewCounter}
-                                  totalRating={roundedAvgRating}
-                                  countryCode={product.countryCode}
-                                  productName={product.title}
-                                  productPrice={productPricing}
-                                  currencyCode={
-                                      preferred_currency_code ?? 'usdc'
-                                  }
-                                  imageSrc={product.thumbnail}
-                                  hasDiscount={product.is_giftcard}
-                                  discountValue={product.discountValue}
-                                  productId={product.id}
-                              />
+                              <GridItem key={index} w="100%">
+                                  <ProductCardStore
+                                      productHandle={products[index].handle}
+                                      variantID={variantID}
+                                      reviewCount={reviewCounter}
+                                      totalRating={roundedAvgRating}
+                                      countryCode={product.countryCode}
+                                      productName={product.title}
+                                      productPrice={productPricing}
+                                      currencyCode={
+                                          preferred_currency_code ?? 'usdc'
+                                      }
+                                      imageSrc={product.thumbnail}
+                                      hasDiscount={product.is_giftcard}
+                                      discountValue={product.discountValue}
+                                      productId={product.id}
+                                  />
+                              </GridItem>
                           );
                       })}
-            </Flex>
-        </Container>
+            </Grid>
+        </Box>
     );
 };
 

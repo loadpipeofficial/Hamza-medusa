@@ -34,6 +34,7 @@ const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
             <Text className="mt-2 text-black ">
                 Order number: {order.display_id}
             </Text>
+            <Text className="mt-2 text-black">Order ID: {order.id}</Text>
 
             <div className="flex items-center text-compact-small gap-x-4 mt-4">
                 {showStatus && (

@@ -84,7 +84,7 @@ function readProductsFromCsv() {
 }
 
 async function main() {
-    console.log(readProductsFromCsv());
+    //console.log(readProductsFromCsv());
     try {
         const authResponse = await fetch('http://localhost:9000/admin/auth', {
             method: 'POST',
@@ -106,7 +106,48 @@ async function main() {
                     'Content-type': 'application/json; charset=UTF-8',
                 },
                 body: JSON.stringify({
-                    products: readProductsFromCsv(),
+                    products: [
+                        {
+                            store_id: 'Legendary Light Design',
+                            title: 'INDOOR/OUTDOOR WALL LAMP M - W100 X D4',
+                            categories: [
+                                {
+                                    id: 'pcat_home_lighting',
+                                },
+                            ],
+                            collection_id: 'pcol_lighting',
+                            "subtitle": "For stunning indoor & outdoor ambience, this light comes with high-quality Langdon fixtures, a light design, and durable stricture framing.",
+                            "description": "<li>M - W100 X D4.5 X H3.6 CMS.<li>L - W200 X D4.5 X H3.6 CMS.<li>S- W30 X D4.5 X H3.6 CMS.<li>S- W30 X D4.5 X H3.6 CMS.<li>NAME : Howet INDOOR/OUTDOOR WALL LAMP<li>CODE : WL-24D&crlf;SIZE :<li>S- W30 X D4.5 X H3.6 CMS.<li>M - W100 X D4.5 X H3.6 CMS.<li>L - W200 X D4.5 X H3.6 CMS.<li>COLOR : METAL BLACK<li>MATERIAL : HIGH QUALITY ALUMINIUM WITH WATERPROOF PROTECTIVE FILM<li>LIGHT SOURCE : LED 9W / 30W/ 60W",
+                            "handle": "lld_indout",
+                            is_giftcard: false,
+                            weight: 260,
+                            images: [
+                                'http://localhost/Legendary/LLD_indout.png',
+                            ],
+                            options: [],
+                            variants: [
+                                {
+                                    title: 'White',
+                                    prices: [
+                                        {
+                                            currency_code: 'eth',
+                                            amount: 4400000,
+                                        },
+                                        {
+                                            currency_code: 'usdc',
+                                            amount: 23000,
+                                        },
+                                        {
+                                            currency_code: 'usdt',
+                                            amount: 23000,
+                                        },
+                                    ],
+                                    inventory_quantity: 75,
+                                    manage_inventory: true,
+                                },
+                            ],
+                        },
+                    ],
                 }),
             }
         );

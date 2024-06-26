@@ -9,6 +9,7 @@ import OnboardingCta from '@modules/order/components/onboarding-cta';
 import OrderDetails from '@modules/order/components/order-details';
 import ShippingDetails from '@modules/order/components/shipping-details';
 import PaymentDetails from '@modules/order/components/payment-details';
+import Summary from '@modules/order/components/summary';
 
 type OrderCompletedTemplateProps = {
     order: Order;
@@ -16,7 +17,6 @@ type OrderCompletedTemplateProps = {
 
 //TODO: replace the following back in the template, when working
 /*
-
           <Items items={line-item.items} region={line-item.region} />
           <CartTotals data={line-item} />
           <ShippingDetails line-item={line-item} />
@@ -31,7 +31,7 @@ export default function OrderCompletedTemplate({
         <div className="py-6 min-h-[calc(100vh-64px)]">
             <div className="content-container flex flex-col justify-center items-center gap-y-10 max-w-4xl h-full w-full">
                 {isOnboarding && <OnboardingCta orderId={order.id} />}
-                <div className="flex flex-col gap-4 max-w-4xl h-full bg-white w-full py-10">
+                <div className="p-6 flex flex-col gap-4 max-w-4xl h-full bg-white w-full py-10">
                     <Heading
                         level="h1"
                         className="flex flex-col gap-y-3 text-ui-fg-base text-3xl mb-4"
@@ -45,6 +45,7 @@ export default function OrderCompletedTemplate({
                         className="flex flex-row text-3xl-regular"
                     >
                         Summary
+                        <Summary cart_id={order.cart_id} />
                     </Heading>
                     <PaymentDetails order={order} />
                     <Help />

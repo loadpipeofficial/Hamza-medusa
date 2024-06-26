@@ -6,10 +6,10 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     const orderService: OrderService = req.scope.resolve('orderService');
     const logger: Logger = req.scope.resolve('logger');
 
-    const { customer_id } = readRequestBody(req.body, ['customer_id']);
+    const { cart_id } = readRequestBody(req.query, ['cart_id']);
 
     try {
-        const order = await orderService.listCustomerOrders(customer_id);
+        const order = await orderService.listCollection(cart_id);
 
         res.status(200).json({ order });
     } catch (err) {

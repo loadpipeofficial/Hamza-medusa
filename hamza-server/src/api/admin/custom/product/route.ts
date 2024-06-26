@@ -24,9 +24,11 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
 
         const promises: Promise<Product>[] = [];
         for (let prod of products) {
-            prod.store_id = (await storeRepository.findOne({ where: { name: prod.store_id } })).id;
-            prod.collection_id = (await productCollectionRepository.findOne({ where: { title: prod.collection_id } })).id;
+            const store = (await storeRepository.findOne({ where: { name: prod.store_id } }));
+            prod.store_id = store.id;
+            //prod.collection_id = (await productCollectionRepository.findOne({ where: { title: prod.collection_id } })).id;
 
+            console.log(prod);
             promises.push(productService.create(prod));
         }
 

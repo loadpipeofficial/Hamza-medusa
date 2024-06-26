@@ -18,7 +18,8 @@ import {
     ModalBody,
     ModalFooter,
     Textarea,
-    VStack,
+    FormControl,
+    FormErrorMessage,
 } from '@chakra-ui/react';
 
 const MEDUSA_SERVER_URL =
@@ -66,12 +67,17 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
     const [customerOrder, setCustomerOrder] = useState<Order[] | null>(null);
+    const [isAttemptedSubmit, setIsAttemptedSubmit] = useState(false);
 
     const openModal = (orderId: string) => {
         setSelectedOrderId(orderId);
         setIsModalOpen(true);
     };
-    const closeModal = () => setIsModalOpen(false);
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setCancelReason('');
+        setIsAttemptedSubmit(false);
+    };
     console.log('Orders: ', orders);
 
     let countryCode = useParams().countryCode as string;
@@ -103,8 +109,10 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                         customer_id: orders[0].customer_id,
                     }
                 );
-                // console.log(`fetching all data in new style ${data}`);
-                setCustomerOrder(data.order);
+                console.log(
+                    `fetching all data in new style ${JSON.stringify(data.order.orders)}`
+                );
+                setCustomerOrder(data.order.orders);
             } catch (e) {
                 console.error('Error fetching all data in new style: ', e);
             }
@@ -113,16 +121,6 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
         fetchAll();
         fetchOrders();
     }, [orders]);
-
-    const groupedByCartId = detailedOrders.reduce((acc: any, item: any) => {
-        if (!acc[item.cart_id]) {
-            acc[item.cart_id] = [];
-        }
-        acc[item.cart_id].push(item);
-        return acc;
-    }, {});
-
-    // console.log(`Grouped by cart id ${JSON.stringify(groupedByCartId)}`);
 
     useEffect(() => {
         const fetchStatuses = async () => {
@@ -179,6 +177,10 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
     }, [detailedOrders, orders]);
 
     const handleCancel = async () => {
+        if (!cancelReason) {
+            setIsAttemptedSubmit(true);
+            return;
+        }
         if (!selectedOrderId) return;
 
         try {
@@ -223,43 +225,45 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
     return (
         <div className="flex flex-col gap-y-8 w-full bg-black text-white p-8">
             {customerOrder && customerOrder.length > 0
-                ? customerOrder.map((order: any) => (
+                ? customerOrder.map((orderGroup) => (
                       <div
-                          key={order.id}
+                          key={orderGroup.cart_id}
                           className="border-b border-gray-200 pb-6 last:pb-0 last:border-none"
                       >
                           <div className="p-4 bg-gray-700">
-                              Order {order.id} - Total Items:{' '}
-                              {order.cart.items.length}
+                              Cart ID {orderGroup.cart_id} - Total Items:{' '}
+                              {orderGroup.items.length}
                               <span
                                   className="pl-2 text-blue-400 underline underline-offset-1 cursor-pointer"
                                   onClick={() => {
-                                      handleReorder(order.cart.items);
+                                      handleReorder(orderGroup.items);
                                   }}
                               >
                                   Re-order
                               </span>
                           </div>
-                          {order.cart.items.map((item: any) => {
+                          {orderGroup.items.map((item) => {
                               const handle =
                                   item.variant?.product?.handle || 'N/A'; // Grab the handle from the product object
                               return (
                                   <div key={item.id}>
-                                      item: {item.id}
+                                      item: {item.id} <br /> Order_id list:{' '}
+                                      {/*{item.order_ids} <br />*/}
+                                      {/*item quantity: {item.quantity}*/}
                                       <OrderCard
                                           key={item.id}
                                           order={item}
                                           handle={handle} // Pass the handle here
                                       />
                                       <LocalizedClientLink
-                                          href={`/account/orders/details/${order.id}`}
+                                          href={`/account/orders/details/${item.order_ids[0]}`}
                                           passHref
                                       >
                                           <Button colorScheme="blue">
                                               See details
                                           </Button>
                                       </LocalizedClientLink>
-                                      {orderStatuses[order.id] ===
+                                      {orderStatuses[orderGroup.cart_id] ===
                                       'canceled' ? (
                                           <Button
                                               colorScheme="red"
@@ -274,7 +278,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                                               colorScheme="blue"
                                               ml={4}
                                               onClick={() =>
-                                                  openModal(order.id)
+                                                  openModal(orderGroup.cart_id)
                                               }
                                           >
                                               Request Cancellation
@@ -292,11 +296,22 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                     <ModalHeader>Request Cancellation</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Textarea
-                            placeholder="Reason for cancellation"
-                            value={cancelReason}
-                            onChange={(e) => setCancelReason(e.target.value)}
-                        />
+                        <FormControl
+                            isInvalid={!cancelReason && isAttemptedSubmit}
+                        >
+                            <Textarea
+                                placeholder="Reason for cancellation"
+                                value={cancelReason}
+                                onChange={(e) =>
+                                    setCancelReason(e.target.value)
+                                }
+                            />
+                            {!cancelReason && isAttemptedSubmit && (
+                                <FormErrorMessage>
+                                    Cancellation reason is required.
+                                </FormErrorMessage>
+                            )}
+                        </FormControl>
                     </ModalBody>
                     <ModalFooter>
                         <Button variant="ghost" onClick={closeModal}>

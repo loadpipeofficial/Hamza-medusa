@@ -132,6 +132,31 @@
             "id": "pcol_01HSGAMXDJD725MR3VSW631SN2",
             "title": "VR Headphones",
             "handle": "pcol_01HSGAMXDJD725MR3VSW631SN2"
+        },
+        {
+            "id": "pcol_01HSGAMXDJD725MR3VSW631DR0",
+            "title": "Drones",
+            "handle": "pcol_01HSGAMXDJD725MR3VSW631DR0"
+        },
+        {
+            "id": "pcol_01HSGAMXDJD725MR3VSW63LEG0",
+            "title": "Legos",
+            "handle": "pcol_01HSGAMXDJD725MR3VSW63LEG0"
+        },
+        {
+            "id": "pcol_01HSGAMXDJD725MR3VSW63B0RD",
+            "title": "Board Games",
+            "handle": "pcol_01HSGAMXDJD725MR3VSW63B0RD"
+        },
+        {
+            "id": "pcol_01HSGAMXDJD725MR3VSW63W0GE",
+            "title": "Workout Gear",
+            "handle": "pcol_01HSGAMXDJD725MR3VSW63W0GE"
+        },
+      {
+            "id": "pcol_lighting",
+            "title": "Lighting",
+            "handle": "pcol_lighting"
         }
     ],
     "products": [
@@ -1426,7 +1451,1796 @@
                     "manage_inventory": true
                 }
             ]
+        },
+        {
+            "title": "DJI Mini 4 Pro",
+            "categories": [
+                {
+                    "id": "pcat_drone"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW631DR0",
+            "subtitle": "Folding Mini-Drone with 4K HDR Video Camera",
+            "description": "Unleash Stunning Vertical Videos in 4K/60fps HDR: Perfectly showcases sunrise, sunset, and night scenes with impressive clarity. Share videos instantly without the need for post-cutting. Enjoy high-quality footage straight out of the camera!",
+            "handle": "mini_4_drone",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Silver"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Silver",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "DJI Avata Explorer",
+            "categories": [
+                {
+                    "id": "pcat_drone"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW631DR0",
+            "subtitle": "First-Person View Drone with Camera, UAV Quadcopter with 4K Stabilized Video",
+            "description": "Experience the Thrill of Flying: Enjoy total immersion and intuitive control with DJI Avata. When you combine Avata with the goggles and motion controller, flight becomes accessible to all.",
+            "handle": "avata_drone",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Silver"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Silver",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "DJI Mini 3 Pro",
+            "categories": [
+                {
+                    "id": "pcat_drone"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW631DR0",
+            "subtitle": "Lightweight and Foldable Camera Drone with 4K/60fps Video",
+            "description": "Seriously Pro Shots - Capture your world in remarkable detail with 4K/60fps video and 48MP photos. The advanced camera system supports dual native ISO and f/1.7 aperture for high-quality imagery, night and day.",
+            "handle": "drone",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "White"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "White",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "DJI Mini 3 Pro with Flagship Triple-Camera",
+            "categories": [
+                {
+                    "id": "pcat_drone"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW631DR0",
+            "subtitle": "Hasselblad Main Camera - Mavic 3 Pro has a 4/3 CMOS sensor, 24mm format equivalent, f/2.8-f/11, 20 MP. The Hasselblad 4K drone camera supports shooting RAW photos with a dynamic range of up to 12.8 stops.",
+            "description": "Seriously Pro Shots - Capture your world in remarkable detail with 4K/60fps video and 48MP photos. The advanced camera system supports dual native ISO and f/1.7 aperture for high-quality imagery, night and day.",
+            "handle": "mini_3_drone",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Silver"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Silver",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "FIFISH V-EVO 4K60FPS Underwater Drone",
+            "categories": [
+                {
+                    "id": "pcat_drone"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW631DR0",
+            "subtitle": "Omnidirectional Movement Underwater ROV with Depth Hold",
+            "description": "4K 60FPS High Frame-rate Camera: Create epic footage and wonderful underwater moments with V-EVO's upgraded camera system, achieving professional-class shots with ease and enhanced smoothness.",
+            "handle": "fish_drone",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "White"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "White",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "QYSEA Underwater Drone",
+            "categories": [
+                {
+                    "id": "pcat_drone"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW631DR0",
+            "subtitle": "QYSEA FIFISH V6 Expert M200A Underwater Drone with Robotic Arm, AI Vision Lock Portable ROV with Q-Interface, Underwater Robot with Industrial Case, 6 Hours Working Time, 4K Camera, 660ft Dive",
+            "description": "The FIFISH V6 EXPERT comes standard with the FIFISH V6 EXPERT ROV, tether reel, remote controller, VR goggles, and chargers. Essential differences between the packages include: M100 Package: EPP Box Packaging, with 330ft Tether Reel; M200 Package: Industrial Case Packaging, with 660ft Tether Reel; M100A Package: Industrial Case Packaging, Robotic Arm, with 330ft Tether Reel; M200A Package: Industrial Case Packaging, Robotic Arm, with 660ft Tether Reel.",
+            "handle": "qysea_drone",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Black"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Black",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "ThorRobotics Underwater Drone",
+            "categories": [
+                {
+                    "id": "pcat_drone"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW631DR0",
+            "subtitle": "ThorRobotics Underwater Drone ROV HD Camera With 30M Tether Cable Lite Version KIT Type",
+            "description": "Great for Fishing, Exploring, Mapping, Treasure Hunting, Studying Marine Life or Recording for Film Projects. Fishery Fishfinder & Bait Drop Line. Teaching Research. Underwater entertainment. Underwater operation.",
+            "handle": "thor_drone",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Silver"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Silver",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "LEGO Star Wars Luke Skywalker Helmet",
+            "categories": [
+                {
+                    "id": "pcat_lego"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63LEG0",
+            "subtitle": "LEGO Star Wars Luke Skywalker Red 5 Helmet for Adults Buildable Display Model",
+            "description": "Features a Red 5 Star Wars collectible Luke Skywalker helmet buildable model kit, a first in the LEGO Star Wars Helmet Collection set for adults",
+            "handle": "luke_helm_lego",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "White"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "White",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "LEGO Star Wars R2-D2",
+            "categories": [
+                {
+                    "id": "pcat_lego"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63LEG0",
+            "subtitle": "LEGO Star Wars R2-D2 Droid Building Set",
+            "description": "LEGO Star Wars R2-D2 Droid Building Set for Adults, Collectible Display Model with Luke Skywalker’s Lightsaber",
+            "handle": "r2d2_lego",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "White"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "White",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "LEGO Star Wars Luke Skywalker's Landspeeder",
+            "categories": [
+                {
+                    "id": "pcat_lego"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63LEG0",
+            "subtitle": "LEGO Star Wars Luke Skywalker's Landspeeder, Ultimate Collector Series Star Wars Building Kit",
+            "description": "The Star Wars vehicle has authentic details such as the cockpit windscreen, the turbine engine with its cover missing and inner details exposed",
+            "handle": "land_lego",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Red"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Red",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "LEGO: Lord of the Rings: Gandalf Arrives",
+            "categories": [
+                {
+                    "id": "pcat_lego"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63LEG0",
+            "subtitle": "Includes 2 minifigures: Gandalf the Grey and Frodo Baggins",
+            "description": "Collect an iconic scene from the The Lord of the Rings film series as you build the Shire with Gandalf the Grey and Frodo",
+            "handle": "lotr_lego",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Brown"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Brown",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "LEGO Icons The LORD of The RINGS: RIVENDELL",
+            "categories": [
+                {
+                    "id": "pcat_lego"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63LEG0",
+            "subtitle": "The LORD of The RINGS RIVENDELL: Construct and Display a Middle-earth Valley with 15 Minifigures",
+            "description": "Build a Middle-earth valley 6,167 pieces – Create and display a LEGO version of Rivendell with this THE LORD OF THE RINGS: RIVENDELL (10316) building model kit for adults",
+            "handle": "riv_lego",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Green"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Green",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "LEGO Speed Champions 007 Aston Martin DB5",
+            "categories": [
+                {
+                    "id": "pcat_lego"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63LEG0",
+            "subtitle": "Building 007 Aston Martin DB5 Set Featuring James Bond Minifigure, Car Model Kit for Kids and Teens",
+            "description": "The LEGO Speed Champions 007 Aston Martin DB5 No Time To Die construction set gives kids aged 8+, car enthusiasts and James Bond fans of all ages the chance to collect, build and explore one of the world’s best-known sports cars. Perfect for high-speed play and display, this LEGO recreation captures the elegance and timeless sophistication of the iconic 1964 British sports car.",
+            "handle": "aston_lego",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Silver"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Silver",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "LEGO Icons Corvette Classic Car",
+            "categories": [
+                {
+                    "id": "pcat_lego"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63LEG0",
+            "subtitle": "Corvette Classic Car Model Building Kit for Adults",
+            "description": "Build your own Corvette model – Craft an icon of American automobile history with the LEGO Icons Corvette building set for adults",
+            "handle": "corvette_lego",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Red"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Red",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "LEGO Icons Chevrolet Camaro Z28",
+            "categories": [
+                {
+                    "id": "pcat_lego"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63LEG0",
+            "subtitle": "Chevrolet Camaro Z28 Customizable Classic Car Replica",
+            "description": "Ready to push the limits of performance and style? Then start your creative engine. It’s time to pay homage to a vintage classic with this Chevrolet Camaro Z28",
+            "handle": "camaro_lego",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Red"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Red",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "LEGO Technic PEUGEOT 9X8 24H Le Mans Hybrid Hypercar",
+            "categories": [
+                {
+                    "id": "pcat_lego"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63LEG0",
+            "subtitle": "PEUGEOT Le Mans Hybrid Hypercar",
+            "description": "elebrate 100 years of racing at Le Mans in 2023 with this LEGO Technic PEUGEOT Le Mans Hybrid Hypercar ",
+            "handle": "peugeot_lego",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Silver"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Silver",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "LEGO Icons Porsche 911",
+            "categories": [
+                {
+                    "id": "pcat_lego"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63LEG0",
+            "subtitle": "Celebrate the unmistakable style of Porsche with this fantastic building challenge as you create your own classic, collectible Porsche",
+            "description": "This LEGO set for adults features 2 buildable Porsche models designed especially for classic car fans and Porsche enthusiasts\n",
+            "handle": "porsche_lego",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "White"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "White",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "PASYOU Adjustable Weight Bench Full Body Workout",
+            "categories": [
+                {
+                    "id": "pcat_workout"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63W0GE",
+            "subtitle": "ASYOU Adjustable Weight Bench Full Body Workout Multi-Purpose Foldable Incline Decline Exercise Workout Bench for Home Gym",
+            "description": "FULLY ADJUSTABLE DESIGN】-Designed with 7 back positions to meet all your needs when doing workouts, you can perform a number of upper and lower body exercises while incorporating dumbbell use to hit goals and build/maintain muscle.",
+            "handle": "workout_bench",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Black"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Black",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "Sportsroyals Power Tower Pull Up Dip Station",
+            "categories": [
+                {
+                    "id": "pcat_workout"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63W0GE",
+            "subtitle": "Sportsroyals Power Tower Pull Up Dip Station Assistive Trainer Multi-Function Home Gym Strength Training Fitness Equipment 440LBS",
+            "description": "【Super Sturdiness and Stability】With a weight capacity of 450lbs, you can feel confident and secure during your intense workouts. Whether you are performing pull-ups, dips, knee raises, or other exercises, The Sportsroyals Power Tower remains steady without any wobbling or shaking, ensuring a safe and effective workout session.",
+            "handle": "pullup",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Black"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Black",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "Speed and Agility Workout Ladder",
+            "categories": [
+                {
+                    "id": "pcat_workout"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63W0GE",
+            "subtitle": "Speed and Agility Workout Ladder Training Equipment Set by F1TNERGY - Yellow 12 Rung",
+            "description": "Speed and Agility Workout Ladder Training Equipment Set by F1TNERGY - Yellow 12 Rung Adjustable with Carrying Bag 10 Speed Cones (5 Orange 5 Yellow) 4 Pegs and D-Rings - Soccer Training Footbal",
+            "handle": "workout_ladder",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Black"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Black",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "OYGSieg 4 Pack Compression Shirts ",
+            "categories": [
+                {
+                    "id": "pcat_workout"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63W0GE",
+            "subtitle": "Great Performance in warm or cool weather.These compression shirts can wick moisture away and dry quickly.",
+            "description": "OYGSieg 4 Pack Compression Shirts for Men Short Sleeve Athletic Rash Guard Base Layer Undershirt Gear T Shirt for Workout",
+            "handle": "compression_shirt",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Black"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Black",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "IMFit 5lb-52.5lb Adjustable Dumbbells",
+            "categories": [
+                {
+                    "id": "pcat_workout"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63W0GE",
+            "subtitle": "MFit 5lb-52.5lb Adjustable Dumbbells | Free Hand Grip, Weight Adjusts from 5 to 52.5 lbs",
+            "description": "Easily Switch Exercises – With adjustable dumbbells, adjust from one exercise to the next with selection dials. With the turn of the dial, one can change the resistance and gradually increase the strength—a versatile workout for your legs, back, chest, abs, shoulders, and arms. Press down the handle slightly and set the desired weight.",
+            "handle": "imfit_dumbbell",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Black"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Black",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "SUNPOW Pull Up Assistance Bands",
+            "categories": [
+                {
+                    "id": "pcat_workout"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63W0GE",
+            "subtitle": "Set of 5 Resistance Heavy Duty Workout Exercise Crossfit Stretch Fitness Bands",
+            "description": "Suitable for Any Workout: Our pull up assistance bands offer effective training. Workout your arms, back, legs, and butt all at once with mobility band, perfect for body resistance training and physical therapy to help strengthen torn ligaments or muscles. Different bands are perfect for learning pull ups, Pilates, Mobility, Powerlifting, Chin ups, Yoga, Stretching, Gymnastics, physical therapy, push-ups, barbell and dumbbell assist etc.",
+            "handle": "fitness_bands",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Black"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Black",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "ihuan Ventilated Weight Lifting Gym Workout Gloves",
+            "categories": [
+                {
+                    "id": "pcat_workout"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63W0GE",
+            "subtitle": "ihuan Ventilated Weight Lifting Gym Workout Gloves with Wrist Wrap Support",
+            "description": "Full Palm Protection: No more torn hands and no more calluses. The Ihuan Workout Gloves protect your hands fully. The wrist support can protect your arms from spraining. And the foam pad on the palm will buffer the impact of sports apparatus. Made of Silicon Printed Neoprene, a high-quality material which is resistant to water, dangerous chemicals, oils, heat and aging making for a long last durable pair of gloves. Fewer RIPS AND TARES, MORE PEPS AND PR'S.",
+            "handle": "workout_gloves",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Black"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Black",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "ihuan Lifting Straps for Weightlifting",
+            "categories": [
+                {
+                    "id": "pcat_workout"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63W0GE",
+            "subtitle": "ihuan Lifting Straps for Weightlifting - Wrist Straps for Weightlifting | Gym Wrist Wraps with Extra Hand Grips Support for Strength Training | Bodybuilding | Deadlifting",
+            "description": "21'' EXTENDED LENGTH STRONG WRAP: Increased 21 inches length of the premium lifting straps, you will get 1-2 circles around the bar, which offers you strong grips and bring your workout to the next level. The 1.4 inches width of weight lifting wrist straps is good enough to increase contact on the contact surface, provide you non-slip protection. The 8.2 inches padding can prevent the wrist straps from cutting into your wrists when you lift heavy.",
+            "handle": "workout_straps",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Black"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Black",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "Resistance Bands",
+            "categories": [
+                {
+                    "id": "pcat_workout"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63W0GE",
+            "subtitle": "Resistance Bands, 300lbs 360lbs Heavy Exercise Bands with Handles",
+            "description": "300LBS GREAT TENSION】In order to meet the strength needs of people who love fitness, we have developed the world's first 300lbs resistance band suit, A real man's resistance band suit, it's here, do you dare to challenge it? The fitness bands can reach up to 300 pounds with 6 different resistance levels(25lbs, 35lbs, 45lbs, 55lbs, 65lbs 75lbs), You can freely combine our resistance bands according to your strength!",
+            "handle": "resistance_bands",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Grey"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Grey",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "Clue Board Game",
+            "categories": [
+                {
+                    "id": "pcat_board_games"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63B0RD",
+            "subtitle": "Clue Board Game for Kids Ages 8 and Up, Reimagined Clue Game for 2-6 Players",
+            "description": "THE CLUE GAME, REIMAGINED: This Clue game combines classic Clue gameplay with richly reimagined takes on the original murder mystery storyline, intriguing cast of characters, and glamorous Tudor Mansion",
+            "handle": "clue_game",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Black"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Black",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "Hasbro Gaming Battleship Classic Board Game",
+            "categories": [
+                {
+                    "id": "pcat_board_games"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63B0RD",
+            "subtitle": "Classic battleship game: this classic game of naval combat is a fun game for kids ages 7 and up",
+            "description": "Hunt, seek, win: this strategy game for kids is the ultimate search-and-destroy mission: call a shot and fire sink all of your opponent's ships for the win",
+            "handle": "battleship",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Black"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Black",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "Catan Board Game",
+            "categories": [
+                {
+                    "id": "pcat_board_games"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63B0RD",
+            "subtitle": "Catan Board Game (Base Game) | Family Board Game | Board Game for Adults and Family | Adventure Board Game | Ages 10+ | for 3 to 4 Players | Average Playtime 60 Minutes",
+            "description": "STRATEGY GAME: Trade, build and settle the Island of CATAN in this addictively fun strategy game previously called Settlers of CATAN. Players control their own civilization and look to spread across a modular hex board in a competition for victory points.\n",
+            "handle": "catan_board",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Black"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Black",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "Monopoly Board Game",
+            "categories": [
+                {
+                    "id": "pcat_board_games"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63B0RD",
+            "subtitle": "Monopoly Board Game, Family Board Games for Adults and Kids, Family Games, 2 to 6 Players, Strategy Games",
+            "description": "Fast-dealing property trading game: it’s a family game night staple players buy, sell, dream and scheme their way to riches with the monopoly board game",
+            "handle": "Monopoly",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Black"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Black",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "Dark Souls: The Board Game",
+            "categories": [
+                {
+                    "id": "pcat_board_games"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63B0RD",
+            "subtitle": "Steamforged Games Dark Souls: The Board Game - A Board Game by Steamforged 1-4 Players - Board Games for Family 90-120 Minutes of Gameplay",
+            "description": "To win the game, players must work together tactically to learn how to defeat enemies before finally confronting the boss. Players will find specific attack patterns and weaknesses of the enemies, but they will have to be careful. If a player's character dies, the game does not end, but starting over comes at a cost.",
+            "handle": "darksouls",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Black"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Black",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "Underwater Cities – A Board Game",
+            "categories": [
+                {
+                    "id": "pcat_board_games"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63B0RD",
+            "subtitle": "Underwater Cities – A Board Game by Rio Grande Games 1-4 Players – Board Games for Family 80-150 Minutes of Gameplay",
+            "description": "As overcrowded metropolises spread across the earth, humanity has realized it is time to establish a new home on the ocean floor. Kelp farms can provide food. Desalination plants can provide water. And laboratories can provide the technology needed to build a network of underwater cities.\n",
+            "handle": "underwater_cities",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Black"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Black",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "Plunder - Family Board Games",
+            "categories": [
+                {
+                    "id": "pcat_board_games"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63B0RD",
+            "subtitle": "Plunder - Family Board Games - Board Games for Adults and Kids - Strategy Board Games - Fun Family Game Night",
+            "description": "As overcrowded metropolises spread across the earth, humanity has realized it is time to establish a new home on the ocean floor. Kelp farms can provide food. Desalination plants can provide water. And laboratories can provide the technology needed to build a network of underwater cities.",
+            "handle": "plunder",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Black"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Black",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "The World Game",
+            "categories": [
+                {
+                    "id": "pcat_board_games"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63B0RD",
+            "subtitle": "The World Game - Geography Card Game - Educational Board Game for Kids, Family & Adults",
+            "description": "Flags, Capitals & Location - Show the country on the map, recognize the flags or name the capital city. An award-winning world learning card game.",
+            "handle": "world_game",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Black"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Black",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "Exploding Kittens",
+            "categories": [
+                {
+                    "id": "pcat_board_games"
+                }
+            ],
+            "collection_id": "pcol_01HSGAMXDJD725MR3VSW63B0RD",
+            "subtitle": "Exploding Kittens LLC - A Russian Roulette Card Game, Easy Family-Friendly Party Games",
+            "description": "A Kitty-Powered Russian Roulette Card Game - The hit party game for family and friends who are into kittens and explosions and laser beams and sometimes goats.",
+            "handle": "exploding_kittens",
+            "is_giftcard": false,
+            "weight": 249,
+            "images": [
+                "https://images.hamza.biz/headphones.webp"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Black"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "Black",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 4800000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 12400
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 12400
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 100,
+                    "manage_inventory": true
+                }
+            ]
         }
+
+
+
+
     ],
     "categories": [
         {
@@ -1477,6 +3291,83 @@
             "rank": 2,
             "category_children": [],
             "handle": "vr_headphones"
+        },
+        {
+            "id": "pcat_home_lighting",
+            "name": "Home Lighting",
+            "rank": 2,
+            "category_children": [],
+            "handle": "home_light"
+        },
+        {
+            "id": "pcat_drone",
+            "name": "Drones",
+            "rank": 2,
+            "category_children": [],
+            "handle": "drone"
+        },
+        {
+            "id": "pcat_lego",
+            "name": "Lego",
+            "rank": 2,
+            "category_children": [],
+            "handle": "lego"
+        },
+        {
+            "id": "pcat_workout",
+            "name": "Workout",
+            "rank": 2,
+            "category_children": [],
+            "handle": "workout"
+        },
+        {
+            "id": "pcat_board_games",
+            "name": "Board Games",
+            "rank": 2,
+            "category_children": [],
+            "handle": "board_games"
+        },
+        {
+            "id": "pcat_gaming",
+            "name": "Gaming",
+            "rank": 2,
+            "category_children": [],
+            "handle": "gaming"
+        },
+        {
+            "id": "pcat_razor",
+            "name": "Razors",
+            "rank": 2,
+            "category_children": [],
+            "handle": "razor"
+        },
+        {
+            "id": "pcat_sound",
+            "name": "Sound",
+            "rank": 2,
+            "category_children": [],
+            "handle": "sound"
+        },
+        {
+            "id": "pcat_lofi",
+            "name": "Lofi",
+            "rank": 2,
+            "category_children": [],
+            "handle": "lofi"
+        },
+        {
+            "id": "pcat_shake",
+            "name": "Shake",
+            "rank": 2,
+            "category_children": [],
+            "handle": "shake"
+        },
+        {
+            "id": "pcat_blocks",
+            "name": "Blocks",
+            "rank": 2,
+            "category_children": [],
+            "handle": "blocks"
         }
     ],
     "publishable_api_keys": [

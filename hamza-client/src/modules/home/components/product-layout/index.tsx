@@ -63,7 +63,10 @@ const ProductCardGroup = ({ vendorName, category }: Props) => {
                         );
                         const avgRating = totalRating / reviewCounter;
                         const productPricing = formatCryptoPrice(
-                            variantPrices[0].amount,
+                            variantPrices.find(
+                                (p: any) =>
+                                    p.currency_code === preferred_currency_code
+                            )?.amount || 0,
                             preferred_currency_code as string
                         );
                         variantID = product.variants[0].id;
