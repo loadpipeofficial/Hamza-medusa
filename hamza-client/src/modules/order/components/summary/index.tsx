@@ -13,6 +13,7 @@ import {
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import Thumbnail from '@modules/products/components/thumbnail';
 import Tweet from '@/components/tweet';
+import { useRouter, useParams } from 'next/navigation';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 
@@ -51,6 +52,8 @@ interface Product {
 
 const Summary: React.FC<{ cart_id: string }> = ({ cart_id }) => {
     const [products, setProducts] = useState<Product[]>([]);
+    const router = useRouter();
+    const { countryCode } = useParams();
 
     console.log(`CART ID IS ${cart_id}`);
     useEffect(() => {
@@ -98,6 +101,16 @@ const Summary: React.FC<{ cart_id: string }> = ({ cart_id }) => {
                     <span className="pr-2">
                         store_name: {product.store_name}
                     </span>
+                    <button
+                        className="mt-4 p-2 bg-blue-500 text-white rounded"
+                        onClick={() =>
+                            router.push(
+                                `/${countryCode}/vendor/${product.store_name}`
+                            )
+                        }
+                    >
+                        Vendor Store
+                    </button>
 
                     <LocalizedClientLink href={`/products/${product.handle}`}>
                         <Thumbnail
