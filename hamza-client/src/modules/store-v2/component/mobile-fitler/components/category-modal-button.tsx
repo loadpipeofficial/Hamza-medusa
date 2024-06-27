@@ -1,31 +1,30 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Text, Flex } from '@chakra-ui/react';
 import Image from 'next/image';
-import useSideFilter from '@store/store-page/side-filter';
 import useModalFilter from '@store/store-page/filter-modal';
-import categoryIcons from '../data/category-icons';
+import categoryIcons from '../../../data/category-icons';
 
 interface CategoryButtonProps {
     categoryName: string;
     categoryType: 'clothes' | 'games' | 'gadgets';
 }
 
-const CategoryButton: React.FC<CategoryButtonProps> = ({
+const CategoryModalButton: React.FC<CategoryButtonProps> = ({
     categoryName,
     categoryType,
 }) => {
     const {
-        categoryFilterSelect,
-        setCategoryFilterSelect,
-        setCategoryTypeFilterSelect,
-    } = useSideFilter();
+        modalCategoryFilterSelect,
+        setModalCategoryFilterSelect,
+        setModalCategoryTypeFilterSelect,
+    } = useModalFilter();
 
     return (
         <Flex>
             <Flex
                 borderColor={'secondary.davy.900'}
                 backgroundColor={
-                    categoryFilterSelect === categoryName
+                    modalCategoryFilterSelect === categoryName
                         ? 'white'
                         : 'transparent'
                 }
@@ -34,10 +33,11 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({
                 alignItems={'center'}
                 borderWidth={'1px'}
                 borderRadius={'49px'}
-                height={'60px'}
                 cursor="pointer"
                 color={
-                    categoryFilterSelect === categoryName ? 'black' : 'white'
+                    modalCategoryFilterSelect === categoryName
+                        ? 'black'
+                        : 'white'
                 }
                 padding="10px 24px"
                 _hover={{
@@ -45,8 +45,8 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({
                     color: 'black',
                 }}
                 onClick={() => {
-                    setCategoryFilterSelect(categoryName),
-                        setCategoryTypeFilterSelect(categoryType);
+                    setModalCategoryFilterSelect(categoryName),
+                        setModalCategoryTypeFilterSelect(categoryType);
                 }}
             >
                 <Image src={categoryIcons[categoryType]} alt={categoryName} />
@@ -58,4 +58,4 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({
     );
 };
 
-export default CategoryButton;
+export default CategoryModalButton;

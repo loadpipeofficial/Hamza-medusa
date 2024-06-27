@@ -15,9 +15,7 @@ const SideMenu = () => {
     return (
         <Box
             display={isLargerThan820 ? 'block' : 'none'}
-            px="2rem"
-            py="2rem"
-            ml="1rem"
+            p="2rem"
             color={'white'}
             borderRadius={'20px'}
             width={'348.74px'}
@@ -84,7 +82,7 @@ const SideMenu = () => {
                     Rating
                 </Heading>
 
-                <Flex px="1rem" flexDirection={'column'} gap="16px">
+                <Flex mt="1rem" flexDirection={'column'} gap="16px">
                     <ReviewButton title={'All'} value={'All'} />
                     <ReviewButton title={'4 Stars'} value={'4'} />
                     <ReviewButton title={'3 Stars'} value={'3'} />

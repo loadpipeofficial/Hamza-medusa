@@ -1,22 +1,24 @@
 import React from 'react';
 import Image from 'next/image';
 import { Text, Flex } from '@chakra-ui/react';
-import currencyIcons from '../data/crypto-currencies';
-import useSideFilter from '@store/store-page/side-filter';
-
+import currencyIcons from '../../../data/crypto-currencies';
+import useModalFilter from '@store/store-page/filter-modal';
 interface CurrencyButtonProps {
     currencyName: 'ETH' | 'USDC' | 'USDT';
 }
 
-const CurrencyButton: React.FC<CurrencyButtonProps> = ({ currencyName }) => {
-    const { currencyFilterSelect, setCurrencyFilterSelect } = useSideFilter();
+const CurrencyModalButton: React.FC<CurrencyButtonProps> = ({
+    currencyName,
+}) => {
+    const { modalCurrencyFilterSelect, setModalCurrencyFilterSelect } =
+        useModalFilter();
 
     return (
         <Flex>
             <Flex
                 borderColor={'secondary.davy.900'}
                 backgroundColor={
-                    currencyFilterSelect === currencyName
+                    modalCurrencyFilterSelect === currencyName
                         ? 'white'
                         : 'transparent'
                 }
@@ -27,16 +29,17 @@ const CurrencyButton: React.FC<CurrencyButtonProps> = ({ currencyName }) => {
                 borderWidth={'1px'}
                 borderRadius={'49px'}
                 cursor="pointer"
-                height={'60px'}
                 color={
-                    currencyFilterSelect === currencyName ? 'black' : 'white'
+                    modalCurrencyFilterSelect === currencyName
+                        ? 'black'
+                        : 'white'
                 }
                 style={{ padding: '10px 24px' }}
                 _hover={{
                     background: 'white',
                     color: 'black',
                 }}
-                onClick={() => setCurrencyFilterSelect(currencyName)}
+                onClick={() => setModalCurrencyFilterSelect(currencyName)}
             >
                 <Image src={currencyIcons[currencyName]} alt={currencyName} />
                 <Text
@@ -50,4 +53,4 @@ const CurrencyButton: React.FC<CurrencyButtonProps> = ({ currencyName }) => {
     );
 };
 
-export default CurrencyButton;
+export default CurrencyModalButton;
