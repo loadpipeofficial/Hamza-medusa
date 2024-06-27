@@ -16,6 +16,7 @@ import { AiOutlineDollar } from 'react-icons/ai';
 import { addToCart } from '@modules/cart/actions';
 import Link from 'next/link';
 import { formatCryptoPrice } from '@lib/util/get-product-price';
+import { MdShoppingCart } from 'react-icons/md';
 import USDC from '../../../../public/images/currencies/usdc-icon.svg';
 import Image from 'next/image';
 
@@ -124,19 +125,19 @@ const ProductCardStore: React.FC<ProductCardProps> = ({
                                         (a) => a.id == productId
                                     )
                                         ? addWishlistItemMutation.mutate({
-                                            id: productId!,
-                                            description: '',
-                                            title: productName!,
-                                            thumbnail: imageSrc!,
-                                            handle: productHandle!,
-                                        })
+                                              id: productId!,
+                                              description: '',
+                                              title: productName!,
+                                              thumbnail: imageSrc!,
+                                              handle: productHandle!,
+                                          })
                                         : removeWishlistItemMutation.mutate({
-                                            id: productId!,
-                                            description: '',
-                                            title: productName!,
-                                            thumbnail: imageSrc!,
-                                            handle: productHandle!,
-                                        });
+                                              id: productId!,
+                                              description: '',
+                                              title: productName!,
+                                              thumbnail: imageSrc!,
+                                              handle: productHandle!,
+                                          });
                                 }}
                                 sx={{
                                     userSelect: 'none',
@@ -224,6 +225,14 @@ const ProductCardStore: React.FC<ProductCardProps> = ({
                         >
                             {productPrice}
                         </Text>
+                        <Flex
+                            flex={1}
+                            color={'primary.indigo.900'}
+                            justifyContent={'flex-end'}
+                            fontSize={{ base: '28px', md: ' 32px' }}
+                        >
+                            <MdShoppingCart />
+                        </Flex>
                     </Flex>
                 </Flex>
             </Box>
