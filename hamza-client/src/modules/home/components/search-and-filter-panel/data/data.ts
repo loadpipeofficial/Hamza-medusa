@@ -27,6 +27,11 @@ const vendors = [
         id: 7,
         vendorName: 'Workout Gear',
     },
+
+    {
+        id: 8,
+        vendorName: 'The Gaming Store',
+    },
 ];
 
 export default vendors;
