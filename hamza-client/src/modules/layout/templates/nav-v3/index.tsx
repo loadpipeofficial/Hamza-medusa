@@ -18,6 +18,7 @@ import {
     MenuGroup,
     MenuOptionGroup,
     MenuDivider,
+    Divider,
 } from '@chakra-ui/react';
 import Image from 'next/image';
 import HamzaLogo from '../../../../../public/images/logo/logo_green.svg';
@@ -123,14 +124,24 @@ export default async function Nav() {
                             <MenuItem backgroundColor={'black'} color={'white'}>
                                 Be an affiliate
                             </MenuItem>
+                            <MenuDivider />
                             <MenuItem backgroundColor={'black'} color={'white'}>
-                                Mark as Draft
+                                Market
                             </MenuItem>
                             <MenuItem backgroundColor={'black'} color={'white'}>
-                                Delete
+                                About Us
                             </MenuItem>
                             <MenuItem backgroundColor={'black'} color={'white'}>
-                                Attend a Workshop
+                                Help Center
+                            </MenuItem>
+                            <MenuDivider />
+                            <MenuItem
+                                height={'100%'}
+                                backgroundColor={'primary.green.900'}
+                                color={'black'}
+                                justifyContent={'center'}
+                            >
+                                Connect Wallet
                             </MenuItem>
                         </MenuList>
                     </Menu>
