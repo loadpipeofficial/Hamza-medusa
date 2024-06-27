@@ -44,12 +44,12 @@ const ProductInfo = () => {
             <Flex display={{ base: 'none', md: 'flex' }}>
                 <Box
                     backgroundColor="#121212"
-                    px="15px" // Horizontal padding
-                    py="8px" // Vertical padding, adjust as needed
-                    borderRadius="9999px" // High border-radius for the pill shape
-                    display="inline-flex" // Using inline-flex to better manage inner Text alignment
-                    alignItems="center" // Aligns the text vertically in the center
-                    justifyContent="center" // Centers the text horizontally
+                    px="15px"
+                    py="8px"
+                    borderRadius="9999px"
+                    display="inline-flex"
+                    alignItems="center"
+                    justifyContent="center"
                 >
                     <Text color="white">Electronics</Text>
                 </Box>
@@ -81,13 +81,13 @@ const ProductInfo = () => {
                 >
                     About this item
                 </Heading>
-                <Text fontSize={{ base: '14px', md: '16px' }} color="white">
+                <Box fontSize={{ base: '14px', md: '16px' }} color="white">
                     <div
                         dangerouslySetInnerHTML={{
                             __html: productData.description,
                         }}
                     />
-                </Text>
+                </Box>
             </Flex>
         </Flex>
     );
