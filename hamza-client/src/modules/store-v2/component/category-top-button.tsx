@@ -23,7 +23,7 @@ const CategoryTopButton: React.FC<CategoryButtonProps> = ({
                 setCategorySelect(categoryName),
                     setCategoryTypeSelect(categoryType);
             }}
-            borderColor={'transparent'}
+            borderColor={'#3E3E3E'}
             backgroundColor={
                 categorySelect !== null && categorySelect === categoryName
                     ? 'white'

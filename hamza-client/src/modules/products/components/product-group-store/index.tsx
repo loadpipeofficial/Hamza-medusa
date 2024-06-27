@@ -100,7 +100,7 @@ const ProductCardGroup = ({ vendorName, filterByRating, category }: Props) => {
         <Box maxW={'941px'} width="100%" height="100%" px="1rem">
             <StoreFilterDisplay />
             <Grid
-                mt="2rem"
+                mt={{ base: '0px', md: '3rem' }}
                 templateColumns={{
                     base: 'repeat(2, 1fr)',
                     lg: 'repeat(3, 1fr)',
@@ -110,46 +110,47 @@ const ProductCardGroup = ({ vendorName, filterByRating, category }: Props) => {
                 {isLoading
                     ? renderSkeletons(8) // Render 8 skeletons while loading
                     : filteredProducts.map((product: any, index: number) => {
-                          const variantPrices = product.variants
-                              .map((variant: any) => variant.prices)
-                              .flat();
+                        const variantPrices = product.variants
+                            .map((variant: any) => variant.prices)
+                            .flat();
 
-                          const productPricing = formatCryptoPrice(
-                              variantPrices[0].amount,
-                              preferred_currency_code as string
-                          );
-                          const reviewCounter = product.reviews.length;
-                          const totalRating = product.reviews.reduce(
-                              (acc: number, review: any) => acc + review.rating,
-                              0
-                          );
-                          const avgRating = totalRating / reviewCounter;
-                          const roundedAvgRating = parseFloat(
-                              avgRating.toFixed(2)
-                          );
+                        const selectedPrice = variantPrices.find((p: any) => p.currency_code === preferred_currency_code);
+                        const productPricing = formatCryptoPrice(
+                            selectedPrice?.amount ?? 0,
+                            preferred_currency_code as string
+                        );
+                        const reviewCounter = product.reviews.length;
+                        const totalRating = product.reviews.reduce(
+                            (acc: number, review: any) => acc + review.rating,
+                            0
+                        );
+                        const avgRating = totalRating / reviewCounter;
+                        const roundedAvgRating = parseFloat(
+                            avgRating.toFixed(2)
+                        );
 
-                          const variantID = product.variants[0].id;
-                          return (
-                              <GridItem key={index} w="100%">
-                                  <ProductCardStore
-                                      productHandle={products[index].handle}
-                                      variantID={variantID}
-                                      reviewCount={reviewCounter}
-                                      totalRating={roundedAvgRating}
-                                      countryCode={product.countryCode}
-                                      productName={product.title}
-                                      productPrice={productPricing}
-                                      currencyCode={
-                                          preferred_currency_code ?? 'usdc'
-                                      }
-                                      imageSrc={product.thumbnail}
-                                      hasDiscount={product.is_giftcard}
-                                      discountValue={product.discountValue}
-                                      productId={product.id}
-                                  />
-                              </GridItem>
-                          );
-                      })}
+                        const variantID = product.variants[0].id;
+                        return (
+                            <GridItem key={index} w="100%">
+                                <ProductCardStore
+                                    productHandle={products[index].handle}
+                                    variantID={variantID}
+                                    reviewCount={reviewCounter}
+                                    totalRating={roundedAvgRating}
+                                    countryCode={product.countryCode}
+                                    productName={product.title}
+                                    productPrice={productPricing}
+                                    currencyCode={
+                                        preferred_currency_code ?? 'usdc'
+                                    }
+                                    imageSrc={product.thumbnail}
+                                    hasDiscount={product.is_giftcard}
+                                    discountValue={product.discountValue}
+                                    productId={product.id}
+                                />
+                            </GridItem>
+                        );
+                    })}
             </Grid>
         </Box>
     );
