@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Text,
     Box,
@@ -19,23 +19,27 @@ import { formatCryptoPrice } from '@lib/util/get-product-price';
 import { MdShoppingCart } from 'react-icons/md';
 import USDC from '../../../../public/images/currencies/usdc-icon.svg';
 import Image from 'next/image';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/router';
 
 interface ProductCardProps {
-    reviewCount?: number;
-    totalRating?: number;
-    variantID?: string;
-    countryCode?: string;
-    productName?: string;
-    productPrice?: number | string;
-    currencyCode?: string;
-    imageSrc?: string;
-    hasDiscount?: boolean;
-    discountValue?: string;
-    productHandle?: string;
-    productId?: string;
+    variantID: string;
+    countryCode: string;
+    productName: string;
+    reviewCount: number;
+    totalRating: number;
+    productPrice: number | string;
+    currencyCode: string;
+    imageSrc: string;
+    hasDiscount: boolean;
+    discountValue: string;
+    productHandle: string;
+    allow_backorder: boolean;
+    inventory: number;
+    storeId: string;
 }
 
-const ProductCardStore: React.FC<ProductCardProps> = ({
+const ProductCardStore: React.FC<ProductCardProps & { productId?: string }> = ({
     variantID,
     countryCode,
     productName,
@@ -48,12 +52,133 @@ const ProductCardStore: React.FC<ProductCardProps> = ({
     discountValue,
     productHandle,
     productId,
+    allow_backorder,
+    inventory,
+    storeId,
 }) => {
     const [imageLoaded, setImageLoaded] = useState(false);
-    const { wishlist } = useWishlistStore();
+
+    // new
+    //Product states
+    const [loadingBuy, setLoadingBuy] = useState(false);
+    const [loadingAddToCart, setLoadingAddToCard] = useState(false);
+
+    //Auth states
+    const { authData, whitelist_config, setWhitelistConfig } =
+        useCustomerAuthStore();
     const { addWishlistItemMutation, removeWishlistItemMutation } =
         useWishlistMutations();
-    const { authData } = useCustomerAuthStore();
+
+    //Wishlist store
+    const { wishlist } = useWishlistStore();
+    const [isWhitelisted, setIsWhitelisted] = useState(false);
+
+    //Routing
+    // const router = useRouter();
+    //Toggle wish list
+
+    const toggleWishlist = async () => {
+        // console.log('toggle wishlist-dropdown item', product);
+        wishlist.products.find((a) => a.id == productId)
+            ? removeWishlistItemMutation.mutate({
+                  id: productId!,
+                  description: '',
+                  handle: productHandle,
+                  thumbnail: imageSrc,
+                  title: productName,
+              })
+            : addWishlistItemMutation.mutate({
+                  id: productId!,
+                  description: '',
+                  handle: productHandle,
+                  thumbnail: imageSrc,
+                  title: productName,
+              });
+    };
+
+    // const router = useRouter();
+
+    // const toggleWishlist = async () => {
+    //     // console.log('toggle wishlist-dropdown item', product);
+    //     wishlist.products.find((a) => a.id == productId)
+    //         ? removeWishlistItemMutation.mutate({
+    //               id: productId!,
+    //               description: '',
+    //               handle: productHandle,
+    //               thumbnail: imageSrc,
+    //               title: productName,
+    //           })
+    //         : addWishlistItemMutation.mutate({
+    //               id: productId!,
+    //               description: '',
+    //               handle: productHandle,
+    //               thumbnail: imageSrc,
+    //               title: productName,
+    //           });
+    // };
+
+    // const handleAddToCart = async () => {
+    //     setLoadingAddToCard(true);
+    //     await addToCart({
+    //         variantId: variantID ?? '',
+    //         quantity: 1,
+    //         countryCode: countryCode ?? '',
+    //         currencyCode: 'eth',
+    //     });
+    //     setLoadingAddToCard(false);
+    // };
+
+    // const handleBuyNow = async () => {
+    //     setLoadingBuy(true);
+    //     await addToCart({
+    //         variantId: variantID ?? '',
+    //         quantity: 1,
+    //         countryCode: countryCode ?? '',
+    //         currencyCode: 'eth',
+    //     });
+    //     setLoadingBuy(false);
+    // };
+
+    // const whitelistedProductHandler = async () => {
+    //     const whitelistedProduct =
+    //         whitelist_config.is_whitelisted &&
+    //         whitelist_config.whitelisted_stores.includes(storeId)
+    //             ? true
+    //             : false;
+
+    //     setIsWhitelisted(whitelistedProduct);
+    //     return;
+    // };
+
+    // Add to cart
+    const handleAddToCart = async () => {
+        setLoadingAddToCard(true);
+        await addToCart({
+            variantId: variantID ?? '',
+            quantity: 1,
+            countryCode: countryCode ?? '',
+            currencyCode: 'eth',
+        });
+        setLoadingAddToCard(false);
+    };
+
+    //White listed
+    const whitelistedProductHandler = async () => {
+        const whitelistedProduct =
+            whitelist_config.is_whitelisted &&
+            whitelist_config.whitelisted_stores.includes(storeId)
+                ? true
+                : false;
+
+        setIsWhitelisted(whitelistedProduct);
+        return;
+    };
+
+    useEffect(() => {
+        if (authData.status == 'authenticated' && allow_backorder == true) {
+            whitelistedProductHandler();
+        }
+    }, [authData.status]);
 
     return (
         <Box
@@ -62,8 +187,9 @@ const ProductCardStore: React.FC<ProductCardProps> = ({
             width="100%"
             height="100%"
             backgroundColor="black"
-            maxHeight={'399px'}
+            maxHeight={'420px'} //399px
             minHeight={'243.73px'}
+            maxWidth={{ base: '100%', lg: '283px' }}
         >
             <LocalizedClientLink href={`/products/${productHandle}`}>
                 <Box
@@ -87,13 +213,213 @@ const ProductCardStore: React.FC<ProductCardProps> = ({
                 </Box>
             </LocalizedClientLink>
 
-            <Box
+            <Flex
                 p={{ base: '2', md: '4' }}
-                display={'flex'}
                 flexDirection={'column'}
-                height={{ base: '109px', md: '161px' }}
+                height={{ base: '109px', md: '182px' }} //161px
             >
-                <Flex alignItems="center" wrap={'nowrap'}>
+                <Flex alignItems="center" flexShrink={0}>
+                    <Text
+                        color="white"
+                        fontWeight="700"
+                        fontSize={{ base: '14px', md: '1.25rem' }}
+                        isTruncated
+                        noOfLines={2}
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                        whiteSpace="normal"
+                        wordBreak="break-word"
+                    >
+                        {productName}
+                    </Text>
+                </Flex>
+
+                <Flex
+                    mt="auto"
+                    mb={{ base: '0', md: '5px' }}
+                    flexDirection={'column'}
+                >
+                    <Flex alignItems="center" mb={{ base: '2.5px', md: '0' }}>
+                        <IoStar style={{ color: '#FEC84B' }} />
+                        {(reviewCount ?? 0) > 0 ? (
+                            <>
+                                <Text
+                                    color={'white'}
+                                    alignSelf={'center'}
+                                    fontWeight="700"
+                                    fontSize={{ base: '14px', md: '14px' }}
+                                    ml="1"
+                                >
+                                    {totalRating}
+                                </Text>
+                                <Text
+                                    alignSelf={'center'}
+                                    fontWeight="700"
+                                    fontSize={{ base: '14px', md: '16px' }}
+                                    color="#555555"
+                                    ml="1"
+                                >
+                                    ({reviewCount} reviews)
+                                </Text>
+                            </>
+                        ) : (
+                            <Text
+                                alignSelf={'center'}
+                                ml={{ base: '1.5', md: '2' }}
+                                fontSize={{ base: '14px', md: '16px' }}
+                                color={'white'}
+                            >
+                                no reviews yet
+                            </Text>
+                        )}
+                    </Flex>
+
+                    <Flex alignItems="center">
+                        <Flex
+                            wrap={'nowrap'}
+                            width={{ base: '14px', md: '16px' }}
+                            height={{ base: '14px', md: '16px' }}
+                        >
+                            <Image
+                                src={require('../../../../public/images/currencies/usdc-icon.svg')}
+                                alt="usdc"
+                                style={{ width: '100%', height: '100%' }}
+                            />
+                        </Flex>
+
+                        <Text
+                            display={'flex'}
+                            flexDirection={'row'}
+                            noOfLines={1}
+                            color="white"
+                            ml="2"
+                            fontWeight="700"
+                            fontSize={{ base: '14px', md: '18px' }}
+                        >
+                            {`${productPrice} ${currencyCode?.toUpperCase()}`}{' '}
+                            <span
+                                style={{
+                                    fontSize: '12px',
+                                    color: '#555555',
+                                }}
+                            >
+                                {productPrice}
+                            </span>
+                        </Text>
+                    </Flex>
+                </Flex>
+                <Flex
+                    display={{ base: 'none', md: 'flex' }}
+                    flexDirection={'row'}
+                >
+                    <Flex
+                        onClick={() => {
+                            if (inventory == 0 && !isWhitelisted) {
+                                toast.error('Out of Stock');
+                                return;
+                            }
+                            if (inventory == 0 && isWhitelisted) {
+                                handleAddToCart();
+                                return;
+                            }
+                            if (inventory > 0) {
+                                handleAddToCart();
+                                return;
+                            }
+                        }}
+                        height={'35px'}
+                        width={'100%'}
+                        backgroundColor="primary.indigo.900"
+                        borderRadius={'full'}
+                        cursor={'pointer'}
+                        fontSize={{ base: '28px', md: ' 32px' }}
+                        justifyContent={'center'}
+                        alignItems={'center'}
+                    >
+                        <Text
+                            alignSelf="center"
+                            fontSize={'14px'}
+                            color="white"
+                        >
+                            Add to cart
+                        </Text>
+                    </Flex>
+                    <Flex
+                        display={{ base: 'none', md: 'flex' }}
+                        alignItems="center"
+                        wrap={'nowrap'}
+                    >
+                        {authData.status == 'authenticated' && (
+                            <Flex ml="10px" justifyContent={'flex-end'}>
+                                <Flex
+                                    justifyContent="center"
+                                    alignItems="center"
+                                    width="35px"
+                                    height="35px"
+                                    borderRadius="full"
+                                    borderWidth="2px"
+                                    borderColor="#7B61FF"
+                                    cursor="pointer"
+                                    onClick={() => {
+                                        console.log('adding ', productId);
+                                        !wishlist.products.find(
+                                            (a) => a.id == productId
+                                        )
+                                            ? addWishlistItemMutation.mutate({
+                                                  id: productId!,
+                                                  description: '',
+                                                  title: productName!,
+                                                  thumbnail: imageSrc!,
+                                                  handle: productHandle!,
+                                              })
+                                            : removeWishlistItemMutation.mutate(
+                                                  {
+                                                      id: productId!,
+                                                      description: '',
+                                                      title: productName!,
+                                                      thumbnail: imageSrc!,
+                                                      handle: productHandle!,
+                                                  }
+                                              );
+                                    }}
+                                    sx={{
+                                        userSelect: 'none',
+                                    }}
+                                >
+                                    <Flex
+                                        justifyContent="center"
+                                        alignItems="center"
+                                        width="100%"
+                                        height="100%"
+                                    >
+                                        {!wishlist.products.find(
+                                            (a) => a.id == productId
+                                        ) ? (
+                                            <FaRegHeart
+                                                color="#7B61FF"
+                                                size={15}
+                                            />
+                                        ) : (
+                                            <FaHeart
+                                                color="#7B61FF"
+                                                size={15}
+                                            />
+                                        )}
+                                    </Flex>
+                                </Flex>
+                            </Flex>
+                        )}
+                    </Flex>
+                </Flex>
+            </Flex>
+        </Box>
+    );
+};
+
+export default ProductCardStore;
+
+{
+    /* <Flex alignItems="center" wrap={'nowrap'}>
                     <Text
                         color="white"
                         fontWeight="700"
@@ -155,89 +481,5 @@ const ProductCardStore: React.FC<ProductCardProps> = ({
                             </Flex>
                         </Flex>
                     )}
-                </Flex>
-
-                <Flex marginTop="auto" flexDirection={'column'}>
-                    <Flex alignItems="center" mb={{ base: '2.5px', md: '0' }}>
-                        <IoStar style={{ color: '#FEC84B' }} />
-                        {(reviewCount ?? 0) > 0 ? (
-                            <>
-                                <Text
-                                    color={'white'}
-                                    alignSelf={'center'}
-                                    fontWeight="700"
-                                    fontSize={{ base: '14px', md: '14px' }}
-                                    ml="1"
-                                >
-                                    {totalRating}
-                                </Text>
-                                <Text
-                                    alignSelf={'center'}
-                                    fontWeight="700"
-                                    fontSize={{ base: '14px', md: '16px' }}
-                                    color="#555555"
-                                    ml="1"
-                                >
-                                    ({reviewCount} reviews)
-                                </Text>
-                            </>
-                        ) : (
-                            <Text
-                                alignSelf={'center'}
-                                ml={{ base: '1.5', md: '2' }}
-                                fontSize={{ base: '14px', md: '16px' }}
-                                color={'white'}
-                            >
-                                no reviews yet
-                            </Text>
-                        )}
-                    </Flex>
-
-                    <Flex mt="auto" alignItems="center">
-                        <Flex
-                            wrap={'nowrap'}
-                            width={{ base: '14px', md: '16px' }}
-                            height={{ base: '14px', md: '16px' }}
-                        >
-                            <Image
-                                src={require('../../../../public/images/currencies/usdc-icon.svg')}
-                                alt="usdc"
-                                style={{ width: '100%', height: '100%' }}
-                            />
-                        </Flex>
-                        <Text
-                            color="white"
-                            ml="2"
-                            fontWeight="700"
-                            fontSize={{ base: '14px', md: '18px' }}
-                        >
-                            {`${productPrice} ${currencyCode?.toUpperCase()}`}
-                        </Text>
-                        <Text
-                            textDecoration={
-                                hasDiscount ? 'line-through' : 'none'
-                            }
-                            ml="2"
-                            color="#555555"
-                            fontWeight="700"
-                            display={{ base: 'none', md: 'block' }}
-                            fontSize={{ base: '14px', md: '12px' }}
-                        >
-                            {productPrice}
-                        </Text>
-                        <Flex
-                            flex={1}
-                            color={'primary.indigo.900'}
-                            justifyContent={'flex-end'}
-                            fontSize={{ base: '28px', md: ' 32px' }}
-                        >
-                            <MdShoppingCart />
-                        </Flex>
-                    </Flex>
-                </Flex>
-            </Box>
-        </Box>
-    );
-};
-
-export default ProductCardStore;
+                </Flex> */
+}
