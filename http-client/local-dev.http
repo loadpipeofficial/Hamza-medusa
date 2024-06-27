@@ -311,7 +311,7 @@ DELETE http://localhost:9000/custom/order/cancel
 Content-Type: application/json
 
 {
-  "order_id": "order_01J05M54MDN9AC5E5JNMYHFKB8"
+  "order_id": "order_01J1AD8TNJ9RQ2VRVPPMV6Y1Y8"
 }
 
 ### GET Order Status
@@ -335,7 +335,7 @@ POST http://localhost:9000/custom/order/customer-orders
 Content-Type: application/json
 
 {
-  "customer_id": "cus_01J0WJ5M458YXMWJ2EFBGTAKK1"
+  "customer_id": "cus_01J1AD04ZPXWWW1C7FZEZEJFM9"
 }
 
 

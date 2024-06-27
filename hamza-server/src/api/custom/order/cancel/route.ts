@@ -6,7 +6,7 @@ export const DELETE = async (req: MedusaRequest, res: MedusaResponse) => {
     const orderService: OrderService = req.scope.resolve('orderService');
     const logger: Logger = req.scope.resolve('logger');
 
-    const { order_id } = readRequestBody(req.query, ['order_id']);
+    const { order_id } = readRequestBody(req.body, ['order_id']);
 
     try {
         const order = await orderService.cancellationStatus(order_id);

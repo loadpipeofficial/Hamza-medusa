@@ -247,8 +247,8 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                                   item.variant?.product?.handle || 'N/A'; // Grab the handle from the product object
                               return (
                                   <div key={item.id}>
-                                      item: {item.id} <br /> Order_id list:{' '}
-                                      {/*{item.order_ids} <br />*/}
+                                      item: {item.id} <br /> Order_id :{' '}
+                                      {item.order_id} <br />
                                       {/*item quantity: {item.quantity}*/}
                                       <OrderCard
                                           key={item.id}
@@ -278,7 +278,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                                               colorScheme="blue"
                                               ml={4}
                                               onClick={() =>
-                                                  openModal(orderGroup.cart_id)
+                                                  openModal(item.order_id)
                                               }
                                           >
                                               Request Cancellation

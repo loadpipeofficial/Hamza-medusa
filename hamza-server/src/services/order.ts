@@ -206,10 +206,14 @@ export default class OrderService extends MedusaOrderService {
     }
 
     async cancellationStatus(orderId: string) {
+        console.log(`order id ${orderId}`);
         const order = await this.orderRepository_.findOne({
             where: { id: orderId },
         });
-        if (order.status === OrderStatus.PENDING) {
+        if (
+            order.status === OrderStatus.PENDING ||
+            order.status === OrderStatus.ARCHIVED
+        ) {
             order.status = OrderStatus.CANCELED;
             await this.orderRepository_.save(order);
             return order;
@@ -347,6 +351,7 @@ export default class OrderService extends MedusaOrderService {
                 acc[cartId] = {
                     cart_id: cartId,
                     order_ids: new Set(),
+                    order_id: order.id,
                     items: {},
                 };
             }
@@ -358,6 +363,7 @@ export default class OrderService extends MedusaOrderService {
                 if (!acc[cartId].items[itemId]) {
                     acc[cartId].items[itemId] = {
                         ...item,
+                        order_id: order.id,
                         order_ids: new Set(),
                     };
                 }
