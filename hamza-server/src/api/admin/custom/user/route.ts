@@ -119,7 +119,6 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
             'password'
         );
 
-
         const store0 = await storeService.createStore(
             user0,
             'Medusa Merch',
@@ -187,6 +186,13 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
             'http://54.253.186.85/headphones.webp'
         );
 
+        const store11 = await storeService.createStore(
+            user10,
+            'The Gaming Store',
+            'pcol_gaming',
+            'http://54.253.186.85/headphones.webp'
+        );
+
         await productCollectionService.update(
             'pcol_01HRVF8HCVY8B00RF5S54THTPC',
             { store_id: store0.id }
@@ -251,6 +257,10 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
 
         await productCollectionService.update('pcol_blocks', {
             store_id: store10.id,
+        });
+
+        await productCollectionService.update('pcol_gaming', {
+            store_id: store11.id,
         });
 
         return res.json({

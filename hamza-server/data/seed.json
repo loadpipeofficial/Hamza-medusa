@@ -157,6 +157,11 @@
             "id": "pcol_lighting",
             "title": "Lighting",
             "handle": "pcol_lighting"
+        },
+              {
+            "id": "pcol_gaming",
+            "title": "Gaming",
+            "handle": "pcol_gaming"
         }
     ],
     "products": [
