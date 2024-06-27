@@ -43,18 +43,19 @@ export const testController = {
                     '0xd476aa67d4ab33576da3db6d75fd8e93782ba50b13a0fc3b442d05869e2612df'
                 );
 
+                await rc.setErc20('0x0000000000000000000000000000000000000000');
                 /*
                 console.log('setting 1');
                 await rc.setErc20('0x822585D682B973e4b1B47C0311f162b29586DD02');
                 console.log('setting 2');
                 await rc.setErc20('0xbe9fe9b717c888a2b2ca0a6caa639afe369249c5');
-                */
 
                 console.log('setting payee');
                 await rc.setPayee(
                     'hamza-switch',
                     '0x74b7284836F753101bD683C3843e95813b381f18'
                 );
+                */
                 console.log('done');
             },
             201
