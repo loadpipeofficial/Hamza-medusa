@@ -82,16 +82,20 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
                         gap="16px"
                     >
                         <CategoryModalButton
+                            categoryType="home_light"
+                            categoryName="Legendary Light Design"
+                        />
+                        <CategoryModalButton
+                            categoryType="gadgets"
+                            categoryName="Dauntless"
+                        />
+                        <CategoryModalButton
                             categoryType="clothes"
                             categoryName="Medusa Merch"
                         />
                         <CategoryModalButton
                             categoryType="games"
                             categoryName="Echo Rift"
-                        />
-                        <CategoryModalButton
-                            categoryType="gadgets"
-                            categoryName="Dauntless"
                         />
                     </Flex>
                     <Text

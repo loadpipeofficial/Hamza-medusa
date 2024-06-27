@@ -18,7 +18,7 @@ const StoreTemplate = () => {
     const { reviewFilterSelect } = useSideFilter();
 
     //TODO: make zustand state for default vendor "all"
-    const [vendorName, setVendorName] = useState('Medusa Merch');
+    const [vendorName, setVendorName] = useState('Legendary Light Design');
     useEffect(() => {
         if (categorySelect) {
             setVendorName(categorySelect);
