@@ -296,15 +296,17 @@ const ProductCardStore: React.FC<ProductCardProps & { productId?: string }> = ({
                             fontWeight="700"
                             fontSize={{ base: '14px', md: '18px' }}
                         >
-                            {`${productPrice} ${currencyCode?.toUpperCase()}`}{' '}
-                            <span
+                            {`${productPrice}`}{' '}
+                            <Text
+                                as="span"
+                                display={{ base: 'none', md: 'inline-block' }}
                                 style={{
                                     fontSize: '12px',
                                     color: '#555555',
                                 }}
                             >
                                 {productPrice}
-                            </span>
+                            </Text>
                         </Text>
                     </Flex>
                 </Flex>
@@ -419,6 +421,7 @@ const ProductCardStore: React.FC<ProductCardProps & { productId?: string }> = ({
 export default ProductCardStore;
 
 {
+    //  {`${productPrice} ${currencyCode?.toUpperCase()}`}{' '}
     /* <Flex alignItems="center" wrap={'nowrap'}>
                     <Text
                         color="white"
