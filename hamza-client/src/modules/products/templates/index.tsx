@@ -46,6 +46,8 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
 
     const [vendor, setVendor] = useState('');
 
+    const [isHydrated, setIsHydrated] = useState(false);
+
     // Only update product data when `product` changes
     useEffect(() => {
         if (product && product.id) {
@@ -95,6 +97,13 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
         fetchVendor();
     }, [product]);
 
+    useEffect(() => {
+        setIsHydrated(true);
+    }, []);
+
+    if (!isHydrated) {
+        return <></>;
+    }
     return (
         <Flex
             flexDirection={'column'}
