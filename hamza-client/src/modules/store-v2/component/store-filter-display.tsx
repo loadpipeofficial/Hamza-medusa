@@ -27,16 +27,20 @@ const StoreFilterDisplay = () => {
                 </Flex>
                 <Flex gap="20px" overflow={'hidden'}>
                     <CategoryTopButton
+                        categoryType="home_light"
+                        categoryName="Legendary Light Design"
+                    />
+                    <CategoryTopButton
+                        categoryType="gadgets"
+                        categoryName="Dauntless"
+                    />
+                    <CategoryTopButton
                         categoryType="clothes"
                         categoryName="Medusa Merch"
                     />
                     <CategoryTopButton
                         categoryType="games"
                         categoryName="Echo Rift"
-                    />
-                    <CategoryTopButton
-                        categoryType="gadgets"
-                        categoryName="Dauntless"
                     />
                 </Flex>
                 <Text fontSize={'18px'} color="primary.indigo.900">

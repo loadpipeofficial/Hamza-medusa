@@ -62,16 +62,20 @@ const SideMenu = () => {
 
                 <Flex mt="1rem" flexDirection={'column'} gap="16px">
                     <CategoryButton
+                        categoryType="home_light"
+                        categoryName="Legendary Light Design"
+                    />
+                    <CategoryButton
+                        categoryType="gadgets"
+                        categoryName="Dauntless"
+                    />
+                    <CategoryButton
                         categoryType="clothes"
                         categoryName="Medusa Merch"
                     />
                     <CategoryButton
                         categoryType="games"
                         categoryName="Echo Rift"
-                    />
-                    <CategoryButton
-                        categoryType="gadgets"
-                        categoryName="Dauntless"
                     />
                 </Flex>
             </Box>

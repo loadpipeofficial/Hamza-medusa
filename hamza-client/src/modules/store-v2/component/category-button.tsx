@@ -7,7 +7,7 @@ import categoryIcons from '../data/category-icons';
 
 interface CategoryButtonProps {
     categoryName: string;
-    categoryType: 'clothes' | 'games' | 'gadgets';
+    categoryType: string;
 }
 
 const CategoryButton: React.FC<CategoryButtonProps> = ({

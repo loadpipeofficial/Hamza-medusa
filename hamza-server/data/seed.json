@@ -178,7 +178,7 @@
             "title": "Workout Gear",
             "handle": "pcol_01HSGAMXDJD725MR3VSW63W0GE"
         },
-      {
+        {
             "id": "pcol_lighting",
             "title": "Lighting",
             "handle": "pcol_lighting"
@@ -199,7 +199,7 @@
             "is_giftcard": false,
             "weight": 260,
             "images": [
-                "http://localhost/Legendary/LLD_indout.png"
+                "http://images.hamza.biz/Legendary/indout/LLD_indout1.png"
             ],
             "options": [
                 {
@@ -250,7 +250,7 @@
             "is_giftcard": false,
             "weight": 260,
             "images": [
-                "http://localhost/Legendary/LLD_tripod.png"
+                "http://images.hamza.biz/Legendary/tripod/LLD_tripod1.png"
             ],
             "options": [
                 {
@@ -301,7 +301,7 @@
             "is_giftcard": false,
             "weight": 260,
             "images": [
-                "http://localhost/Legendary/LLD_mood.webp"
+                "http://images.hamza.biz/Legendary/mood/LLD_mood1.webp"
             ],
             "options": [
                 {
@@ -326,6 +326,171 @@
                         {
                             "currency_code": "usdt",
                             "amount": 23000
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 75,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "LED RGB Wall Art",
+            "categories": [
+                {
+                    "id": "pcat_lighting"
+                }
+            ],
+            "collection_id": "pcol_lighting",
+            "subtitle": "For home, bedroom, office, or gaming room; set the mood for productivity, chill, or some gaming time.",
+            "description": "<li>Lighting Type: Ceiling Fan with Lights<li>Smart Equipment: No<li>Light Bulb Type: LED<li>Light Colour: Blue (10,000K)<li>Warranty Duration: 1 year<li>Warranty Type: 1 year<li>Ships From Overseas",
+            "handle": "lld_wall",
+            "is_giftcard": false,
+            "weight": 260,
+            "images": [
+                "http://images.hamza.biz/Legendary/wall/wall1.jpeg",
+                "http://images.hamza.biz/Legendary/wall/wall2.jpeg",
+                "http://images.hamza.biz/Legendary/wall/wall3.jpeg",
+                "http://images.hamza.biz/Legendary/wall/wall4.jpeg",
+                "http://images.hamza.biz/Legendary/wall/wall5.jpeg"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Black"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "White",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 230000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 7900
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 7900
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 75,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "3D Infinity Mirror ",
+            "categories": [
+                {
+                    "id": "pcat_lighting"
+                }
+            ],
+            "collection_id": "pcol_lighting",
+            "subtitle": "A cool novelty light that can make your home or personal space feel chill, trippy, or bright.",
+            "description": "<li>Lamp Body Material: Glass,iron<li>Design Style: Modern<li>Shade material: Glass<li>Shade Shape: Novelty<li>Light Source: LED<li>Control Mode: APP Control, Remote Control<li>Model Number: CET-MM30<li>Input Voltage(V): 100-220V/50-60Hz<li>Certification: RoHS CCC, CE, FCC<li>Application: Bedroom<li>Lifespan (hours): 30000<li>Working Time (hours): 30000",
+            "handle": "lld_infinity",
+            "is_giftcard": false,
+            "weight": 260,
+            "images": [
+                "http://images.hamza.biz/Legendary/infinity/lld_inf5.png",
+                "http://images.hamza.biz/Legendary/infinity/lld_inf1.png",
+                "http://images.hamza.biz/Legendary/infinity/lld_inf2.png",
+                "http://images.hamza.biz/Legendary/infinity/lld_inf3.png",
+                "http://images.hamza.biz/Legendary/infinity/lld_inf4.png"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Black"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "White",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 1200000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 5995
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 5995
+                        }
+                    ],
+                    "options": [
+                        {
+                            "value": "Black"
+                        }
+                    ],
+                    "inventory_quantity": 75,
+                    "manage_inventory": true
+                }
+            ]
+        },
+        {
+            "title": "12 Pack Black Recessed Lights 6 Inch, Dimmable ",
+            "categories": [
+                {
+                    "id": "pcat_lighting"
+                }
+            ],
+            "collection_id": "pcol_lighting",
+            "subtitle": "Lighting is the key to everything. Black outdoor recessed lights, will make your home look stunning at night. Coming home will give you a feeling of bliss and elegant comfort. ",
+            "description": "<li>Exterior Outdoor <li>5CCT Selectable<li>12W, 120V, <li>IC Wet Rated, ETL",
+            "handle": "lld_recessed",
+            "is_giftcard": false,
+            "weight": 260,
+            "images": [
+                "http://images.hamza.biz/Legendary/recessed/outdoor1.webp",
+                "http://images.hamza.biz/Legendary/recessed/outdoor2.jpg",
+                "http://images.hamza.biz/Legendary/recessed/outdoor3.jpg",
+                "http://images.hamza.biz/Legendary/recessed/outdoor4.webp",
+                "http://images.hamza.biz/Legendary/recessed/outdoor5.jpg"
+            ],
+            "options": [
+                {
+                    "title": "Color",
+                    "values": [
+                        "Black"
+                    ]
+                }
+            ],
+            "variants": [
+                {
+                    "title": "White",
+                    "prices": [
+                        {
+                            "currency_code": "eth",
+                            "amount": 640000
+                        },
+                        {
+                            "currency_code": "usdc",
+                            "amount": 3950
+                        },
+                        {
+                            "currency_code": "usdt",
+                            "amount": 3950
                         }
                     ],
                     "options": [
@@ -3490,10 +3655,6 @@
                 }
             ]
         }
-
-
-
-
     ],
     "categories": [
         {
