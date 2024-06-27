@@ -15,7 +15,7 @@ import { InjectedConnector } from 'wagmi/connectors/injected';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 
 const RecommendedItems = () => {
-    const [vendorName, setVendorName] = useState('Medusa Merch');
+    const [vendorName, setVendorName] = useState('Legendary Light Design');
     const { openConnectModal } = useConnectModal();
     const { connector: activeConnector, isConnected } = useAccount();
     const { connect } = useConnect({
