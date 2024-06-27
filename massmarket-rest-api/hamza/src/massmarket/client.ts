@@ -201,6 +201,15 @@ export class RelayClientWrapper {
                 ),
             },
         });
+        console.log('setting currency 3');
+        await client.updateShopManifest({
+            addAcceptedCurrency: {
+                chainId: 11155111,
+                tokenAddr: hexToBytes(
+                    '0x0000000000000000000000000000000000000000'
+                ),
+            },
+        });
 
         console.log('setting payee');
         await client.updateShopManifest({
