@@ -57,8 +57,8 @@ dependencies:
     specifier: ^11.0.4
     version: 11.8.0
   viem:
-    specifier: ^2.16.1
-    version: 2.16.1(typescript@5.5.2)
+    specifier: ^2.16.2
+    version: 2.16.2(typescript@5.5.2)
 
 devDependencies:
   '@swc/cli':
@@ -149,7 +149,7 @@ devDependencies:
     specifier: ^5.3.3
     version: 5.5.2
   vite:
-    specifier: ^5.1.5
+    specifier: ^5.3.1
     version: 5.3.1(@types/node@20.14.8)
   vite-plugin-node-polyfills:
     specifier: ^0.21.0
@@ -8105,8 +8105,8 @@ packages:
     engines: {node: '>= 0.8'}
     dev: false
 
-  /viem@2.16.1(typescript@5.5.2):
-    resolution: {integrity: sha512-rmgXcxif740m2ARqPFoiXRHkljXhsruCZgRXf6XuS6n+Lymy7X2ma5vuzBw3mDKiA2BmxjbyJC4Wxi7kaIwHhw==}
+  /viem@2.16.2(typescript@5.5.2):
+    resolution: {integrity: sha512-qor3v1cJFR3jcPtcJxPbKfKURAH2agNf2IWZIaSReV6teNLERiu4Sr7kbqpkIeTAEpiDCVQwg336M+mub1m+pg==}
     peerDependencies:
       typescript: '>=5.0.4'
     peerDependenciesMeta:
