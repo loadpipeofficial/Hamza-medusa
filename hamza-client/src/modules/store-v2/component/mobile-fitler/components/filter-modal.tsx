@@ -171,7 +171,6 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
                         justifyItems={'flex-start'}
                         color={'white'}
                         backgroundColor={'transparent'}
-                        mr={3}
                         onClick={() => {
                             setReviewFilterSelect(null);
                             setCurrencyFilterSelect(null);
