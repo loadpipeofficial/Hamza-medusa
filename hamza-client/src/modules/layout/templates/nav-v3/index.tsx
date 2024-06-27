@@ -10,6 +10,7 @@ import { Container, Box, Flex, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 import HamzaLogo from '../../../../../public/images/logo/logo_green.svg';
 import HamzaTitle from '../../../../../public/images/logo/hamza-title.svg';
+import { IoMdMenu } from 'react-icons/io';
 
 import { CgProfile, CgBell } from 'react-icons/cg';
 
@@ -77,11 +78,20 @@ export default async function Nav() {
                     <Flex
                         width={'115px'}
                         height={'52px'}
+                        px="1rem"
                         borderRadius={'full'}
+                        justifyContent={'center'}
                         alignSelf={'center'}
-                        marginLeft={'1REM'}
+                        marginLeft={'1rem'}
                         backgroundColor={'primary.green.900'}
-                    ></Flex>
+                    >
+                        <Flex alignSelf={'center'}>
+                            <IoMdMenu color="black" size={30} />
+                        </Flex>
+                        <Flex marginLeft={'auto'} alignSelf={'center'}>
+                            <CgProfile color="black" size={30} />
+                        </Flex>
+                    </Flex>
                 </Flex>
             </Flex>
         </Flex>
