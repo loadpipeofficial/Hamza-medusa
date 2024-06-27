@@ -79,7 +79,7 @@ export class MassmarketPaymentClient {
 
         //make any necessary token approvals
         await this.approveAllTokens(this.contractAddress, inputs);
-        await sleep(10);
+        await sleep(15);
 
         //get total native amount
         const nativeTotal: BigNumberish = this.getNativeTotal(inputs);
@@ -107,13 +107,12 @@ export class MassmarketPaymentClient {
                 permits.push('0x');
             }
             const tx: any = await this.paymentContract.multiPay(
-                    requests,
-                    permits
-                ),
-                //    {
-                //    value: nativeTotal,
-                //});
-                receipt = await tx.wait();
+                requests,
+                permits,
+                {
+                    value: nativeTotal,
+                });
+            receipt = await tx.wait();
             txHash = tx.hash;
         } else {
             txHash = await window.ethereum?.request({
@@ -143,13 +142,12 @@ export class MassmarketPaymentClient {
                 const request: IPaymentRequest = {
                     chainId: payment.chainId,
                     ttl: payment.massmarketTtl,
-                    currency: input.currency, //payment.currency ?? '0x0',
-                    amount: 10500, //TODO: payment.massmarketAmount,
-                    order: payment.massmarketOrderId, //hexToBytes(payment.massmarketOrderId as `0x${string}`),
+                    currency: input.currency,
+                    amount: payment.massmarketAmount,
+                    order: payment.massmarketOrderId,
                     payeeAddress: '0x74b7284836f753101bd683c3843e95813b381f18', //TODO: get dynamic
-                    isPaymentEndpoint: true, //true if using switch
-                    //shopSignature: '0x0000000000000000000000000000000000000000000000000000000000000000',
-                    shopId: '0x382e9fdf10295e01ad4c7e4dc7e3cecf461016addbe8e15e55736983af39426c', //TODO: get dynamic payment.storeId,
+                    isPaymentEndpoint: true, //TODO: get from mm output
+                    shopId: payment.storeId,
                     shopSignature: new Uint8Array(64),
                 };
                 output.push(request);
@@ -278,9 +276,6 @@ export class MassmarketPaymentClient {
             amount =
                 allowance < bigintAmount ? bigintAmount - allowance : BigInt(0);
         }
-
-        //TODO: this amount is wrong
-        bigintAmount = BigInt(10000000);
 
         // Approve if necessary
         if (bigintAmount > 0) {
