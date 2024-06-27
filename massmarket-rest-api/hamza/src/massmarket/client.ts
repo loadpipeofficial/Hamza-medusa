@@ -69,10 +69,10 @@ export class RelayClientWrapper {
         keycard: HexString
     ): Promise<RelayClientWrapper> {
         //return from cache
-        if (cache.contains(shopId)) {
-            return cache.get(shopId);
-        }
-
+        //if (cache.contains(shopId)) {
+        //    return cache.get(shopId);
+        //}
+        //
         //create instance and cache it
         const instance: RelayClientWrapper = new RelayClientWrapper(
             endpoint,
@@ -180,6 +180,45 @@ export class RelayClientWrapper {
             description: 'test shop is the best shop',
             profilePictureUrl: 'https://http.cat/images/200.jpg',
             publishedTagId: randomBytes(32),
+        });
+
+        await sleep(25);
+        console.log('setting currency 1');
+        await client.updateShopManifest({
+            addAcceptedCurrency: {
+                chainId: 11155111,
+                tokenAddr: hexToBytes(
+                    '0x822585D682B973e4b1B47C0311f162b29586DD02'
+                ),
+            },
+        });
+        console.log('setting currency 2');
+        await client.updateShopManifest({
+            addAcceptedCurrency: {
+                chainId: 11155111,
+                tokenAddr: hexToBytes(
+                    '0xbe9fe9b717c888a2b2ca0a6caa639afe369249c5'
+                ),
+            },
+        });
+        console.log('setting currency 3');
+        await client.updateShopManifest({
+            addAcceptedCurrency: {
+                chainId: 11155111,
+                tokenAddr: hexToBytes(
+                    '0x0000000000000000000000000000000000000000'
+                ),
+            },
+        });
+
+        console.log('setting payee');
+        await client.updateShopManifest({
+            addPayeeContract: {
+                chainId: 11155111,
+                addr: hexToBytes('0x74b7284836F753101bD683C3843e95813b381f18'),
+                name: 'hamza-switch',
+                callAsContract: true,
+            },
         });
 
         //add to cache
@@ -365,6 +404,17 @@ export class RelayClientWrapper {
             addAcceptedCurrency: {
                 chainId: 11155111,
                 tokenAddr: hexToBytes(address),
+            },
+        });
+    }
+
+    async setPayee(name: string, address: HexString) {
+        const pb = await this._client.updateShopManifest({
+            addPayee: {
+                chainId: 11155111,
+                addr: hexToBytes(address),
+                name,
+                callAsContract: true,
             },
         });
     }
