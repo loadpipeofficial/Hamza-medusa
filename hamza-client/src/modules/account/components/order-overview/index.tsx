@@ -58,7 +58,6 @@ type WishlistProps = OrderProps & {
 };
 
 const OrderOverview = ({ orders }: { orders: Order[] }) => {
-    // Initialize state with the correct type
     const [detailedOrders, setDetailedOrders] = useState<DetailedOrder[]>([]);
     const [orderStatuses, setOrderStatuses] = useState<{
         [key: string]: string;
@@ -85,6 +84,8 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
         countryCode = process.env.NEXT_PUBLIC_FORCE_US_COUNTRY;
 
     const router = useRouter();
+
+    console.log(`Order Statuses ${JSON.stringify(orderStatuses)}`);
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -127,8 +128,8 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
             if (!orders || orders.length === 0) return;
 
             const statuses = await Promise.allSettled(
-                orders.map(async (order, index) => {
-                    console.log(`Fetching status for order ${order.id}`);
+                orders.map(async (order) => {
+                    console.log(`Fetching status for rder ${order.id}`);
                     try {
                         const statusRes = await axios.get(
                             `${MEDUSA_SERVER_URL}/custom/order/status`,
@@ -155,7 +156,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                 })
             );
 
-            const statusMap: { [key: string]: any } = {};
+            const statusMap: { [key: string]: string } = {};
             statuses.forEach((result) => {
                 if (result.status === 'fulfilled') {
                     const { orderId, status } = result.value;
@@ -168,14 +169,12 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
             });
 
             setOrderStatuses(statusMap);
-            console.log('Order statuses: ', statusMap);
         };
 
-        if (Object.keys(detailedOrders).length > 0) {
+        if (detailedOrders.length > 0) {
             fetchStatuses();
         }
     }, [detailedOrders, orders]);
-
     const handleCancel = async () => {
         if (!cancelReason) {
             setIsAttemptedSubmit(true);
@@ -263,7 +262,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
                                               See details
                                           </Button>
                                       </LocalizedClientLink>
-                                      {orderStatuses[orderGroup.cart_id] ===
+                                      {orderStatuses[item.order_id] ===
                                       'canceled' ? (
                                           <Button
                                               colorScheme="red"
