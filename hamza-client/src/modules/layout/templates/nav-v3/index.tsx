@@ -6,7 +6,19 @@ import CartButton from '@modules/layout/components/cart-button';
 import WishListPopover from '@/components/wishlist-dropdown';
 import SideMenu from '@modules/layout/components/side-menu';
 import { WalletConnectButton } from '@/components/providers/rainbowkit/connect-button/connect-button';
-import { Container, Box, Flex, Text } from '@chakra-ui/react';
+import {
+    Box,
+    Flex,
+    Text,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    MenuItemOption,
+    MenuGroup,
+    MenuOptionGroup,
+    MenuDivider,
+} from '@chakra-ui/react';
 import Image from 'next/image';
 import HamzaLogo from '../../../../../public/images/logo/logo_green.svg';
 import HamzaTitle from '../../../../../public/images/logo/hamza-title.svg';
@@ -28,6 +40,7 @@ export default async function Nav() {
         >
             <Flex
                 h={'87px'}
+                mx="1rem"
                 maxWidth={'1280px'}
                 width={'100%'}
                 bgColor={'transparent'}
@@ -65,8 +78,10 @@ export default async function Nav() {
                         justifyContent={'center'}
                         marginLeft={'auto'}
                         backgroundColor={'transparent'}
+                        cursor={'pointer'}
                     >
                         <Text
+                            className="font-sora"
                             fontWeight={'600'}
                             fontSize={'16px'}
                             color="White"
@@ -75,23 +90,50 @@ export default async function Nav() {
                             Sell on Hamza
                         </Text>
                     </Flex>
-                    <Flex
-                        width={'115px'}
-                        height={'52px'}
-                        px="1rem"
-                        borderRadius={'full'}
-                        justifyContent={'center'}
-                        alignSelf={'center'}
-                        marginLeft={'1rem'}
-                        backgroundColor={'primary.green.900'}
-                    >
-                        <Flex alignSelf={'center'}>
-                            <IoMdMenu color="black" size={30} />
-                        </Flex>
-                        <Flex marginLeft={'auto'} alignSelf={'center'}>
-                            <CgProfile color="black" size={30} />
-                        </Flex>
-                    </Flex>
+
+                    <Menu placement="bottom-end">
+                        <MenuButton
+                            width={'115px'}
+                            height={'52px'}
+                            px="1rem"
+                            borderRadius={'full'}
+                            justifyContent={'center'}
+                            alignSelf={'center'}
+                            marginLeft={'1rem'}
+                            backgroundColor={'primary.green.900'}
+                            cursor={'pointer'}
+                        >
+                            <Flex>
+                                <Flex alignSelf={'center'}>
+                                    <IoMdMenu color="black" size={30} />
+                                </Flex>
+                                <Flex marginLeft={'auto'} alignSelf={'center'}>
+                                    <CgProfile color="black" size={30} />
+                                </Flex>
+                            </Flex>
+                        </MenuButton>
+                        <MenuList
+                            marginTop={'1rem'}
+                            backgroundColor={'black'}
+                            width={'321px'}
+                        >
+                            <MenuItem backgroundColor={'black'} color={'white'}>
+                                Sell on Hamza
+                            </MenuItem>
+                            <MenuItem backgroundColor={'black'} color={'white'}>
+                                Be an affiliate
+                            </MenuItem>
+                            <MenuItem backgroundColor={'black'} color={'white'}>
+                                Mark as Draft
+                            </MenuItem>
+                            <MenuItem backgroundColor={'black'} color={'white'}>
+                                Delete
+                            </MenuItem>
+                            <MenuItem backgroundColor={'black'} color={'white'}>
+                                Attend a Workshop
+                            </MenuItem>
+                        </MenuList>
+                    </Menu>
                 </Flex>
             </Flex>
         </Flex>
