@@ -106,23 +106,6 @@ export const checkoutController = {
                         }
 
                         //commit cart
-                        if (isZeroAddress(input.paymentCurrency))
-                            input.paymentCurrency = undefined;
-
-                        /*
-                        {
-                            "paymentId":"l8pGmt++4droph+ADcYw6qMGB5Vic+C1aNP/5WhMXIw=",
-                            "subTotal":"0.01",
-                            "salesTax":"0.00",
-                            "total":"0.01",
-                            "ttl":"1719308448",
-                            "orderHash":"MmSGdPshr20yvZMewiio+oK//SeUzOBHTydE/Bz9p6E=",
-                            "currencyAddr":"vp/ptxfIiKKyygpsqmOa/jaSScU=",
-                            "totalInCrypto":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKQQ=",
-                            "payeeAddr":"dLcoSDb3UxAb1oPDhD6VgTs4Hxg=",
-                            "isPaymentEndpoint":true,
-                            "shopSignature":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="}
-                        */
                         console.log('COMMITTING CART');
                         await rc.commitCart(cartId, input.paymentCurrency);
 
