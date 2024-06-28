@@ -1,16 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {
-    Box,
-    Image,
-    Text,
-    Stack,
-    Button,
-    Link,
-    SimpleGrid,
-    Heading,
-} from '@chakra-ui/react';
+import { Box, Flex, Heading, Text, Button, Stack } from '@chakra-ui/react';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import Thumbnail from '@modules/products/components/thumbnail';
 import Tweet from '@/components/tweet';
@@ -80,29 +71,33 @@ const Summary: React.FC<{ cart_id: string }> = ({ cart_id }) => {
     }, [cart_id]);
 
     return (
-        <div className="flex flex-col">
+        <Flex direction="column" gap={8}>
             {products.map((product) => (
-                <div
+                <Box
                     key={product.id}
-                    className="flex flex-col mb-8 p-6 border border-gray-200 rounded-lg"
+                    borderWidth="1px"
+                    borderRadius="lg"
+                    p={6}
+                    mb={8}
                 >
                     <Tweet productHandle={product.handle} isPurchased={true} />
-                    <div className="mb-4">
-                        <h2 className="text-xl font-bold">{product.title}</h2>
-                        <p className="mt-2">{product.description}</p>
-                    </div>
-                    <span className="pr-2">
-                        {new Date(product.created_at).toDateString()}
-                    </span>
-                    <span className="pr-2">store_id: {product.store_id}</span>
-                    <span className="pr-2">order_id: {product.order_id}</span>
-                    <span className="pr-2">
-                        {product.unit_price} {product.currency_code}
-                    </span>
-                    <span className="pr-2">
-                        store_name: {product.store_name}
-                    </span>
+                    <Box mb={4}>
+                        <Heading size="md">{product.title}</Heading>
+                        <Text mt={2}>{product.description}</Text>
+                    </Box>
+                    <Stack spacing={2}>
+                        <Text>
+                            {new Date(product.created_at).toDateString()}
+                        </Text>
+                        <Text>Product SKU: {product.id}</Text>
+                        <Text>Order ID: {product.order_id}</Text>
+                        <Text>
+                            {product.unit_price} {product.currency_code}
+                        </Text>
+                        <Text>Store Name: {product.store_name}</Text>
+                    </Stack>
                     <Button
+                        mt={4}
                         onClick={() =>
                             router.push(
                                 `/${countryCode}/vendor/${product.store_name}`
@@ -111,17 +106,16 @@ const Summary: React.FC<{ cart_id: string }> = ({ cart_id }) => {
                     >
                         Vendor Store
                     </Button>
-
                     <LocalizedClientLink href={`/products/${product.handle}`}>
                         <Thumbnail
                             thumbnail={product.thumbnail}
                             images={[]}
-                            size={'small'}
+                            size="small"
                         />
                     </LocalizedClientLink>
-                </div>
+                </Box>
             ))}
-        </div>
+        </Flex>
     );
 };
 
