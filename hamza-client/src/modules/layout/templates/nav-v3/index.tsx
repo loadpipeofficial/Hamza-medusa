@@ -149,7 +149,7 @@ export default function Nav() {
                                     Be an affiliate
                                 </MenuItem>
                             </Link>
-                            <MenuDivider />
+                            <MenuDivider opacity={'1'} borderColor={'white'} />
 
                             <Link href={`/${countryCode}/store`}>
                                 <MenuItem
@@ -182,7 +182,11 @@ export default function Nav() {
                             >
                                 Help Center
                             </MenuItem>
-                            <MenuDivider mb="0px" />
+                            <MenuDivider
+                                mb="0px"
+                                opacity={'1'}
+                                borderColor={'white'}
+                            />
                             <MenuItem
                                 mb="0px"
                                 borderBottomRadius={'15px'}
