@@ -85,6 +85,7 @@ export default function Nav() {
                         marginLeft={'auto'}
                         backgroundColor={'transparent'}
                         cursor={'pointer'}
+                        display={{ base: 'none', md: 'flex' }}
                     >
                         <Text
                             className="font-sora"
@@ -105,7 +106,7 @@ export default function Nav() {
                             borderRadius={'full'}
                             justifyContent={'center'}
                             alignSelf={'center'}
-                            marginLeft={'1rem'}
+                            marginLeft={{ base: 'auto', md: '1rem' }}
                             backgroundColor={'primary.green.900'}
                             cursor={'pointer'}
                         >
@@ -128,6 +129,8 @@ export default function Nav() {
                         >
                             <MenuItem
                                 fontWeight={'600'}
+                                mt="0.5rem"
+                                px="2rem"
                                 color={'white'}
                                 backgroundColor={'black'}
                                 _hover={{ color: 'primary.green.900' }}
@@ -137,6 +140,8 @@ export default function Nav() {
                             <Link href={`https://blog.hamza.biz/affiliate/`}>
                                 <MenuItem
                                     fontWeight={'600'}
+                                    mb="1rem"
+                                    px="2rem"
                                     color={'white'}
                                     backgroundColor={'black'}
                                     _hover={{ color: 'primary.green.900' }}
@@ -149,6 +154,8 @@ export default function Nav() {
                             <Link href={`/${countryCode}/store`}>
                                 <MenuItem
                                     fontWeight={'600'}
+                                    mt="1rem"
+                                    px="2rem"
                                     color={'white'}
                                     backgroundColor={'black'}
                                     _hover={{ color: 'primary.green.900' }}
@@ -158,6 +165,7 @@ export default function Nav() {
                             </Link>
                             <MenuItem
                                 fontWeight={'600'}
+                                px="2rem"
                                 color={'white'}
                                 backgroundColor={'black'}
                                 _hover={{ color: 'primary.green.900' }}
@@ -166,6 +174,7 @@ export default function Nav() {
                             </MenuItem>
                             <MenuItem
                                 fontWeight={'600'}
+                                px="2rem"
                                 mb="1.5rem"
                                 color={'white'}
                                 backgroundColor={'black'}
@@ -189,7 +198,11 @@ export default function Nav() {
                                             size={30}
                                         />
                                     </Flex>
-                                    <Text fontWeight={'600'} fontSize={'20px'}>
+                                    <Text
+                                        alignSelf={'center'}
+                                        fontWeight={'600'}
+                                        fontSize={'20px'}
+                                    >
                                         Connect Wallet
                                     </Text>
                                 </Flex>
