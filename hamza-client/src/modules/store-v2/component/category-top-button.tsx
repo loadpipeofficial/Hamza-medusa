@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 interface CategoryButtonProps {
     categoryName: string;
-    categoryType: 'clothes' | 'games' | 'gadgets';
+    categoryType: string;
 }
 
 const CategoryTopButton: React.FC<CategoryButtonProps> = ({
