@@ -25,6 +25,7 @@ import CurrencyModalButton from './currency-modal-button';
 import useStorePage from '@store/store-page/store-page';
 import useSideFilter from '@store/store-page/side-filter';
 import useModalFilter from '@store/store-page/filter-modal';
+import RangeSliderModal from './range-slider-modal';
 
 interface FilterModalProps {
     isOpen: boolean;
@@ -112,7 +113,7 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
                         Prices before fees and taxes
                     </Text>
 
-                    <RangeSliderComponent />
+                    <RangeSliderModal />
 
                     <Text
                         mt="2rem"
