@@ -33,6 +33,7 @@ const CategoryModalButton: React.FC<CategoryButtonProps> = ({
                 alignItems={'center'}
                 borderWidth={'1px'}
                 borderRadius={'49px'}
+                height={'42px'}
                 cursor="pointer"
                 color={
                     modalCategoryFilterSelect === categoryName
@@ -40,6 +41,7 @@ const CategoryModalButton: React.FC<CategoryButtonProps> = ({
                         : 'white'
                 }
                 padding="10px 24px"
+                transition="background 0.1s ease-in-out, color 0.1s ease-in-out"
                 _hover={{
                     background: 'white',
                     color: 'black',

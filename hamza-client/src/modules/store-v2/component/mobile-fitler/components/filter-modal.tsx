@@ -18,12 +18,14 @@ import Image from 'next/image';
 import CurrencyButton from '../../currency-button';
 import currencies from '../../../data/currency-category';
 import ReviewButton from '../../review-button';
+import ReviewModalButton from './review-modal-button';
 import RangeSliderComponent from '../../range-slider';
 import CategoryModalButton from './category-modal-button';
 import CurrencyModalButton from './currency-modal-button';
 import useStorePage from '@store/store-page/store-page';
 import useSideFilter from '@store/store-page/side-filter';
 import useModalFilter from '@store/store-page/filter-modal';
+import RangeSliderModal from './range-slider-modal';
 
 interface FilterModalProps {
     isOpen: boolean;
@@ -60,7 +62,7 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
-            <ModalContent backgroundColor={'#121212'}>
+            <ModalContent mx="1rem" backgroundColor={'#121212'} boxShadow="lg">
                 <ModalHeader
                     fontWeight={'600'}
                     fontSize={'16px'}
@@ -115,7 +117,7 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
                         Prices before fees and taxes
                     </Text>
 
-                    <RangeSliderComponent />
+                    <RangeSliderModal />
 
                     <Text
                         mt="2rem"
@@ -158,11 +160,11 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
                         wrap={'wrap'}
                         gap="12px"
                     >
-                        <ReviewButton title={'All'} value={'All'} />
-                        <ReviewButton title={'4 Stars'} value={'4'} />
-                        <ReviewButton title={'3 Stars'} value={'3'} />
-                        <ReviewButton title={'2 Stars'} value={'2'} />
-                        <ReviewButton title={'1 Star'} value={'1'} />
+                        <ReviewModalButton title={'All'} value={'All'} />
+                        <ReviewModalButton title={'4 Stars'} value={'4'} />
+                        <ReviewModalButton title={'3 Stars'} value={'3'} />
+                        <ReviewModalButton title={'2 Stars'} value={'2'} />
+                        <ReviewModalButton title={'1 Star'} value={'1'} />
                     </Flex>
                 </ModalBody>
 

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
-import { Text, Flex, Box } from '@chakra-ui/react';
-import ReviewStar from '../../../../public/images/products/review-star.svg';
-import useStorePage from '@store/store-page/store-page';
+import { Text, Flex } from '@chakra-ui/react';
+import ReviewStar from '../../../../../../public/images/products/review-star.svg';
 import useSideFilter from '@store/store-page/side-filter';
 
 // Define the props type with TypeScript
@@ -11,7 +10,7 @@ interface ReviewButtonProps {
     value: string;
 }
 
-const ReviewButton: React.FC<ReviewButtonProps> = ({ title, value }) => {
+const ReviewModalButton: React.FC<ReviewButtonProps> = ({ title, value }) => {
     const { reviewFilterSelect, setReviewFilterSelect } = useSideFilter();
 
     return (
@@ -28,7 +27,7 @@ const ReviewButton: React.FC<ReviewButtonProps> = ({ title, value }) => {
                 alignItems={'center'}
                 borderWidth={'1px'}
                 borderRadius={'49px'}
-                height={'60px'}
+                height={'42px'}
                 width={{ base: '125px', md: '154px' }}
                 style={{ padding: '10px 24px', cursor: 'pointer' }}
                 color={reviewFilterSelect === title ? 'black' : 'white'}
@@ -49,4 +48,4 @@ const ReviewButton: React.FC<ReviewButtonProps> = ({ title, value }) => {
     );
 };
 
-export default ReviewButton;
+export default ReviewModalButton;

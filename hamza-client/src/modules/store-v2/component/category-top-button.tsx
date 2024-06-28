@@ -37,23 +37,19 @@ const CategoryTopButton: React.FC<CategoryButtonProps> = ({
             height={'63px'}
             cursor="pointer"
             style={{ padding: '10px 24px' }}
+            color={
+                categorySelect !== null && categorySelect === categoryName
+                    ? 'black'
+                    : 'white'
+            }
+            transition="background 0.1s ease-in-out, color 0.1s ease-in-out"
             _hover={{
+                color: 'black',
                 background: 'white',
             }}
         >
             <Image src={categoryIcons[categoryType]} alt={categoryName} />
-            <Text
-                ml="10px"
-                fontSize={'18px'}
-                color={
-                    categorySelect !== null && categorySelect === categoryName
-                        ? 'black'
-                        : 'white'
-                }
-                _hover={{
-                    color: 'black',
-                }}
-            >
+            <Text ml="10px" fontSize={'18px'}>
                 {categoryName}
             </Text>
         </Flex>

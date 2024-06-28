@@ -13,7 +13,7 @@ import {
 // Define a type for the range state
 type RangeType = [number, number];
 
-const RangeSliderComponent = () => {
+const RangeSliderModal = () => {
     // Using the RangeType for the state
     const [range, setRange] = useState<RangeType>([10, 2000]);
 
@@ -23,8 +23,8 @@ const RangeSliderComponent = () => {
     };
 
     return (
-        <Box my={'2rem'}>
-            <Box mx="0.25rem">
+        <Box my="1rem">
+            <Box mx="0.5rem">
                 <RangeSlider
                     // eslint-disable-next-line jsx-a11y/aria-proptypes
                     aria-label={['min', 'max']}
@@ -60,22 +60,33 @@ const RangeSliderComponent = () => {
                     mr="auto"
                     borderRadius="12px"
                     borderWidth="1px"
-                    h="56px"
-                    minW="124px"
+                    h="69px"
                     width={'100%'}
                 >
-                    <Text mb="5px" color="secondary.davy.900" lineHeight="1">
+                    <Text
+                        ml="1rem"
+                        alignSelf={'flex-start'}
+                        color="secondary.davy.900"
+                        lineHeight="1"
+                        mb="5px"
+                    >
                         Minimum
                     </Text>
-                    <Text fontSize="18px" color="white" lineHeight="1">
+                    <Text
+                        ml="1rem"
+                        alignSelf={'flex-start'}
+                        fontSize="18px"
+                        color="white"
+                        lineHeight="1"
+                    >
                         USD {range[0]}
                     </Text>
                 </Flex>
                 <Divider
                     borderColor="secondary.davy.900"
+                    minW="26.6px"
+                    maxW="26.6px"
                     width={'100%'}
-                    minW={'15.87px'}
-                    maxW={'15.87px'}
                     mx="1rem"
                     alignSelf="center"
                 />
@@ -87,14 +98,25 @@ const RangeSliderComponent = () => {
                     ml="auto"
                     borderRadius="12px"
                     borderWidth="1px"
-                    h="56px"
-                    minW="124px"
+                    h="69px"
                     width={'100%'}
                 >
-                    <Text mb="5px" color="secondary.davy.900" lineHeight="1">
+                    <Text
+                        ml="1rem"
+                        alignSelf={'flex-start'}
+                        color="secondary.davy.900"
+                        lineHeight="1"
+                        mb="5px"
+                    >
                         Maximum
                     </Text>
-                    <Text fontSize="18px" color="white" lineHeight="1">
+                    <Text
+                        ml="1rem"
+                        alignSelf={'flex-start'}
+                        fontSize="18px"
+                        color="white"
+                        lineHeight="1"
+                    >
                         USD {range[1]}
                     </Text>
                 </Flex>
@@ -103,4 +125,4 @@ const RangeSliderComponent = () => {
     );
 };
 
-export default RangeSliderComponent;
+export default RangeSliderModal;

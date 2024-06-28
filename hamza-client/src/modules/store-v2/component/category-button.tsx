@@ -40,6 +40,7 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({
                     categoryFilterSelect === categoryName ? 'black' : 'white'
                 }
                 padding="10px 24px"
+                transition="background 0.1s ease-in-out, color 0.1s ease-in-out"
                 _hover={{
                     background: 'white',
                     color: 'black',
