@@ -9,16 +9,13 @@ import WishListPopover from '@/components/wishlist-dropdown';
 import SideMenu from '@modules/layout/components/side-menu';
 import { WalletConnectButton } from '@/components/providers/rainbowkit/connect-button/connect-button';
 import {
-    Box,
     Flex,
     Text,
+    Box,
     Menu,
     MenuButton,
     MenuList,
     MenuItem,
-    MenuItemOption,
-    MenuGroup,
-    MenuOptionGroup,
     MenuDivider,
 } from '@chakra-ui/react';
 import Image from 'next/image';
@@ -29,11 +26,14 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { CgProfile, CgBell } from 'react-icons/cg';
 import { MdOutlineAccountBalanceWallet } from 'react-icons/md';
+import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
+import useWindowSize from '@lib/util/get-windowsize';
 
 export default function Nav() {
     // const regions = await listRegions().then((regions) => regions);
+    const { width } = useWindowSize();
     const { countryCode } = useParams();
-
+    const { authData } = useCustomerAuthStore();
     return (
         <Flex
             zIndex={'1'}
@@ -124,8 +124,9 @@ export default function Nav() {
                             pb={'0px'}
                             borderTopRadius={'0px'}
                             borderBottomRadius={'16px'}
+                            borderColor={{ base: 'transparent', md: 'white' }}
                             backgroundColor={'black'}
-                            width={'321px'}
+                            width={{ base: width, md: '321px' }}
                         >
                             <MenuItem
                                 fontWeight={'600'}
@@ -149,8 +150,47 @@ export default function Nav() {
                                     Be an affiliate
                                 </MenuItem>
                             </Link>
-                            <MenuDivider opacity={'1'} borderColor={'white'} />
+                            <Box px={{ base: '2rem', md: 0 }}>
+                                <MenuDivider
+                                    opacity={{ base: '0.5', md: '1' }}
+                                    borderColor={'white'}
+                                />
+                            </Box>
 
+                            {authData.status === 'authenticated' && (
+                                <>
+                                    <Link href={`/${countryCode}/store`}>
+                                        <MenuItem
+                                            fontWeight={'600'}
+                                            mt="1rem"
+                                            px="2rem"
+                                            color={'white'}
+                                            backgroundColor={'black'}
+                                            _hover={{
+                                                color: 'primary.green.900',
+                                            }}
+                                        >
+                                            <Text>Account</Text>
+                                        </MenuItem>
+                                    </Link>
+                                    <MenuItem
+                                        fontWeight={'600'}
+                                        mb="1rem"
+                                        px="2rem"
+                                        color={'white'}
+                                        backgroundColor={'black'}
+                                        _hover={{ color: 'primary.green.900' }}
+                                    >
+                                        <Text>Settings</Text>
+                                    </MenuItem>
+                                    <Box px={{ base: '2rem', md: 0 }}>
+                                        <MenuDivider
+                                            opacity={{ base: '0.5', md: '1' }}
+                                            borderColor={'white'}
+                                        />
+                                    </Box>
+                                </>
+                            )}
                             <Link href={`/${countryCode}/store`}>
                                 <MenuItem
                                     fontWeight={'600'}
@@ -182,17 +222,25 @@ export default function Nav() {
                             >
                                 Help Center
                             </MenuItem>
+
                             <MenuDivider
-                                mb="0px"
+                                display={{ base: 'none', md: 'flex' }}
+                                mb="0"
                                 opacity={'1'}
                                 borderColor={'white'}
                             />
+
                             <MenuItem
                                 mb="0px"
                                 borderBottomRadius={'15px'}
+                                borderWidth={{ base: '1px', md: '0px' }}
+                                borderColor="rgba(255, 255, 255, 0.5)"
                                 height={'91px'}
-                                backgroundColor={'primary.green.900'}
-                                color={'black'}
+                                backgroundColor={
+                                    authData.status === 'authenticated'
+                                        ? '#2C272D'
+                                        : 'primary.green.900'
+                                }
                                 justifyContent={'center'}
                                 alignItems={'center'}
                             >
