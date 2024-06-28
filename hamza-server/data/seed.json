@@ -2236,12 +2236,16 @@
             ],
             "collection_id": "pcol_01HSGAMXDJD725MR3VSW63LEG0",
             "subtitle": "LEGO Star Wars Luke Skywalker Red 5 Helmet for Adults Buildable Display Model",
-            "description": "Features a Red 5 Star Wars collectible Luke Skywalker helmet buildable model kit, a first in the LEGO Star Wars Helmet Collection set for adults",
+            "description": "<li>Features a Red 5 Star Wars collectible Luke Skywalker helmet buildable model kit, a first in the LEGO Star Wars Helmet Collection set for adults</li>  <li>Replicate in LEGO bricks all the details of Luke Skywalker’s Red Five Star Wars helmet, and display it on the integrated stand with a nameplate</li>  <li>Premium-quality LEGO Star Wars sets for adults are designed for you, the discerning hobbyist who enjoys hands-on creative projects</li>",
             "handle": "luke_helm_lego",
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "https://images.hamza.biz/headphones.webp"
+                "http://images.hamza.biz/Lego/luke_helmet/luke_1.jpg",
+                "http://images.hamza.biz/Lego/luke_helmet/luke_2.jpg",
+                "http://images.hamza.biz/Lego/luke_helmet/luke_3.jpg",
+                "http://images.hamza.biz/Lego/luke_helmet/luke_4.jpg",
+                "http://images.hamza.biz/Lego/luke_helmet/luke_5.jpg"
             ],
             "options": [
                 {
