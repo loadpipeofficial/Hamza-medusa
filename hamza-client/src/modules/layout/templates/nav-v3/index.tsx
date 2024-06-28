@@ -28,6 +28,7 @@ import { IoMdMenu } from 'react-icons/io';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { CgProfile, CgBell } from 'react-icons/cg';
+import { MdOutlineAccountBalanceWallet } from 'react-icons/md';
 
 export default function Nav() {
     // const regions = await listRegions().then((regions) => regions);
@@ -119,21 +120,26 @@ export default function Nav() {
                         </MenuButton>
                         <MenuList
                             marginTop={'1rem'}
+                            pb={'0px'}
+                            borderTopRadius={'0px'}
+                            borderBottomRadius={'16px'}
                             backgroundColor={'black'}
                             width={'321px'}
                         >
                             <MenuItem
+                                fontWeight={'600'}
                                 color={'white'}
-                                _hover={{ color: 'primary.green.900' }}
                                 backgroundColor={'black'}
+                                _hover={{ color: 'primary.green.900' }}
                             >
                                 Sell on Hamza
                             </MenuItem>
                             <Link href={`https://blog.hamza.biz/affiliate/`}>
                                 <MenuItem
+                                    fontWeight={'600'}
                                     color={'white'}
-                                    _hover={{ color: 'primary.green.900' }}
                                     backgroundColor={'black'}
+                                    _hover={{ color: 'primary.green.900' }}
                                 >
                                     Be an affiliate
                                 </MenuItem>
@@ -142,35 +148,51 @@ export default function Nav() {
 
                             <Link href={`/${countryCode}/store`}>
                                 <MenuItem
+                                    fontWeight={'600'}
                                     color={'white'}
-                                    _hover={{ color: 'primary.green.900' }}
                                     backgroundColor={'black'}
+                                    _hover={{ color: 'primary.green.900' }}
                                 >
                                     <Text> Market</Text>
                                 </MenuItem>
                             </Link>
                             <MenuItem
+                                fontWeight={'600'}
                                 color={'white'}
-                                _hover={{ color: 'primary.green.900' }}
                                 backgroundColor={'black'}
+                                _hover={{ color: 'primary.green.900' }}
                             >
                                 About Us
                             </MenuItem>
                             <MenuItem
+                                fontWeight={'600'}
+                                mb="1.5rem"
                                 color={'white'}
-                                _hover={{ color: 'primary.green.900' }}
                                 backgroundColor={'black'}
+                                _hover={{ color: 'primary.green.900' }}
                             >
                                 Help Center
                             </MenuItem>
-                            <MenuDivider />
+                            <MenuDivider mb="0px" />
                             <MenuItem
-                                height={'100%'}
+                                mb="0px"
+                                borderBottomRadius={'15px'}
+                                height={'91px'}
                                 backgroundColor={'primary.green.900'}
                                 color={'black'}
                                 justifyContent={'center'}
+                                alignItems={'center'}
                             >
-                                Connect Wallet
+                                <Flex gap={'8px'}>
+                                    <Flex alignSelf={'center'}>
+                                        <MdOutlineAccountBalanceWallet
+                                            size={30}
+                                        />
+                                    </Flex>
+                                    <Text fontWeight={'600'} fontSize={'20px'}>
+                                        Connect Wallet
+                                    </Text>
+                                </Flex>
                             </MenuItem>
                         </MenuList>
                     </Menu>
