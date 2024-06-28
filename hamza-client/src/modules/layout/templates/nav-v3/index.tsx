@@ -196,20 +196,7 @@ export default function Nav() {
                                 justifyContent={'center'}
                                 alignItems={'center'}
                             >
-                                <Flex gap={'8px'}>
-                                    <Flex alignSelf={'center'}>
-                                        <MdOutlineAccountBalanceWallet
-                                            size={30}
-                                        />
-                                    </Flex>
-                                    <Text
-                                        alignSelf={'center'}
-                                        fontWeight={'600'}
-                                        fontSize={'20px'}
-                                    >
-                                        Connect Wallet
-                                    </Text>
-                                </Flex>
+                                <WalletConnectButton />
                             </MenuItem>
                         </MenuList>
                     </Menu>
