@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Suspense, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { listRegions } from '@lib/data';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import CartButton from '@modules/layout/components/cart-button';
@@ -129,8 +129,25 @@ export default function Nav() {
                             width={{ base: width, md: '321px' }}
                         >
                             <MenuItem
-                                fontWeight={'600'}
                                 mt="0.5rem"
+                                mb="1rem"
+                                fontWeight={'600'}
+                                px="2rem"
+                                color={'white'}
+                                backgroundColor={'black'}
+                                _hover={{ color: 'primary.green.900' }}
+                            >
+                                Cart
+                            </MenuItem>
+                            <Box px={{ base: '2rem', md: 0 }}>
+                                <MenuDivider
+                                    opacity={{ base: '0.5', md: '1' }}
+                                    borderColor={'white'}
+                                />
+                            </Box>
+                            <MenuItem
+                                fontWeight={'600'}
+                                mt="1rem"
                                 px="2rem"
                                 color={'white'}
                                 backgroundColor={'black'}
