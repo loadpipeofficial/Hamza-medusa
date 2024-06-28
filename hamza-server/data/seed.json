@@ -1,12 +1,6 @@
 {
     "store": {
-        "currencies": [
-            "eur",
-            "usd",
-            "eth",
-            "usdc",
-            "usdt"
-        ],
+        "currencies": ["eur", "usd", "eth", "usdc", "usdt"],
         "default_currency_code": "eth"
     },
     "users": [
@@ -23,37 +17,18 @@
             "name": "EU",
             "currency_code": "eth",
             "tax_rate": 0,
-            "payment_providers": [
-                "crypto"
-            ],
-            "fulfillment_providers": [
-                "manual"
-            ],
-            "countries": [
-                "gb",
-                "de",
-                "dk",
-                "se",
-                "fr",
-                "es",
-                "it"
-            ]
+            "payment_providers": ["crypto"],
+            "fulfillment_providers": ["manual"],
+            "countries": ["gb", "de", "dk", "se", "fr", "es", "it"]
         },
         {
             "id": "test-region-na",
             "name": "NA",
             "currency_code": "eth",
             "tax_rate": 0,
-            "payment_providers": [
-                "crypto"
-            ],
-            "fulfillment_providers": [
-                "manual"
-            ],
-            "countries": [
-                "us",
-                "ca"
-            ]
+            "payment_providers": ["crypto"],
+            "fulfillment_providers": ["manual"],
+            "countries": ["us", "ca"]
         }
     ],
     "shipping_options": [
@@ -199,14 +174,12 @@
             "is_giftcard": false,
             "weight": 260,
             "images": [
-                "http://images.hamza.biz/Legendary/indout/LLD_indout1.png"
+                "https://images.hamza.biz/Legendary/indout/LLD_indout1.png"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black"
-                    ]
+                    "values": ["Black"]
                 }
             ],
             "variants": [
@@ -250,14 +223,12 @@
             "is_giftcard": false,
             "weight": 260,
             "images": [
-                "http://images.hamza.biz/Legendary/tripod/LLD_tripod1.png"
+                "https://images.hamza.biz/Legendary/tripod/LLD_tripod1.png"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black"
-                    ]
+                    "values": ["Black"]
                 }
             ],
             "variants": [
@@ -301,14 +272,12 @@
             "is_giftcard": false,
             "weight": 260,
             "images": [
-                "http://images.hamza.biz/Legendary/mood/LLD_mood1.webp"
+                "https://images.hamza.biz/Legendary/mood/LLD_mood1.webp"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black"
-                    ]
+                    "values": ["Black"]
                 }
             ],
             "variants": [
@@ -352,18 +321,16 @@
             "is_giftcard": false,
             "weight": 260,
             "images": [
-                "http://images.hamza.biz/Legendary/wall/wall1.jpeg",
-                "http://images.hamza.biz/Legendary/wall/wall2.jpeg",
-                "http://images.hamza.biz/Legendary/wall/wall3.jpeg",
-                "http://images.hamza.biz/Legendary/wall/wall4.jpeg",
-                "http://images.hamza.biz/Legendary/wall/wall5.jpeg"
+                "https://images.hamza.biz/Legendary/wall/wall1.jpeg",
+                "https://images.hamza.biz/Legendary/wall/wall2.jpeg",
+                "https://images.hamza.biz/Legendary/wall/wall3.jpeg",
+                "https://images.hamza.biz/Legendary/wall/wall4.jpeg",
+                "https://images.hamza.biz/Legendary/wall/wall5.jpeg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black"
-                    ]
+                    "values": ["Black"]
                 }
             ],
             "variants": [
@@ -407,18 +374,16 @@
             "is_giftcard": false,
             "weight": 260,
             "images": [
-                "http://images.hamza.biz/Legendary/infinity/lld_inf5.png",
-                "http://images.hamza.biz/Legendary/infinity/lld_inf1.png",
-                "http://images.hamza.biz/Legendary/infinity/lld_inf2.png",
-                "http://images.hamza.biz/Legendary/infinity/lld_inf3.png",
-                "http://images.hamza.biz/Legendary/infinity/lld_inf4.png"
+                "https://images.hamza.biz/Legendary/infinity/lld_inf5.png",
+                "https://images.hamza.biz/Legendary/infinity/lld_inf1.png",
+                "https://images.hamza.biz/Legendary/infinity/lld_inf2.png",
+                "https://images.hamza.biz/Legendary/infinity/lld_inf3.png",
+                "https://images.hamza.biz/Legendary/infinity/lld_inf4.png"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black"
-                    ]
+                    "values": ["Black"]
                 }
             ],
             "variants": [
@@ -462,18 +427,16 @@
             "is_giftcard": false,
             "weight": 260,
             "images": [
-                "http://images.hamza.biz/Legendary/recessed/outdoor1.webp",
-                "http://images.hamza.biz/Legendary/recessed/outdoor2.jpg",
-                "http://images.hamza.biz/Legendary/recessed/outdoor3.jpg",
-                "http://images.hamza.biz/Legendary/recessed/outdoor4.webp",
-                "http://images.hamza.biz/Legendary/recessed/outdoor5.jpg"
+                "https://images.hamza.biz/Legendary/recessed/outdoor1.webp",
+                "https://images.hamza.biz/Legendary/recessed/outdoor2.jpg",
+                "https://images.hamza.biz/Legendary/recessed/outdoor3.jpg",
+                "https://images.hamza.biz/Legendary/recessed/outdoor4.webp",
+                "https://images.hamza.biz/Legendary/recessed/outdoor5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black"
-                    ]
+                    "values": ["Black"]
                 }
             ],
             "variants": [
@@ -516,16 +479,11 @@
             "handle": "headphones",
             "is_giftcard": false,
             "weight": 250,
-            "images": [
-                "https://images.hamza.biz/headphones.webp"
-            ],
+            "images": ["https://images.hamza.biz/headphones.webp"],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black",
-                        "Silver"
-                    ]
+                    "values": ["Black", "Silver"]
                 }
             ],
             "variants": [
@@ -568,16 +526,11 @@
             "handle": "headset_future",
             "is_giftcard": false,
             "weight": 300,
-            "images": [
-                "https://images.hamza.biz/dalle_black_vr.webp"
-            ],
+            "images": ["https://images.hamza.biz/dalle_black_vr.webp"],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Sleek Black",
-                        "Space Gray"
-                    ]
+                    "values": ["Sleek Black", "Space Gray"]
                 }
             ],
             "variants": [
@@ -620,16 +573,11 @@
             "handle": "headset_audio",
             "is_giftcard": false,
             "weight": 260,
-            "images": [
-                "https://images.hamza.biz/dalle_vr.webp"
-            ],
+            "images": ["https://images.hamza.biz/dalle_vr.webp"],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Robot White",
-                        "Electronic Blue"
-                    ]
+                    "values": ["Robot White", "Electronic Blue"]
                 }
             ],
             "variants": [
@@ -672,16 +620,11 @@
             "handle": "headset_sleek",
             "is_giftcard": false,
             "weight": 290,
-            "images": [
-                "https://images.hamza.biz/dalle_vr_2.webp"
-            ],
+            "images": ["https://images.hamza.biz/dalle_vr_2.webp"],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Racing Red",
-                        "Midnight Black"
-                    ]
+                    "values": ["Racing Red", "Midnight Black"]
                 }
             ],
             "variants": [
@@ -724,16 +667,11 @@
             "handle": "headset_aural",
             "is_giftcard": false,
             "weight": 275,
-            "images": [
-                "https://images.hamza.biz/dalle_vr_headset.webp"
-            ],
+            "images": ["https://images.hamza.biz/dalle_vr_headset.webp"],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Galactic Black",
-                        "Stellar White"
-                    ]
+                    "values": ["Galactic Black", "Stellar White"]
                 }
             ],
             "variants": [
@@ -776,16 +714,11 @@
             "handle": "headset_vision",
             "is_giftcard": false,
             "weight": 310,
-            "images": [
-                "https://images.hamza.biz/dalle_vr_headset3.webp"
-            ],
+            "images": ["https://images.hamza.biz/dalle_vr_headset3.webp"],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Visionary Black",
-                        "Innovator Ivory"
-                    ]
+                    "values": ["Visionary Black", "Innovator Ivory"]
                 }
             ],
             "variants": [
@@ -828,16 +761,11 @@
             "handle": "headset_echo",
             "is_giftcard": false,
             "weight": 265,
-            "images": [
-                "https://images.hamza.biz/vr_3.webp"
-            ],
+            "images": ["https://images.hamza.biz/vr_3.webp"],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Eclipse Black",
-                        "Solar White"
-                    ]
+                    "values": ["Eclipse Black", "Solar White"]
                 }
             ],
             "variants": [
@@ -880,16 +808,11 @@
             "handle": "headset_nova",
             "is_giftcard": false,
             "weight": 285,
-            "images": [
-                "https://images.hamza.biz/sony_wh1000xm4.jpeg"
-            ],
+            "images": ["https://images.hamza.biz/sony_wh1000xm4.jpeg"],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Nebula Navy",
-                        "Cosmic Chrome"
-                    ]
+                    "values": ["Nebula Navy", "Cosmic Chrome"]
                 }
             ],
             "variants": [
@@ -941,19 +864,11 @@
             "options": [
                 {
                     "title": "Size",
-                    "values": [
-                        "S",
-                        "M",
-                        "L",
-                        "XL"
-                    ]
+                    "values": ["S", "M", "L", "XL"]
                 },
                 {
                     "title": "Color",
-                    "values": [
-                        "Black",
-                        "White"
-                    ]
+                    "values": ["Black", "White"]
                 }
             ],
             "variants": [
@@ -1195,12 +1110,7 @@
             "options": [
                 {
                     "title": "Size",
-                    "values": [
-                        "S",
-                        "M",
-                        "L",
-                        "XL"
-                    ]
+                    "values": ["S", "M", "L", "XL"]
                 }
             ],
             "variants": [
@@ -1322,12 +1232,7 @@
             "options": [
                 {
                     "title": "Size",
-                    "values": [
-                        "S",
-                        "M",
-                        "L",
-                        "XL"
-                    ]
+                    "values": ["S", "M", "L", "XL"]
                 }
             ],
             "variants": [
@@ -1449,12 +1354,7 @@
             "options": [
                 {
                     "title": "Size",
-                    "values": [
-                        "S",
-                        "M",
-                        "L",
-                        "XL"
-                    ]
+                    "values": ["S", "M", "L", "XL"]
                 }
             ],
             "variants": [
@@ -1579,12 +1479,7 @@
             "options": [
                 {
                     "title": "Size",
-                    "values": [
-                        "S",
-                        "M",
-                        "L",
-                        "XL"
-                    ]
+                    "values": ["S", "M", "L", "XL"]
                 }
             ],
             "variants": [
@@ -1709,12 +1604,7 @@
             "options": [
                 {
                     "title": "Size",
-                    "values": [
-                        "S",
-                        "M",
-                        "L",
-                        "XL"
-                    ]
+                    "values": ["S", "M", "L", "XL"]
                 }
             ],
             "variants": [
@@ -1838,9 +1728,7 @@
             "options": [
                 {
                     "title": "Size",
-                    "values": [
-                        "One Size"
-                    ]
+                    "values": ["One Size"]
                 }
             ],
             "variants": [
@@ -1884,18 +1772,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Drones/dji_mini_4_pro/dji_mini_pro_1.jpg",
-                "http://images.hamza.biz/Drones/dji_mini_4_pro/dji_mini_pro_2.jpg",
-                "http://images.hamza.biz/Drones/dji_mini_4_pro/dji_mini_pro_3.jpg",
-                "http://images.hamza.biz/Drones/dji_mini_4_pro/dji_mini_pro_4.jpg",
-                "http://images.hamza.biz/Drones/dji_mini_4_pro/dji_mini_pro_5.jpg"
+                "https://images.hamza.biz/Drones/dji_mini_4_pro/dji_mini_pro_1.jpg",
+                "https://images.hamza.biz/Drones/dji_mini_4_pro/dji_mini_pro_2.jpg",
+                "https://images.hamza.biz/Drones/dji_mini_4_pro/dji_mini_pro_3.jpg",
+                "https://images.hamza.biz/Drones/dji_mini_4_pro/dji_mini_pro_4.jpg",
+                "https://images.hamza.biz/Drones/dji_mini_4_pro/dji_mini_pro_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Silver"
-                    ]
+                    "values": ["Silver"]
                 }
             ],
             "variants": [
@@ -1939,18 +1825,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Drones/dji_avata/dji_avata_1.jpg",
-                "http://images.hamza.biz/Drones/dji_avata/dji_avata_2.jpg",
-                "http://images.hamza.biz/Drones/dji_avata/dji_avata_3.jpg",
-                "http://images.hamza.biz/Drones/dji_avata/dji_avata_4.jpg",
-                "http://images.hamza.biz/Drones/dji_avata/dji_avata_5.jpg"
+                "https://images.hamza.biz/Drones/dji_avata/dji_avata_1.jpg",
+                "https://images.hamza.biz/Drones/dji_avata/dji_avata_2.jpg",
+                "https://images.hamza.biz/Drones/dji_avata/dji_avata_3.jpg",
+                "https://images.hamza.biz/Drones/dji_avata/dji_avata_4.jpg",
+                "https://images.hamza.biz/Drones/dji_avata/dji_avata_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Silver"
-                    ]
+                    "values": ["Silver"]
                 }
             ],
             "variants": [
@@ -1994,18 +1878,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Drones/dji_mini_3_pro/dji_mini_3_pro_1.jpg",
-                "http://images.hamza.biz/Drones/dji_mini_3_pro/dji_mini_3_pro_2.jpg",
-                "http://images.hamza.biz/Drones/dji_mini_3_pro/dji_mini_3_pro_3.jpg",
-                "http://images.hamza.biz/Drones/dji_mini_3_pro/dji_mini_3_pro_4.jpg",
-                "http://images.hamza.biz/Drones/dji_mini_3_pro/dji_mini_3_pro_5.jpg"
+                "https://images.hamza.biz/Drones/dji_mini_3_pro/dji_mini_3_pro_1.jpg",
+                "https://images.hamza.biz/Drones/dji_mini_3_pro/dji_mini_3_pro_2.jpg",
+                "https://images.hamza.biz/Drones/dji_mini_3_pro/dji_mini_3_pro_3.jpg",
+                "https://images.hamza.biz/Drones/dji_mini_3_pro/dji_mini_3_pro_4.jpg",
+                "https://images.hamza.biz/Drones/dji_mini_3_pro/dji_mini_3_pro_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "White"
-                    ]
+                    "values": ["White"]
                 }
             ],
             "variants": [
@@ -2049,18 +1931,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Drones/dji_mini_3_pro/dji_mini_3_tripod_1.jpg",
-                "http://images.hamza.biz/Drones/dji_mini_3_pro/dji_mini_3_tripod_2.jpg",
-                "http://images.hamza.biz/Drones/dji_mini_3_pro/dji_mini_3_tripod_3.jpg",
-                "http://images.hamza.biz/Drones/dji_mini_3_pro/dji_mini_3_tripod_4.jpg",
-                "http://images.hamza.biz/Drones/dji_mini_3_pro/dji_mini_3_tripod_5.jpg"
+                "https://images.hamza.biz/Drones/dji_mini_3_pro/dji_mini_3_tripod_1.jpg",
+                "https://images.hamza.biz/Drones/dji_mini_3_pro/dji_mini_3_tripod_2.jpg",
+                "https://images.hamza.biz/Drones/dji_mini_3_pro/dji_mini_3_tripod_3.jpg",
+                "https://images.hamza.biz/Drones/dji_mini_3_pro/dji_mini_3_tripod_4.jpg",
+                "https://images.hamza.biz/Drones/dji_mini_3_pro/dji_mini_3_tripod_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Silver"
-                    ]
+                    "values": ["Silver"]
                 }
             ],
             "variants": [
@@ -2104,18 +1984,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Drones/v_evo/v_evo_1.jpg",
-                "http://images.hamza.biz/Drones/v_evo/v_evo_2.jpg",
-                "http://images.hamza.biz/Drones/v_evo/v_evo_3.jpg",
-                "http://images.hamza.biz/Drones/v_evo/v_evo_4.jpg",
-                "http://images.hamza.biz/Drones/v_evo/v_evo_5.jpg"
+                "https://images.hamza.biz/Drones/v_evo/v_evo_1.jpg",
+                "https://images.hamza.biz/Drones/v_evo/v_evo_2.jpg",
+                "https://images.hamza.biz/Drones/v_evo/v_evo_3.jpg",
+                "https://images.hamza.biz/Drones/v_evo/v_evo_4.jpg",
+                "https://images.hamza.biz/Drones/v_evo/v_evo_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "White"
-                    ]
+                    "values": ["White"]
                 }
             ],
             "variants": [
@@ -2159,18 +2037,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Drones/fifish/fifish_1.jpg",
-                "http://images.hamza.biz/Drones/fifish/fifish_2.jpg",
-                "http://images.hamza.biz/Drones/fifish/fifish_3.jpg",
-                "http://images.hamza.biz/Drones/fifish/fifish_4.jpg",
-                "http://images.hamza.biz/Drones/fifish/fifish_5.jpg"
+                "https://images.hamza.biz/Drones/fifish/fifish_1.jpg",
+                "https://images.hamza.biz/Drones/fifish/fifish_2.jpg",
+                "https://images.hamza.biz/Drones/fifish/fifish_3.jpg",
+                "https://images.hamza.biz/Drones/fifish/fifish_4.jpg",
+                "https://images.hamza.biz/Drones/fifish/fifish_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black"
-                    ]
+                    "values": ["Black"]
                 }
             ],
             "variants": [
@@ -2214,18 +2090,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Drones/thor/thor_1.jpg",
-                "http://images.hamza.biz/Drones/thor/thor_2.jpg",
-                "http://images.hamza.biz/Drones/thor/thor_3.jpg",
-                "http://images.hamza.biz/Drones/thor/thor_4.jpg",
-                "http://images.hamza.biz/Drones/thor/thor_5.jpg"
+                "https://images.hamza.biz/Drones/thor/thor_1.jpg",
+                "https://images.hamza.biz/Drones/thor/thor_2.jpg",
+                "https://images.hamza.biz/Drones/thor/thor_3.jpg",
+                "https://images.hamza.biz/Drones/thor/thor_4.jpg",
+                "https://images.hamza.biz/Drones/thor/thor_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Silver"
-                    ]
+                    "values": ["Silver"]
                 }
             ],
             "variants": [
@@ -2269,18 +2143,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Lego/luke_helmet/luke_1.jpg",
-                "http://images.hamza.biz/Lego/luke_helmet/luke_2.jpg",
-                "http://images.hamza.biz/Lego/luke_helmet/luke_3.jpg",
-                "http://images.hamza.biz/Lego/luke_helmet/luke_4.jpg",
-                "http://images.hamza.biz/Lego/luke_helmet/luke_5.jpg"
+                "https://images.hamza.biz/Lego/luke_helmet/luke_1.jpg",
+                "https://images.hamza.biz/Lego/luke_helmet/luke_2.jpg",
+                "https://images.hamza.biz/Lego/luke_helmet/luke_3.jpg",
+                "https://images.hamza.biz/Lego/luke_helmet/luke_4.jpg",
+                "https://images.hamza.biz/Lego/luke_helmet/luke_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "White"
-                    ]
+                    "values": ["White"]
                 }
             ],
             "variants": [
@@ -2324,18 +2196,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Lego/R2D2/R2D2_1.jpg",
-                "http://images.hamza.biz/Lego/R2D2/R2D2_2.jpg",
-                "http://images.hamza.biz/Lego/R2D2/R2D2_3.jpg",
-                "http://images.hamza.biz/Lego/R2D2/R2D2_4.jpg",
-                "http://images.hamza.biz/Lego/R2D2/R2D2_5.jpg"
+                "https://images.hamza.biz/Lego/R2D2/R2D2_1.jpg",
+                "https://images.hamza.biz/Lego/R2D2/R2D2_2.jpg",
+                "https://images.hamza.biz/Lego/R2D2/R2D2_3.jpg",
+                "https://images.hamza.biz/Lego/R2D2/R2D2_4.jpg",
+                "https://images.hamza.biz/Lego/R2D2/R2D2_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "White"
-                    ]
+                    "values": ["White"]
                 }
             ],
             "variants": [
@@ -2379,18 +2249,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Lego/luke_ship/ship_1.jpg",
-                "http://images.hamza.biz/Lego/luke_ship/ship_2.jpg",
-                "http://images.hamza.biz/Lego/luke_ship/ship_3.jpg",
-                "http://images.hamza.biz/Lego/luke_ship/ship_4.jpg",
-                "http://images.hamza.biz/Lego/luke_ship/ship_5.jpg"
+                "https://images.hamza.biz/Lego/luke_ship/ship_1.jpg",
+                "https://images.hamza.biz/Lego/luke_ship/ship_2.jpg",
+                "https://images.hamza.biz/Lego/luke_ship/ship_3.jpg",
+                "https://images.hamza.biz/Lego/luke_ship/ship_4.jpg",
+                "https://images.hamza.biz/Lego/luke_ship/ship_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Red"
-                    ]
+                    "values": ["Red"]
                 }
             ],
             "variants": [
@@ -2434,17 +2302,15 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Lego/gandalf/gand_1.jpg",
-                "http://images.hamza.biz/Lego/gandalf/gand_2.jpg",
-                "http://images.hamza.biz/Lego/gandalf/gand_3.jpg",
-                "http://images.hamza.biz/Lego/gandalf/gand_4.jpg"
+                "https://images.hamza.biz/Lego/gandalf/gand_1.jpg",
+                "https://images.hamza.biz/Lego/gandalf/gand_2.jpg",
+                "https://images.hamza.biz/Lego/gandalf/gand_3.jpg",
+                "https://images.hamza.biz/Lego/gandalf/gand_4.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Brown"
-                    ]
+                    "values": ["Brown"]
                 }
             ],
             "variants": [
@@ -2488,18 +2354,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Lego/rivendell/riv_1.jpg",
-                "http://images.hamza.biz/Lego/rivendell/riv_2.jpg",
-                "http://images.hamza.biz/Lego/rivendell/riv_3.jpg",
-                "http://images.hamza.biz/Lego/rivendell/riv_4.jpg",
-                "http://images.hamza.biz/Lego/rivendell/riv_5.jpg"
+                "https://images.hamza.biz/Lego/rivendell/riv_1.jpg",
+                "https://images.hamza.biz/Lego/rivendell/riv_2.jpg",
+                "https://images.hamza.biz/Lego/rivendell/riv_3.jpg",
+                "https://images.hamza.biz/Lego/rivendell/riv_4.jpg",
+                "https://images.hamza.biz/Lego/rivendell/riv_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Green"
-                    ]
+                    "values": ["Green"]
                 }
             ],
             "variants": [
@@ -2543,18 +2407,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Lego/007/007_1.jpg",
-                "http://images.hamza.biz/Lego/007/007_2.jpg",
-                "http://images.hamza.biz/Lego/007/007_3.jpg",
-                "http://images.hamza.biz/Lego/007/007_4.jpg",
-                "http://images.hamza.biz/Lego/007/007_5.jpg"
+                "https://images.hamza.biz/Lego/007/007_1.jpg",
+                "https://images.hamza.biz/Lego/007/007_2.jpg",
+                "https://images.hamza.biz/Lego/007/007_3.jpg",
+                "https://images.hamza.biz/Lego/007/007_4.jpg",
+                "https://images.hamza.biz/Lego/007/007_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Silver"
-                    ]
+                    "values": ["Silver"]
                 }
             ],
             "variants": [
@@ -2598,18 +2460,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Lego/corvette/corvette_1.jpg",
-                "http://images.hamza.biz/Lego/corvette/corvette_2.jpg",
-                "http://images.hamza.biz/Lego/corvette/corvette_3.jpg",
-                "http://images.hamza.biz/Lego/corvette/corvette_4.jpg",
-                "http://images.hamza.biz/Lego/corvette/corvette_5.jpg"
+                "https://images.hamza.biz/Lego/corvette/corvette_1.jpg",
+                "https://images.hamza.biz/Lego/corvette/corvette_2.jpg",
+                "https://images.hamza.biz/Lego/corvette/corvette_3.jpg",
+                "https://images.hamza.biz/Lego/corvette/corvette_4.jpg",
+                "https://images.hamza.biz/Lego/corvette/corvette_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Red"
-                    ]
+                    "values": ["Red"]
                 }
             ],
             "variants": [
@@ -2653,18 +2513,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Lego/chevy/chevy_1.jpg",
-                "http://images.hamza.biz/Lego/chevy/chevy_2.jpg",
-                "http://images.hamza.biz/Lego/chevy/chevy_3.jpg",
-                "http://images.hamza.biz/Lego/chevy/chevy_4.jpg",
-                "http://images.hamza.biz/Lego/chevy/chevy_5.jpg"
+                "https://images.hamza.biz/Lego/chevy/chevy_1.jpg",
+                "https://images.hamza.biz/Lego/chevy/chevy_2.jpg",
+                "https://images.hamza.biz/Lego/chevy/chevy_3.jpg",
+                "https://images.hamza.biz/Lego/chevy/chevy_4.jpg",
+                "https://images.hamza.biz/Lego/chevy/chevy_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Red"
-                    ]
+                    "values": ["Red"]
                 }
             ],
             "variants": [
@@ -2708,18 +2566,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Lego/peug/peug_1.jpg",
-                "http://images.hamza.biz/Lego/peug/peug_2.jpg",
-                "http://images.hamza.biz/Lego/peug/peug_3.jpg",
-                "http://images.hamza.biz/Lego/peug/peug_4.jpg",
-                "http://images.hamza.biz/Lego/peug/peug_5.jpg"
+                "https://images.hamza.biz/Lego/peug/peug_1.jpg",
+                "https://images.hamza.biz/Lego/peug/peug_2.jpg",
+                "https://images.hamza.biz/Lego/peug/peug_3.jpg",
+                "https://images.hamza.biz/Lego/peug/peug_4.jpg",
+                "https://images.hamza.biz/Lego/peug/peug_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Silver"
-                    ]
+                    "values": ["Silver"]
                 }
             ],
             "variants": [
@@ -2763,18 +2619,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Lego/porsche/porsche_1.jpg",
-                "http://images.hamza.biz/Lego/porsche/porsche_2.jpg",
-                "http://images.hamza.biz/Lego/porsche/porsche_3.jpg",
-                "http://images.hamza.biz/Lego/porsche/porsche_4.jpg",
-                "http://images.hamza.biz/Lego/porsche/porsche_5.jpg"
+                "https://images.hamza.biz/Lego/porsche/porsche_1.jpg",
+                "https://images.hamza.biz/Lego/porsche/porsche_2.jpg",
+                "https://images.hamza.biz/Lego/porsche/porsche_3.jpg",
+                "https://images.hamza.biz/Lego/porsche/porsche_4.jpg",
+                "https://images.hamza.biz/Lego/porsche/porsche_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "White"
-                    ]
+                    "values": ["White"]
                 }
             ],
             "variants": [
@@ -2818,18 +2672,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Workout/bench/bench_1.jpg",
-                "http://images.hamza.biz/Workout/bench/bench_2.jpg",
-                "http://images.hamza.biz/Workout/bench/bench_3.jpg",
-                "http://images.hamza.biz/Workout/bench/bench_4.jpg",
-                "http://images.hamza.biz/Workout/bench/bench_5.jpg"
+                "https://images.hamza.biz/Workout/bench/bench_1.jpg",
+                "https://images.hamza.biz/Workout/bench/bench_2.jpg",
+                "https://images.hamza.biz/Workout/bench/bench_3.jpg",
+                "https://images.hamza.biz/Workout/bench/bench_4.jpg",
+                "https://images.hamza.biz/Workout/bench/bench_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black"
-                    ]
+                    "values": ["Black"]
                 }
             ],
             "variants": [
@@ -2873,18 +2725,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Workout/pullup/pull_1.jpg",
-                "http://images.hamza.biz/Workout/pullup/pull_2.jpg",
-                "http://images.hamza.biz/Workout/pullup/pull_3.jpg",
-                "http://images.hamza.biz/Workout/pullup/pull_4.jpg",
-                "http://images.hamza.biz/Workout/pullup/pull_5.jpg"
+                "https://images.hamza.biz/Workout/pullup/pull_1.jpg",
+                "https://images.hamza.biz/Workout/pullup/pull_2.jpg",
+                "https://images.hamza.biz/Workout/pullup/pull_3.jpg",
+                "https://images.hamza.biz/Workout/pullup/pull_4.jpg",
+                "https://images.hamza.biz/Workout/pullup/pull_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black"
-                    ]
+                    "values": ["Black"]
                 }
             ],
             "variants": [
@@ -2928,18 +2778,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Workout/ladder/lad_1.jpg",
-                "http://images.hamza.biz/Workout/ladder/lad_2.jpg",
-                "http://images.hamza.biz/Workout/ladder/lad_3.jpg",
-                "http://images.hamza.biz/Workout/ladder/lad_4.jpg",
-                "http://images.hamza.biz/Workout/ladder/lad_5.jpg"
+                "https://images.hamza.biz/Workout/ladder/lad_1.jpg",
+                "https://images.hamza.biz/Workout/ladder/lad_2.jpg",
+                "https://images.hamza.biz/Workout/ladder/lad_3.jpg",
+                "https://images.hamza.biz/Workout/ladder/lad_4.jpg",
+                "https://images.hamza.biz/Workout/ladder/lad_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black"
-                    ]
+                    "values": ["Black"]
                 }
             ],
             "variants": [
@@ -2983,18 +2831,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Workout/shirt/shirt_1.jpg",
-                "http://images.hamza.biz/Workout/shirt/shirt_2.jpg",
-                "http://images.hamza.biz/Workout/shirt/shirt_3.jpg",
-                "http://images.hamza.biz/Workout/shirt/shirt_4.jpg",
-                "http://images.hamza.biz/Workout/shirt/shirt_5.jpg"
+                "https://images.hamza.biz/Workout/shirt/shirt_1.jpg",
+                "https://images.hamza.biz/Workout/shirt/shirt_2.jpg",
+                "https://images.hamza.biz/Workout/shirt/shirt_3.jpg",
+                "https://images.hamza.biz/Workout/shirt/shirt_4.jpg",
+                "https://images.hamza.biz/Workout/shirt/shirt_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black"
-                    ]
+                    "values": ["Black"]
                 }
             ],
             "variants": [
@@ -3037,18 +2883,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Workout/dumbbell/dumb_1.jpg",
-                "http://images.hamza.biz/Workout/dumbbell/dumb_2.jpg",
-                "http://images.hamza.biz/Workout/dumbbell/dumb_3.jpg",
-                "http://images.hamza.biz/Workout/dumbbell/dumb_4.jpg",
-                "http://images.hamza.biz/Workout/dumbbell/dumb_5.jpg"
+                "https://images.hamza.biz/Workout/dumbbell/dumb_1.jpg",
+                "https://images.hamza.biz/Workout/dumbbell/dumb_2.jpg",
+                "https://images.hamza.biz/Workout/dumbbell/dumb_3.jpg",
+                "https://images.hamza.biz/Workout/dumbbell/dumb_4.jpg",
+                "https://images.hamza.biz/Workout/dumbbell/dumb_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black"
-                    ]
+                    "values": ["Black"]
                 }
             ],
             "variants": [
@@ -3091,18 +2935,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Workout/band/band_1.jpg",
-                "http://images.hamza.biz/Workout/band/band_2.jpg",
-                "http://images.hamza.biz/Workout/band/band_3.jpg",
-                "http://images.hamza.biz/Workout/band/band_4.jpg",
-                "http://images.hamza.biz/Workout/band/band_5.jpg"
+                "https://images.hamza.biz/Workout/band/band_1.jpg",
+                "https://images.hamza.biz/Workout/band/band_2.jpg",
+                "https://images.hamza.biz/Workout/band/band_3.jpg",
+                "https://images.hamza.biz/Workout/band/band_4.jpg",
+                "https://images.hamza.biz/Workout/band/band_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black"
-                    ]
+                    "values": ["Black"]
                 }
             ],
             "variants": [
@@ -3145,18 +2987,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Workout/glove/glove_1.jpg",
-                "http://images.hamza.biz/Workout/glove/glove_2.jpg",
-                "http://images.hamza.biz/Workout/glove/glove_3.jpg",
-                "http://images.hamza.biz/Workout/glove/glove_4.jpg",
-                "http://images.hamza.biz/Workout/glove/glove_5.jpg"
+                "https://images.hamza.biz/Workout/glove/glove_1.jpg",
+                "https://images.hamza.biz/Workout/glove/glove_2.jpg",
+                "https://images.hamza.biz/Workout/glove/glove_3.jpg",
+                "https://images.hamza.biz/Workout/glove/glove_4.jpg",
+                "https://images.hamza.biz/Workout/glove/glove_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black"
-                    ]
+                    "values": ["Black"]
                 }
             ],
             "variants": [
@@ -3200,18 +3040,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Workout/glove/glove_1.jpg",
-                "http://images.hamza.biz/Workout/glove/glove_2.jpg",
-                "http://images.hamza.biz/Workout/glove/glove_3.jpg",
-                "http://images.hamza.biz/Workout/glove/glove_4.jpg",
-                "http://images.hamza.biz/Workout/glove/glove_5.jpg"
+                "https://images.hamza.biz/Workout/glove/glove_1.jpg",
+                "https://images.hamza.biz/Workout/glove/glove_2.jpg",
+                "https://images.hamza.biz/Workout/glove/glove_3.jpg",
+                "https://images.hamza.biz/Workout/glove/glove_4.jpg",
+                "https://images.hamza.biz/Workout/glove/glove_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black"
-                    ]
+                    "values": ["Black"]
                 }
             ],
             "variants": [
@@ -3255,18 +3093,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Workout/res_band/res_1.jpg",
-                "http://images.hamza.biz/Workout/res_band/res_2.jpg",
-                "http://images.hamza.biz/Workout/res_band/res_3.jpg",
-                "http://images.hamza.biz/Workout/res_band/res_4.jpg",
-                "http://images.hamza.biz/Workout/res_band/res_5.jpg"
+                "https://images.hamza.biz/Workout/res_band/res_1.jpg",
+                "https://images.hamza.biz/Workout/res_band/res_2.jpg",
+                "https://images.hamza.biz/Workout/res_band/res_3.jpg",
+                "https://images.hamza.biz/Workout/res_band/res_4.jpg",
+                "https://images.hamza.biz/Workout/res_band/res_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Grey"
-                    ]
+                    "values": ["Grey"]
                 }
             ],
             "variants": [
@@ -3310,18 +3146,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Board_Games/clue/clue_1.jpg",
-                "http://images.hamza.biz/Board_Games/clue/clue_2.jpg",
-                "http://images.hamza.biz/Board_Games/clue/clue_3.jpg",
-                "http://images.hamza.biz/Board_Games/clue/clue_4.jpg",
-                "http://images.hamza.biz/Board_Games/clue/clue_5.jpg"
+                "https://images.hamza.biz/Board_Games/clue/clue_1.jpg",
+                "https://images.hamza.biz/Board_Games/clue/clue_2.jpg",
+                "https://images.hamza.biz/Board_Games/clue/clue_3.jpg",
+                "https://images.hamza.biz/Board_Games/clue/clue_4.jpg",
+                "https://images.hamza.biz/Board_Games/clue/clue_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black"
-                    ]
+                    "values": ["Black"]
                 }
             ],
             "variants": [
@@ -3365,18 +3199,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Board_Games/battle/battle_1.jpg",
-                "http://images.hamza.biz/Board_Games/battle/battle_2.jpg",
-                "http://images.hamza.biz/Board_Games/battle/battle_3.jpg",
-                "http://images.hamza.biz/Board_Games/battle/battle_4.jpg",
-                "http://images.hamza.biz/Board_Games/battle/battle_5.jpg"
+                "https://images.hamza.biz/Board_Games/battle/battle_1.jpg",
+                "https://images.hamza.biz/Board_Games/battle/battle_2.jpg",
+                "https://images.hamza.biz/Board_Games/battle/battle_3.jpg",
+                "https://images.hamza.biz/Board_Games/battle/battle_4.jpg",
+                "https://images.hamza.biz/Board_Games/battle/battle_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black"
-                    ]
+                    "values": ["Black"]
                 }
             ],
             "variants": [
@@ -3420,18 +3252,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Board_Games/catan/catan_1.jpg",
-                "http://images.hamza.biz/Board_Games/catan/catan_2.jpg",
-                "http://images.hamza.biz/Board_Games/catan/catan_3.jpg",
-                "http://images.hamza.biz/Board_Games/catan/catan_4.jpg",
-                "http://images.hamza.biz/Board_Games/catan/catan_5.jpg"
+                "https://images.hamza.biz/Board_Games/catan/catan_1.jpg",
+                "https://images.hamza.biz/Board_Games/catan/catan_2.jpg",
+                "https://images.hamza.biz/Board_Games/catan/catan_3.jpg",
+                "https://images.hamza.biz/Board_Games/catan/catan_4.jpg",
+                "https://images.hamza.biz/Board_Games/catan/catan_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black"
-                    ]
+                    "values": ["Black"]
                 }
             ],
             "variants": [
@@ -3475,18 +3305,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Board_Games/monopoly/mono_1.jpg",
-                "http://images.hamza.biz/Board_Games/monopoly/mono_2.jpg",
-                "http://images.hamza.biz/Board_Games/monopoly/mono_3.jpg",
-                "http://images.hamza.biz/Board_Games/monopoly/mono_4.jpg",
-                "http://images.hamza.biz/Board_Games/monopoly/mono_5.jpg"
+                "https://images.hamza.biz/Board_Games/monopoly/mono_1.jpg",
+                "https://images.hamza.biz/Board_Games/monopoly/mono_2.jpg",
+                "https://images.hamza.biz/Board_Games/monopoly/mono_3.jpg",
+                "https://images.hamza.biz/Board_Games/monopoly/mono_4.jpg",
+                "https://images.hamza.biz/Board_Games/monopoly/mono_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black"
-                    ]
+                    "values": ["Black"]
                 }
             ],
             "variants": [
@@ -3530,18 +3358,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Board_Games/dark_souls/souls_1.jpg",
-                "http://images.hamza.biz/Board_Games/dark_souls/souls_2.jpg",
-                "http://images.hamza.biz/Board_Games/dark_souls/souls_3.jpg",
-                "http://images.hamza.biz/Board_Games/dark_souls/souls_4.jpg",
-                "http://images.hamza.biz/Board_Games/dark_souls/souls_5.jpg"
+                "https://images.hamza.biz/Board_Games/dark_souls/souls_1.jpg",
+                "https://images.hamza.biz/Board_Games/dark_souls/souls_2.jpg",
+                "https://images.hamza.biz/Board_Games/dark_souls/souls_3.jpg",
+                "https://images.hamza.biz/Board_Games/dark_souls/souls_4.jpg",
+                "https://images.hamza.biz/Board_Games/dark_souls/souls_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black"
-                    ]
+                    "values": ["Black"]
                 }
             ],
             "variants": [
@@ -3584,18 +3410,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Board_Games/underwater_cities/cities_1.jpg",
-                "http://images.hamza.biz/Board_Games/underwater_cities/cities_2.jpg",
-                "http://images.hamza.biz/Board_Games/underwater_cities/cities_3.jpg",
-                "http://images.hamza.biz/Board_Games/underwater_cities/cities_4.jpg",
-                "http://images.hamza.biz/Board_Games/underwater_cities/cities_5.jpg"
+                "https://images.hamza.biz/Board_Games/underwater_cities/cities_1.jpg",
+                "https://images.hamza.biz/Board_Games/underwater_cities/cities_2.jpg",
+                "https://images.hamza.biz/Board_Games/underwater_cities/cities_3.jpg",
+                "https://images.hamza.biz/Board_Games/underwater_cities/cities_4.jpg",
+                "https://images.hamza.biz/Board_Games/underwater_cities/cities_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black"
-                    ]
+                    "values": ["Black"]
                 }
             ],
             "variants": [
@@ -3639,18 +3463,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Board_Games/plunder/plunder_1.jpg",
-                "http://images.hamza.biz/Board_Games/plunder/plunder_2.jpg",
-                "http://images.hamza.biz/Board_Games/plunder/plunder_3.jpg",
-                "http://images.hamza.biz/Board_Games/plunder/plunder_4.jpg",
-                "http://images.hamza.biz/Board_Games/plunder/plunder_5.jpg"
+                "https://images.hamza.biz/Board_Games/plunder/plunder_1.jpg",
+                "https://images.hamza.biz/Board_Games/plunder/plunder_2.jpg",
+                "https://images.hamza.biz/Board_Games/plunder/plunder_3.jpg",
+                "https://images.hamza.biz/Board_Games/plunder/plunder_4.jpg",
+                "https://images.hamza.biz/Board_Games/plunder/plunder_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black"
-                    ]
+                    "values": ["Black"]
                 }
             ],
             "variants": [
@@ -3694,18 +3516,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Board_Games/world/world_1.jpg",
-                "http://images.hamza.biz/Board_Games/world/world_2.jpg",
-                "http://images.hamza.biz/Board_Games/world/world_3.jpg",
-                "http://images.hamza.biz/Board_Games/world/world_4.jpg",
-                "http://images.hamza.biz/Board_Games/world/world_5.jpg"
+                "https://images.hamza.biz/Board_Games/world/world_1.jpg",
+                "https://images.hamza.biz/Board_Games/world/world_2.jpg",
+                "https://images.hamza.biz/Board_Games/world/world_3.jpg",
+                "https://images.hamza.biz/Board_Games/world/world_4.jpg",
+                "https://images.hamza.biz/Board_Games/world/world_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black"
-                    ]
+                    "values": ["Black"]
                 }
             ],
             "variants": [
@@ -3749,18 +3569,16 @@
             "is_giftcard": false,
             "weight": 249,
             "images": [
-                "http://images.hamza.biz/Board_Games/exploding_kittens/kittens_1.jpg",
-                "http://images.hamza.biz/Board_Games/exploding_kittens/kittens_2.jpg",
-                "http://images.hamza.biz/Board_Games/exploding_kittens/kittens_3.jpg",
-                "http://images.hamza.biz/Board_Games/exploding_kittens/kittens_4.jpg",
-                "http://images.hamza.biz/Board_Games/exploding_kittens/kittens_5.jpg"
+                "https://images.hamza.biz/Board_Games/exploding_kittens/kittens_1.jpg",
+                "https://images.hamza.biz/Board_Games/exploding_kittens/kittens_2.jpg",
+                "https://images.hamza.biz/Board_Games/exploding_kittens/kittens_3.jpg",
+                "https://images.hamza.biz/Board_Games/exploding_kittens/kittens_4.jpg",
+                "https://images.hamza.biz/Board_Games/exploding_kittens/kittens_5.jpg"
             ],
             "options": [
                 {
                     "title": "Color",
-                    "values": [
-                        "Black"
-                    ]
+                    "values": ["Black"]
                 }
             ],
             "variants": [
