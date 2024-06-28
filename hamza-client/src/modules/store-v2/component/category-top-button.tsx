@@ -42,6 +42,7 @@ const CategoryTopButton: React.FC<CategoryButtonProps> = ({
                     ? 'black'
                     : 'white'
             }
+            transition="background 0.1s ease-in-out, color 0.1s ease-in-out"
             _hover={{
                 color: 'black',
                 background: 'white',

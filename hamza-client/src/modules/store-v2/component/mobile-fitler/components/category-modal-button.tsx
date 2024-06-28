@@ -41,6 +41,7 @@ const CategoryModalButton: React.FC<CategoryButtonProps> = ({
                         : 'white'
                 }
                 padding="10px 24px"
+                transition="transform 0.2s ease-in-out"
                 _hover={{
                     background: 'white',
                     color: 'black',

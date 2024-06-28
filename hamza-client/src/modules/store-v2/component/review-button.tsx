@@ -32,6 +32,7 @@ const ReviewButton: React.FC<ReviewButtonProps> = ({ title, value }) => {
                 width={{ base: '125px', md: '154px' }}
                 style={{ padding: '10px 24px', cursor: 'pointer' }}
                 color={reviewFilterSelect === title ? 'black' : 'white'}
+                transition="background 0.1s ease-in-out, color 0.1s ease-in-out"
                 _hover={{
                     background: 'white',
                     color: 'black',
