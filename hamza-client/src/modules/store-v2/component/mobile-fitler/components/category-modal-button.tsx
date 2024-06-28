@@ -33,6 +33,7 @@ const CategoryModalButton: React.FC<CategoryButtonProps> = ({
                 alignItems={'center'}
                 borderWidth={'1px'}
                 borderRadius={'49px'}
+                height={'42px'}
                 cursor="pointer"
                 color={
                     modalCategoryFilterSelect === categoryName

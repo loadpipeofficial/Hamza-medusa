@@ -18,6 +18,7 @@ import Image from 'next/image';
 import CurrencyButton from '../../currency-button';
 import currencies from '../../../data/currency-category';
 import ReviewButton from '../../review-button';
+import ReviewModalButton from './review-modal-button';
 import RangeSliderComponent from '../../range-slider';
 import CategoryModalButton from './category-modal-button';
 import CurrencyModalButton from './currency-modal-button';
@@ -154,11 +155,11 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
                         wrap={'wrap'}
                         gap="12px"
                     >
-                        <ReviewButton title={'All'} value={'All'} />
-                        <ReviewButton title={'4 Stars'} value={'4'} />
-                        <ReviewButton title={'3 Stars'} value={'3'} />
-                        <ReviewButton title={'2 Stars'} value={'2'} />
-                        <ReviewButton title={'1 Star'} value={'1'} />
+                        <ReviewModalButton title={'All'} value={'All'} />
+                        <ReviewModalButton title={'4 Stars'} value={'4'} />
+                        <ReviewModalButton title={'3 Stars'} value={'3'} />
+                        <ReviewModalButton title={'2 Stars'} value={'2'} />
+                        <ReviewModalButton title={'1 Star'} value={'1'} />
                     </Flex>
                 </ModalBody>
 
