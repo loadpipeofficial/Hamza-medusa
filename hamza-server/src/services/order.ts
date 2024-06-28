@@ -338,7 +338,6 @@ export default class OrderService extends MedusaOrderService {
     ): Promise<{ orders: any[]; uniqueCartIds: string[]; cartCount: number }> {
         const orders = await this.orderRepository_.find({
             where: { customer_id: customerId },
-            select: ['id', 'cart_id'], // Select id and cart_id
             relations: ['cart.items', 'cart', 'cart.items.variant.product'],
         });
 
@@ -347,43 +346,34 @@ export default class OrderService extends MedusaOrderService {
         // Create a map to group orders by cart_id
         const groupedOrders = orders.reduce((acc, order) => {
             const cartId = order.cart_id;
+            const orderId = order.id;
             if (!acc[cartId]) {
                 acc[cartId] = {
                     cart_id: cartId,
+                    orderId: orderId,
                     order_ids: new Set(),
-                    order_id: order.id,
-                    items: {},
+                    items: [],
                 };
             }
 
             acc[cartId].order_ids.add(order.id); // Add order ID to the set
 
             order.cart.items.forEach((item) => {
-                const itemId = item.id;
-                if (!acc[cartId].items[itemId]) {
-                    acc[cartId].items[itemId] = {
-                        ...item,
-                        order_id: order.id,
-                        order_ids: new Set(),
-                    };
-                }
-
-                acc[cartId].items[itemId].order_ids.add(order.id);
+                acc[cartId].items.push({
+                    ...item,
+                    orderId: order.id, // Set the correct order_id for each item
+                    order_id: order.id, // Set the correct order_id for each item
+                });
             });
 
             return acc;
         }, {});
 
-        const result = Object.values(groupedOrders).map((group: any) => {
-            return {
-                cart_id: group.cart_id,
-                order_ids: Array.from(group.order_ids), // Include order_ids in the result
-                items: Object.values(group.items).map((item: any) => ({
-                    ...item,
-                    order_ids: Array.from(item.order_ids),
-                })),
-            };
-        });
+        const result = Object.values(groupedOrders).map((group: any) => ({
+            cart_id: group.cart_id,
+            order_ids: Array.from(group.order_ids), // Include order_ids in the result
+            items: group.items,
+        }));
 
         const uniqueCartIds = Object.keys(groupedOrders);
         const cartCount = uniqueCartIds.length;

@@ -69,6 +69,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
     const [isAttemptedSubmit, setIsAttemptedSubmit] = useState(false);
 
     const openModal = (orderId: string) => {
+        console.log(`Cancelling order ${orderId}`);
         setSelectedOrderId(orderId);
         setIsModalOpen(true);
     };
@@ -77,15 +78,12 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
         setCancelReason('');
         setIsAttemptedSubmit(false);
     };
-    console.log('Orders: ', orders);
 
     let countryCode = useParams().countryCode as string;
     if (process.env.NEXT_PUBLIC_FORCE_US_COUNTRY)
         countryCode = process.env.NEXT_PUBLIC_FORCE_US_COUNTRY;
 
     const router = useRouter();
-
-    console.log(`Order Statuses ${JSON.stringify(orderStatuses)}`);
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -103,6 +101,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
         };
 
         const fetchAll = async () => {
+            console.log(`sending customer_id ${orders[0].customer_id}`);
             try {
                 const { data } = await axios.post(
                     `${MEDUSA_SERVER_URL}/custom/order/customer-orders`,
@@ -125,35 +124,43 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
 
     useEffect(() => {
         const fetchStatuses = async () => {
-            if (!orders || orders.length === 0) return;
+            if (!customerOrder || customerOrder.length === 0 || !customerOrder)
+                return;
 
             const statuses = await Promise.allSettled(
-                orders.map(async (order) => {
-                    console.log(`Fetching status for rder ${order.id}`);
-                    try {
-                        const statusRes = await axios.get(
-                            `${MEDUSA_SERVER_URL}/custom/order/status`,
-                            {
-                                params: {
-                                    order_id: order.id,
-                                },
-                            }
+                customerOrder.flatMap((orderGroup) =>
+                    orderGroup.items.map(async (item) => {
+                        console.log(
+                            `Fetching status for order ${item.order_id}`
                         );
-                        return {
-                            orderId: order.id,
-                            status: statusRes.data.order,
-                        };
-                    } catch (error) {
-                        console.error(
-                            `Error fetching status for order ${order.id}:`,
-                            error
-                        );
-                        return {
-                            orderId: order.id,
-                            status: 'unknown',
-                        };
-                    }
-                })
+                        try {
+                            const statusRes = await axios.get(
+                                `${MEDUSA_SERVER_URL}/custom/order/status`,
+                                {
+                                    params: {
+                                        order_id: item.order_id,
+                                    },
+                                }
+                            );
+                            console.log(
+                                `Getting Status ${JSON.stringify(statusRes.data)}`
+                            );
+                            return {
+                                orderId: item.order_id,
+                                status: statusRes.data.order,
+                            };
+                        } catch (error) {
+                            console.error(
+                                `Error fetching status for order ${item.order_id}:`,
+                                error
+                            );
+                            return {
+                                orderId: item.order_id,
+                                status: 'unknown',
+                            };
+                        }
+                    })
+                )
             );
 
             const statusMap: { [key: string]: string } = {};
@@ -174,7 +181,7 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
         if (detailedOrders.length > 0) {
             fetchStatuses();
         }
-    }, [detailedOrders, orders]);
+    }, [detailedOrders, customerOrder]);
     const handleCancel = async () => {
         if (!cancelReason) {
             setIsAttemptedSubmit(true);
