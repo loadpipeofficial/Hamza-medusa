@@ -96,8 +96,16 @@ const Summary: React.FC<{ cart_id: string }> = ({ cart_id }) => {
                         </Text>
                         <Text>Store Name: {product.store_name}</Text>
                     </Stack>
+
+                    <LocalizedClientLink href={`/products/${product.handle}`}>
+                        <Thumbnail
+                            thumbnail={product.thumbnail}
+                            images={[]}
+                            size="small"
+                        />
+                    </LocalizedClientLink>
                     <Button
-                        mt={4}
+                        my={4}
                         onClick={() =>
                             router.push(
                                 `/${countryCode}/vendor/${product.store_name}`
@@ -106,13 +114,6 @@ const Summary: React.FC<{ cart_id: string }> = ({ cart_id }) => {
                     >
                         Vendor Store
                     </Button>
-                    <LocalizedClientLink href={`/products/${product.handle}`}>
-                        <Thumbnail
-                            thumbnail={product.thumbnail}
-                            images={[]}
-                            size="small"
-                        />
-                    </LocalizedClientLink>
                 </Box>
             ))}
         </Flex>
