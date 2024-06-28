@@ -1,7 +1,4 @@
-'use client';
-
 import React from 'react';
-import { useState, useEffect } from 'react';
 import { listRegions } from '@lib/data';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import CartButton from '@modules/layout/components/cart-button';
@@ -23,17 +20,13 @@ import HamzaLogo from '../../../../../public/images/logo/logo_green.svg';
 import HamzaTitle from '../../../../../public/images/logo/hamza-title.svg';
 import { IoMdMenu } from 'react-icons/io';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import NavLink from './components/nav-link';
 import { CgProfile, CgBell } from 'react-icons/cg';
 import { MdOutlineAccountBalanceWallet } from 'react-icons/md';
-import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
-import useWindowSize from '@lib/util/get-windowsize';
+import AuthorizedLinks from './components/authorized-links';
+import ConnectWalletLink from './components/connect-wallet-link';
 
-export default function Nav() {
-    // const regions = await listRegions().then((regions) => regions);
-    const { width } = useWindowSize();
-    const { countryCode } = useParams();
-    const { authData } = useCustomerAuthStore();
+export default async function Nav() {
     return (
         <Flex
             zIndex={'2'}
@@ -126,7 +119,7 @@ export default function Nav() {
                             borderBottomRadius={'16px'}
                             borderColor={{ base: 'transparent', md: 'white' }}
                             backgroundColor={'black'}
-                            width={{ base: width, md: '321px' }}
+                            width={{ base: '100vw', md: '321px' }}
                         >
                             <MenuItem
                                 mt="0.5rem"
@@ -135,9 +128,8 @@ export default function Nav() {
                                 px="2rem"
                                 color={'white'}
                                 backgroundColor={'black'}
-                                _hover={{ color: 'primary.green.900' }}
                             >
-                                Cart
+                                <CartButton />
                             </MenuItem>
                             <Box px={{ base: '2rem', md: 0 }}>
                                 <MenuDivider
@@ -174,41 +166,8 @@ export default function Nav() {
                                 />
                             </Box>
 
-                            {authData.status === 'authenticated' && (
-                                <>
-                                    <Link href={`/${countryCode}/store`}>
-                                        <MenuItem
-                                            fontWeight={'600'}
-                                            mt="1rem"
-                                            px="2rem"
-                                            color={'white'}
-                                            backgroundColor={'black'}
-                                            _hover={{
-                                                color: 'primary.green.900',
-                                            }}
-                                        >
-                                            <Text>Account</Text>
-                                        </MenuItem>
-                                    </Link>
-                                    <MenuItem
-                                        fontWeight={'600'}
-                                        mb="1rem"
-                                        px="2rem"
-                                        color={'white'}
-                                        backgroundColor={'black'}
-                                        _hover={{ color: 'primary.green.900' }}
-                                    >
-                                        <Text>Settings</Text>
-                                    </MenuItem>
-                                    <Box px={{ base: '2rem', md: 0 }}>
-                                        <MenuDivider
-                                            opacity={{ base: '0.5', md: '1' }}
-                                            borderColor={'white'}
-                                        />
-                                    </Box>
-                                </>
-                            )}
-                            <Link href={`/${countryCode}/store`}>
+                            <AuthorizedLinks />
+                            <NavLink href={`/`}>
                                 <MenuItem
                                     fontWeight={'600'}
                                     mt="1rem"
@@ -217,9 +176,20 @@ export default function Nav() {
                                     backgroundColor={'black'}
                                     _hover={{ color: 'primary.green.900' }}
                                 >
+                                    <Text>Home</Text>
+                                </MenuItem>
+                            </NavLink>
+                            <NavLink href={`/store`}>
+                                <MenuItem
+                                    fontWeight={'600'}
+                                    px="2rem"
+                                    color={'white'}
+                                    backgroundColor={'black'}
+                                    _hover={{ color: 'primary.green.900' }}
+                                >
                                     <Text> Market</Text>
                                 </MenuItem>
-                            </Link>
+                            </NavLink>
                             <MenuItem
                                 fontWeight={'600'}
                                 px="2rem"
@@ -247,22 +217,7 @@ export default function Nav() {
                                 borderColor={'white'}
                             />
 
-                            <MenuItem
-                                mb="0px"
-                                borderBottomRadius={'15px'}
-                                borderWidth={{ base: '1px', md: '0px' }}
-                                borderColor="rgba(255, 255, 255, 0.5)"
-                                height={'91px'}
-                                backgroundColor={
-                                    authData.status === 'authenticated'
-                                        ? '#2C272D'
-                                        : 'primary.green.900'
-                                }
-                                justifyContent={'center'}
-                                alignItems={'center'}
-                            >
-                                <WalletConnectButton />
-                            </MenuItem>
+                            <ConnectWalletLink />
                         </MenuList>
                     </Menu>
                 </Flex>

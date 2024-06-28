@@ -24,7 +24,7 @@ const RangeSliderComponent = () => {
 
     return (
         <Box my={'2rem'}>
-            <Box mx="0.25rem">
+            <Box mx="0.10rem">
                 <RangeSlider
                     // eslint-disable-next-line jsx-a11y/aria-proptypes
                     aria-label={['min', 'max']}
