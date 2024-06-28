@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { Suspense, useState, useEffect } from 'react';
 import { listRegions } from '@lib/data';
@@ -18,17 +20,19 @@ import {
     MenuGroup,
     MenuOptionGroup,
     MenuDivider,
-    Divider,
 } from '@chakra-ui/react';
 import Image from 'next/image';
 import HamzaLogo from '../../../../../public/images/logo/logo_green.svg';
 import HamzaTitle from '../../../../../public/images/logo/hamza-title.svg';
 import { IoMdMenu } from 'react-icons/io';
-
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { CgProfile, CgBell } from 'react-icons/cg';
 
-export default async function Nav() {
-    const regions = await listRegions().then((regions) => regions);
+export default function Nav() {
+    // const regions = await listRegions().then((regions) => regions);
+    const { countryCode } = useParams();
+
     return (
         <Flex
             zIndex={'1'}
@@ -118,20 +122,45 @@ export default async function Nav() {
                             backgroundColor={'black'}
                             width={'321px'}
                         >
-                            <MenuItem backgroundColor={'black'} color={'white'}>
+                            <MenuItem
+                                color={'white'}
+                                _hover={{ color: 'primary.green.900' }}
+                                backgroundColor={'black'}
+                            >
                                 Sell on Hamza
                             </MenuItem>
-                            <MenuItem backgroundColor={'black'} color={'white'}>
-                                Be an affiliate
-                            </MenuItem>
+                            <Link href={`https://blog.hamza.biz/affiliate/`}>
+                                <MenuItem
+                                    color={'white'}
+                                    _hover={{ color: 'primary.green.900' }}
+                                    backgroundColor={'black'}
+                                >
+                                    Be an affiliate
+                                </MenuItem>
+                            </Link>
                             <MenuDivider />
-                            <MenuItem backgroundColor={'black'} color={'white'}>
-                                Market
-                            </MenuItem>
-                            <MenuItem backgroundColor={'black'} color={'white'}>
+
+                            <Link href={`/${countryCode}/store`}>
+                                <MenuItem
+                                    color={'white'}
+                                    _hover={{ color: 'primary.green.900' }}
+                                    backgroundColor={'black'}
+                                >
+                                    <Text> Market</Text>
+                                </MenuItem>
+                            </Link>
+                            <MenuItem
+                                color={'white'}
+                                _hover={{ color: 'primary.green.900' }}
+                                backgroundColor={'black'}
+                            >
                                 About Us
                             </MenuItem>
-                            <MenuItem backgroundColor={'black'} color={'white'}>
+                            <MenuItem
+                                color={'white'}
+                                _hover={{ color: 'primary.green.900' }}
+                                backgroundColor={'black'}
+                            >
                                 Help Center
                             </MenuItem>
                             <MenuDivider />
