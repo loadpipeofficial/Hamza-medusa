@@ -36,7 +36,7 @@ export default function Nav() {
     const { authData } = useCustomerAuthStore();
     return (
         <Flex
-            zIndex={'1'}
+            zIndex={'2'}
             className="sticky top-0"
             width="100%"
             height={'125px'}

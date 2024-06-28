@@ -181,17 +181,17 @@ const ProductCardStore: React.FC<ProductCardProps & { productId?: string }> = ({
     }, [authData.status]);
 
     return (
-        <Box
-            borderRadius="16px"
-            overflow="hidden"
-            width="100%"
-            height="100%"
-            backgroundColor="black"
-            maxHeight={'420px'} //399px
-            minHeight={'243.73px'}
-            maxWidth={{ base: '100%', lg: '283px' }}
-        >
-            <LocalizedClientLink href={`/products/${productHandle}`}>
+        <LocalizedClientLink href={`/products/${productHandle}`}>
+            <Box
+                borderRadius="16px"
+                overflow="hidden"
+                width="100%"
+                height="100%"
+                backgroundColor="black"
+                maxHeight={'399px'} //399px
+                minHeight={'243.73px'}
+                maxWidth={{ base: '100%', lg: '283px' }}
+            >
                 <Box
                     height={{ base: '134.73', md: '238px' }}
                     display="flex"
@@ -211,106 +211,111 @@ const ProductCardStore: React.FC<ProductCardProps & { productId?: string }> = ({
                         display={imageLoaded ? 'block' : 'none'}
                     />
                 </Box>
-            </LocalizedClientLink>
-
-            <Flex
-                p={{ base: '2', md: '4' }}
-                flexDirection={'column'}
-                height={{ base: '109px', md: '182px' }} //161px
-            >
-                <Flex alignItems="center" flexShrink={0}>
-                    <Text
-                        color="white"
-                        fontWeight="700"
-                        fontSize={{ base: '14px', md: '1.25rem' }}
-                        isTruncated
-                        noOfLines={2}
-                        overflow="hidden"
-                        textOverflow="ellipsis"
-                        whiteSpace="normal"
-                        wordBreak="break-word"
-                    >
-                        {productName}
-                    </Text>
-                </Flex>
 
                 <Flex
-                    mt="auto"
-                    mb={{ base: '0', md: '5px' }}
+                    p={{ base: '2', md: '4' }}
                     flexDirection={'column'}
+                    height={{ base: '109px', md: '161px' }} //161px
                 >
-                    <Flex alignItems="center" mb={{ base: '2.5px', md: '0' }}>
-                        <IoStar style={{ color: '#FEC84B' }} />
-                        {(reviewCount ?? 0) > 0 ? (
-                            <>
-                                <Text
-                                    color={'white'}
-                                    alignSelf={'center'}
-                                    fontWeight="700"
-                                    fontSize={{ base: '14px', md: '14px' }}
-                                    ml="1"
-                                >
-                                    {totalRating}
-                                </Text>
-                                <Text
-                                    alignSelf={'center'}
-                                    fontWeight="700"
-                                    fontSize={{ base: '14px', md: '16px' }}
-                                    color="#555555"
-                                    ml="1"
-                                >
-                                    ({reviewCount} reviews)
-                                </Text>
-                            </>
-                        ) : (
-                            <Text
-                                alignSelf={'center'}
-                                ml={{ base: '1.5', md: '2' }}
-                                fontSize={{ base: '14px', md: '16px' }}
-                                color={'white'}
-                            >
-                                no reviews yet
-                            </Text>
-                        )}
-                    </Flex>
-
-                    <Flex alignItems="center">
-                        <Flex
-                            wrap={'nowrap'}
-                            width={{ base: '14px', md: '16px' }}
-                            height={{ base: '14px', md: '16px' }}
-                        >
-                            <Image
-                                src={require('../../../../public/images/currencies/usdc-icon.svg')}
-                                alt="usdc"
-                                style={{ width: '100%', height: '100%' }}
-                            />
-                        </Flex>
-
+                    <Flex alignItems="center" flexShrink={0}>
                         <Text
-                            display={'flex'}
-                            flexDirection={'row'}
-                            noOfLines={1}
                             color="white"
-                            ml="2"
                             fontWeight="700"
-                            fontSize={{ base: '14px', md: '18px' }}
+                            fontSize={{ base: '14px', md: '1.25rem' }}
+                            isTruncated
+                            noOfLines={2}
+                            overflow="hidden"
+                            textOverflow="ellipsis"
+                            whiteSpace="normal"
+                            wordBreak="break-word"
                         >
-                            {`${productPrice}`}{' '}
-                            <Text
-                                as="span"
-                                display={{ base: 'none', md: 'inline-block' }}
-                                style={{
-                                    fontSize: '12px',
-                                    color: '#555555',
-                                }}
-                            >
-                                {productPrice}
-                            </Text>
+                            {productName}
                         </Text>
                     </Flex>
-                </Flex>
-                <Flex
+
+                    <Flex
+                        mt="auto"
+                        mb={{ base: '0', md: '5px' }}
+                        flexDirection={'column'}
+                    >
+                        <Flex
+                            alignItems="center"
+                            mb={{ base: '2.5px', md: '0' }}
+                        >
+                            <IoStar style={{ color: '#FEC84B' }} />
+                            {(reviewCount ?? 0) > 0 ? (
+                                <>
+                                    <Text
+                                        color={'white'}
+                                        alignSelf={'center'}
+                                        fontWeight="700"
+                                        fontSize={{ base: '14px', md: '14px' }}
+                                        ml="1"
+                                    >
+                                        {totalRating}
+                                    </Text>
+                                    <Text
+                                        alignSelf={'center'}
+                                        fontWeight="700"
+                                        fontSize={{ base: '14px', md: '16px' }}
+                                        color="#555555"
+                                        ml="1"
+                                    >
+                                        ({reviewCount} reviews)
+                                    </Text>
+                                </>
+                            ) : (
+                                <Text
+                                    alignSelf={'center'}
+                                    ml={{ base: '1.5', md: '2' }}
+                                    fontSize={{ base: '14px', md: '16px' }}
+                                    color={'white'}
+                                >
+                                    no reviews yet
+                                </Text>
+                            )}
+                        </Flex>
+
+                        <Flex alignItems="center">
+                            <Flex
+                                wrap={'nowrap'}
+                                width={{ base: '14px', md: '16px' }}
+                                height={{ base: '14px', md: '16px' }}
+                            >
+                                <Image
+                                    src={require('../../../../public/images/currencies/usdc-icon.svg')}
+                                    alt="usdc"
+                                    style={{ width: '100%', height: '100%' }}
+                                />
+                            </Flex>
+
+                            <Text
+                                display={'flex'}
+                                flexDirection={'row'}
+                                noOfLines={1}
+                                color="white"
+                                ml="2"
+                                fontWeight="700"
+                                fontSize={{ base: '14px', md: '18px' }}
+                            >
+                                {`${productPrice}`}{' '}
+                                <Text
+                                    as="span"
+                                    display={{
+                                        base: 'none',
+                                        md: 'inline-block',
+                                    }}
+                                    style={{
+                                        fontSize: '12px',
+                                        color: '#555555',
+                                    }}
+                                >
+                                    {productPrice}
+                                </Text>
+                            </Text>
+                        </Flex>
+                    </Flex>
+                    {/* <Flex
                     display={{ base: 'none', md: 'flex' }}
                     flexDirection={'row'}
                 >
@@ -412,9 +417,10 @@ const ProductCardStore: React.FC<ProductCardProps & { productId?: string }> = ({
                             </Flex>
                         )}
                     </Flex>
+                </Flex> */}
                 </Flex>
-            </Flex>
-        </Box>
+            </Box>
+        </LocalizedClientLink>
     );
 };
 
