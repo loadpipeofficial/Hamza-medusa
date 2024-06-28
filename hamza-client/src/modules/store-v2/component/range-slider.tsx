@@ -23,8 +23,8 @@ const RangeSliderComponent = () => {
     };
 
     return (
-        <Box my={{ base: '1rem', md: '2rem' }}>
-            <Box>
+        <Box my={'2rem'}>
+            <Box mx="0.25rem">
                 <RangeSlider
                     // eslint-disable-next-line jsx-a11y/aria-proptypes
                     aria-label={['min', 'max']}
@@ -64,27 +64,18 @@ const RangeSliderComponent = () => {
                     minW="124px"
                     width={'100%'}
                 >
-                    <Text
-                        ml="1rem"
-                        alignSelf={'flex-start'}
-                        color="secondary.davy.900"
-                        lineHeight="1"
-                    >
+                    <Text mb="5px" color="secondary.davy.900" lineHeight="1">
                         Minimum
                     </Text>
-                    <Text
-                        ml="1rem"
-                        alignSelf={'flex-start'}
-                        fontSize="18px"
-                        color="white"
-                        lineHeight="1"
-                    >
+                    <Text fontSize="18px" color="white" lineHeight="1">
                         USD {range[0]}
                     </Text>
                 </Flex>
                 <Divider
                     borderColor="secondary.davy.900"
-                    w="15.87px"
+                    width={'100%'}
+                    minW={'15.87px'}
+                    maxW={'15.87px'}
                     mx="1rem"
                     alignSelf="center"
                 />
@@ -100,21 +91,10 @@ const RangeSliderComponent = () => {
                     minW="124px"
                     width={'100%'}
                 >
-                    <Text
-                        ml="1rem"
-                        alignSelf={'flex-start'}
-                        color="secondary.davy.900"
-                        lineHeight="1"
-                    >
+                    <Text mb="5px" color="secondary.davy.900" lineHeight="1">
                         Maximum
                     </Text>
-                    <Text
-                        ml="1rem"
-                        alignSelf={'flex-start'}
-                        fontSize="18px"
-                        color="white"
-                        lineHeight="1"
-                    >
+                    <Text fontSize="18px" color="white" lineHeight="1">
                         USD {range[1]}
                     </Text>
                 </Flex>

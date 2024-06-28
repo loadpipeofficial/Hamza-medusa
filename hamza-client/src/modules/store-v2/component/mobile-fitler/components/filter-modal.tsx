@@ -62,7 +62,7 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
-            <ModalContent backgroundColor={'#121212'} mx="1rem">
+            <ModalContent mx="1rem" backgroundColor={'#121212'} boxShadow="lg">
                 <ModalHeader
                     fontWeight={'600'}
                     fontSize={'16px'}
