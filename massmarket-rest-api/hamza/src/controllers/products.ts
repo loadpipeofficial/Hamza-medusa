@@ -43,12 +43,12 @@ export const productsController = {
                 if (rc) {
                     const promises: Promise<HexString>[] = [];
                     for (let prod of input.products) {
-                        promises.push(rc.createProduct(prod));
+                        console.log('creating product...');
+                        output.productIds.push(await rc.createProduct(prod));
                     }
 
-                    output.productIds = await Promise.all(promises);
-
                     //TODO: better success check
+                    console.log('returning ', output);
                     output.success =
                         output.productIds.length == input.products.length;
                 }

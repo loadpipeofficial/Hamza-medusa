@@ -215,7 +215,7 @@ export class RelayClientWrapper {
 
         console.log('setting payee');
         await client.updateShopManifest({
-            addPayeeContract: {
+            addPayee: {
                 chainId: 11155111,
                 addr: hexToBytes('0x74b7284836F753101bD683C3843e95813b381f18'),
                 name: 'hamza-switch',
