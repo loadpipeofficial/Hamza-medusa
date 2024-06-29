@@ -293,7 +293,7 @@ export class RelayClientWrapper {
         });
     }
 
-    async listenForEvents(cartId: HexString): Promise<any> {
+    async listenForEvents(): Promise<any> {
         if (!this.eventStream) {
             this.eventStream = await this._client.createEventStream();
         }
@@ -310,7 +310,7 @@ export class RelayClientWrapper {
         });
     }
 
-    keyCardToString(): string {
+    keyCardToString(): HexString {
         return bytesToHex(this._keyCard);
     }
 
