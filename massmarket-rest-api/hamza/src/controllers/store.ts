@@ -3,14 +3,6 @@ import { ICreateStoreInput, ICreateStoreOutput } from '../entity/index.js';
 import { RelayClientWrapper } from '../massmarket/client.js';
 import { serveRequest, ENDPOINT } from './utils.js';
 
-/*
-{
-    "success":true,
-    "storeId":"0xb3196680cda22f98635bbc104e1f5e829ee8e71db27b5d6c9241d0e20c64e109",
-    "keyCard":"0x7e683da67b0079c20a4856bfbd92b3c90b63f51bd57f7a9d2643aaba5c6b659b"
-}
-*/
-
 export const storeController = {
     //create store
     createStore: async (req: Request, res: Response) => {
@@ -25,8 +17,10 @@ export const storeController = {
                     keyCard: '0x0',
                 };
 
-                const data =
-                    await RelayClientWrapper.createAndInitializeStore(ENDPOINT);
+                const data = await RelayClientWrapper.createAndInitializeStore(
+                    ENDPOINT,
+                    input.keycard
+                );
                 output.storeId = data.shopId;
                 output.keyCard = data.keyCard;
 
@@ -52,17 +46,18 @@ export const storeController = {
                     keyCard: '0x0',
                 };
 
-                const rc = new RelayClientWrapper(ENDPOINT, '0x0', input.keycard, false);
-
                 output.storeId = input.storeId;
-                output.keyCard = rc.keyCardToString();
 
                 //TODO: check for zeroAddress
-                await rc.enrollKeycard();
+                output.keyCard = await RelayClientWrapper.enrollNewKeycard(
+                    ENDPOINT,
+                    input.storeId,
+                    input.keycard
+                );
 
                 return output;
             },
             201
         );
-    }
+    },
 };
