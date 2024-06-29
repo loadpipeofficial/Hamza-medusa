@@ -39,4 +39,30 @@ export const storeController = {
             201
         );
     },
+
+    enrollKeycard: async (req: Request, res: Response) => {
+        serveRequest(
+            req,
+            res,
+            async (id, body) => {
+                const input: ICreateStoreInput = body;
+                const output: ICreateStoreOutput = {
+                    success: false,
+                    storeId: '0x0',
+                    keyCard: '0x0',
+                };
+
+                const rc = new RelayClientWrapper(ENDPOINT, '0x0', input.keycard, false);
+
+                output.storeId = input.storeId;
+                output.keyCard = rc.keyCardToString();
+
+                //TODO: check for zeroAddress
+                await rc.enrollKeycard();
+
+                return output;
+            },
+            201
+        );
+    }
 };
