@@ -274,7 +274,12 @@ export class RelayClientWrapper {
 
         const streams = this.eventStream?.tee();
         console.log('stream locked: ', streams[0]?.locked);
-        return new Promise(async (resolve, reject) => {
+        return await new Promise(async (resolve, reject) => {
+            setTimeout(() => {
+                this.eventStream = streams[1];
+                resolve(null);
+            }, 10000);
+
             for await (const event of streams[0]) {
                 if (event.event?.updateOrder?.itemsFinalized) {
                     if (
