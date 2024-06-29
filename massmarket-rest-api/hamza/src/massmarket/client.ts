@@ -69,10 +69,10 @@ export class RelayClientWrapper {
         keycard: HexString
     ): Promise<RelayClientWrapper> {
         //return from cache
-        //if (cache.contains(shopId)) {
-        //    return cache.get(shopId);
-        //}
-        //
+        if (cache.contains(shopId)) {
+            return cache.get(shopId);
+        }
+
         //create instance and cache it
         const instance: RelayClientWrapper = new RelayClientWrapper(
             endpoint,
@@ -265,34 +265,49 @@ export class RelayClientWrapper {
         return rc;
     }
 
-    async pullEvents(): Promise<any> {
-        await this._client.connect();
-        const stream = await this._client.createEventStream();
-        for await (const event of stream) {
-            if (event.event.updateOrder?.itemsFinalized) {
-                return bytesToHex(event.event.updateOrder.orderId);
-            }
-        }
-        return;
-    }
-
     //TODO: check cartId against what's in event
     async getCartFinalizedEvent(cartId: HexString): Promise<any> {
-        await this._client.connect();
-        const stream = await this._client.createEventStream();
-        for await (const event of stream) {
-            if (event.event?.updateOrder?.itemsFinalized) {
-                if (
-                    bytesToHex(
-                        event.event?.updateOrder?.itemsFinalized.orderHash
-                    ) == keccak256(hexToBytes(cartId))
-                ) {
-                    console.log(event.event?.updateOrder?.itemsFinalized);
-                    return event?.event.updateOrder?.itemsFinalized;
+        if (!this.eventStream) {
+            this.eventStream = await this._client.createEventStream();
+        }
+
+        const streams = this.eventStream?.tee();
+        console.log('stream locked: ', streams[0]?.locked);
+        return new Promise(async (resolve, reject) => {
+            for await (const event of streams[0]) {
+                if (event.event?.updateOrder?.itemsFinalized) {
+                    if (
+                        bytesToHex(
+                            event.event?.updateOrder?.itemsFinalized.orderHash
+                        ) == keccak256(hexToBytes(cartId))
+                    ) {
+                        console.log(event.event?.updateOrder?.itemsFinalized);
+                        this.eventStream = streams[1];
+                        resolve(event?.event.updateOrder?.itemsFinalized);
+                    }
                 }
             }
+
+            this.eventStream = streams[1];
+            resolve(null);
+        });
+    }
+
+    async listenForEvents(cartId: HexString): Promise<any> {
+        if (!this.eventStream) {
+            this.eventStream = await this._client.createEventStream();
         }
-        return null;
+
+        const streams = this.eventStream?.tee();
+        console.log('stream locked: ', streams[0]?.locked);
+        return new Promise(async (resolve, reject) => {
+            for await (const event of streams[0]) {
+                console.log(event);
+            }
+
+            this.eventStream = streams[1];
+            resolve(null);
+        });
     }
 
     keyCardToString(): string {
@@ -308,17 +323,6 @@ export class RelayClientWrapper {
     }
 
     async enrollKeycard(): Promise<void> {
-        /*
-        const keyCardAccount = privateKeyToAccount(
-            bufferToString(this._keyCard)
-        );
-
-        const keyCardWallet = createWalletClient({
-            keyCardAccount,
-            chain: sepolia,
-            transport: http(),
-        });
-        */
         const walletPrivKey =
             '0x65c1196c888ae6bb110077201346dfe426b220ce1d49a366102a2d85e7ad0e35';
         const account: PrivateKeyAccount = privateKeyToAccount(walletPrivKey);
