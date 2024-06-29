@@ -20,6 +20,7 @@ export class RelayClientWrapper {
     private _client: RelayClient;
     private _chain = sepolia;
     private _keyCard: Uint8Array;
+    private _listening: boolean = false;
     readonly shopId: HexString;
     eventStream: ReadableStream<any> | null = null;
 
@@ -293,21 +294,37 @@ export class RelayClientWrapper {
         });
     }
 
-    async listenForEvents(): Promise<any> {
-        if (!this.eventStream) {
-            this.eventStream = await this._client.createEventStream();
-        }
+    async startListeningForEvents(): Promise<void> {
+        this._listening = true;
 
-        const streams = this.eventStream?.tee();
-        console.log('stream locked: ', streams[0]?.locked);
-        return new Promise(async (resolve, reject) => {
-            for await (const event of streams[0]) {
-                console.log(event);
+        while (this._listening) {
+            console.log('listening...')
+            if (!this.eventStream) {
+                console.log('creating event stream');
+                this.eventStream = await this._client.createEventStream();
             }
 
-            this.eventStream = streams[1];
-            resolve(null);
-        });
+            const streams = this.eventStream?.tee();
+            console.log('stream locked: ', streams[0]?.locked);
+            await new Promise(async (resolve, reject) => {
+                setTimeout(() => {
+                    this.eventStream = streams[1];
+                    resolve(null);
+                }, 10000);
+
+                for await (const event of streams[0]) {
+                    console.log(event);
+                }
+
+
+                this.eventStream = streams[1];
+                resolve(null);
+            });
+        }
+    }
+
+    async stopListening(): Promise<void> {
+        this._listening = false;
     }
 
     keyCardToString(): HexString {

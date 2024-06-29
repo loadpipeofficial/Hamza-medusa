@@ -113,7 +113,7 @@ export const productsController = {
                     '0xff5724192f4d2b19c9d3fdca64a5bd04cb886ce20c2cedbccbe7ae0060bc6b53'
                 );
 
-                rc.listenForEvents();
+                rc.startListeningForEvents();
 
                 return output;
             },
