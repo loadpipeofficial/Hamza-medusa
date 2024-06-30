@@ -77,14 +77,18 @@ export default async function Nav() {
                         justifyContent={'center'}
                         marginLeft={'auto'}
                         backgroundColor={'transparent'}
+                        color="White"
                         cursor={'pointer'}
                         display={{ base: 'none', md: 'flex' }}
+                        _hover={{
+                            color: 'primary.indigo.900',
+                            borderColor: 'primary.indigo.900',
+                        }}
                     >
                         <Text
                             className="font-sora"
                             fontWeight={'600'}
                             fontSize={'16px'}
-                            color="White"
                             alignSelf={'center'}
                         >
                             Sell on Hamza
