@@ -91,7 +91,7 @@ const HeroBanner = () => {
                         md: 'row',
                     }}
                 >
-                    <Flex>
+                    <Flex gap={'10px'}>
                         <Text
                             color={'#FBFDFA'}
                             fontWeight={'400'}
@@ -99,8 +99,11 @@ const HeroBanner = () => {
                         >
                             By The <b>People</b>
                         </Text>
-                        <Box ml="1rem" alignSelf="center">
-                            <FaArrowRightLong size={24} color="#FBFDFA" />
+                        <Box
+                            fontSize={{ base: '21px', md: '24px' }}
+                            alignSelf="center"
+                        >
+                            <FaArrowRightLong color="#FBFDFA" />
                         </Box>
                     </Flex>
                     <Text
