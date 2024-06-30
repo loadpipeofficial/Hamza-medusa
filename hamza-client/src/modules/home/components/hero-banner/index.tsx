@@ -70,6 +70,7 @@ const HeroBanner = () => {
                         Buy & Sell Products Using
                     </Text>
                     <Text
+                        mt={{ base: '-0.5rem', md: '0' }}
                         fontWeight={'200'}
                         color={'#FBFDFA'}
                         fontSize={{ base: '24px', md: '32px' }}
@@ -82,7 +83,7 @@ const HeroBanner = () => {
                 </Flex>
                 <b />
                 <Flex
-                    mt={{ base: '1rem', md: '0' }}
+                    mt={{ base: '0.5rem', md: '0' }}
                     gap={{ base: '0', md: '10px' }}
                     justifyContent={'center'}
                     alignItems={'center'}

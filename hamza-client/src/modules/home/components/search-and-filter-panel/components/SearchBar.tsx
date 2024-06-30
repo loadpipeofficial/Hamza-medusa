@@ -43,6 +43,7 @@ const SearchBar = () => {
                     placeholder="Search for product name, product type, brand name, category, etc..."
                     _placeholder={{ color: '#3E3E3E' }}
                     _hover={{ borderColor: 'primary.indigo.900' }}
+                    cursor={'pointer'}
                     noOfLines={1}
                     onClick={() => {
                         setSearchOpened(true);
