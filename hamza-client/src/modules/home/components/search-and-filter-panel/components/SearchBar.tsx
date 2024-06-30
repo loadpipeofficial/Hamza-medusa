@@ -31,9 +31,13 @@ const SearchBar = () => {
 
     return (
         <Box pt="8" px="6" display={'flex'} justifyContent={'center'}>
-            <InputGroup width="964px" height="82px">
+            <InputGroup
+                maxW="964px"
+                width="100%"
+                height={{ base: '52px', md: '86px' }}
+            >
                 <Input
-                    fontSize={'22px'}
+                    fontSize={{ base: '14px', md: '22px' }}
                     placeholder="Search for product name, product type, brand name, category, etc..."
                     height="100%"
                     borderRadius="40px"

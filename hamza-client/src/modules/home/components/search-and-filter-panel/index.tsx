@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, Suspense } from 'react';
-import ProductCardGroup from '../product-layout';
+import ProductCardGroup from '@modules/products/components/product-group-home';
 import { Box, Container, Flex, Button, Text } from '@chakra-ui/react';
 import FilterButtons from './components/FilterButtons';
 import vendors from './data/data';
@@ -23,7 +23,7 @@ const SearchAndFilterPanel = () => {
     return (
         <Box>
             <SearchBar />
-            <Container py="8" maxW="1280px">
+            {/* <Box py="8">
                 <Flex gap="1rem">
                     {vendors.map((vendor: any) => (
                         <FilterButtons
@@ -53,7 +53,7 @@ const SearchAndFilterPanel = () => {
                         </Text>
                     </Button>
                 </Flex>
-            </Container>
+            </Box> */}
             {isClient ? (
                 <Suspense fallback={<SkeletonProductGrid />}>
                     <ProductCardGroup vendorName={vendorName} />
