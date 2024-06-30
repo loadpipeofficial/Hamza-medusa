@@ -82,6 +82,7 @@ export const checkoutController = {
 
                     //do the full checkout
                     if (rc) {
+                        console.log('creating cart...');
                         const cartId = await rc.createCart();
                         console.log('CART ID: ', cartId);
 
@@ -158,6 +159,9 @@ export const checkoutController = {
                         }
 
                         output = checkoutOutput;
+                    }
+                    else {
+                        console.log('did not get RC');
                     }
                 }
 
