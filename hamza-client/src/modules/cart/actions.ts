@@ -58,15 +58,17 @@ export async function getOrSetCart(countryCode: string) {
 export async function retrieveCart(
     cartId: string | null | undefined = undefined
 ) {
-    console.log('cart id: ', cartId);
     if (!cartId?.length) cartId = cookies().get('_medusa_cart_id')?.value;
+    console.log('cart id in retrieveCart: ', cartId);
 
     if (!cartId) {
+        console.log('retrieveCart returning null');
         return null;
     }
 
     try {
         const cart = await getCart(cartId).then((cart) => cart);
+        console.log('retrieveCart returning cart');
         return cart;
     } catch (e) {
         console.error(e);

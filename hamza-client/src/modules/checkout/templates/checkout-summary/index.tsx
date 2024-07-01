@@ -7,6 +7,7 @@ import Divider from '@modules/common/components/divider';
 import { retrieveCart } from '@modules/cart/actions';
 
 const CheckoutSummary = async () => {
+    console.log('calling retrieveCart from checkout-summary');
     const cart = await retrieveCart().then((cart) => cart);
 
     if (!cart) {
