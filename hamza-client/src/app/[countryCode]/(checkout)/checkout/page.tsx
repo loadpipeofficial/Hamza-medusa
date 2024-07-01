@@ -12,7 +12,12 @@ export const metadata: Metadata = {
     title: 'Checkout',
 };
 
+const sleep = (seconds: number) => {
+    return new Promise((resolve, reject) => { setTimeout(() => resolve(true), seconds * 1000) });
+}
+
 const fetchCart = async () => {
+    await sleep(3);
     const cart = await retrieveCart();
 
     if (cart?.items.length) {
