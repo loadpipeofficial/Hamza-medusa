@@ -3,7 +3,7 @@ import { listRegions } from '@lib/data';
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import CartButton from '@modules/layout/components/cart-button';
 import WishListPopover from '@/components/wishlist-dropdown';
-import WishlistDropdown from '@/components/wishlist-dropdown';
+import Wishlist from '@/components/wishlist';
 import SideMenu from '@modules/layout/components/side-menu';
 import { WalletConnectButton } from '@/components/providers/rainbowkit/connect-button/connect-button';
 
@@ -146,7 +146,7 @@ export default async function Nav() {
                                 color={'white'}
                                 backgroundColor={'black'}
                             >
-                                <WishlistDropdown />
+                                <Wishlist />
                             </MenuItem>
 
                             <Box px={{ base: '2rem', md: 0 }}>
