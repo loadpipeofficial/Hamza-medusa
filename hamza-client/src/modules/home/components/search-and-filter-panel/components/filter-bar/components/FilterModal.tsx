@@ -16,7 +16,7 @@ import React from 'react';
 // import FilterIcon from '../../../../../../public/images/categories/mobile-filter.svg';
 import Image from 'next/image';
 import currencies from '../data/currency-icons';
-// import ReviewModalButton from './review-modal-button';
+import ReviewModalButton from './ReviewModalButton';
 import CategoryModalButton from './CategoryModalButton';
 import CurrencyModalButton from './CurrencyModalButton';
 import useStorePage from '@store/store-page/store-page';
@@ -148,18 +148,6 @@ const FilterModalHome: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
                             />
                         ))}
                     </Flex>
-                    {/*
-
-                    <Flex mt="1.5rem" flexDirection={'row'} gap="12px">
-                        {Object.keys(currencies).map((key) => (
-                            <CurrencyModalButton
-                                key={key}
-                                currencyName={
-                                    (currencies as { [key: string]: any })[key]
-                                }
-                            />
-                        ))}
-                    </Flex>
                     <Text
                         my="1.5rem"
                         fontWeight={'600'}
@@ -168,6 +156,7 @@ const FilterModalHome: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
                     >
                         Ratings
                     </Text>
+
                     <Flex
                         mt="0.5rem"
                         flexDirection={'row'}
@@ -180,7 +169,6 @@ const FilterModalHome: React.FC<FilterModalProps> = ({ isOpen, onClose }) => {
                         <ReviewModalButton title={'2 Stars'} value={'2'} />
                         <ReviewModalButton title={'1 Star'} value={'1'} />
                     </Flex>
-              */}
                 </ModalBody>
                 <Divider mt="1.5rem" />
 
