@@ -8,6 +8,7 @@ import { retrieveCart } from '@modules/cart/actions';
 
 const CheckoutSummary = async (params: any) => {
     console.log('calling retrieveCart from checkout-summary');
+    console.log(params);
     //let cartId = cookies().get('_medusa_cart_id')?.value;
     let cartId = null;
     if (!cartId && params?.searchParams?.cart)
