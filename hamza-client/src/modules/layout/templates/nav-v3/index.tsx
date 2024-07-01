@@ -195,7 +195,10 @@ export default async function Nav() {
                                 </MenuItem>
                             </NavLink>
 
-                            <a href="https://blog.hamza.biz/about/">
+                            <a
+                                target="_blank"
+                                href="https://blog.hamza.biz/about/"
+                            >
                                 <MenuItem
                                     fontWeight={'600'}
                                     px="2rem"
@@ -207,7 +210,10 @@ export default async function Nav() {
                                 </MenuItem>
                             </a>
 
-                            <a href="https://blog.hamza.biz/contact/">
+                            <a
+                                target="_blank"
+                                href="https://blog.hamza.biz/contact/"
+                            >
                                 <MenuItem
                                     fontWeight={'600'}
                                     px="2rem"
