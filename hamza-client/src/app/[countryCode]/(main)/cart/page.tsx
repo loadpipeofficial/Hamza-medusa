@@ -14,7 +14,6 @@ export const metadata: Metadata = {
 };
 
 const fetchCart = async () => {
-    console.log('calling retrieveCart from cart/page');
     const cart = await retrieveCart().then(
         (cart) => cart as CartWithCheckoutStep
     );
