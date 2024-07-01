@@ -178,11 +178,11 @@ const Payment = ({
                 <div className={isOpen ? 'hidden' : 'block'}>
                     {cart && paymentReady && cart.payment_session && (
                         <div className="flex items-start gap-x-1 w-full">
-                            <div className="flex flex-col w-1/3">
-                                <Text className="txt-medium-plus text-ui-fg-base mb-1">
+                            <div className="flex flex-col w-1/3 text-white">
+                                <Text className="txt-medium-plus text-white mb-1">
                                     Payment method
                                 </Text>
-                                <Text className="txt-medium text-ui-fg-subtle">
+                                <Text className="txt-medium text-white">
                                     {paymentInfoMap[
                                         cart.payment_session.provider_id
                                     ]?.title ||
@@ -197,14 +197,14 @@ const Payment = ({
                                     )}
                             </div>
                             <div className="flex flex-col w-1/3">
-                                <Text className="txt-medium-plus text-ui-fg-base mb-1">
+                                <Text className="txt-medium-plus text-white mb-1">
                                     Payment details
                                 </Text>
-                                <div className="flex gap-2 txt-medium text-ui-fg-subtle items-center">
+                                <div className="flex gap-2 txt-medium text-white items-center">
                                     {/* <Container className="flex items-center h-7 w-fit p-2 bg-ui-button-neutral-hover"> */}
                                     {/* //todo add custom icon afterwards */}
                                     {/* </Container> */}
-                                    <Text>
+                                    <Text className="text-white">
                                         {cart.payment_session.provider_id ===
                                         cardBrand
                                             ? cardBrand
