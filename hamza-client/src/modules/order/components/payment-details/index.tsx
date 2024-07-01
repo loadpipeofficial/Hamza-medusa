@@ -33,7 +33,7 @@ const PaymentDetails = ({ order }: PaymentDetailsProps) => {
                             </Text>
                             <div className="flex gap-2 txt-medium text-ui-fg-subtle items-center">
                                 <Container className="flex items-center h-7 w-fit p-2 bg-ui-button-neutral-hover">
-                                    {paymentInfoMap[payment.provider_id].icon}
+                                    {/* {paymentInfoMap[payment.provider_id].icon} */}
                                 </Container>
                                 <Text>
                                     {payment.data.card_last4
