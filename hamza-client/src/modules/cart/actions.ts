@@ -58,6 +58,7 @@ export async function getOrSetCart(countryCode: string) {
 export async function retrieveCart(
     cartId: string | null | undefined = undefined
 ) {
+    console.log('cart id: ', cartId);
     if (!cartId?.length) cartId = cookies().get('_medusa_cart_id')?.value;
 
     if (!cartId) {
@@ -68,7 +69,7 @@ export async function retrieveCart(
         const cart = await getCart(cartId).then((cart) => cart);
         return cart;
     } catch (e) {
-        console.log(e);
+        console.error(e);
         return null;
     }
 }

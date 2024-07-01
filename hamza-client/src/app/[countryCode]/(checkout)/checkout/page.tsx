@@ -20,6 +20,7 @@ const sleep = (seconds: number) => {
 
 const fetchCart = async (cartId: string) => {
     const cart = await retrieveCart(cartId);
+    console.log(cart);
 
     if (cart?.items.length) {
         const enrichedItems = await enrichLineItems(
@@ -32,9 +33,10 @@ const fetchCart = async (cartId: string) => {
     return cart;
 };
 
-export default async function Checkout(cartId: string) {
-    //if (!cartId) cartId = cookies().get('_medusa_cart_id')?.value;
-    console.log('got cartId', cartId);
+export default async function Checkout(params: any) {
+    let cartId = cookies().get('_medusa_cart_id')?.value;
+    if (!cartId && params?.searchParams?.cart)
+        cartId = params.searchParams.cart;
 
     if (!cartId) {
         console.log('cart id not found');
