@@ -11,8 +11,8 @@ import ProductCardStore from '@modules/store-v2/component/product-card';
 
 type Props = {
     vendorName: string;
-    filterByRating: string | null;
-    category: string;
+    filterByRating?: string | null;
+    category?: string | null;
 };
 
 const ProductCardGroup = ({ vendorName, filterByRating, category }: Props) => {
@@ -39,7 +39,7 @@ const ProductCardGroup = ({ vendorName, filterByRating, category }: Props) => {
     // Function to filter products by rating
     const filterProductsByRating = (
         products: any[],
-        filterByRating: string | null
+        filterByRating: string | null | undefined
     ) => {
         if (!filterByRating || filterByRating === 'All') {
             return products;
