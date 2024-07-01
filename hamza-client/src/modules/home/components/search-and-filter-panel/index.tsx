@@ -2,14 +2,11 @@
 
 import React, { useState, useEffect, Suspense } from 'react';
 import ProductCardGroup from '@modules/products/components/product-group-home';
-import { Box, Flex, Button, Text } from '@chakra-ui/react';
-import FilterButtons from './components/FilterButtons';
-import vendors from './data/data';
-import { RiMenu2Fill } from 'react-icons/ri';
+import { Flex } from '@chakra-ui/react';
 import SearchBar from './components/SearchBar';
 import SkeletonProductGrid from '@modules/skeletons/components/skeleton-product-grid';
 import useStorePage from '@store/store-page/store-page';
-import FilterBar from './components/FilterBar';
+import FilterBar from './components/filter-bar/FilterBar';
 
 const SearchAndFilterPanel = () => {
     const { categorySelect } = useStorePage();
