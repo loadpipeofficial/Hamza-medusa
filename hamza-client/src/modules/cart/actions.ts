@@ -55,8 +55,10 @@ export async function getOrSetCart(countryCode: string) {
     return cart;
 }
 
-export async function retrieveCart() {
-    const cartId = cookies().get('_medusa_cart_id')?.value;
+export async function retrieveCart(
+    cartId: string | null | undefined = undefined
+) {
+    if (!cartId?.length) cartId = cookies().get('_medusa_cart_id')?.value;
 
     if (!cartId) {
         return null;
@@ -82,8 +84,7 @@ export async function addToCart({
     countryCode: string;
     currencyCode: string;
 }) {
-    if (process.env.NEXT_PUBLIC_FORCE_US_COUNTRY)
-        countryCode = 'us';
+    if (process.env.NEXT_PUBLIC_FORCE_US_COUNTRY) countryCode = 'us';
     const cart = await getOrSetCart(countryCode).then((cart) => cart);
 
     if (!cart) {
@@ -171,9 +172,9 @@ export async function enrichLineItems(
     regionId: string
 ): Promise<
     | Omit<
-        ExtendedLineItem,
-        'beforeInsert' | 'beforeUpdate' | 'afterUpdateOrLoad'
-    >[]
+          ExtendedLineItem,
+          'beforeInsert' | 'beforeUpdate' | 'afterUpdateOrLoad'
+      >[]
     | undefined
 > {
     // Prepare query parameters

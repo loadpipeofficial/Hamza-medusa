@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { cookies } from 'next/headers';
-import { notFound } from 'next/navigation';
+import { notFound, useSearchParams } from 'next/navigation';
 import { LineItem } from '@medusajs/medusa';
 
 import { enrichLineItems, retrieveCart } from '@modules/cart/actions';
@@ -13,12 +13,14 @@ export const metadata: Metadata = {
 };
 
 const sleep = (seconds: number) => {
-    return new Promise((resolve, reject) => { setTimeout(() => resolve(true), seconds * 1000) });
-}
+    return new Promise((resolve, reject) => {
+        setTimeout(() => resolve(true), seconds * 1000);
+    });
+};
 
 const fetchCart = async () => {
-    await sleep(3);
-    const cart = await retrieveCart();
+    const searchParams = useSearchParams();
+    const cart = await retrieveCart(searchParams.get('cart'));
 
     if (cart?.items.length) {
         const enrichedItems = await enrichLineItems(
@@ -32,7 +34,7 @@ const fetchCart = async () => {
 };
 
 export default async function Checkout() {
-    const cartId = cookies().get('_medusa_cart_id')?.value;
+    let cartId = cookies().get('_medusa_cart_id')?.value;
 
     if (!cartId) {
         return notFound();

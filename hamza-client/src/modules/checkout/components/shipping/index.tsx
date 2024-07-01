@@ -34,7 +34,9 @@ const Shipping: React.FC<ShippingProps> = ({
     const isOpen = searchParams.get('step') === 'delivery';
 
     const handleEdit = () => {
-        router.push(pathname + '?step=delivery', { scroll: false });
+        router.push(pathname + `?step=delivery&cart=${cart.id}`, {
+            scroll: false,
+        });
     };
 
     const handleSubmit = () => {
