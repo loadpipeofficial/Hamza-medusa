@@ -24,6 +24,25 @@ const AuthorizedLinks = () => {
                             <Text>Account</Text>
                         </MenuItem>
                     </NavLink>
+            
+            
+                    {authData.is_verified == false && (
+                        <NavLink href={`/verify-email`}>
+                            <MenuItem
+                                fontWeight={'600'}
+                                px="2rem"
+                                color={'white'}
+                                backgroundColor={'black'}
+                                _hover={{
+                                    color: 'primary.green.900',
+                                }}
+                            >
+                                <Text>Verify Account</Text>
+                            </MenuItem>
+                        </NavLink>
+                    )}
+
+                
 
                     <Box px={{ base: '2rem', md: 0 }}>
                         <MenuDivider
