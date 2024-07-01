@@ -161,7 +161,7 @@ const Payment = ({
 
                         <Button
                             size="large"
-                            className="mt-6 text-white"
+                            className="mt-6 bg-teal-500 text-white py-3 px-6 rounded text-base"
                             onClick={handleSubmit}
                             isLoading={isLoading}
                             disabled={!cart.payment_session}

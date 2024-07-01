@@ -88,15 +88,16 @@ const Addresses = ({
                             onChange={toggleSameAsBilling}
                             cart={cart}
                         />
-                        <SubmitButton className="mt-6 bg-teal-500 text-white py-2 px-4 rounded">
+                        <SubmitButton className="mt-6 bg-teal-500 text-white py-3 px-6 rounded text-base">
                             Continue to delivery
                         </SubmitButton>
+
                         <ErrorMessage error={message} />
                     </div>
                 </form>
             ) : (
                 <div>
-                    <div className="bg-white text-small-regular text-black">
+                    <div className="text-small-regular text-black">
                         {cart && cart.shipping_address ? (
                             <div className="flex items-start gap-x-8">
                                 <div className="flex items-start gap-x-1 w-full">
