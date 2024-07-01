@@ -4,7 +4,7 @@ import Nav from '@modules/layout/templates/nav-update';
 import { Box } from '@chakra-ui/react';
 
 const MEDUSA_CLIENT_URL =
-    process.env.NEXT_PUBLIC_MEDUSA_CLIENT_URL || 'https://localhost:8000';
+    process.env.NEXT_PUBLIC_MEDUSA_CLIENT_URL || 'https://192.168.1.3:8000';
 
 export const metadata: Metadata = {
     metadataBase: new URL(MEDUSA_CLIENT_URL),

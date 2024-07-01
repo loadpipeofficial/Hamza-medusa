@@ -22,8 +22,7 @@ import {
     FormErrorMessage,
 } from '@chakra-ui/react';
 
-const MEDUSA_SERVER_URL =
-    process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
+const MEDUSA_SERVER_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 
 // Define a type that extends the Order type with any additional data
 interface DetailedOrder extends Order {

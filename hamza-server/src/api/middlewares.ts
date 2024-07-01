@@ -10,9 +10,9 @@ import {
 } from '@medusajs/medusa';
 import cors from 'cors';
 
-const STORE_CORS = process.env.STORE_CORS || 'http://localhost:8000';
+const STORE_CORS = process.env.STORE_CORS || 'http://192.168.1.3:8000';
 const ADMIN_CORS =
-    process.env.ADMIN_CORS || 'http://localhost:7001;http://localhost:7000';
+    process.env.ADMIN_CORS || 'http://192.168.1.3:7001;http://192.168.1.3:7000';
 const registerLoggedInUser = async (
     req: MedusaRequest,
     res: MedusaResponse,
@@ -102,8 +102,8 @@ export const config: MiddlewaresConfig = {
                 cors({
                     origin: [
                         STORE_CORS,
-                        'http://localhost:7001',
-                        'http://localhost:7000',
+                        'http://192.168.1.3:7001',
+                        'http://192.168.1.3:7000',
                     ],
                     credentials: true,
                 }),
@@ -123,8 +123,8 @@ export const config: MiddlewaresConfig = {
             middlewares: [
                 cors({
                     origin: [
-                        'http://localhost:7001',
-                        'http://localhost:7000',
+                        'http://192.168.1.3:7001',
+                        'http://192.168.1.3:7000',
                         STORE_CORS,
                     ],
                     credentials: true,

@@ -24,7 +24,7 @@ const ProductCollections = ({ vendorName }: Props) => {
         ['products', { vendor: vendorName }],
         () =>
             axios.get(
-                `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000'}/store/custom/products?store_name=${vendorName}`
+                `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://192.168.1.3:9000'}/store/custom/products?store_name=${vendorName}`
             )
     );
 

@@ -26,8 +26,7 @@ import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import useWishlistStore from '@store/wishlist/wishlist-store';
 
-const MEDUSA_SERVER_URL =
-    process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
+const MEDUSA_SERVER_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 const VERIFY_MSG = `${MEDUSA_SERVER_URL}/custom/verify`;
 const GET_NONCE = `${MEDUSA_SERVER_URL}/custom/nonce`;
 

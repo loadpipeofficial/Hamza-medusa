@@ -23,7 +23,7 @@ const ProfileCurrency: React.FC<MyInformationProps> = ({ customer }) => {
         console.log(`Customer is ${customer.id}`);
         try {
             await axios.post(
-                `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000'}/custom/update-currency`,
+                `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/custom/update-currency`,
                 {
                     customer_id: customer.id,
                     preferred_currency: newCurrency,

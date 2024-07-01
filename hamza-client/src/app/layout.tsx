@@ -3,8 +3,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import 'styles/globals.css';
-const BASE_URL =
-    process.env.NEXT_PUBLIC_MEDUSA_CLIENT_URL || 'https://localhost:8000';
+const BASE_URL = process.env.NEXT_PUBLIC_MEDUSA_CLIENT_URL;
 import MedusaProvider from '@/components/providers/medusa/medusa-provider'; // Import MedusaProvider
 import { RainbowWrapper } from '@/components/providers/rainbowkit/rainbow-provider';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
