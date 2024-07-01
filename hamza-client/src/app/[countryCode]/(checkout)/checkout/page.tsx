@@ -34,14 +34,17 @@ const fetchCart = async (cartId: string) => {
 
 export default async function Checkout(cartId: string) {
     //if (!cartId) cartId = cookies().get('_medusa_cart_id')?.value;
+    console.log('got cartId', cartId);
 
     if (!cartId) {
+        console.log('cart id not found');
         return notFound();
     }
 
     const cart = await fetchCart(cartId);
 
     if (!cart) {
+        console.log('cart data not found');
         return notFound();
     }
 
