@@ -194,25 +194,37 @@ export default async function Nav() {
                                     <Text> Market</Text>
                                 </MenuItem>
                             </NavLink>
-                            <MenuItem
-                                fontWeight={'600'}
-                                px="2rem"
-                                color={'white'}
-                                backgroundColor={'black'}
-                                _hover={{ color: 'primary.green.900' }}
+
+                            <a
+                                target="_blank"
+                                href="https://blog.hamza.biz/about/"
                             >
-                                About Us
-                            </MenuItem>
-                            <MenuItem
-                                fontWeight={'600'}
-                                px="2rem"
-                                mb="1.5rem"
-                                color={'white'}
-                                backgroundColor={'black'}
-                                _hover={{ color: 'primary.green.900' }}
+                                <MenuItem
+                                    fontWeight={'600'}
+                                    px="2rem"
+                                    color={'white'}
+                                    backgroundColor={'black'}
+                                    _hover={{ color: 'primary.green.900' }}
+                                >
+                                    About Us
+                                </MenuItem>
+                            </a>
+
+                            <a
+                                target="_blank"
+                                href="https://blog.hamza.biz/contact/"
                             >
-                                Help Center
-                            </MenuItem>
+                                <MenuItem
+                                    fontWeight={'600'}
+                                    px="2rem"
+                                    mb="1.5rem"
+                                    color={'white'}
+                                    backgroundColor={'black'}
+                                    _hover={{ color: 'primary.green.900' }}
+                                >
+                                    Help Center
+                                </MenuItem>
+                            </a>
 
                             <MenuDivider
                                 display={{ base: 'none', md: 'flex' }}
