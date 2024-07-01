@@ -62,7 +62,7 @@ export class MassmarketPaymentClient {
             );
 
 
-        //for wrong chain, just doing a very very fake checkout for now 
+        //for wrong chain, just doing a very very fake checkout for now !
         if (chainId != 11155111) {
             return {
                 transaction_id: '0x00001',
