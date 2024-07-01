@@ -32,9 +32,12 @@ const Shipping: React.FC<ShippingProps> = ({
     const pathname = usePathname();
 
     const isOpen = searchParams.get('step') === 'delivery';
+    const cartId = isOpen ? searchParams.get('cart') : cart.id;
 
     const handleEdit = () => {
-        router.push(pathname + '?step=delivery', { scroll: false });
+        router.push(pathname + `?step=delivery&cart=${cart.id}`, {
+            scroll: false,
+        });
     };
 
     const handleSubmit = () => {

@@ -5,6 +5,7 @@ import { enrichLineItems, retrieveCart } from '@modules/cart/actions';
 import CartDropdown from '../cart-dropdown';
 
 const fetchCart = async () => {
+    console.log('calling retrieveCart from checkout-button');
     const cart = await retrieveCart();
 
     if (cart?.items.length) {
