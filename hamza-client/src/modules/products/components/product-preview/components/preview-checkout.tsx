@@ -1,16 +1,7 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import {
-    Text,
-    Card,
-    Button,
-    Flex,
-    Box,
-    Heading,
-    Divider,
-    textDecoration,
-} from '@chakra-ui/react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Text, Button, Flex, Box, Heading, Divider } from '@chakra-ui/react';
 import useProductPreview from '@store/product-preview/product-preview';
 import CurrencyButtonPreview from './currency-buttons';
 import QuantityButton from './quantity-button';
@@ -18,13 +9,13 @@ import { addToCart } from '@modules/cart/actions';
 import { useParams, useRouter } from 'next/navigation';
 import ReviewStar from '../../../../../../public/images/products/review-star.svg';
 import Image from 'next/image';
-import LocalizedClientLink from '@modules/common/components/localized-client-link';
-import Link from 'next/link';
 import { Variant } from 'types/medusa';
 import { formatCryptoPrice } from '@lib/util/get-product-price';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import OptionSelect from '../../option-select';
+import { isEqual } from 'lodash';
 
 const PreviewCheckout = () => {
     const currencies: { [key: string]: 'ETH' | 'USDC' | 'USDT' } = {
@@ -32,51 +23,84 @@ const PreviewCheckout = () => {
         USDT: 'USDT',
         USDC: 'USDC',
     };
-
+    const [options, setOptions] = useState<Record<string, string>>({});
+    const updateOptions = (update: Record<string, string>) => {
+        console.log('options are ', options);
+        setOptions({ ...options, ...update });
+    };
     let countryCode = useParams().countryCode as string;
     if (process.env.NEXT_PUBLIC_FORCE_US_COUNTRY)
         countryCode = process.env.NEXT_PUBLIC_FORCE_US_COUNTRY;
-    const colorSample = ['black', 'white', 'red', 'teal'];
 
-    const [sizes, setSizes] = useState<string[]>([]);
-    const [colors, setColors] = useState<string[]>([]);
-    const [selectedColor, setSelectedColor] = useState('');
-    const [price, setSelectedPrice] = useState('');
     const [isWhitelisted, setIsWhitelisted] = useState(false);
 
-    const { productData, variantId, quantity } = useProductPreview();
+    const { productData, variantId, quantity, setVariantId } =
+        useProductPreview();
+    const [selectedPrice, setSelectedPrice] = useState<string | null>(null);
+    const [selectedVariant, setSelectedVariant] = useState<null | Variant>(
+        null
+    );
     const { preferred_currency_code } = useCustomerAuthStore();
     const { whitelist_config, setWhitelistConfig, authData } =
         useCustomerAuthStore();
     const router = useRouter();
 
-    const getUniqueOptions = (
-        variants: Variant[],
-        optionIndex: number
-    ): string[] => {
-        const optionsSet = new Set<string>(
-            variants.map((variant) => variant.title.split(' / ')[optionIndex])
-        );
-        return Array.from(optionsSet);
-    };
-
-    useEffect(() => {
+    const variantRecord = useMemo(() => {
+        const map: Record<string, Record<string, string>> = {};
         if (productData && productData.variants) {
-            setSizes(getUniqueOptions(productData.variants, 0));
-            setColors(getUniqueOptions(productData.variants, 1));
-            const price = productData.variants[0].prices.find((p: any) => p.currency_code === preferred_currency_code ?? 'usdt');
-            setSelectedPrice(price?.amount ?? 0);
-            console.log(productData);
+            for (const variant of productData.variants) {
+                if (!variant.options || !variant.id) continue;
+
+                const temp: Record<string, string> = {};
+
+                for (const option of variant.options) {
+                    temp[option.option_id] = option.value;
+                }
+
+                map[variant.id] = temp;
+            }
+
+            return map;
         }
     }, [productData]);
 
-    const handleColorSelect = (color: any) => {
-        setSelectedColor(color);
-    };
+    useEffect(() => {
+        let checkVariantId: string | undefined = undefined;
+        if (variantRecord) {
+            for (const key of Object.keys(variantRecord)) {
+                if (isEqual(variantRecord[key], options)) {
+                    checkVariantId = key;
+                }
+            }
+        }
+        if (checkVariantId) {
+            setVariantId(checkVariantId);
+        }
+    }, [options]);
+
+    useEffect(() => {
+        if (productData && productData.variants) {
+            if (!variantId) {
+                setVariantId(productData.variants[0].id);
+            }
+            let selectedProductVariant =
+                productData &&
+                productData.variants.find((a: any) => a.id == variantId);
+            setSelectedVariant(selectedProductVariant);
+            const price =
+                selectedProductVariant &&
+                selectedProductVariant.prices.find(
+                    (p: any) =>
+                        p.currency_code === preferred_currency_code ?? 'usdt'
+                );
+            setSelectedPrice(price?.amount ?? 0);
+            console.log(productData);
+        }
+    }, [productData, variantId]);
 
     const handleAddToCart = async () => {
         await addToCart({
-            variantId: productData.variants[0].id,
+            variantId: variantId!,
             quantity: quantity,
             countryCode: countryCode,
             currencyCode: 'eth',
@@ -94,7 +118,7 @@ const PreviewCheckout = () => {
             console.log('white list config ', whitelist_config);
             const whitelistedProduct =
                 whitelist_config.is_whitelisted &&
-                    whitelist_config.whitelisted_stores.includes(data.data)
+                whitelist_config.whitelisted_stores.includes(data.data)
                     ? true
                     : false;
 
@@ -106,29 +130,20 @@ const PreviewCheckout = () => {
     };
 
     const inStock =
-        productData &&
-            productData.variants &&
-            productData.variants[0] &&
-            productData.variants[0].inventory_quantity > 0
+        selectedVariant && selectedVariant.inventory_quantity > 0
             ? true
             : false;
 
     useEffect(() => {
         if (
             authData.status == 'authenticated' &&
-            productData &&
-            productData.variants &&
-            productData.variants[0] &&
-            productData.variants[0].allow_backorder
+            selectedVariant &&
+            selectedVariant.allow_backorder
         ) {
             console.log('running whitelist product handler');
             whitelistedProductHandler();
         }
-    }, [authData.status, productData]);
-
-    useEffect(() => {
-        console.log(inStock, isWhitelisted);
-    }, [inStock, isWhitelisted]);
+    }, [authData.status, productData, selectedVariant]);
 
     return (
         <Flex
@@ -165,7 +180,7 @@ const PreviewCheckout = () => {
                         fontSize={{ base: '18px', md: '32px' }}
                         color="white"
                     >
-                        {`${formatCryptoPrice(parseFloat(price), preferred_currency_code ?? 'usdc')} ${preferred_currency_code?.toUpperCase() ?? 'USDC'}`}
+                        {`${formatCryptoPrice(parseFloat(selectedPrice!), preferred_currency_code ?? 'usdc')} ${preferred_currency_code?.toUpperCase() ?? 'USDC'}`}
                     </Heading>
                     <Text
                         style={{ textDecoration: 'line-through' }}
@@ -174,7 +189,7 @@ const PreviewCheckout = () => {
                         display={{ base: 'none', md: 'block' }}
                         color="#555555"
                     >
-                        {`${formatCryptoPrice(parseFloat(price), preferred_currency_code ?? 'usdc')}`}
+                        {`${formatCryptoPrice(parseFloat(selectedPrice!), preferred_currency_code ?? 'usdc')}`}
                     </Text>
                 </Flex>
 
@@ -185,7 +200,7 @@ const PreviewCheckout = () => {
                     fontSize={'18px'}
                     color="white"
                 >
-                    {`${formatCryptoPrice(parseFloat(price), preferred_currency_code ?? 'usdc')} ${preferred_currency_code?.toUpperCase() ?? 'USDC'}`}
+                    {`${formatCryptoPrice(parseFloat(selectedPrice!), preferred_currency_code ?? 'usdc')} ${preferred_currency_code?.toUpperCase() ?? 'USDC'}`}
                 </Heading>
                 <Flex gap="5px" height="20px">
                     <Flex flexDirection={'row'}>
@@ -249,128 +264,29 @@ const PreviewCheckout = () => {
             />
             {/* Varients */}
             <Flex width={'100%'} flexDirection={'column'} mt="1rem">
-                <Flex flexDirection="column" gap="10px">
-                    <Heading
-                        as="h3"
-                        fontSize={{ base: '14px', md: '18px' }}
-                        color="white"
-                    >
-                        Size
-                    </Heading>
-                    <Flex gap="10px" wrap="wrap">
-                        {sizes.length > 0 ? (
-                            sizes.map((size, index) => (
-                                <Flex
-                                    backgroundColor={'transparent'}
-                                    key={index}
-                                    borderWidth={'1px'}
-                                    px="16px"
-                                    py="8px"
-                                    borderRadius="full"
-                                    borderColor={'#3E3E3E'}
-                                >
-                                    <Text
-                                        fontSize={{ base: '10px', md: '16px' }}
-                                        color="white"
-                                    >
-                                        {size}
-                                    </Text>
-                                </Flex>
-                            ))
-                        ) : (
-                            <Text color="primary.green.900">
-                                No sizes available
-                            </Text>
-                        )}
-                    </Flex>
-                </Flex>
-                <Flex flexDirection="column" my="1rem" gap="10px">
-                    <Heading
-                        as="h3"
-                        fontSize={{ base: '14px', md: '18px' }}
-                        color="white"
-                    >
-                        Color
-                    </Heading>
-                    <Flex gap="10px" wrap="wrap">
-                        {colorSample.length > 0 ? (
-                            colorSample.map((color, index) => (
-                                <Flex
-                                    key={index}
-                                    p="2px"
-                                    borderRadius="full"
-                                    borderWidth={'2px'}
-                                    width={{ base: '40px', md: '52px' }}
-                                    height={{ base: '40px', md: '52px' }}
-                                    borderColor={
-                                        color === selectedColor ||
-                                            (selectedColor === '' && index === 0)
-                                            ? 'white'
-                                            : 'transparent'
+                <div>
+                    {productData &&
+                        productData.variants &&
+                        productData.variants.length > 1 && (
+                            <div className="flex flex-col gap-y-4">
+                                {(productData.options || []).map(
+                                    (option: any) => {
+                                        return (
+                                            <div key={option.id}>
+                                                <OptionSelect
+                                                    option={option}
+                                                    current={options[option.id]}
+                                                    updateOption={updateOptions}
+                                                    title={option.title}
+                                                />
+                                            </div>
+                                        );
                                     }
-                                    backgroundColor={'transparent'}
-                                    cursor="pointer"
-                                    justifyContent={'center'}
-                                    onClick={() => handleColorSelect(color)}
-                                >
-                                    <Box
-                                        alignSelf={'center'}
-                                        width={{ base: '24px', md: '36px' }}
-                                        height={{ base: '24px', md: '36px' }}
-                                        borderRadius="full"
-                                        backgroundColor={color}
-                                        display="flex"
-                                        alignItems="center"
-                                        justifyContent="center"
-                                    />
-                                </Flex>
-                            ))
-                        ) : (
-                            <Text color="primary.green.900">
-                                No colors available
-                            </Text>
+                                )}
+                                <Divider />
+                            </div>
                         )}
-                    </Flex>
-                    {/* <Flex gap="10px">
-                        {colors.length > 0 ? (
-                            colors.map((color, index) => (
-                                <Flex
-                                    key={index}
-                                    p="2px"
-                                    borderRadius="full"
-                                    borderWidth={'2px'}
-                                    width="52px"
-                                    height="52px"
-                                    borderColor={
-                                        color === selectedColor ||
-                                        (selectedColor === '' && index === 0)
-                                            ? 'white'
-                                            : 'transparent'
-                                    }
-                                    backgroundColor={'transparent'}
-                                    cursor="pointer"
-                                    justifyContent={'center'}
-                                    onClick={() => handleColorSelect(color)}
-                                >
-                                    <Box
-                                        alignSelf={'center'}
-                                        width="36px"
-                                        height="36px"
-                                        borderRadius="full"
-                                        backgroundColor={color}
-                                        display="flex"
-                                        alignItems="center"
-                                        justifyContent="center"
-                                    />
-                                </Flex>
-                            ))
-                        ) : (
-                            <Text color="primary.green.900">
-                                No colors available
-                            </Text>
-                        )}
-                    </Flex> */}
-                </Flex>
+                </div>
 
                 <QuantityButton />
 
@@ -438,8 +354,8 @@ const PreviewCheckout = () => {
                     {!inStock && isWhitelisted
                         ? 'Add to cart'
                         : inStock
-                            ? 'Add to Cart'
-                            : 'Out of Stock'}
+                          ? 'Add to Cart'
+                          : 'Out of Stock'}
                 </Button>
                 {!inStock && isWhitelisted && (
                     <span className="text-xs text-white px-4 py-2">
