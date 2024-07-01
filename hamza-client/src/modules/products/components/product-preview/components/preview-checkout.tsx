@@ -89,10 +89,11 @@ const PreviewCheckout = () => {
             setSelectedVariant(selectedProductVariant);
             const price =
                 selectedProductVariant &&
-                selectedProductVariant.prices.find(
+                (selectedProductVariant.prices.find(
                     (p: any) =>
                         p.currency_code === preferred_currency_code ?? 'usdt'
-                );
+                ) ??
+                    selectedProductVariant.prices[0]);
             setSelectedPrice(price?.amount ?? 0);
             console.log(productData);
         }
