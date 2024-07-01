@@ -18,9 +18,8 @@ const sleep = (seconds: number) => {
     });
 };
 
-const fetchCart = async () => {
-    const searchParams = useSearchParams();
-    const cart = await retrieveCart(searchParams.get('cart'));
+const fetchCart = async (cartId: string) => {
+    const cart = await retrieveCart(cartId);
 
     if (cart?.items.length) {
         const enrichedItems = await enrichLineItems(
@@ -40,7 +39,7 @@ export default async function Checkout(cartId: string) {
         return notFound();
     }
 
-    const cart = await fetchCart();
+    const cart = await fetchCart(cartId);
 
     if (!cart) {
         return notFound();
