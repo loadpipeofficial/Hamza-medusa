@@ -174,7 +174,11 @@
             "is_giftcard": false,
             "weight": 260,
             "images": [
-                "https://images.hamza.biz/Legendary/indout/LLD_indout1.png"
+                "https://images.hamza.biz/Legendary/indout/LLD_indout1.png",
+                "https://images.hamza.biz/Legendary/indout/lld_indout2.jpg",
+                "https://images.hamza.biz/Legendary/indout/lld_indout3.jpg",
+                "https://images.hamza.biz/Legendary/indout/lld_indout4.jpg",
+                "https://images.hamza.biz/Legendary/indout/lld_indout5.jpg"
             ],
             "options": [
                 {
@@ -223,7 +227,11 @@
             "is_giftcard": false,
             "weight": 260,
             "images": [
-                "https://images.hamza.biz/Legendary/tripod/LLD_tripod1.png"
+                "https://images.hamza.biz/Legendary/tripod/LLD_tripod1.png",
+                "https://images.hamza.biz/Legendary/tripod/lld_tripod2.jpg",
+                "https://images.hamza.biz/Legendary/tripod/lld_tripod3.jpg",
+                "https://images.hamza.biz/Legendary/tripod/lld_tripod4.jpeg",
+                "https://images.hamza.biz/Legendary/tripod/lld_tripod5.jpeg"
             ],
             "options": [
                 {
@@ -272,7 +280,11 @@
             "is_giftcard": false,
             "weight": 260,
             "images": [
-                "https://images.hamza.biz/Legendary/mood/LLD_mood1.webp"
+                "https://images.hamza.biz/Legendary/mood/LLD_mood1.webp",
+                "https://images.hamza.biz/Legendary/mood/lld_mood2.jpeg",
+                "https://images.hamza.biz/Legendary/mood/lld_mood3.jpeg",
+                "https://images.hamza.biz/Legendary/mood/lld_mood4.jpeg",
+                "https://images.hamza.biz/Legendary/mood/lld_mood5.jpeg"
             ],
             "options": [
                 {
