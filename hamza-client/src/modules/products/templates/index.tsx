@@ -142,7 +142,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
                     order={{ base: 1, md: 2 }}
                     alignSelf="flex-start"
                 >
-                    <PreviewCheckout />
+                    <PreviewCheckout productId={product.id as string} />
                 </Flex>
             </Flex>
             <VendorBanner vendor={vendor} />

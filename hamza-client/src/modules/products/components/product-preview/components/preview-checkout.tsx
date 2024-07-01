@@ -24,7 +24,11 @@ import {
 
 const MEDUSA_SERVER_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 
-const PreviewCheckout = (productId: string) => {
+interface PreviewCheckoutProps {
+    productId: string;
+}
+
+const PreviewCheckout: React.FC<PreviewCheckoutProps> = ({ productId }) => {
     const currencies: { [key: string]: 'ETH' | 'USDC' | 'USDT' } = {
         ETH: 'ETH',
         USDT: 'USDT',
@@ -56,17 +60,17 @@ const PreviewCheckout = (productId: string) => {
         useCustomerAuthStore();
     const router = useRouter();
 
-    console.log(`Product PreviewCheckout ${productId.productId}`);
+    // console.log(typeof productId, productId);
 
     useEffect(() => {
         const fetchProductReview = async () => {
             const averageRatingResponse = await axios.post(
                 `${MEDUSA_SERVER_URL}/custom/review/average`,
-                { product_id: productId.productId }
+                { product_id: productId }
             );
             const reviewCountResponse = await axios.post(
                 `${MEDUSA_SERVER_URL}/custom/review/count`,
-                { product_id: productId.productId }
+                { product_id: productId }
             );
 
             setAverageRating(averageRatingResponse.data);
