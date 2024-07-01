@@ -2,20 +2,11 @@ import React from 'react';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 import FilterIcon from '../../../../../../../../public/images/categories/mobile-filter.svg';
-const FilterButton = () => {
+const FilterButton = ({ onClick }) => {
     return (
         <Flex
             flexShrink={0}
-            // onClick={() => {
-            //     setCategorySelect(categoryName),
-            //         setCategoryTypeSelect(categoryType);
-            // }}
-            // borderColor={'#3E3E3E'}
-            // backgroundColor={
-            //     categorySelect !== null && categorySelect === categoryName
-            //         ? 'white'
-            //         : 'black'
-            // }
+            onClick={onClick}
             display={'flex'}
             flexDirection={'row'}
             alignItems={'center'}

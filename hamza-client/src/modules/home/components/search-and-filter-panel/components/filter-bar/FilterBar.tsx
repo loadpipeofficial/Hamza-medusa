@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Flex } from '@chakra-ui/react';
+import { Flex, useDisclosure } from '@chakra-ui/react';
 import useStorePage from '@store/store-page/store-page';
 import CategoryButtons from './components/CategoryButtons';
 import vendors from '../../data/data';
 import FilterButton from './components/FilterButton';
 import { CgChevronRight } from 'react-icons/cg';
+import FilterModalHome from './components/FilterModal';
 
 const FilterBar = () => {
     const { categorySelect } = useStorePage();
     const [vendorName, setVendorName] = useState('Legendary Light Design');
     const [isClient, setIsClient] = useState(false);
     const [startIdx, setStartIdx] = useState(0); // State to keep track of the starting index of visible vendors
+
+    // const { setModalFilterSelected } = useModalFilter();
+    const [showFilterModal, setShowFilterModal] = useState(true);
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     // Ensure that the component knows when it's running on the client
     useEffect(() => {
@@ -49,7 +54,7 @@ const FilterBar = () => {
                 gap={'20px'}
                 position="relative"
             >
-                <FilterButton />
+                <FilterButton onClick={() => onOpen()} />
                 {visibleVendors.map((vendor: any, index) => (
                     <CategoryButtons
                         key={index}
@@ -80,6 +85,7 @@ const FilterBar = () => {
                     </Flex>
                 </Flex>
             </Flex>
+            <FilterModalHome isOpen={isOpen} onClose={onClose} />
         </Flex>
     );
 };
