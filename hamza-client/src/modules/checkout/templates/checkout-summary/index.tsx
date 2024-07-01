@@ -7,14 +7,11 @@ import Divider from '@modules/common/components/divider';
 import { retrieveCart } from '@modules/cart/actions';
 
 const CheckoutSummary = async (params: any) => {
-    console.log('calling retrieveCart from checkout-summary');
-    console.log(params);
-    //let cartId = cookies().get('_medusa_cart_id')?.value;
-    let cartId = null;
-    if (!cartId && params.cartId) cartId = params.cartId;
+    const cartId = params.cartId;
     const cart = await retrieveCart(cartId).then((cart) => cart);
 
     if (!cart) {
+        console.log('cart not found');
         return null;
     }
 

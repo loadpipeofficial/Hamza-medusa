@@ -59,7 +59,6 @@ export async function retrieveCart(
     cartId: string | null | undefined = undefined
 ) {
     if (!cartId?.length) cartId = cookies().get('_medusa_cart_id')?.value;
-    console.log('cart id in retrieveCart: ', cartId);
 
     if (!cartId) {
         console.log('retrieveCart returning null');
@@ -68,7 +67,6 @@ export async function retrieveCart(
 
     try {
         const cart = await getCart(cartId).then((cart) => cart);
-        console.log('retrieveCart returning cart');
         return cart;
     } catch (e) {
         console.error(e);

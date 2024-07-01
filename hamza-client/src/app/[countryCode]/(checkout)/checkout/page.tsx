@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { cookies } from 'next/headers';
-import { notFound, useSearchParams } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { LineItem } from '@medusajs/medusa';
 
 import { enrichLineItems, retrieveCart } from '@modules/cart/actions';
@@ -20,7 +20,6 @@ const sleep = (seconds: number) => {
 
 const fetchCart = async (cartId: string) => {
     const cart = await retrieveCart(cartId);
-    console.log(cart);
 
     if (cart?.items.length) {
         const enrichedItems = await enrichLineItems(
