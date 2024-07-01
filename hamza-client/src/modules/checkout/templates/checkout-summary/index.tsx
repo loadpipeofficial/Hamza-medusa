@@ -6,9 +6,13 @@ import CartTotals from '@modules/common/components/cart-totals';
 import Divider from '@modules/common/components/divider';
 import { retrieveCart } from '@modules/cart/actions';
 
-const CheckoutSummary = async () => {
+const CheckoutSummary = async (params: any) => {
     console.log('calling retrieveCart from checkout-summary');
-    const cart = await retrieveCart().then((cart) => cart);
+    //let cartId = cookies().get('_medusa_cart_id')?.value;
+    let cartId = null;
+    if (!cartId && params?.searchParams?.cart)
+        cartId = params.searchParams.cart;
+    const cart = await retrieveCart(cartId).then((cart) => cart);
 
     if (!cart) {
         return null;
