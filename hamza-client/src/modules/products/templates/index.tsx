@@ -104,13 +104,14 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
             alignItems="center"
             mx="1rem"
         >
-            {' '}
-            <LocalizedClientLink
-                href="/"
-                className="flex gap-2 items-center text-white hover:text-ui-fg-base"
-            >
-                <XMark /> Back to Products
-            </LocalizedClientLink>
+            <Flex maxWidth="1280px" width="100%" justifyContent="left">
+                <LocalizedClientLink
+                    href="/"
+                    className="flex gap-2 text-white hover:text-ui-fg-base"
+                >
+                    <XMark /> Back to Products
+                </LocalizedClientLink>
+            </Flex>
             <Flex mt="2rem">
                 <PreviewGallery />
             </Flex>
