@@ -63,7 +63,8 @@ export class MassmarketPaymentClient {
 
 
         //for wrong chain, just doing a very very fake checkout for now !
-        if (chainId != 11155111) {
+        if (chainId != 11155111 || process.env.NEXT_PUBLIC_FAKE_CHECKOUT) {
+            console.log('doing fake checkout');
             return {
                 transaction_id: '0x00001',
                 tx: { id: '0x00001', hash: '0x00001' },
