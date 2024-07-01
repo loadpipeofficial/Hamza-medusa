@@ -1,13 +1,21 @@
 'use client';
 
 import React from 'react';
-import { Box, Skeleton, SkeletonText, Grid, GridItem } from '@chakra-ui/react';
+import {
+    Box,
+    Skeleton,
+    SkeletonText,
+    Grid,
+    GridItem,
+    Flex,
+} from '@chakra-ui/react';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { formatCryptoPrice } from '@lib/util/get-product-price';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
 import StoreFilterDisplay from '@modules/store-v2/component/store-filter-display';
 import ProductCardStore from '@modules/store-v2/component/product-card';
+import ProductCardHome from './component/home-product-card';
 
 type Props = {
     vendorName: string;
@@ -97,21 +105,24 @@ const ProductCardGroup = ({ vendorName, filterByRating, category }: Props) => {
     };
 
     return (
-        <Box
+        <Flex
+            mt={{ base: '2rem', md: '3rem' }}
+            mb={'4rem'}
             maxW={'1280px'}
             width="100%"
-            height="100%"
-            px="1rem"
             mx="auto"
-            pb="1rem"
+            justifyContent={'center'}
+            alignItems={'center'}
         >
             <Grid
-                mt={{ base: '0px', md: '3rem' }}
+                maxWidth={'1256.52px'}
+                mx="1rem"
+                width="100%"
                 templateColumns={{
                     base: 'repeat(2, 1fr)',
                     lg: 'repeat(4, 1fr)',
                 }}
-                gap={{ base: 4, md: 6 }}
+                gap={'25.5px'}
             >
                 {isLoading
                     ? renderSkeletons(8) // Render 8 skeletons while loading
@@ -140,8 +151,13 @@ const ProductCardGroup = ({ vendorName, filterByRating, category }: Props) => {
 
                           const variantID = product.variants[0].id;
                           return (
-                              <GridItem key={index} w="100%">
-                                  <ProductCardStore
+                              <GridItem
+                                  key={index}
+                                  minHeight={'243.73px'}
+                                  height={{ base: '100%', md: '399px' }}
+                                  width="100%"
+                              >
+                                  <ProductCardHome
                                       key={index}
                                       productHandle={products[index].handle}
                                       reviewCount={reviewCounter}
@@ -169,7 +185,7 @@ const ProductCardGroup = ({ vendorName, filterByRating, category }: Props) => {
                           );
                       })}
             </Grid>
-        </Box>
+        </Flex>
     );
 };
 

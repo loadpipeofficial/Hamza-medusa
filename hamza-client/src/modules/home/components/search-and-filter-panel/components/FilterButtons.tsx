@@ -1,35 +1,58 @@
 import React from 'react';
-import { Text, Flex, Button } from '@chakra-ui/react';
+import { Text, Flex } from '@chakra-ui/react';
+import useStorePage from '@store/store-page/store-page';
 import { FaTshirt } from 'react-icons/fa';
+import vendors from '../data/data';
 
-const FilterButtons = (props: any) => {
+interface CategoryButtonProps {
+    categoryName: string;
+    categoryType: string;
+}
+
+const FilterButtons: React.FC<CategoryButtonProps> = ({
+    categoryName,
+    categoryType,
+}) => {
+    const { categorySelect, setCategorySelect, setCategoryTypeSelect } =
+        useStorePage();
+
     return (
-        <Button
-            height="60px"
-            padding="10px 24px"
-            gap="10px"
-            borderRadius="49px"
-            backgroundColor={props.selected === props.title ? 'white' : 'black'}
-            color={props.selected === props.title ? 'black' : 'white'}
-            onClick={() => props.setVendorName()}
+        <Flex
+            flexShrink={0}
+            onClick={() => {
+                setCategorySelect(categoryName),
+                    setCategoryTypeSelect(categoryType);
+            }}
+            borderColor={'#3E3E3E'}
+            backgroundColor={
+                categorySelect !== null && categorySelect === categoryName
+                    ? 'white'
+                    : 'black'
+            }
+            display={'flex'}
+            flexDirection={'row'}
+            alignItems={'center'}
+            borderWidth={'1px'}
+            borderRadius={'49px'}
+            height={{ base: '42px', md: '63px' }}
+            cursor="pointer"
+            style={{ padding: '10px 24px' }}
+            color={
+                categorySelect !== null && categorySelect === categoryName
+                    ? 'black'
+                    : 'white'
+            }
+            transition="background 0.1s ease-in-out, color 0.1s ease-in-out"
             _hover={{
-                backgroundColor: 'white',
                 color: 'black',
+                background: 'white',
             }}
         >
-            <Flex overflow="hidden" whiteSpace="nowrap" textOverflow="ellipsis">
-                <FaTshirt color="green" />
-                <Text
-                    fontWeight={'400'}
-                    px="2"
-                    alignSelf={'center'}
-                    overflow="hidden"
-                    textOverflow="ellipsis"
-                >
-                    {props.title}
-                </Text>
-            </Flex>
-        </Button>
+            <FaTshirt />
+            <Text ml="10px" fontSize={{ base: '14px', md: '18px' }}>
+                {categoryName}
+            </Text>
+        </Flex>
     );
 };
 
