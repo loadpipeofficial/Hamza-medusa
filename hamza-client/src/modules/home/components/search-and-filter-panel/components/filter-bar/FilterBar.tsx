@@ -59,7 +59,7 @@ const FilterBar = () => {
                 ))}
                 <Flex
                     w="50px"
-                    h="63px"
+                    height={{ base: '42px', md: '63px' }}
                     justifyContent={'center'}
                     alignItems={'center'}
                     onClick={toggleShowMore}
