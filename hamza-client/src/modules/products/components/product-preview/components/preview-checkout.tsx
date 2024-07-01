@@ -12,12 +12,19 @@ import Image from 'next/image';
 import { Variant } from 'types/medusa';
 import { formatCryptoPrice } from '@lib/util/get-product-price';
 import { useCustomerAuthStore } from '@store/customer-auth/customer-auth';
-import axios from 'axios';
 import toast from 'react-hot-toast';
 import OptionSelect from '../../option-select';
 import { isEqual } from 'lodash';
+import axios from 'axios';
+import {
+    TiStarFullOutline,
+    TiStarHalfOutline,
+    TiStarOutline,
+} from 'react-icons/ti';
 
-const PreviewCheckout = () => {
+const MEDUSA_SERVER_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
+
+const PreviewCheckout = (productId: string) => {
     const currencies: { [key: string]: 'ETH' | 'USDC' | 'USDT' } = {
         ETH: 'ETH',
         USDT: 'USDT',
@@ -40,10 +47,37 @@ const PreviewCheckout = () => {
     const [selectedVariant, setSelectedVariant] = useState<null | Variant>(
         null
     );
+
+    const [averageRating, setAverageRating] = useState<number>(0);
+    const [reviewCount, setReviewCount] = useState<number>(0);
+
     const { preferred_currency_code } = useCustomerAuthStore();
     const { whitelist_config, setWhitelistConfig, authData } =
         useCustomerAuthStore();
     const router = useRouter();
+
+    console.log(`Product PreviewCheckout ${productId.productId}`);
+
+    useEffect(() => {
+        const fetchProductReview = async () => {
+            const averageRatingResponse = await axios.post(
+                `${MEDUSA_SERVER_URL}/custom/review/average`,
+                { product_id: productId.productId }
+            );
+            const reviewCountResponse = await axios.post(
+                `${MEDUSA_SERVER_URL}/custom/review/count`,
+                { product_id: productId.productId }
+            );
+
+            setAverageRating(averageRatingResponse.data);
+            setReviewCount(reviewCountResponse.data);
+        };
+
+        fetchProductReview();
+        console.log(
+            `ReviewCount ${reviewCount} AverageRating ${averageRating}`
+        );
+    }, [productId]);
 
     const variantRecord = useMemo(() => {
         const map: Record<string, Record<string, string>> = {};
@@ -146,6 +180,37 @@ const PreviewCheckout = () => {
         }
     }, [authData.status, productData, selectedVariant]);
 
+    // Star Feature
+    const renderStars = (rating: any) => {
+        const fullStars = Math.floor(rating);
+        const halfStar = rating % 1 >= 0.5;
+        const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+
+        return (
+            <div className="flex">
+                {Array(fullStars)
+                    .fill(null)
+                    .map((_, index) => (
+                        <TiStarFullOutline
+                            key={`full-${index}`}
+                            className="text-yellow-500 text-2xl"
+                        />
+                    ))}
+                {halfStar && (
+                    <TiStarHalfOutline className="text-yellow-500 text-2xl" />
+                )}
+                {Array(emptyStars)
+                    .fill(null)
+                    .map((_, index) => (
+                        <TiStarOutline
+                            key={`empty-${index}`}
+                            className="text-yellow-500 text-2xl"
+                        />
+                    ))}
+            </div>
+        );
+    };
+
     return (
         <Flex
             padding={{ base: '0', md: '2rem' }}
@@ -203,39 +268,70 @@ const PreviewCheckout = () => {
                 >
                     {`${formatCryptoPrice(parseFloat(selectedPrice!), preferred_currency_code ?? 'usdc')} ${preferred_currency_code?.toUpperCase() ?? 'USDC'}`}
                 </Heading>
-                <Flex gap="5px" height="20px">
-                    <Flex flexDirection={'row'}>
-                        <Image src={ReviewStar} alt={'star'} />
-                        <Image src={ReviewStar} alt={'star'} />
-                        <Image src={ReviewStar} alt={'star'} />
-                        <Image src={ReviewStar} alt={'star'} />
-                        <Image src={ReviewStar} alt={'star'} />
+                {reviewCount > 0 ? (
+                    <Flex gap="5px" height="20px">
+                        <Flex flexDirection={'row'}>
+                            <Flex flexDirection={'row'}>
+                                renderStars(averageRating)
+                            </Flex>
+                            <Heading
+                                as="h4"
+                                variant="semibold"
+                                fontSize={'16px'}
+                                color={'white'}
+                                alignSelf={'center'}
+                                mt="2px"
+                            >
+                                $(averageRating)
+                            </Heading>
+                            <Heading
+                                ml="4px"
+                                as="h4"
+                                variant="semibold"
+                                fontSize={'16px'}
+                                color={'#555555'}
+                                alignSelf={'center'}
+                                mt="2px"
+                            >
+                                (${reviewCount} Reviews)
+                            </Heading>
+                        </Flex>
                     </Flex>
+                ) : (
+                    <Flex gap="5px" height="20px">
+                        <Flex flexDirection={'row'}>
+                            <Image src={ReviewStar} alt={'star'} />
+                            <Image src={ReviewStar} alt={'star'} />
+                            <Image src={ReviewStar} alt={'star'} />
+                            <Image src={ReviewStar} alt={'star'} />
+                            <Image src={ReviewStar} alt={'star'} />
+                        </Flex>
 
-                    <Flex flexDirection={'row'}>
-                        <Heading
-                            as="h4"
-                            variant="semibold"
-                            fontSize={'16px'}
-                            color={'white'}
-                            alignSelf={'center'}
-                            mt="2px"
-                        >
-                            4.97
-                        </Heading>
-                        <Heading
-                            ml="4px"
-                            as="h4"
-                            variant="semibold"
-                            fontSize={'16px'}
-                            color={'#555555'}
-                            alignSelf={'center'}
-                            mt="2px"
-                        >
-                            (0 Reviews)
-                        </Heading>
+                        <Flex flexDirection={'row'}>
+                            <Heading
+                                as="h4"
+                                variant="semibold"
+                                fontSize={'16px'}
+                                color={'white'}
+                                alignSelf={'center'}
+                                mt="2px"
+                            >
+                                4.97
+                            </Heading>
+                            <Heading
+                                ml="4px"
+                                as="h4"
+                                variant="semibold"
+                                fontSize={'16px'}
+                                color={'#555555'}
+                                alignSelf={'center'}
+                                mt="2px"
+                            >
+                                (0 Reviews)
+                            </Heading>
+                        </Flex>
                     </Flex>
-                </Flex>
+                )}
 
                 <Heading
                     display={{ base: 'none', md: 'flex' }}
