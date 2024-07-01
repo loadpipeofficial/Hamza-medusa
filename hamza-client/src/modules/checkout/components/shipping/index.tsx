@@ -117,7 +117,7 @@ const Shipping: React.FC<ShippingProps> = ({
                                             key={option.id}
                                             value={option.id}
                                             className={clx(
-                                                'flex items-center justify-between text-small-regular cursor-pointer py-4 border rounded-rounded px-8 mb-2 hover:shadow-borders-interactive-with-active',
+                                                'flex items-center justify-between text-white text-regular cursor-pointer py-4 border rounded-rounded px-8 mb-2 hover:shadow-borders-interactive-with-active',
                                                 {
                                                     'border-ui-border-interactive':
                                                         option.id ===
@@ -129,6 +129,7 @@ const Shipping: React.FC<ShippingProps> = ({
                                                             : ''),
                                                 }
                                             )}
+                                            style={{ color: 'white' }} // Inline style for testing
                                         >
                                             <div className="flex items-center gap-x-4">
                                                 <Radio
@@ -169,7 +170,7 @@ const Shipping: React.FC<ShippingProps> = ({
 
                     <Button
                         size="large"
-                        className="mt-6"
+                        className="mt-6 bg-teal-500 text-white py-3 px-6 rounded text-base"
                         onClick={handleSubmit}
                         isLoading={isLoading}
                         disabled={
@@ -188,7 +189,7 @@ const Shipping: React.FC<ShippingProps> = ({
                                 <Text className="txt-medium-plus text-ui-fg-base mb-1">
                                     Method
                                 </Text>
-                                <Text className="txt-medium text-ui-fg-subtle">
+                                <Text className="txt-medium text-white">
                                     {cart.shipping_methods?.length
                                         ? cart.shipping_methods[0]
                                               .shipping_option.name
