@@ -2,7 +2,12 @@ import React from 'react';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 import FilterIcon from '../../../../../../../../public/images/categories/mobile-filter.svg';
-const FilterButton = ({ onClick }) => {
+
+type FilterButtonProps = {
+    onClick: any;
+};
+
+const FilterButton = ({ onClick }: FilterButtonProps) => {
     return (
         <Flex
             flexShrink={0}
@@ -16,11 +21,11 @@ const FilterButton = ({ onClick }) => {
             cursor="pointer"
             style={{ padding: '10px 24px' }}
             color={'white'}
-            // transition="background 0.1s ease-in-out, color 0.1s ease-in-out"
-            // _hover={{
-            //     color: 'black',
-            //     background: 'white',
-            // }}
+        // transition="background 0.1s ease-in-out, color 0.1s ease-in-out"
+        // _hover={{
+        //     color: 'black',
+        //     background: 'white',
+        // }}
         >
             <Image
                 style={{
